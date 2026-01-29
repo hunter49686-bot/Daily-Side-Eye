@@ -98,7 +98,7 @@ def main():
                 "source": it["source"],
                 "badge": "TOP" if (sec == "Top" and i == 0) else "",
                 "feature": True if (sec == "Top" and i == 0) else False,
-                "snark": pick_snark(i)
+                "snark": neutral_line(i) if is_tragic(it["title"]) else pick_snark(i)
             })
 
         columns[idx]["sections"].append({"name": sec, "items": items})
