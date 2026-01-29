@@ -6,7 +6,7 @@ TRAGEDY_KEYWORDS = [
     "killed", "dead", "death", "deaths",
     "shooting", "shooter", "murder", "homicide",
     "war", "bomb", "bombing", "explosion", "attack",
-    "crash", "collision", "derail",
+    "crash", "crashes", "collision", "derail",
     "earthquake", "wildfire", "flood", "hurricane",
     "victim", "victims", "wounded", "injured",
     "terror"
