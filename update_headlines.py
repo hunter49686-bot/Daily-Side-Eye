@@ -2,6 +2,31 @@ import json, re
 from datetime import datetime, timezone
 import feedparser
 
+TRAGEDY_KEYWORDS = [
+    "killed", "dead", "death", "deaths",
+    "shooting", "shooter", "murder", "homicide",
+    "war", "bomb", "bombing", "explosion", "attack",
+    "crash", "collision", "derail",
+    "earthquake", "wildfire", "flood", "hurricane",
+    "victim", "victims", "wounded", "injured",
+    "terror"
+]
+
+NEUTRAL_FALLBACKS = [
+    "Developing story.",
+    "Details are still emerging.",
+    "Authorities are investigating.",
+    "Situation remains unclear."
+]
+
+def is_tragic(title: str) -> bool:
+    t = title.lower()
+    return any(word in t for word in TRAGEDY_KEYWORDS)
+
+def neutral_line(i: int) -> str:
+    return NEUTRAL_FALLBACKS[i % len(NEUTRAL_FALLBACKS)]
+
+
 # --- EDIT THESE FEEDS ---
 FEEDS = {
     "Top": [
