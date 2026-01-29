@@ -3,6 +3,7 @@
     "name": "THE DAILY SIDE-EYE",
     "tagline": "Dry news links. Equal-opportunity skepticism."
   },
+  "generated_utc": "2026-01-29T14:53:52.514548+00:00",
   "columns": [
     {
       "sections": [
@@ -10,18 +11,314 @@
           "name": "Top",
           "items": [
             {
-              "title": "Your featured story will appear here",
-              "url": "https://example.com",
-              "source": "Source",
+              "title": "What could happen if the US strikes Iran? Here are seven scenarios",
+              "url": "https://www.bbc.com/news/articles/ce3kenge1k9o?at_medium=RSS&at_campaign=rss",
+              "source": "BBC World",
               "badge": "TOP",
               "feature": true,
               "snark": "Strong statement. Details pending."
+            },
+            {
+              "title": "Nicki Minaj calls herself Trump's 'number one fan' and shows off gold card visa",
+              "url": "https://www.bbc.com/news/articles/cp87l604nx8o?at_medium=RSS&at_campaign=rss",
+              "source": "BBC World",
+              "badge": "",
+              "feature": false,
+              "snark": "Everyone is ‘monitoring the situation.’"
+            },
+            {
+              "title": "Talks ramp up to avert US government shutdown after Minneapolis shooting",
+              "url": "https://www.bbc.com/news/articles/cn9zp0nyvxdo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC World",
+              "badge": "",
+              "feature": false,
+              "snark": "This will surely calm everyone down."
+            },
+            {
+              "title": "Heavy gunfire and blasts heard near airport in Niger's capital",
+              "url": "https://www.bbc.com/news/articles/cvgp47neze4o?at_medium=RSS&at_campaign=rss",
+              "source": "BBC World",
+              "badge": "",
+              "feature": false,
+              "snark": "A bold claim enters the chat."
+            },
+            {
+              "title": "China executes 11 members of Myanmar scam mafia",
+              "url": "https://www.bbc.com/news/articles/cx2gdrvy9gjo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC World",
+              "badge": "",
+              "feature": false,
+              "snark": "Nobody panicked. Publicly."
+            },
+            {
+              "title": "Flights to northern Ethiopia cancelled as fears mount of renewed conflict",
+              "url": "https://www.bbc.com/news/articles/cn40r3v770lo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC World",
+              "badge": "",
+              "feature": false,
+              "snark": "Strong statement. Details pending."
+            },
+            {
+              "title": "Indians pay tribute after Arijit Singh retires at 38 as Bollywood singer",
+              "url": "https://www.bbc.com/news/articles/cddgpp7jpm8o?at_medium=RSS&at_campaign=rss",
+              "source": "BBC World",
+              "badge": "",
+              "feature": false,
+              "snark": "Everyone is ‘monitoring the situation.’"
+            },
+            {
+              "title": "Plane crashes in Colombia, killing all 15 on board",
+              "url": "https://www.bbc.com/news/articles/cvgnq54v79xo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC World",
+              "badge": "",
+              "feature": false,
+              "snark": "This will surely calm everyone down."
+            },
+            {
+              "title": "At least five killed after Storm Kristin hits Portugal",
+              "url": "https://www.bbc.com/news/articles/c205yl3kvzmo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC World",
+              "badge": "",
+              "feature": false,
+              "snark": "A bold claim enters the chat."
+            },
+            {
+              "title": "Trump warns Iran 'time is running out' for nuclear deal as US military builds up in Gulf",
+              "url": "https://www.bbc.com/news/articles/cly5pd459gko?at_medium=RSS&at_campaign=rss",
+              "source": "BBC World",
+              "badge": "",
+              "feature": false,
+              "snark": "Nobody panicked. Publicly."
+            },
+            {
+              "title": "Europe must act urgently and stop outsourcing defence, says EU's Kallas",
+              "url": "https://www.bbc.com/news/articles/czej2z3zz9jo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC World",
+              "badge": "",
+              "feature": false,
+              "snark": "Strong statement. Details pending."
+            },
+            {
+              "title": "Deutsche Bank offices raided in money laundering probe",
+              "url": "https://www.bbc.com/news/articles/cx20199qzj9o?at_medium=RSS&at_campaign=rss",
+              "source": "BBC World",
+              "badge": "",
+              "feature": false,
+              "snark": "Everyone is ‘monitoring the situation.’"
             }
           ]
         }
       ]
     },
-    { "sections": [{ "name": "Business", "items": [] }] },
-    { "sections": [{ "name": "World / Tech / Weird", "items": [] }] }
+    {
+      "sections": [
+        {
+          "name": "Business",
+          "items": [
+            {
+              "title": "Ministers reject Waspi calls for compensation after rethink",
+              "url": "https://www.bbc.com/news/articles/c1jeyn3yxn9o?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Business",
+              "badge": "",
+              "feature": false,
+              "snark": "Strong statement. Details pending."
+            },
+            {
+              "title": "Emergency loans offered to civil servants waiting on pensions",
+              "url": "https://www.bbc.com/news/articles/c8e524n23rno?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Business",
+              "badge": "",
+              "feature": false,
+              "snark": "Everyone is ‘monitoring the situation.’"
+            },
+            {
+              "title": "Santander to close 44 branches and put 291 jobs at risk",
+              "url": "https://www.bbc.com/news/articles/cq8415jjw92o?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Business",
+              "badge": "",
+              "feature": false,
+              "snark": "This will surely calm everyone down."
+            },
+            {
+              "title": "Water bills to rise again: Use our tool to find out by how much",
+              "url": "https://www.bbc.com/news/articles/cn56p0qkky7o?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Business",
+              "badge": "",
+              "feature": false,
+              "snark": "A bold claim enters the chat."
+            },
+            {
+              "title": "'You don't feel judged': Why we buy more at self-service terminals",
+              "url": "https://www.bbc.com/news/articles/cy9y1wvq3pdo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Business",
+              "badge": "",
+              "feature": false,
+              "snark": "Nobody panicked. Publicly."
+            },
+            {
+              "title": "Driverless taxis set to launch in UK as soon as September",
+              "url": "https://www.bbc.com/news/articles/czej9n578k9o?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Business",
+              "badge": "",
+              "feature": false,
+              "snark": "Strong statement. Details pending."
+            },
+            {
+              "title": "Tesla cuts car models in shift to robots and AI",
+              "url": "https://www.bbc.com/news/articles/c620177qdg5o?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Business",
+              "badge": "",
+              "feature": false,
+              "snark": "Everyone is ‘monitoring the situation.’"
+            },
+            {
+              "title": "Vehicle production in the UK falls to 73-year low",
+              "url": "https://www.bbc.com/news/articles/clymp4ynldlo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Business",
+              "badge": "",
+              "feature": false,
+              "snark": "This will surely calm everyone down."
+            },
+            {
+              "title": "Why an India court ruling on a 2018 deal is rattling foreign investors",
+              "url": "https://www.bbc.com/news/articles/cz9v42ep8n0o?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Business",
+              "badge": "",
+              "feature": false,
+              "snark": "A bold claim enters the chat."
+            },
+            {
+              "title": "Facebook-owner Meta to nearly double AI spending",
+              "url": "https://www.bbc.com/news/articles/cn8jkyk78gno?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Business",
+              "badge": "",
+              "feature": false,
+              "snark": "Nobody panicked. Publicly."
+            },
+            {
+              "title": "Lanarkshire to become 'one of the world's most advanced AI sites'",
+              "url": "https://www.bbc.com/news/articles/cwy12qj9e20o?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Business",
+              "badge": "",
+              "feature": false,
+              "snark": "Strong statement. Details pending."
+            },
+            {
+              "title": "US Fed holds interest rates and defends independence",
+              "url": "https://www.bbc.com/news/articles/c9wxedz9v22o?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Business",
+              "badge": "",
+              "feature": false,
+              "snark": "Everyone is ‘monitoring the situation.’"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sections": [
+        {
+          "name": "World / Tech / Weird",
+          "items": [
+            {
+              "title": "UK bans Coinbase ads implying crypto can ease cost of living concerns",
+              "url": "https://www.bbc.com/news/articles/cx2yv31482vo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Tech",
+              "badge": "",
+              "feature": false,
+              "snark": "Strong statement. Details pending."
+            },
+            {
+              "title": "Driverless taxis set to launch in UK as soon as September",
+              "url": "https://www.bbc.com/news/articles/czej9n578k9o?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Tech",
+              "badge": "",
+              "feature": false,
+              "snark": "Everyone is ‘monitoring the situation.’"
+            },
+            {
+              "title": "Tesla cuts car models in shift to robots and AI",
+              "url": "https://www.bbc.com/news/articles/c620177qdg5o?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Tech",
+              "badge": "",
+              "feature": false,
+              "snark": "This will surely calm everyone down."
+            },
+            {
+              "title": "Facebook-owner Meta to nearly double AI spending",
+              "url": "https://www.bbc.com/news/articles/cn8jkyk78gno?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Tech",
+              "badge": "",
+              "feature": false,
+              "snark": "A bold claim enters the chat."
+            },
+            {
+              "title": "Iran's internet is returning - but not for everyone",
+              "url": "https://www.bbc.com/news/articles/cz7y2ddgl23o?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Tech",
+              "badge": "",
+              "feature": false,
+              "snark": "Nobody panicked. Publicly."
+            },
+            {
+              "title": "Government offers UK adults free AI training for work",
+              "url": "https://www.bbc.com/news/articles/cp37prvp072o?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Tech",
+              "badge": "",
+              "feature": false,
+              "snark": "Strong statement. Details pending."
+            },
+            {
+              "title": "Amazon confirms 16,000 job cuts after accidental email",
+              "url": "https://www.bbc.com/news/articles/cx2ywzxlxnlo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Tech",
+              "badge": "",
+              "feature": false,
+              "snark": "Everyone is ‘monitoring the situation.’"
+            },
+            {
+              "title": "Pornhub to restrict access for UK users from next week",
+              "url": "https://www.bbc.com/news/articles/czr428rxg57o?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Tech",
+              "badge": "",
+              "feature": false,
+              "snark": "This will surely calm everyone down."
+            },
+            {
+              "title": "TikTok US pushes back on claims it is censoring content",
+              "url": "https://www.bbc.com/news/articles/ckgjedpn8p8o?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Tech",
+              "badge": "",
+              "feature": false,
+              "snark": "A bold claim enters the chat."
+            },
+            {
+              "title": "AI boom will produce victors and carnage, tech boss warns",
+              "url": "https://www.bbc.com/news/articles/cr57p2ve8glo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Tech",
+              "badge": "",
+              "feature": false,
+              "snark": "Nobody panicked. Publicly."
+            },
+            {
+              "title": "TikTok settles just before social media addiction trial to begin",
+              "url": "https://www.bbc.com/news/articles/c24g8v6qr1mo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Tech",
+              "badge": "",
+              "feature": false,
+              "snark": "Strong statement. Details pending."
+            },
+            {
+              "title": "Legal action over 'unfair' Steam game store prices given go ahead",
+              "url": "https://www.bbc.com/news/articles/cx2g1md0l23o?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Tech",
+              "badge": "",
+              "feature": false,
+              "snark": "Everyone is ‘monitoring the situation.’"
+            }
+          ]
+        }
+      ]
+    }
   ]
 }
