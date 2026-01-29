@@ -1,0 +1,27 @@
+{
+  "site": {
+    "name": "THE DAILY SIDE-EYE",
+    "tagline": "Dry news links. Equal-opportunity skepticism."
+  },
+  "columns": [
+    {
+      "sections": [
+        {
+          "name": "Top",
+          "items": [
+            {
+              "title": "Your featured story will appear here",
+              "url": "https://example.com",
+              "source": "Source",
+              "badge": "TOP",
+              "feature": true,
+              "snark": "Strong statement. Details pending."
+            }
+          ]
+        }
+      ]
+    },
+    { "sections": [{ "name": "Business", "items": [] }] },
+    { "sections": [{ "name": "World / Tech / Weird", "items": [] }] }
+  ]
+}
