@@ -3,7 +3,7 @@
     "name": "THE DAILY SIDE-EYE",
     "tagline": "Dry news links. Equal-opportunity skepticism."
   },
-  "generated_utc": "2026-01-29T14:56:15.955564+00:00",
+  "generated_utc": "2026-01-29T19:42:05.331784+00:00",
   "columns": [
     {
       "sections": [
@@ -11,16 +11,56 @@
           "name": "Top",
           "items": [
             {
-              "title": "What could happen if the US strikes Iran? Here are seven scenarios",
-              "url": "https://www.bbc.com/news/articles/ce3kenge1k9o?at_medium=RSS&at_campaign=rss",
+              "title": "EU adds Iran's Revolutionary Guards to terrorist list",
+              "url": "https://www.bbc.com/news/articles/c20gypw8enjo?at_medium=RSS&at_campaign=rss",
               "source": "BBC World",
               "badge": "TOP",
               "feature": true,
+              "snark": "Developing story."
+            },
+            {
+              "title": "'I can breathe again' says Israeli hostage held for nearly 500 days in Gaza",
+              "url": "https://www.bbc.com/news/articles/c8rm20gm364o?at_medium=RSS&at_campaign=rss",
+              "source": "BBC World",
+              "badge": "",
+              "feature": false,
+              "snark": "Everyone is ‘monitoring the situation.’"
+            },
+            {
+              "title": "France moves to abolish concept of marital duty to have sex",
+              "url": "https://www.bbc.com/news/articles/cgjwxdz45ywo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC World",
+              "badge": "",
+              "feature": false,
+              "snark": "This will surely calm everyone down."
+            },
+            {
+              "title": "Chips, anyone? German farm gives away millions of potatoes after bumper harvest",
+              "url": "https://www.bbc.com/news/articles/c5y2zqer8j2o?at_medium=RSS&at_campaign=rss",
+              "source": "BBC World",
+              "badge": "",
+              "feature": false,
+              "snark": "A bold claim enters the chat."
+            },
+            {
+              "title": "Israeli media cite official accepting Hamas figure of 70,000 war dead",
+              "url": "https://www.bbc.com/news/articles/cvgpd1x00exo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC World",
+              "badge": "",
+              "feature": false,
+              "snark": "Developing story."
+            },
+            {
+              "title": "Melania Trump documentary not showing in South African cinemas",
+              "url": "https://www.bbc.com/news/articles/c89q287qxelo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC World",
+              "badge": "",
+              "feature": false,
               "snark": "Strong statement. Details pending."
             },
             {
-              "title": "Nicki Minaj calls herself Trump's 'number one fan' and shows off gold card visa",
-              "url": "https://www.bbc.com/news/articles/cp87l604nx8o?at_medium=RSS&at_campaign=rss",
+              "title": "Heavy gunfire and blasts heard near airport in Niger's capital",
+              "url": "https://www.bbc.com/news/articles/cvgp47neze4o?at_medium=RSS&at_campaign=rss",
               "source": "BBC World",
               "badge": "",
               "feature": false,
@@ -32,75 +72,35 @@
               "source": "BBC World",
               "badge": "",
               "feature": false,
-              "snark": "This will surely calm everyone down."
+              "snark": "Situation remains unclear."
             },
             {
-              "title": "Heavy gunfire and blasts heard near airport in Niger's capital",
-              "url": "https://www.bbc.com/news/articles/cvgp47neze4o?at_medium=RSS&at_campaign=rss",
+              "title": "Nicki Minaj calls herself Trump's 'number one fan' and shows off gold card visa",
+              "url": "https://www.bbc.com/news/articles/cp87l604nx8o?at_medium=RSS&at_campaign=rss",
               "source": "BBC World",
               "badge": "",
               "feature": false,
               "snark": "A bold claim enters the chat."
+            },
+            {
+              "title": "Ukraine receives 1,000 bodies in latest soldier swap with Russia",
+              "url": "https://www.bbc.com/news/articles/cp9jl8vxdy9o?at_medium=RSS&at_campaign=rss",
+              "source": "BBC World",
+              "badge": "",
+              "feature": false,
+              "snark": "Nobody panicked. Publicly."
+            },
+            {
+              "title": "US Senator Amy Klobuchar announces bid for Minnesota governor",
+              "url": "https://www.bbc.com/news/articles/cq8413k1xvno?at_medium=RSS&at_campaign=rss",
+              "source": "BBC World",
+              "badge": "",
+              "feature": false,
+              "snark": "Strong statement. Details pending."
             },
             {
               "title": "China executes 11 members of Myanmar scam mafia",
               "url": "https://www.bbc.com/news/articles/cx2gdrvy9gjo?at_medium=RSS&at_campaign=rss",
-              "source": "BBC World",
-              "badge": "",
-              "feature": false,
-              "snark": "Nobody panicked. Publicly."
-            },
-            {
-              "title": "Flights to northern Ethiopia cancelled as fears mount of renewed conflict",
-              "url": "https://www.bbc.com/news/articles/cn40r3v770lo?at_medium=RSS&at_campaign=rss",
-              "source": "BBC World",
-              "badge": "",
-              "feature": false,
-              "snark": "Strong statement. Details pending."
-            },
-            {
-              "title": "Indians pay tribute after Arijit Singh retires at 38 as Bollywood singer",
-              "url": "https://www.bbc.com/news/articles/cddgpp7jpm8o?at_medium=RSS&at_campaign=rss",
-              "source": "BBC World",
-              "badge": "",
-              "feature": false,
-              "snark": "Everyone is ‘monitoring the situation.’"
-            },
-            {
-              "title": "Plane crashes in Colombia, killing all 15 on board",
-              "url": "https://www.bbc.com/news/articles/cvgnq54v79xo?at_medium=RSS&at_campaign=rss",
-              "source": "BBC World",
-              "badge": "",
-              "feature": false,
-              "snark": "This will surely calm everyone down."
-            },
-            {
-              "title": "At least five killed after Storm Kristin hits Portugal",
-              "url": "https://www.bbc.com/news/articles/c205yl3kvzmo?at_medium=RSS&at_campaign=rss",
-              "source": "BBC World",
-              "badge": "",
-              "feature": false,
-              "snark": "A bold claim enters the chat."
-            },
-            {
-              "title": "Trump warns Iran 'time is running out' for nuclear deal as US military builds up in Gulf",
-              "url": "https://www.bbc.com/news/articles/cly5pd459gko?at_medium=RSS&at_campaign=rss",
-              "source": "BBC World",
-              "badge": "",
-              "feature": false,
-              "snark": "Nobody panicked. Publicly."
-            },
-            {
-              "title": "Europe must act urgently and stop outsourcing defence, says EU's Kallas",
-              "url": "https://www.bbc.com/news/articles/czej2z3zz9jo?at_medium=RSS&at_campaign=rss",
-              "source": "BBC World",
-              "badge": "",
-              "feature": false,
-              "snark": "Strong statement. Details pending."
-            },
-            {
-              "title": "Deutsche Bank offices raided in money laundering probe",
-              "url": "https://www.bbc.com/news/articles/cx20199qzj9o?at_medium=RSS&at_campaign=rss",
               "source": "BBC World",
               "badge": "",
               "feature": false,
@@ -116,12 +116,28 @@
           "name": "Business",
           "items": [
             {
+              "title": "Boss of Post Office IT scandal firm Fujitsu to step down",
+              "url": "https://www.bbc.com/news/articles/cre2l5qxy9do?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Business",
+              "badge": "",
+              "feature": false,
+              "snark": "Strong statement. Details pending."
+            },
+            {
+              "title": "Planning bids for new homes rise in England but building remains low, data suggests",
+              "url": "https://www.bbc.com/news/articles/cy4qejvqv4no?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Business",
+              "badge": "",
+              "feature": false,
+              "snark": "Everyone is ‘monitoring the situation.’"
+            },
+            {
               "title": "Ministers reject Waspi calls for compensation after rethink",
               "url": "https://www.bbc.com/news/articles/c1jeyn3yxn9o?at_medium=RSS&at_campaign=rss",
               "source": "BBC Business",
               "badge": "",
               "feature": false,
-              "snark": "Strong statement. Details pending."
+              "snark": "This will surely calm everyone down."
             },
             {
               "title": "Emergency loans offered to civil servants waiting on pensions",
@@ -129,7 +145,7 @@
               "source": "BBC Business",
               "badge": "",
               "feature": false,
-              "snark": "Everyone is ‘monitoring the situation.’"
+              "snark": "A bold claim enters the chat."
             },
             {
               "title": "Santander to close 44 branches and put 291 jobs at risk",
@@ -137,15 +153,7 @@
               "source": "BBC Business",
               "badge": "",
               "feature": false,
-              "snark": "This will surely calm everyone down."
-            },
-            {
-              "title": "Water bills to rise again: Use our tool to find out by how much",
-              "url": "https://www.bbc.com/news/articles/cn56p0qkky7o?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Business",
-              "badge": "",
-              "feature": false,
-              "snark": "A bold claim enters the chat."
+              "snark": "Nobody panicked. Publicly."
             },
             {
               "title": "'You don't feel judged': Why we buy more at self-service terminals",
@@ -153,7 +161,15 @@
               "source": "BBC Business",
               "badge": "",
               "feature": false,
-              "snark": "Nobody panicked. Publicly."
+              "snark": "Strong statement. Details pending."
+            },
+            {
+              "title": "Water bills to rise again: Use our tool to find out by how much",
+              "url": "https://www.bbc.com/news/articles/cn56p0qkky7o?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Business",
+              "badge": "",
+              "feature": false,
+              "snark": "Everyone is ‘monitoring the situation.’"
             },
             {
               "title": "Driverless taxis set to launch in UK as soon as September",
@@ -161,7 +177,7 @@
               "source": "BBC Business",
               "badge": "",
               "feature": false,
-              "snark": "Strong statement. Details pending."
+              "snark": "This will surely calm everyone down."
             },
             {
               "title": "Tesla cuts car models in shift to robots and AI",
@@ -169,7 +185,7 @@
               "source": "BBC Business",
               "badge": "",
               "feature": false,
-              "snark": "Everyone is ‘monitoring the situation.’"
+              "snark": "A bold claim enters the chat."
             },
             {
               "title": "Vehicle production in the UK falls to 73-year low",
@@ -177,7 +193,7 @@
               "source": "BBC Business",
               "badge": "",
               "feature": false,
-              "snark": "This will surely calm everyone down."
+              "snark": "Nobody panicked. Publicly."
             },
             {
               "title": "Why an India court ruling on a 2018 deal is rattling foreign investors",
@@ -185,27 +201,11 @@
               "source": "BBC Business",
               "badge": "",
               "feature": false,
-              "snark": "A bold claim enters the chat."
+              "snark": "Strong statement. Details pending."
             },
             {
               "title": "Facebook-owner Meta to nearly double AI spending",
               "url": "https://www.bbc.com/news/articles/cn8jkyk78gno?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Business",
-              "badge": "",
-              "feature": false,
-              "snark": "Nobody panicked. Publicly."
-            },
-            {
-              "title": "Lanarkshire to become 'one of the world's most advanced AI sites'",
-              "url": "https://www.bbc.com/news/articles/cwy12qj9e20o?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Business",
-              "badge": "",
-              "feature": false,
-              "snark": "Strong statement. Details pending."
-            },
-            {
-              "title": "US Fed holds interest rates and defends independence",
-              "url": "https://www.bbc.com/news/articles/c9wxedz9v22o?at_medium=RSS&at_campaign=rss",
               "source": "BBC Business",
               "badge": "",
               "feature": false,
@@ -298,7 +298,7 @@
               "source": "BBC Tech",
               "badge": "",
               "feature": false,
-              "snark": "Nobody panicked. Publicly."
+              "snark": "Details are still emerging."
             },
             {
               "title": "TikTok settles just before social media addiction trial to begin",
