@@ -109,16 +109,15 @@ def main():
         combined = dedupe(combined)[:12]
 
         items = []
-        for i, it in enumerate(combined):
-            items.append({
-                "title": it["title"],
-                "url": it["url"],
-                "source": it["source"],
-                "image": it.get("image", "")
-                "badge": "TOP" if (sec == "Top" and i == 0) else "",
-                "feature": True if (sec == "Top" and i == 0) else False,
-                "snark": neutral_line(i) if is_tragic(it["title"]) else pick_snark(i)
-            })
+       items.append({
+    "title": it["title"],
+    "url": it["url"],
+    "source": it["source"],
+    "image": it.get("image", ""),
+    "badge": "TOP" if (sec == "Top" and i == 0) else "",
+    "feature": True if (sec == "Top" and i == 0) else False,
+    "snark": neutral_line(i) if is_tragic(it["title"]) else pick_snark(i)
+})
 
         columns[idx]["sections"].append({"name": sec, "items": items})
 
