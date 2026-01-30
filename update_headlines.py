@@ -62,12 +62,30 @@ def clean_title(t: str) -> str:
 def parse_feed(name, url):
     d = feedparser.parse(url)
     items = []
+
     for e in d.entries[:20]:
         title = clean_title(getattr(e, "title", ""))
         link = getattr(e, "link", "")
+
+        # Try to find an RSS-provided image
+        image = ""
+        if hasattr(e, "media_thumbnail"):
+            image = e.media_thumbnail[0].get("url", "")
+        elif hasattr(e, "media_content"):
+            image = e.media_content[0].get("url", "")
+        elif hasattr(e, "enclosures") and e.enclosures:
+            image = e.enclosures[0].get("href", "")
+
         if title and link:
-            items.append({"title": title, "url": link, "source": name})
+            items.append({
+                "title": title,
+                "url": link,
+                "source": name,
+                "image": image
+            })
+
     return items
+
 
 def dedupe(items):
     seen = set()
