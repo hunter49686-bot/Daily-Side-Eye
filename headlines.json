@@ -3,7 +3,7 @@
     "name": "THE DAILY SIDE-EYE",
     "tagline": "Headlines with a raised eyebrow."
   },
-  "generated_utc": "2026-01-31T20:08:21.102450+00:00",
+  "generated_utc": "2026-01-31T20:21:21.970048+00:00",
   "columns": [
     {
       "sections": [
@@ -16,7 +16,7 @@
               "source": "BBC Front Page",
               "badge": "BREAK",
               "feature": true,
-              "snark": "Experts disagree, loudly and on schedule.",
+              "snark": "A statement was issued. Substance not included.",
               "ages_poorly": false
             },
             {
@@ -25,7 +25,7 @@
               "source": "BBC Front Page",
               "badge": "",
               "feature": false,
-              "snark": "For now, details are still emerging. this remains under review.",
+              "snark": "For now, details are still emerging. details are still being verified.",
               "ages_poorly": false
             },
             {
@@ -34,7 +34,7 @@
               "source": "BBC Front Page",
               "badge": "",
               "feature": false,
-              "snark": "A statement was issued. Substance not included.",
+              "snark": "A decision was made. Consequences scheduled for later.",
               "ages_poorly": false
             },
             {
@@ -52,7 +52,7 @@
               "source": "CNN Top Stories",
               "badge": "",
               "feature": false,
-              "snark": "A compromise is proposed. Someone will hate it.",
+              "snark": "Strong words were used. Outcomes remain TBD.",
               "ages_poorly": false
             },
             {
@@ -61,7 +61,7 @@
               "source": "CNN Top Stories",
               "badge": "",
               "feature": false,
-              "snark": "A confident plan has been announced. Reality is pending.",
+              "snark": "Officials say it is under control. So that is something.",
               "ages_poorly": false
             }
           ]
@@ -338,9 +338,28 @@
       ]
     }
   ],
+  "one_line_everyone_missed": {
+    "title": "Some on-air claims about Dominion Voting Systems were false, Fox News acknowledges in statement after deal is announced",
+    "url": "https://www.cnn.com/business/live-news/fox-news-dominion-trial-04-18-23/index.html",
+    "source": "CNN Top Stories",
+    "section": "Breaking",
+    "tragic": false
+  },
+  "nothing_burger": {
+    "title": "Plan ahead and dress wisely: How to minimise add-on costs when you fly",
+    "url": "https://www.bbc.com/news/articles/c5y28w0de91o?at_medium=RSS&at_campaign=rss",
+    "source": "BBC Business",
+    "section": "Business",
+    "tragic": false
+  },
+  "language_watch": [
+    {
+      "label": "Officials said",
+      "count": 2
+    }
+  ],
   "week_in_hindsight": [
-    "Investigations were plentiful: about 1 headline(s) referenced probes/reviews.",
-    "Talks and deals appeared often: about 1 headline(s).",
-    "Plans and strategies were announced: about 1 headline(s)."
+    "Language tends to repeat because newsrooms repeat. Today, you can see which phrases won.",
+    "If this ages poorly is one per day, non-tragic by design."
   ]
 }
