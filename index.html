@@ -6,14 +6,44 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
 <style>
-  body{font-family:Arial,Helvetica,sans-serif;margin:0;background:#fff;color:#111}
+  :root{
+    --accent:#1f3cff;     /* bold editorial blue */
+    --accent-bg:#eef1ff;  /* subtle cool tint (NOT yellow) */
+    --text:#111;
+    --muted:#555;
+    --rule:#e5e5e5;
+  }
+
+  body{font-family:Arial,Helvetica,sans-serif;margin:0;background:#fff;color:var(--text)}
   .wrap{max-width:1100px;margin:0 auto;padding:18px}
+
+  .topbar{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
   h1{font-size:42px;margin:0}
   .tagline{color:#444;margin-top:6px}
-  .topbar{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
-  .rightnow{color:#555;text-align:right;white-space:nowrap}
-  .hr{height:2px;background:#e5e5e5;margin:12px 0 14px}
 
+  .rightnow{color:var(--muted);text-align:right;white-space:nowrap}
+  .hr{height:2px;background:var(--rule);margin:12px 0 14px}
+  #updated{color:#444;margin:0 0 14px}
+
+  /* Feature 1: ONE LINE EVERYONE MISSED */
+  .missed{
+    border-left:6px solid var(--accent);
+    padding:10px 12px;
+    margin:10px 0 16px;
+    background:linear-gradient(90deg,var(--accent-bg),#fff);
+  }
+  .missed-label{
+    font-weight:900;
+    letter-spacing:1px;
+    color:var(--accent);
+    font-size:13px;
+    margin-bottom:6px;
+  }
+  .missed a{color:var(--text);text-decoration:none;font-weight:800}
+  .missed a:hover{text-decoration:underline}
+  .missed .source{color:#666;font-weight:normal}
+
+  /* Columns */
   .columns{display:grid;grid-template-columns:1fr 1fr 1fr;gap:28px}
   @media(max-width:900px){.columns{grid-template-columns:1fr}}
 
@@ -23,19 +53,67 @@
     letter-spacing:1px;
     margin:18px 0 8px;
   }
-  .rule{height:2px;background:#e5e5e5;margin-bottom:10px}
+  .rule{height:2px;background:var(--rule);margin-bottom:10px}
 
   .item{margin-bottom:18px}
-  a.headline{font-weight:800;font-size:22px;color:#111;text-decoration:none}
+  a.headline{font-weight:800;font-size:22px;color:var(--text);text-decoration:none}
+  a.headline:hover{text-decoration:underline}
   a.feature{color:#b00000;font-size:30px}
   .source{color:#666}
   .sub{font-size:16px;margin-top:5px;color:#222}
 
   .badge{border:1px solid #bbb;border-radius:999px;padding:2px 8px;font-size:12px;margin-right:6px}
-  .ages{border:1px solid #c8a400;background:#fff7cc;border-radius:999px;padding:2px 8px;font-size:12px;margin-right:6px}
 
-  .footer{border-top:2px solid #e5e5e5;margin-top:26px;padding-top:14px}
+  /* Feature 4: IF THIS AGES POORLY - bold trendy outline, NO yellow fill */
+  .ages{
+    border:2px solid var(--accent);
+    border-radius:999px;
+    padding:2px 8px;
+    font-size:12px;
+    font-weight:900;
+    letter-spacing:.5px;
+    color:var(--accent);
+    margin-right:6px;
+    background:transparent;
+  }
+
+  /* Feature 2: NOTHING BURGER OF THE DAY */
+  .burger{
+    border:2px solid var(--accent);
+    border-radius:12px;
+    padding:10px 12px;
+    margin:0 0 14px;
+  }
+  .burger-label{
+    font-weight:900;
+    letter-spacing:1px;
+    color:var(--accent);
+    font-size:13px;
+    margin-bottom:6px;
+  }
+  .burger a{color:var(--text);text-decoration:none;font-weight:800}
+  .burger a:hover{text-decoration:underline}
+  .burger .source{color:#666;font-weight:normal}
+
+  /* Footer blocks */
+  .footer{border-top:2px solid var(--rule);margin-top:26px;padding-top:14px}
   .footer h2{margin:0 0 10px;font-size:22px;letter-spacing:1px}
+  .langwatch{
+    margin:0 0 16px;
+    padding:10px 12px;
+    border-left:6px solid var(--accent);
+    background:linear-gradient(90deg,var(--accent-bg),#fff);
+  }
+  .langwatch-title{
+    font-weight:900;
+    letter-spacing:1px;
+    color:var(--accent);
+    font-size:13px;
+    margin-bottom:8px;
+  }
+  .langrow{display:flex;justify-content:space-between;gap:12px;margin:4px 0}
+  .langrow .term{color:#222}
+  .langrow .count{color:var(--accent);font-weight:900}
 </style>
 </head>
 
@@ -55,11 +133,17 @@
 
   <div class="hr"></div>
 
+  <!-- Feature 1 -->
+  <div id="missedBox" class="missed" style="display:none;"></div>
+
   <div id="updated"></div>
 
   <div id="cols" class="columns"></div>
 
   <div class="footer">
+    <!-- Feature 3 -->
+    <div id="langWatch" class="langwatch" style="display:none;"></div>
+
     <h2>THE WEEK IN HINDSIGHT</h2>
     <ul id="week"></ul>
   </div>
@@ -104,11 +188,36 @@
     return html;
   }
 
+  function buildBurgerHTML(item){
+    if(!item || !item.title || !item.url) return "";
+    return '' +
+      '<div class="burger-label">NOTHING BURGER OF THE DAY</div>' +
+      '<a href="' + item.url + '" target="_blank" rel="noopener noreferrer">' + item.title + '</a>' +
+      '<span class="source"> (' + (item.source || "") + ')</span>';
+  }
+
+  function buildMissedHTML(item){
+    if(!item || !item.title || !item.url) return "";
+    return '' +
+      '<div class="missed-label">ONE LINE EVERYONE MISSED</div>' +
+      '<a href="' + item.url + '" target="_blank" rel="noopener noreferrer">' + item.title + '</a>' +
+      '<span class="source"> (' + (item.source || "") + ')</span>';
+  }
+
+  function buildLangWatchHTML(rows){
+    if(!rows || !rows.length) return "";
+    let html = '<div class="langwatch-title">LANGUAGE WATCH (TODAY)</div>';
+    rows.forEach(r => {
+      html += '<div class="langrow"><div class="term">"' + r.label + '"</div><div class="count">' + r.count + '</div></div>';
+    });
+    return html;
+  }
+
   fetch("headlines.json?cb=" + Date.now())
     .then(r => r.json())
     .then(d => {
-      document.getElementById("title").textContent = d.site?.name || "THE DAILY SIDE-EYE";
-      document.getElementById("tagline").textContent = d.site?.tagline || "Headlines with a raised eyebrow.";
+      document.getElementById("title").textContent = (d.site && d.site.name) ? d.site.name : "THE DAILY SIDE-EYE";
+      document.getElementById("tagline").textContent = (d.site && d.site.tagline) ? d.site.tagline : "Headlines with a raised eyebrow.";
 
       const now = new Date();
       document.getElementById("today").textContent = fmtDate(now);
@@ -117,7 +226,17 @@
       const gen = new Date(d.generated_utc);
       document.getElementById("updated").textContent = "Last updated: " + gen.toLocaleString();
 
-      // Deduplicate sections by name (if updater ever outputs dupes)
+      // Feature 1: One line everyone missed
+      const missedBox = document.getElementById("missedBox");
+      const missedHTML = buildMissedHTML(d.one_line_everyone_missed);
+      if(missedHTML){
+        missedBox.innerHTML = missedHTML;
+        missedBox.style.display = "";
+      } else {
+        missedBox.style.display = "none";
+      }
+
+      // Flatten & dedupe sections by name (if updater ever outputs dupes)
       const secMap = {};
       (d.columns || []).forEach(col => {
         (col.sections || []).forEach(sec => {
@@ -129,21 +248,47 @@
         });
       });
 
+      // Build exactly 3 columns
       const cols = document.getElementById("cols");
       cols.innerHTML = "";
 
-      COLUMN_PLAN.forEach(colNames => {
+      COLUMN_PLAN.forEach((colNames, colIndex) => {
         const c = document.createElement("div");
+
         colNames.forEach(name => {
           if (secMap[name]) {
             const container = document.createElement("div");
+
+            // Feature 2: Nothing Burger goes at the top of the Business column (column 2)
+            if(colIndex === 1 && name === "Business"){
+              const burgerHTML = buildBurgerHTML(d.nothing_burger);
+              if(burgerHTML){
+                const burger = document.createElement("div");
+                burger.className = "burger";
+                burger.innerHTML = burgerHTML;
+                c.appendChild(burger);
+              }
+            }
+
             container.innerHTML = buildSectionHTML(secMap[name]);
             c.appendChild(container);
           }
         });
+
         cols.appendChild(c);
       });
 
+      // Feature 3: Language Watch
+      const langWatch = document.getElementById("langWatch");
+      const lwHTML = buildLangWatchHTML(d.language_watch);
+      if(lwHTML){
+        langWatch.innerHTML = lwHTML;
+        langWatch.style.display = "";
+      } else {
+        langWatch.style.display = "none";
+      }
+
+      // Week in hindsight
       const week = document.getElementById("week");
       week.innerHTML = "";
       (d.week_in_hindsight || []).forEach(line => {
