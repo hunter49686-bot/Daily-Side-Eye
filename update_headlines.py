@@ -9,7 +9,7 @@ import feedparser
 # TUNING KNOBS
 # -------------------------
 MAX_ITEMS_PER_SECTION = 12
-MAX_PER_SOURCE_PER_SECTION = 4  # <- (3) cap each publisher inside a section
+MAX_PER_SOURCE_PER_SECTION = 3  # <- (3) cap each publisher inside a section
 
 # -------------------------
 # FEEDS
