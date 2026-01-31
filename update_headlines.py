@@ -300,7 +300,7 @@ def main():
     data = {
         "site": {
             "name": "THE DAILY SIDE-EYE",
-            "tagline": "Dry news links. Equal-opportunity skepticism."
+            "tagline": "Headlines with a raised eyebrow."
         },
         "generated_utc": now_utc.isoformat(),
         "columns": columns,
