@@ -3,7 +3,7 @@
     "name": "THE DAILY SIDE-EYE",
     "tagline": "Headlines with a raised eyebrow."
   },
-  "generated_utc": "2026-01-31T17:51:28.438380+00:00",
+  "generated_utc": "2026-01-31T19:00:07.442722+00:00",
   "columns": [
     {
       "sections": [
@@ -11,28 +11,28 @@
           "name": "Breaking",
           "items": [
             {
-              "title": "Epstein files latest: photos appear to show former prince Andrew crouching over woman or girl",
-              "url": "https://www.theguardian.com/us-news/live/2026/jan/31/jeffrey-epstein-files-latest-news-updates-prince-andrew-elon-musk-peter-mandelson-donald-trump",
-              "source": "The Guardian US",
+              "title": "Trump continues to defend Homan, Noem over immigration enforcement",
+              "url": "https://abcnews.go.com/Politics/trump-continues-defend-homan-noem-amid-immigration-enforcement/story?id=129731874",
+              "source": "ABC Top Stories",
               "badge": "BREAK",
               "feature": true,
-              "snark": "The bar was low. They brought a shovel."
+              "snark": "Unclear. Remains unclear. Probably will stay unclear."
             },
             {
-              "title": "Partial government shutdown goes into effect, as Senate deal awaits House vote",
-              "url": "https://abcnews.go.com/Politics/graham-blockade-stalls-government-funding-deal-hours-shutdown/story?id=129712452",
-              "source": "ABC Top Stories",
+              "title": "Judge allows ICE’s Operation Metro Surge to continue in Minnesota",
+              "url": "https://www.nbcnews.com/news/us-news/judge-allows-ices-operation-metro-surge-continue-minnesota-rcna256847",
+              "source": "NBC Top Stories",
               "badge": "",
               "feature": false,
-              "snark": "Everyone is shocked. Again."
+              "snark": "They've considered all options. Except the obvious one."
             },
             {
-              "title": "Dominion still has pending lawsuits against election deniers such as Rudy Giuliani and Sidney Powell",
-              "url": "https://www.cnn.com/business/live-news/fox-news-dominion-trial-04-18-23/h_8d51e3ae2714edaa0dace837305d03b8",
-              "source": "CNN Top Stories",
+              "title": "New message from top Democrats: The U.S. Justice Department can't be trusted",
+              "url": "https://www.latimes.com/politics/story/2026-01-31/new-message-from-top-democrats-u-s-justice-department-cant-be-trusted",
+              "source": "LA Times - Nation",
               "badge": "",
               "feature": false,
-              "snark": "Updates may follow. So may regret."
+              "snark": "They said 'soon.' They meant 'sometime.'"
             },
             {
               "title": "This Minneapolis family has been in hiding for weeks, fearful of being deported",
@@ -40,55 +40,23 @@
               "source": "NBC Top Stories",
               "badge": "",
               "feature": false,
-              "snark": "File under: avoidable."
+              "snark": "If this was the plan, yikes."
             },
             {
-              "title": "Trump wants to build 250ft Washington DC arch that dwarfs Lincoln Memorial – report",
-              "url": "https://www.theguardian.com/us-news/2026/jan/31/trump-washington-dc-arch-lincoln-memorial",
+              "title": "Judge denies Minnesota’s request to end ICE surge in Minneapolis",
+              "url": "https://www.theguardian.com/us-news/2026/jan/31/judge-denies-minnesota-request-ice-surge",
               "source": "The Guardian US",
               "badge": "",
               "feature": false,
-              "snark": "Sources say. Sources always say."
+              "snark": "A 'final' decision enters its sequel era."
             },
             {
-              "title": "Israeli air strikes kill at least 28 Palestinians in Gaza, rescue officials say",
-              "url": "https://www.bbc.com/news/articles/c701g1g00gdo?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Front Page",
+              "title": "Epstein files latest: photos appear to show former prince Andrew crouching over woman or girl",
+              "url": "https://www.theguardian.com/us-news/live/2026/jan/31/jeffrey-epstein-files-latest-news-updates-prince-andrew-elon-musk-peter-mandelson-donald-trump",
+              "source": "The Guardian US",
               "badge": "",
               "feature": false,
-              "snark": "This is fine. (It is not fine.)"
-            },
-            {
-              "title": "Senate approves spending package allowing for DHS funding negotiation",
-              "url": "https://www.nbcnews.com/video/senate-approves-spending-package-allowing-for-dhs-funding-negotiation-256927813916",
-              "source": "NBC Top Stories",
-              "badge": "",
-              "feature": false,
-              "snark": "Proceeding exactly as predicted—badly."
-            },
-            {
-              "title": "Trump officials have tried to justify ICE shootings. Is it backfiring in court?",
-              "url": "https://www.latimes.com/california/story/2026-01-31/ice-shootings-trump-officials-statements-court-cases",
-              "source": "LA Times - Nation",
-              "badge": "",
-              "feature": false,
-              "snark": "A quick briefing. A long aftermath."
-            },
-            {
-              "title": "Latest Epstein revelations dig even deeper hole for Andrew",
-              "url": "https://www.bbc.com/news/articles/c20z4ze349jo?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Front Page",
-              "badge": "",
-              "feature": false,
-              "snark": "Unclear. Remains unclear. Probably will stay unclear."
-            },
-            {
-              "title": "LAPD's relationship with federal authorities under scrutiny as criticism of ICE grows",
-              "url": "https://www.latimes.com/california/story/2026-01-31/lapd-federal-cooperation-ice-olympics-world-cup",
-              "source": "LA Times - Nation",
-              "badge": "",
-              "feature": false,
-              "snark": "It's complicated, but so is the excuse."
+              "snark": "A 'common sense' solution sparks uncommon disagreement."
             },
             {
               "title": "LIVE: ABC News Live",
@@ -96,7 +64,39 @@
               "source": "ABC Top Stories",
               "badge": "",
               "feature": false,
-              "snark": "Nothing to see here—please stop looking."
+              "snark": "This will surely be handled with nuance."
+            },
+            {
+              "title": "Dominion still has pending lawsuits against election deniers such as Rudy Giuliani and Sidney Powell",
+              "url": "https://www.cnn.com/business/live-news/fox-news-dominion-trial-04-18-23/h_8d51e3ae2714edaa0dace837305d03b8",
+              "source": "CNN Top Stories",
+              "badge": "",
+              "feature": false,
+              "snark": "A headline that begs for an edit button."
+            },
+            {
+              "title": "Trump officials have tried to justify ICE shootings. Is it backfiring in court?",
+              "url": "https://www.latimes.com/california/story/2026-01-31/ice-shootings-trump-officials-statements-court-cases",
+              "source": "LA Times - Nation",
+              "badge": "",
+              "feature": false,
+              "snark": "The explanation is technically words."
+            },
+            {
+              "title": "Israeli air strikes kill at least 32 Palestinians in Gaza, rescue officials say",
+              "url": "https://www.bbc.com/news/articles/c701g1g00gdo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Front Page",
+              "badge": "",
+              "feature": false,
+              "snark": "A new chapter in an old mess."
+            },
+            {
+              "title": "Latest Epstein revelations dig even deeper hole for Andrew",
+              "url": "https://www.bbc.com/news/articles/c20z4ze349jo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Front Page",
+              "badge": "",
+              "feature": false,
+              "snark": "A delay, with extra delay."
             }
           ]
         }
@@ -202,7 +202,7 @@
               "source": "LA Times - World",
               "badge": "",
               "feature": false,
-              "snark": "This will surely be handled with nuance."
+              "snark": "A quick briefing. A long aftermath."
             },
             {
               "title": "Mathematician Gladys West dies at 95. She was a hidden figure behind GPS.",
@@ -250,7 +250,7 @@
               "source": "NBC World",
               "badge": "",
               "feature": false,
-              "snark": "A delay, with extra delay."
+              "snark": "Expect pushback. Expect spin."
             },
             {
               "title": "Pedro Pascal and Meryl Streep lead tributes to Catherine O'Hara",
