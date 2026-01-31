@@ -61,10 +61,23 @@
   function esc(s){return String(s??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#39;");}
 
   async function load(){
-    const res = await fetch("headlines.json?ts=" + Date.now());
-    const data = await res.json();
+  const res = await fetch("headlines.json?ts=" + Date.now());
+  const data = await res.json();
 
-    document.getElementById("brand").textContent = data?.site?.name || "THE DAILY SIDE-EYE";
+  // Show last-updated time from the JSON (converted to your local time automatically)
+  const updatedEl = document.getElementById("updated");
+  if (updatedEl) {
+    if (data.generated_utc) {
+      const d = new Date(data.generated_utc);
+      updatedEl.textContent = "Last updated: " + d.toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" });
+    } else {
+      updatedEl.textContent = "";
+    }
+  }
+
+  document.getElementById("brand").textContent = data?.site?.name || "THE DAILY SIDE-EYE";
+  ...
+}
     document.getElementById("tagline").textContent = data?.site?.tagline || "";
 
     const grid = document.getElementById("grid");
