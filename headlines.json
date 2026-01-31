@@ -3,7 +3,7 @@
     "name": "THE DAILY SIDE-EYE",
     "tagline": "Headlines with a raised eyebrow."
   },
-  "generated_utc": "2026-01-31T06:04:44.310879+00:00",
+  "generated_utc": "2026-01-31T07:50:12.197030+00:00",
   "columns": [
     {
       "sections": [
@@ -11,84 +11,12 @@
           "name": "Breaking",
           "items": [
             {
-              "title": "LIVE: ABC News Live",
-              "url": "https://abcnews.go.com/Live/video/abcnews-live-41463246",
-              "source": "ABC Top Stories",
-              "badge": "BREAK",
-              "feature": true,
-              "snark": "A 'strategy' is announced. Execution sold separately."
-            },
-            {
-              "title": "US government shuts down partially over homeland security funding",
-              "url": "https://www.theguardian.com/us-news/2026/jan/31/us-government-shutdown-dhs-funding",
-              "source": "The Guardian US",
-              "badge": "",
-              "feature": false,
-              "snark": "They said 'soon.' They meant 'sometime.'"
-            },
-            {
               "title": "Partial government shutdown goes into effect, as Senate deal awaits House vote",
               "url": "https://abcnews.go.com/Politics/graham-blockade-stalls-government-funding-deal-hours-shutdown/story?id=129712452",
               "source": "ABC Top Stories",
-              "badge": "",
-              "feature": false,
-              "snark": "The optics are doing most of the work."
-            },
-            {
-              "title": "Trump's Cuba oil tariff threat creates new diplomatic challenge for Mexico's Sheinbaum",
-              "url": "https://www.latimes.com/world-nation/story/2026-01-30/trumps-cuba-oil-tariff-threat-creates-new-diplomatic-challenge-for-mexicos-sheinbaum",
-              "source": "LA Times - Nation",
-              "badge": "",
-              "feature": false,
-              "snark": "A bold claim enters witness protection."
-            },
-            {
-              "title": "Takeaways from the millions of newly released Epstein files",
-              "url": "https://www.bbc.com/news/articles/cevnmxyy4wjo?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Front Page",
-              "badge": "",
-              "feature": false,
-              "snark": "Everyone is monitoring the situation. Vigorously."
-            },
-            {
-              "title": "Senate approves spending package allowing for DHS funding negotiation",
-              "url": "https://www.nbcnews.com/video/senate-approves-spending-package-allowing-for-dhs-funding-negotiation-256927813916",
-              "source": "NBC Top Stories",
-              "badge": "",
-              "feature": false,
-              "snark": "A solution appears, then immediately asks for a manager."
-            },
-            {
-              "title": "Epstein invited 'The Duke' to meet Russian woman",
-              "url": "https://www.bbc.com/news/articles/c4g5490xmkeo?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Front Page",
-              "badge": "",
-              "feature": false,
-              "snark": "Sources say. Sources always say."
-            },
-            {
-              "title": "3 million pages of Epstein documents released",
-              "url": "https://www.nbcnews.com/nightly-news/video/3-million-pages-of-epstein-documents-released-256926277708",
-              "source": "NBC Top Stories",
-              "badge": "",
-              "feature": false,
-              "snark": "Expect clarity shortly. Bring snacks."
-            },
-            {
-              "title": "Dominion still has pending lawsuits against election deniers such as Rudy Giuliani and Sidney Powell",
-              "url": "https://www.cnn.com/business/live-news/fox-news-dominion-trial-04-18-23/h_8d51e3ae2714edaa0dace837305d03b8",
-              "source": "CNN Top Stories",
-              "badge": "",
-              "feature": false,
-              "snark": "The numbers were cited. Interpretation may vary."
-            },
-            {
-              "title": "Shutdown nears as lawmakers brace for next round of ICE negotiations",
-              "url": "https://www.latimes.com/politics/story/2026-01-30/shutdown-senate-ice-negotiations",
-              "source": "LA Times - Nation",
-              "badge": "",
-              "feature": false,
-              "snark": "A minor detail becomes the main event."
+              "badge": "BREAK",
+              "feature": true,
+              "snark": "A victory lap, taken before the race."
             },
             {
               "title": "French MPs demand explanation over tech firm’s contract to help ICE in US",
@@ -96,7 +24,79 @@
               "source": "The Guardian US",
               "badge": "",
               "feature": false,
-              "snark": "A 'common sense' solution sparks uncommon disagreement."
+              "snark": "Expect clarity shortly. Bring snacks."
+            },
+            {
+              "title": "Epstein invited 'The Duke' to meet Russian woman",
+              "url": "https://www.bbc.com/news/articles/c4g5490xmkeo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Front Page",
+              "badge": "",
+              "feature": false,
+              "snark": "Now featuring: consequences."
+            },
+            {
+              "title": "Shutdown nears as lawmakers brace for next round of ICE negotiations",
+              "url": "https://www.latimes.com/politics/story/2026-01-30/shutdown-senate-ice-negotiations",
+              "source": "LA Times - Nation",
+              "badge": "",
+              "feature": false,
+              "snark": "A reminder that 'simple' is a marketing term."
+            },
+            {
+              "title": "More than 300 anti-ICE protests planned across US this weekend",
+              "url": "https://www.theguardian.com/us-news/2026/jan/31/anti-ice-protests-weekend",
+              "source": "The Guardian US",
+              "badge": "",
+              "feature": false,
+              "snark": "A bold move, executed in pencil."
+            },
+            {
+              "title": "Dominion still has pending lawsuits against election deniers such as Rudy Giuliani and Sidney Powell",
+              "url": "https://www.cnn.com/business/live-news/fox-news-dominion-trial-04-18-23/h_8d51e3ae2714edaa0dace837305d03b8",
+              "source": "CNN Top Stories",
+              "badge": "",
+              "feature": false,
+              "snark": "The bar was low. They brought a shovel."
+            },
+            {
+              "title": "3 million pages of Epstein documents released",
+              "url": "https://www.nbcnews.com/nightly-news/video/3-million-pages-of-epstein-documents-released-256926277708",
+              "source": "NBC Top Stories",
+              "badge": "",
+              "feature": false,
+              "snark": "The timeline is fluid. Like a spilled drink."
+            },
+            {
+              "title": "Takeaways from the millions of newly released Epstein files",
+              "url": "https://www.bbc.com/news/articles/cevnmxyy4wjo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Front Page",
+              "badge": "",
+              "feature": false,
+              "snark": "A minor tweak triggers major drama."
+            },
+            {
+              "title": "Trump's Cuba oil tariff threat creates new diplomatic challenge for Mexico's Sheinbaum",
+              "url": "https://www.latimes.com/world-nation/story/2026-01-30/trumps-cuba-oil-tariff-threat-creates-new-diplomatic-challenge-for-mexicos-sheinbaum",
+              "source": "LA Times - Nation",
+              "badge": "",
+              "feature": false,
+              "snark": "Confidence was expressed. Evidence was not."
+            },
+            {
+              "title": "LIVE: ABC News Live",
+              "url": "https://abcnews.go.com/Live/video/abcnews-live-41463246",
+              "source": "ABC Top Stories",
+              "badge": "",
+              "feature": false,
+              "snark": "Confidence is high. Accuracy is TBD."
+            },
+            {
+              "title": "Senate approves spending package allowing for DHS funding negotiation",
+              "url": "https://www.nbcnews.com/video/senate-approves-spending-package-allowing-for-dhs-funding-negotiation-256927813916",
+              "source": "NBC Top Stories",
+              "badge": "",
+              "feature": false,
+              "snark": "Everyone is monitoring the situation. Vigorously."
             }
           ]
         }
@@ -113,7 +113,7 @@
               "source": "ABC Business",
               "badge": "",
               "feature": false,
-              "snark": "Now featuring: consequences."
+              "snark": "A promise was made. A reminder will be needed."
             },
             {
               "title": "How major US stock indexes fared Friday, 1/30/2026",
