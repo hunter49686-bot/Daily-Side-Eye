@@ -29,7 +29,6 @@
   a.headline{font-weight:800;font-size:22px;color:#111;text-decoration:none}
   a.feature{color:#b00000;font-size:30px}
   .source{color:#666}
-
   .sub{font-size:16px;margin-top:5px;color:#222}
 
   .badge{border:1px solid #bbb;border-radius:999px;padding:2px 8px;font-size:12px;margin-right:6px}
@@ -75,13 +74,7 @@
     return d.toLocaleTimeString(undefined, {hour:'numeric', minute:'2-digit'});
   }
 
-  // Hard-limit what we display so you never get "extra sections"
-  const SECTION_ORDER = ["Breaking","Top","Business","Tech","Weird"];
-
   // Render exactly 3 columns with these sections:
-  // Col 1: Breaking, Top
-  // Col 2: Business
-  // Col 3: Tech, Weird
   const COLUMN_PLAN = [
     ["Breaking","Top"],
     ["Business"],
@@ -111,7 +104,6 @@
     return html;
   }
 
-  // Cache-bust headlines.json so updates appear even on mobile caches
   fetch("headlines.json?cb=" + Date.now())
     .then(r => r.json())
     .then(d => {
@@ -125,20 +117,18 @@
       const gen = new Date(d.generated_utc);
       document.getElementById("updated").textContent = "Last updated: " + gen.toLocaleString();
 
-      // Flatten all sections from JSON into a map by name (dedupe by name)
+      // Deduplicate sections by name (if updater ever outputs dupes)
       const secMap = {};
       (d.columns || []).forEach(col => {
         (col.sections || []).forEach(sec => {
           const name = String(sec.name || "");
           if (!name) return;
-          // If duplicates exist, keep the one with more items
           if (!secMap[name] || ((sec.items||[]).length > (secMap[name].items||[]).length)){
             secMap[name] = sec;
           }
         });
       });
 
-      // Build exactly the layout you want (no extras)
       const cols = document.getElementById("cols");
       cols.innerHTML = "";
 
@@ -154,7 +144,6 @@
         cols.appendChild(c);
       });
 
-      // Week in hindsight
       const week = document.getElementById("week");
       week.innerHTML = "";
       (d.week_in_hindsight || []).forEach(line => {
