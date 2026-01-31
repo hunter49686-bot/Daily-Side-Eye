@@ -17,7 +17,6 @@
   .columns{display:grid;grid-template-columns:1fr 1fr 1fr;gap:28px}
   @media(max-width:900px){.columns{grid-template-columns:1fr}}
 
-  /* Section titles bigger + bold (your request) */
   .section-title{
     font-weight:900;
     font-size:24px;
@@ -35,17 +34,6 @@
 
   .badge{border:1px solid #bbb;border-radius:999px;padding:2px 8px;font-size:12px;margin-right:6px}
   .ages{border:1px solid #c8a400;background:#fff7cc;border-radius:999px;padding:2px 8px;font-size:12px;margin-right:6px}
-
-  /* SIDE-EYE METER (real graphics via CSS) */
-  .meter{display:inline-flex;align-items:center;gap:6px;margin-left:8px;vertical-align:middle}
-  .meter-label{font-size:12px;font-weight:800;letter-spacing:.5px;color:#444}
-  .dots{display:inline-flex;gap:3px}
-  .dot{
-    width:8px;height:8px;border-radius:999px;
-    border:1px solid #bbb;background:transparent;
-    display:inline-block;
-  }
-  .dot.on{background:#111;border-color:#111}
 
   .footer{border-top:2px solid #e5e5e5;margin-top:26px;padding-top:14px}
   .footer h2{margin:0 0 10px;font-size:22px;letter-spacing:1px}
@@ -80,21 +68,47 @@
 </div>
 
 <script>
-  function renderMeter(score){
-    const n = Math.max(1, Math.min(5, Number(score || 1)));
-    let html = '<span class="meter"><span class="meter-label">SIDE-EYE</span><span class="dots">';
-    for(let i=1;i<=5;i++){
-      html += '<span class="dot ' + (i<=n ? 'on' : '') + '"></span>';
-    }
-    html += '</span></span>';
-    return html;
-  }
-
   function fmtDate(d){
     return d.toLocaleDateString(undefined, {weekday:'long', year:'numeric', month:'long', day:'numeric'});
   }
   function fmtTime(d){
     return d.toLocaleTimeString(undefined, {hour:'numeric', minute:'2-digit'});
+  }
+
+  // Hard-limit what we display so you never get "extra sections"
+  const SECTION_ORDER = ["Breaking","Top","Business","Tech","Weird"];
+
+  // Render exactly 3 columns with these sections:
+  // Col 1: Breaking, Top
+  // Col 2: Business
+  // Col 3: Tech, Weird
+  const COLUMN_PLAN = [
+    ["Breaking","Top"],
+    ["Business"],
+    ["Tech","Weird"]
+  ];
+
+  function buildSectionHTML(sec){
+    const secName = String(sec.name || "");
+    let html = '<div class="section-title">' + secName.toUpperCase() + '</div><div class="rule"></div>';
+
+    (sec.items || []).forEach(it => {
+      const ages = it.ages_poorly ? '<span class="ages">IF THIS AGES POORLY</span>' : '';
+      const badge = it.badge ? '<span class="badge">' + it.badge + '</span>' : '';
+      const headlineClass = "headline" + (it.feature ? " feature" : "");
+
+      html +=
+        '<div class="item">' +
+          ages + badge +
+          '<a class="' + headlineClass + '" href="' + it.url + '" target="_blank" rel="noopener noreferrer">' +
+            (it.title || "") +
+          '</a>' +
+          '<span class="source"> (' + (it.source || "") + ')</span>' +
+          '<div class="sub">' + (it.snark || "") + '</div>' +
+        '</div>';
+    });
+
+    return html;
   }
 
   // Cache-bust headlines.json so updates appear even on mobile caches
@@ -111,42 +125,36 @@
       const gen = new Date(d.generated_utc);
       document.getElementById("updated").textContent = "Last updated: " + gen.toLocaleString();
 
+      // Flatten all sections from JSON into a map by name (dedupe by name)
+      const secMap = {};
+      (d.columns || []).forEach(col => {
+        (col.sections || []).forEach(sec => {
+          const name = String(sec.name || "");
+          if (!name) return;
+          // If duplicates exist, keep the one with more items
+          if (!secMap[name] || ((sec.items||[]).length > (secMap[name].items||[]).length)){
+            secMap[name] = sec;
+          }
+        });
+      });
+
+      // Build exactly the layout you want (no extras)
       const cols = document.getElementById("cols");
       cols.innerHTML = "";
 
-      (d.columns || []).forEach(col => {
+      COLUMN_PLAN.forEach(colNames => {
         const c = document.createElement("div");
-
-        (col.sections || []).forEach(sec => {
-          const s = document.createElement("div");
-          s.innerHTML = '<div class="section-title">' + String(sec.name || "").toUpperCase() + '</div><div class="rule"></div>';
-
-          (sec.items || []).forEach(it => {
-            const div = document.createElement("div");
-            div.className = "item";
-
-            const ages = it.ages_poorly ? '<span class="ages">IF THIS AGES POORLY</span>' : '';
-            const badge = it.badge ? '<span class="badge">' + it.badge + '</span>' : '';
-            const headlineClass = "headline" + (it.feature ? " feature" : "");
-
-            div.innerHTML =
-              ages + badge +
-              '<a class="' + headlineClass + '" href="' + it.url + '" target="_blank" rel="noopener noreferrer">' +
-                it.title +
-              '</a>' +
-              '<span class="source"> (' + (it.source || "") + ')</span>' +
-              renderMeter(it.meter) +
-              '<div class="sub">' + (it.snark || "") + '</div>';
-
-            s.appendChild(div);
-          });
-
-          c.appendChild(s);
+        colNames.forEach(name => {
+          if (secMap[name]) {
+            const container = document.createElement("div");
+            container.innerHTML = buildSectionHTML(secMap[name]);
+            c.appendChild(container);
+          }
         });
-
         cols.appendChild(c);
       });
 
+      // Week in hindsight
       const week = document.getElementById("week");
       week.innerHTML = "";
       (d.week_in_hindsight || []).forEach(line => {
