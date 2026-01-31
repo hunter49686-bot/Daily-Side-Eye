@@ -3,7 +3,7 @@
     "name": "THE DAILY SIDE-EYE",
     "tagline": "Headlines with a raised eyebrow."
   },
-  "generated_utc": "2026-01-31T20:21:21.970048+00:00",
+  "generated_utc": "2026-01-31T20:29:58.138930+00:00",
   "columns": [
     {
       "sections": [
@@ -11,39 +11,12 @@
           "name": "Breaking",
           "items": [
             {
-              "title": "Latest Epstein revelations dig even deeper hole for Andrew",
-              "url": "https://www.bbc.com/news/articles/c20z4ze349jo?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Front Page",
-              "badge": "BREAK",
-              "feature": true,
-              "snark": "A statement was issued. Substance not included.",
-              "ages_poorly": false
-            },
-            {
-              "title": "Israeli air strikes kill at least 32 Palestinians in Gaza, rescue officials say",
-              "url": "https://www.bbc.com/news/articles/c701g1g00gdo?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Front Page",
-              "badge": "",
-              "feature": false,
-              "snark": "For now, details are still emerging. details are still being verified.",
-              "ages_poorly": false
-            },
-            {
-              "title": "Zack Polanski is having fun. But can the Green leader become a serious player?",
-              "url": "https://www.bbc.com/news/articles/c4gv81124j1o?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Front Page",
-              "badge": "",
-              "feature": false,
-              "snark": "A decision was made. Consequences scheduled for later.",
-              "ages_poorly": false
-            },
-            {
               "title": "Some on-air claims about Dominion Voting Systems were false, Fox News acknowledges in statement after deal is announced",
               "url": "https://www.cnn.com/business/live-news/fox-news-dominion-trial-04-18-23/index.html",
               "source": "CNN Top Stories",
-              "badge": "",
-              "feature": false,
-              "snark": "This will surely be handled with nuance.",
+              "badge": "BREAK",
+              "feature": true,
+              "snark": "Strong words were used. Outcomes remain TBD.",
               "ages_poorly": false
             },
             {
@@ -52,13 +25,40 @@
               "source": "CNN Top Stories",
               "badge": "",
               "feature": false,
-              "snark": "Strong words were used. Outcomes remain TBD.",
+              "snark": "Everyone is monitoring the situation.",
               "ages_poorly": false
             },
             {
               "title": "Here are the 20 specific Fox broadcasts and tweets Dominion says were defamatory",
               "url": "https://www.cnn.com/2023/04/17/media/dominion-fox-news-allegations/index.html",
               "source": "CNN Top Stories",
+              "badge": "",
+              "feature": false,
+              "snark": "A confident plan has been announced. Reality is pending.",
+              "ages_poorly": false
+            },
+            {
+              "title": "Latest Epstein revelations dig even deeper hole for Andrew",
+              "url": "https://www.bbc.com/news/articles/c20z4ze349jo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Front Page",
+              "badge": "",
+              "feature": false,
+              "snark": "The plan is simple. The details are complicated.",
+              "ages_poorly": false
+            },
+            {
+              "title": "Israeli air strikes kill at least 32 Palestinians in Gaza, rescue officials say",
+              "url": "https://www.bbc.com/news/articles/c701g1g00gdo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Front Page",
+              "badge": "",
+              "feature": false,
+              "snark": "Reporting continues.",
+              "ages_poorly": false
+            },
+            {
+              "title": "Zack Polanski is having fun. But can the Green leader become a serious player?",
+              "url": "https://www.bbc.com/news/articles/c4gv81124j1o?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Front Page",
               "badge": "",
               "feature": false,
               "snark": "Officials say it is under control. So that is something.",
@@ -359,7 +359,7 @@
     }
   ],
   "week_in_hindsight": [
-    "Language tends to repeat because newsrooms repeat. Today, you can see which phrases won.",
-    "If this ages poorly is one per day, non-tragic by design."
+    "Language repeats. So does the news.",
+    "One 'If This Ages Poorly' is selected daily from Business/Tech only."
   ]
 }
