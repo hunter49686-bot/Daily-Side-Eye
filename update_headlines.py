@@ -81,14 +81,14 @@ def parse_feed(source_name: str, feed_url: str):
     return items
 
 def dedupe(items):
-  seen = set()
-  out = []
-  for it in items:
-     u = it.get("url", "")
-     if not u or u in seen:
-        continue
-      seen.add(u)
-      out.append(it)
+    seen = set()
+    out = []
+    for it in items:
+        u = it.get("url", "")
+        if not u or u in seen:
+            continue
+        seen.add(u)
+        out.append(it)
     return out
 
 def main():
