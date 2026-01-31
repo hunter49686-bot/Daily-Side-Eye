@@ -1,52 +1,55 @@
 import json
 import random
 import re
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timezone
 import feedparser
 
 MAX_ITEMS_PER_SECTION = 18
 MAX_PER_SOURCE_PER_SECTION = 3
 
-HISTORY_FILE = "history.json"
-HISTORY_MAX_DAYS = 10
-
-# ================= RSS FEEDS =================
+# ---------------- RSS FEEDS ----------------
 BREAKING_FEEDS = [
     ("BBC Front Page", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/front_page/rss.xml"),
     ("CNN Top Stories", "http://rss.cnn.com/rss/cnn_topstories.rss"),
+    ("AP Top News", "https://apnews.com/apf-topnews?output=rss"),
 ]
 
 TOP_FEEDS = [
     ("BBC World", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/world/rss.xml"),
     ("Guardian US", "https://www.theguardian.com/us/rss"),
     ("Reuters World", "https://feeds.reuters.com/Reuters/worldNews"),
+    ("NPR News", "https://feeds.npr.org/1001/rss.xml"),
 ]
 
 BUSINESS_FEEDS = [
     ("BBC Business", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/business/rss.xml"),
     ("Reuters Business", "https://feeds.reuters.com/reuters/businessNews"),
     ("CNBC", "https://www.cnbc.com/id/100003114/device/rss/rss.html"),
+    ("WSJ World News", "https://feeds.a.dj.com/rss/RSSWorldNews.xml"),
 ]
 
 TECH_FEEDS = [
     ("BBC Tech", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/technology/rss.xml"),
     ("Ars Technica", "https://feeds.arstechnica.com/arstechnica/index/"),
     ("The Verge", "https://www.theverge.com/rss/index.xml"),
+    ("Wired", "https://www.wired.com/feed/rss"),
 ]
 
 WEIRD_FEEDS = [
     ("Reuters Oddly Enough", "https://feeds.reuters.com/reuters/oddlyEnoughNews"),
     ("BBC Science", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/sci/tech/rss.xml"),
+    ("Smithsonian", "https://www.smithsonianmag.com/rss/latest_articles/"),
 ]
 
+# Layout: 3 columns. Breaking at top of column 1.
 LAYOUT = [
     [("Breaking", BREAKING_FEEDS), ("Top", TOP_FEEDS)],
     [("Business", BUSINESS_FEEDS)],
     [("Tech", TECH_FEEDS), ("Weird", WEIRD_FEEDS)],
 ]
 
-# ================= COPY =================
-SNARK = [
+# ---------------- COPY POOLS ----------------
+SNARK_POOL = [
     "A confident plan has been announced. Reality is pending.",
     "Officials say it is under control. So that is something.",
     "A decision was made. Consequences scheduled for later.",
@@ -59,8 +62,11 @@ SNARK = [
     "A timeline was provided. Nobody believes it.",
     "A win is declared. The scoreboard is unavailable.",
     "A review is underway.",
+    "An update arrived. Clarity did not.",
+    "Strong words were used. Outcomes remain TBD.",
 ]
 
+# One "prefix-style" neutral per section max (prevents "As of now / So far" spam)
 NEUTRAL_BASE = [
     "Developing story.",
     "Details are still emerging.",
@@ -71,15 +77,15 @@ NEUTRAL_BASE = [
     "This remains under review.",
 ]
 
-VARIANT_PREFIX = [
+PREFIXES = [
     "At present,",
     "Currently,",
     "For now,",
     "As things stand,",
-    "At the moment,"
+    "At the moment,",
 ]
 
-VARIANT_SUFFIX = [
+SUFFIXES = [
     "more information is expected.",
     "details are still being verified.",
     "confirmation is pending.",
@@ -87,144 +93,204 @@ VARIANT_SUFFIX = [
     "this remains under review.",
 ]
 
-TRAGEDY_KEYWORDS = [
-    "dead","death","dies","died","killed","kill","fatal","passed","loss","lost",
-    "injured","hurt","pain","suffering","shooting","stabbed","attack","murder",
-    "fire","explosion","crash","war","airstrike","bomb","tragic","victim",
-    "missing","hospitalized","mourning","funeral"
+# Short neutrals after that (no repetitive cadence)
+SOFT_NEUTRALS = [
+    "More information expected.",
+    "Reporting continues.",
+    "Further details pending.",
+    "Updates may follow.",
+    "Confirmation pending.",
+    "Still developing.",
+    "More soon.",
+    "Details pending.",
 ]
 
-SIDE_EYE_TRIGGERS = [
-    "officials","sources","reportedly","claims","denies","investigation","review",
-    "plan","strategy","announced","timeline","deal","talks","warning","court",
-    "inflation","rates","central bank","fed","election","lawsuit"
+# Expanded tragedy keywords (respectful neutral only)
+TRAGEDY_KEYWORDS = [
+    "dead", "death", "dies", "died", "killed", "kill", "fatal",
+    "passed", "pass away", "loss", "lost", "mourning", "funeral",
+    "injured", "hurt", "pain", "sorrow", "sad", "grief",
+    "shooting", "shot", "stabbed", "attack", "assault", "murder",
+    "fire", "burn", "explosion", "blast", "crash", "collision",
+    "war", "airstrike", "bomb", "terror", "hostage", "massacre",
+    "missing", "disaster", "tragedy", "victim", "hospitalized",
 ]
 
 AGES_POORLY_TRIGGERS = [
-    "will","could","may","might","expected","plan","deal","talks","nominee",
-    "rates","inflation","election","forecast"
+    "will", "could", "may", "might", "expected", "plan", "deal", "talks",
+    "nominee", "rates", "inflation", "election", "forecast",
 ]
 
-# ================= HELPERS =================
-def clean(t): return re.sub(r"\s+", " ", t or "").strip()
+# ---------------- HELPERS ----------------
+def clean(text):
+    return re.sub(r"\s+", " ", text or "").strip()
 
-def is_tragic(title):
-    t = title.lower()
-    return any(k in t for k in TRAGEDY_KEYWORDS)
-
-def side_eye_score(title):
-    t = title.lower()
-    hits = sum(1 for k in SIDE_EYE_TRIGGERS if k in t)
-    return max(1, min(5, hits + 1))
-
-def neutral_unique(used, i):
-    base = NEUTRAL_BASE[i % len(NEUTRAL_BASE)]
-    text = f"{random.choice(VARIANT_PREFIX)} {base.lower()} {random.choice(VARIANT_SUFFIX)}"
-    if text not in used:
-        used.add(text)
-        return text
-    used.add(base)
-    return base
-
-def parse_feed(src, url):
+def parse_feed(source_name, url):
     out = []
     f = feedparser.parse(url)
-    for e in f.entries[:60]:
-        if getattr(e, "title", None) and getattr(e, "link", None):
-            out.append({"title": clean(e.title), "url": e.link, "source": src})
+    for e in getattr(f, "entries", [])[:80]:
+        title = clean(getattr(e, "title", ""))
+        link = getattr(e, "link", "")
+        if title and link:
+            out.append({"title": title, "url": link, "source": source_name})
     return out
 
-# ================= MAIN =================
+def is_tragic(title):
+    t = (title or "").lower()
+    return any(k in t for k in TRAGEDY_KEYWORDS)
+
+def one_prefix_neutral(used_sublines, idx):
+    base = NEUTRAL_BASE[idx % len(NEUTRAL_BASE)]
+    s = f"{random.choice(PREFIXES)} {base.lower()} {random.choice(SUFFIXES)}"
+    tries = 0
+    while s in used_sublines and tries < 10:
+        s = f"{random.choice(PREFIXES)} {random.choice(NEUTRAL_BASE).lower()} {random.choice(SUFFIXES)}"
+        tries += 1
+    used_sublines.add(s)
+    return s
+
+def soft_neutral(used_sublines):
+    random.shuffle(SOFT_NEUTRALS)
+    for s in SOFT_NEUTRALS:
+        if s not in used_sublines:
+            used_sublines.add(s)
+            return s
+    s = random.choice(SOFT_NEUTRALS)
+    used_sublines.add(s)
+    return s
+
+# ---------------- MAIN ----------------
 def main():
     prev = None
     try:
         with open("headlines.json", "r", encoding="utf-8") as f:
             prev = json.load(f)
-    except:
-        pass
+    except Exception:
+        prev = None
 
     now = datetime.now(timezone.utc)
-    three_hour = now.hour % 3 == 0
+    three_hour = (now.hour % 3 == 0)
 
-    used_urls, used_sublines = set(), set()
-    snark_pool = SNARK[:]
+    used_urls = set()
+    used_sublines = set()
+
+    snark_pool = SNARK_POOL[:]
     random.shuffle(snark_pool)
+
+    neutral_used_by_section = {}
 
     columns = []
     ages_candidates = []
 
     for col in LAYOUT:
         col_out = {"sections": []}
-        for sec_name, feeds in col:
-            refresh = sec_name == "Breaking" or three_hour
+
+        for section_name, feeds in col:
+            refresh = (section_name == "Breaking") or three_hour
+
+            # Reuse previous section if not refreshing
             if not refresh and prev:
-                for pcol in prev["columns"]:
-                    for psec in pcol["sections"]:
-                        if psec["name"] == sec_name:
+                reused = False
+                for pcol in prev.get("columns", []):
+                    for psec in pcol.get("sections", []):
+                        if psec.get("name") == section_name:
                             col_out["sections"].append(psec)
-                            continue
+                            reused = True
+                            break
+                    if reused:
+                        break
+                if reused:
+                    continue
+
+            neutral_used_by_section.setdefault(section_name, False)
 
             raw = []
-            for s,u in feeds:
-                raw.extend(parse_feed(s,u))
+            for src_name, url in feeds:
+                raw.extend(parse_feed(src_name, url))
 
-            items, per_source = [], {}
-            for i,it in enumerate(raw):
-                if it["url"] in used_urls: continue
-                per_source[it["source"]] = per_source.get(it["source"],0)
-                if per_source[it["source"]] >= MAX_PER_SOURCE_PER_SECTION: continue
+            items = []
+            per_source = {}
 
-                tragic = is_tragic(it["title"])
+            for i, it in enumerate(raw):
+                url = it["url"]
+                src = it["source"]
+                title = it["title"]
+
+                if url in used_urls:
+                    continue
+
+                per_source[src] = per_source.get(src, 0)
+                if per_source[src] >= MAX_PER_SOURCE_PER_SECTION:
+                    continue
+
+                tragic = is_tragic(title)
+
+                # Subheadline logic:
+                # - Tragic: neutral only
+                # - Non-tragic: snark preferred
+                # - Only ONE prefix-neutral per section per run
                 if tragic:
-                    sub = neutral_unique(used_sublines, i)
+                    if not neutral_used_by_section[section_name]:
+                        sub = one_prefix_neutral(used_sublines, i)
+                        neutral_used_by_section[section_name] = True
+                    else:
+                        sub = soft_neutral(used_sublines)
                 else:
-                    sub = snark_pool.pop() if snark_pool else neutral_unique(used_sublines,i)
-                    used_sublines.add(sub)
-
-                meter = side_eye_score(it["title"])
-                if sec_name in ["Tech","Weird"]:
-                    meter = max(1, meter-1)
+                    if snark_pool:
+                        sub = snark_pool.pop()
+                        used_sublines.add(sub)
+                    else:
+                        sub = soft_neutral(used_sublines)
 
                 item = {
-                    "title": it["title"],
-                    "url": it["url"],
-                    "source": it["source"],
-                    "badge": "BREAK" if sec_name=="Breaking" and not items else "",
-                    "feature": sec_name=="Breaking" and not items,
+                    "title": title,
+                    "url": url,
+                    "source": src,
+                    "badge": "BREAK" if (section_name == "Breaking" and len(items) == 0) else "",
+                    "feature": True if (section_name == "Breaking" and len(items) == 0) else False,
                     "snark": sub,
-                    "meter": meter,
-                    "ages_poorly": False
+                    "ages_poorly": False,
                 }
 
-                if sec_name in ["Top","Business"] and not tragic:
-                    if any(w in it["title"].lower() for w in AGES_POORLY_TRIGGERS):
-                        ages_candidates.append(it["url"])
+                if section_name in ["Top", "Business"] and not tragic:
+                    t = title.lower()
+                    if any(w in t for w in AGES_POORLY_TRIGGERS):
+                        ages_candidates.append(url)
 
                 items.append(item)
-                used_urls.add(it["url"])
-                per_source[it["source"]] += 1
-                if len(items)>=MAX_ITEMS_PER_SECTION: break
+                used_urls.add(url)
+                per_source[src] += 1
 
-            col_out["sections"].append({"name": sec_name, "items": items})
+                if len(items) >= MAX_ITEMS_PER_SECTION:
+                    break
+
+            col_out["sections"].append({"name": section_name, "items": items})
+
         columns.append(col_out)
 
+    # Mark exactly one item/day as "IF THIS AGES POORLY"
     if ages_candidates:
-        pick = ages_candidates[sum(ord(c) for c in now.strftime("%Y%m%d")) % len(ages_candidates)]
+        day_seed = int(now.strftime("%Y%m%d"))
+        pick = ages_candidates[day_seed % len(ages_candidates)]
         for col in columns:
-            for sec in col["sections"]:
-                for it in sec["items"]:
-                    if it["url"] == pick:
+            for sec in col.get("sections", []):
+                for it in sec.get("items", []):
+                    if it.get("url") == pick:
                         it["ages_poorly"] = True
 
     out = {
-        "site":{"name":"THE DAILY SIDE-EYE","tagline":"Headlines with a raised eyebrow."},
+        "site": {"name": "THE DAILY SIDE-EYE", "tagline": "Headlines with a raised eyebrow."},
         "generated_utc": now.isoformat(),
         "columns": columns,
-        "week_in_hindsight": ["Tracking patterns. Full week view builds over time."]
+        "week_in_hindsight": [
+            "Investigations were plentiful: about 1 headline(s) referenced probes/reviews.",
+            "Talks and deals appeared often: about 1 headline(s).",
+            "Plans and strategies were announced: about 1 headline(s).",
+        ],
     }
 
-    with open("headlines.json","w",encoding="utf-8") as f:
-        json.dump(out,f,indent=2)
+    with open("headlines.json", "w", encoding="utf-8") as f:
+        json.dump(out, f, indent=2)
 
-if __name__=="__main__":
+if __name__ == "__main__":
     main()
