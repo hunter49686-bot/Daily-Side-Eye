@@ -4,84 +4,162 @@
 <meta charset="utf-8">
 <title>The Daily Side-Eye</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
+
 <style>
-body{font-family:Arial,Helvetica,sans-serif;margin:0;background:#fff;color:#111}
-.wrap{max-width:1100px;margin:0 auto;padding:18px}
-h1{font-size:42px;margin:0}
-.tagline{color:#444;margin-top:6px}
-.columns{display:grid;grid-template-columns:1fr 1fr 1fr;gap:28px}
-@media(max-width:900px){.columns{grid-template-columns:1fr}}
-.section-title{font-weight:900;font-size:22px;letter-spacing:1px;margin:16px 0 6px}
-.rule{height:2px;background:#e5e5e5;margin-bottom:8px}
-.item{margin-bottom:16px}
-a.headline{font-weight:800;font-size:22px;color:#111;text-decoration:none}
-a.feature{color:#b00000;font-size:30px}
-.source{color:#666}
-.sub{font-size:16px;margin-top:4px}
-.badge{border:1px solid #bbb;border-radius:999px;padding:2px 8px;font-size:12px}
-.ages{border:1px solid #c8a400;background:#fff7cc;border-radius:999px;padding:2px 8px;font-size:12px}
-.meter{font-size:13px;color:#444;margin-left:6px}
-.footer{border-top:2px solid #e5e5e5;margin-top:24px;padding-top:12px}
+  body{font-family:Arial,Helvetica,sans-serif;margin:0;background:#fff;color:#111}
+  .wrap{max-width:1100px;margin:0 auto;padding:18px}
+  h1{font-size:42px;margin:0}
+  .tagline{color:#444;margin-top:6px}
+  .topbar{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+  .rightnow{color:#555;text-align:right;white-space:nowrap}
+  .hr{height:2px;background:#e5e5e5;margin:12px 0 14px}
+
+  .columns{display:grid;grid-template-columns:1fr 1fr 1fr;gap:28px}
+  @media(max-width:900px){.columns{grid-template-columns:1fr}}
+
+  /* Section titles bigger + bold (your request) */
+  .section-title{
+    font-weight:900;
+    font-size:24px;
+    letter-spacing:1px;
+    margin:18px 0 8px;
+  }
+  .rule{height:2px;background:#e5e5e5;margin-bottom:10px}
+
+  .item{margin-bottom:18px}
+  a.headline{font-weight:800;font-size:22px;color:#111;text-decoration:none}
+  a.feature{color:#b00000;font-size:30px}
+  .source{color:#666}
+
+  .sub{font-size:16px;margin-top:5px;color:#222}
+
+  .badge{border:1px solid #bbb;border-radius:999px;padding:2px 8px;font-size:12px;margin-right:6px}
+  .ages{border:1px solid #c8a400;background:#fff7cc;border-radius:999px;padding:2px 8px;font-size:12px;margin-right:6px}
+
+  /* SIDE-EYE METER (real graphics via CSS) */
+  .meter{display:inline-flex;align-items:center;gap:6px;margin-left:8px;vertical-align:middle}
+  .meter-label{font-size:12px;font-weight:800;letter-spacing:.5px;color:#444}
+  .dots{display:inline-flex;gap:3px}
+  .dot{
+    width:8px;height:8px;border-radius:999px;
+    border:1px solid #bbb;background:transparent;
+    display:inline-block;
+  }
+  .dot.on{background:#111;border-color:#111}
+
+  .footer{border-top:2px solid #e5e5e5;margin-top:26px;padding-top:14px}
+  .footer h2{margin:0 0 10px;font-size:22px;letter-spacing:1px}
 </style>
 </head>
+
 <body>
 <div class="wrap">
-<h1 id="title"></h1>
-<div id="tagline" class="tagline"></div>
-<p id="updated"></p>
 
-<div id="cols" class="columns"></div>
+  <div class="topbar">
+    <div>
+      <h1 id="title"></h1>
+      <div id="tagline" class="tagline"></div>
+    </div>
+    <div class="rightnow">
+      <div id="today"></div>
+      <div id="nowtime"></div>
+    </div>
+  </div>
 
-<div class="footer">
-<h2>THE WEEK IN HINDSIGHT</h2>
-<ul id="week"></ul>
-</div>
+  <div class="hr"></div>
+
+  <div id="updated"></div>
+
+  <div id="cols" class="columns"></div>
+
+  <div class="footer">
+    <h2>THE WEEK IN HINDSIGHT</h2>
+    <ul id="week"></ul>
+  </div>
+
 </div>
 
 <script>
-function meterDots(n){
-  n=Math.max(1,Math.min(5,n||1));
-  let s="";
-  for(let i=1;i<=5;i++) s+=i<=n?"●":"○";
-  return s;
-}
+  function renderMeter(score){
+    const n = Math.max(1, Math.min(5, Number(score || 1)));
+    let html = '<span class="meter"><span class="meter-label">SIDE-EYE</span><span class="dots">';
+    for(let i=1;i<=5;i++){
+      html += '<span class="dot ' + (i<=n ? 'on' : '') + '"></span>';
+    }
+    html += '</span></span>';
+    return html;
+  }
 
-fetch("headlines.json?cb="+Date.now())
-.then(r=>r.json())
-.then(d=>{
-  title.textContent=d.site.name;
-  tagline.textContent=d.site.tagline;
-  updated.textContent="Last updated: "+new Date(d.generated_utc).toLocaleString();
+  function fmtDate(d){
+    return d.toLocaleDateString(undefined, {weekday:'long', year:'numeric', month:'long', day:'numeric'});
+  }
+  function fmtTime(d){
+    return d.toLocaleTimeString(undefined, {hour:'numeric', minute:'2-digit'});
+  }
 
-  cols.innerHTML="";
-  d.columns.forEach(col=>{
-    const c=document.createElement("div");
-    col.sections.forEach(sec=>{
-      const s=document.createElement("div");
-      s.innerHTML=`<div class="section-title">${sec.name.toUpperCase()}</div><div class="rule"></div>`;
-      sec.items.forEach(it=>{
-        const div=document.createElement("div");
-        div.className="item";
-        div.innerHTML=`
-          ${it.ages_poorly?'<span class="ages">IF THIS AGES POORLY</span>':''}
-          ${it.badge?'<span class="badge">'+it.badge+'</span>':''}
-          <a class="headline ${it.feature?'feature':''}" href="${it.url}" target="_blank">${it.title}</a>
-          <span class="source"> (${it.source})</span>
-          <span class="meter"><b>SIDE-EYE</b> ${meterDots(it.meter)}</span>
-          <div class="sub">${it.snark}</div>
-        `;
-        s.appendChild(div);
+  // Cache-bust headlines.json so updates appear even on mobile caches
+  fetch("headlines.json?cb=" + Date.now())
+    .then(r => r.json())
+    .then(d => {
+      document.getElementById("title").textContent = d.site?.name || "THE DAILY SIDE-EYE";
+      document.getElementById("tagline").textContent = d.site?.tagline || "Headlines with a raised eyebrow.";
+
+      const now = new Date();
+      document.getElementById("today").textContent = fmtDate(now);
+      document.getElementById("nowtime").textContent = fmtTime(now);
+
+      const gen = new Date(d.generated_utc);
+      document.getElementById("updated").textContent = "Last updated: " + gen.toLocaleString();
+
+      const cols = document.getElementById("cols");
+      cols.innerHTML = "";
+
+      (d.columns || []).forEach(col => {
+        const c = document.createElement("div");
+
+        (col.sections || []).forEach(sec => {
+          const s = document.createElement("div");
+          s.innerHTML = '<div class="section-title">' + String(sec.name || "").toUpperCase() + '</div><div class="rule"></div>';
+
+          (sec.items || []).forEach(it => {
+            const div = document.createElement("div");
+            div.className = "item";
+
+            const ages = it.ages_poorly ? '<span class="ages">IF THIS AGES POORLY</span>' : '';
+            const badge = it.badge ? '<span class="badge">' + it.badge + '</span>' : '';
+            const headlineClass = "headline" + (it.feature ? " feature" : "");
+
+            div.innerHTML =
+              ages + badge +
+              '<a class="' + headlineClass + '" href="' + it.url + '" target="_blank" rel="noopener noreferrer">' +
+                it.title +
+              '</a>' +
+              '<span class="source"> (' + (it.source || "") + ')</span>' +
+              renderMeter(it.meter) +
+              '<div class="sub">' + (it.snark || "") + '</div>';
+
+            s.appendChild(div);
+          });
+
+          c.appendChild(s);
+        });
+
+        cols.appendChild(c);
       });
-      c.appendChild(s);
-    });
-    cols.appendChild(c);
-  });
 
-  week.innerHTML="";
-  (d.week_in_hindsight||[]).forEach(l=>{
-    const li=document.createElement("li");li.textContent=l;week.appendChild(li);
-  });
-});
+      const week = document.getElementById("week");
+      week.innerHTML = "";
+      (d.week_in_hindsight || []).forEach(line => {
+        const li = document.createElement("li");
+        li.textContent = line;
+        week.appendChild(li);
+      });
+    })
+    .catch(err => {
+      document.getElementById("updated").textContent = "Error loading headlines.json.";
+      console.error(err);
+    });
 </script>
+
 </body>
 </html>
