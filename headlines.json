@@ -3,7 +3,7 @@
     "name": "THE DAILY SIDE-EYE",
     "tagline": "Headlines with a raised eyebrow."
   },
-  "generated_utc": "2026-01-31T21:41:34.452804+00:00",
+  "generated_utc": "2026-01-31T22:52:12.295880+00:00",
   "columns": [
     {
       "sections": [
@@ -16,7 +16,7 @@
               "source": "CNN Top Stories",
               "badge": "BREAK",
               "feature": true,
-              "snark": "This is either a turning point or a rehearsal.",
+              "snark": "A quick fix becomes the long-term architecture.",
               "ages_poorly": false
             },
             {
@@ -25,7 +25,7 @@
               "source": "CNN Top Stories",
               "badge": "",
               "feature": false,
-              "snark": "Everyone is calm. On paper.",
+              "snark": "This will surely be handled with nuance.",
               "ages_poorly": false
             },
             {
@@ -34,16 +34,25 @@
               "source": "CNN Top Stories",
               "badge": "",
               "feature": false,
-              "snark": "The fine print is doing most of the work here.",
+              "snark": "Everyone is calm. On paper.",
               "ages_poorly": false
             },
             {
-              "title": "Latest Epstein revelations dig even deeper hole for Andrew",
-              "url": "https://www.bbc.com/news/articles/c20z4ze349jo?at_medium=RSS&at_campaign=rss",
+              "title": "Second Epstein victim claims she was sent to UK for sex with Andrew, lawyer says",
+              "url": "https://www.bbc.com/news/articles/clymxxlm3xzo?at_medium=RSS&at_campaign=rss",
               "source": "BBC Front Page",
               "badge": "",
               "feature": false,
-              "snark": "A timeline was provided. Nobody believes it.",
+              "snark": "Reporting continues.",
+              "ages_poorly": false
+            },
+            {
+              "title": "Andrew should testify to US Congress, Starmer suggests after new photos",
+              "url": "https://www.bbc.com/news/articles/cgrd7kpg9pwo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Front Page",
+              "badge": "",
+              "feature": false,
+              "snark": "The optics are doing most of the work here.",
               "ages_poorly": false
             },
             {
@@ -52,16 +61,7 @@
               "source": "BBC Front Page",
               "badge": "",
               "feature": false,
-              "snark": "Reporting continues.",
-              "ages_poorly": false
-            },
-            {
-              "title": "Zack Polanski is having fun. But can the Green leader become a serious player?",
-              "url": "https://www.bbc.com/news/articles/c4gv81124j1o?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Front Page",
-              "badge": "",
-              "feature": false,
-              "snark": "The optics are doing most of the work here.",
+              "snark": "Updates will follow.",
               "ages_poorly": false
             }
           ]
@@ -84,7 +84,7 @@
               "source": "NPR News",
               "badge": "",
               "feature": false,
-              "snark": "Authorities are investigating.",
+              "snark": "Updates will follow.",
               "ages_poorly": false
             },
             {
@@ -102,7 +102,7 @@
               "source": "Guardian World",
               "badge": "",
               "feature": false,
-              "snark": "This is a developing situation.",
+              "snark": "More information is expected.",
               "ages_poorly": false
             },
             {
@@ -120,7 +120,7 @@
               "source": "Guardian World",
               "badge": "",
               "feature": false,
-              "snark": "Reporting continues.",
+              "snark": "More information is expected.",
               "ages_poorly": false
             },
             {
@@ -147,7 +147,7 @@
               "source": "BBC World",
               "badge": "",
               "feature": false,
-              "snark": "This is a developing situation.",
+              "snark": "Details are still emerging.",
               "ages_poorly": false
             },
             {
@@ -219,7 +219,7 @@
               "source": "MarketWatch",
               "badge": "",
               "feature": false,
-              "snark": "Reporting continues.",
+              "snark": "This is a developing situation.",
               "ages_poorly": false
             },
             {
@@ -246,7 +246,7 @@
               "source": "BBC Business",
               "badge": "",
               "feature": false,
-              "snark": "More information is expected.",
+              "snark": "Reporting continues.",
               "ages_poorly": false
             },
             {
@@ -264,7 +264,7 @@
               "source": "BBC Business",
               "badge": "",
               "feature": false,
-              "snark": "Authorities are investigating.",
+              "snark": "This is a developing situation.",
               "ages_poorly": false
             },
             {
@@ -449,7 +449,7 @@
               "source": "Smithsonian",
               "badge": "",
               "feature": false,
-              "snark": "Authorities are investigating.",
+              "snark": "Updates will follow.",
               "ages_poorly": false
             },
             {
@@ -476,7 +476,7 @@
               "source": "BBC Science",
               "badge": "",
               "feature": false,
-              "snark": "Authorities are investigating.",
+              "snark": "Details are still emerging.",
               "ages_poorly": false
             },
             {
@@ -485,7 +485,7 @@
               "source": "BBC Science",
               "badge": "",
               "feature": false,
-              "snark": "More information is expected.",
+              "snark": "Details are still emerging.",
               "ages_poorly": false
             },
             {
@@ -503,7 +503,7 @@
               "source": "Guardian US",
               "badge": "",
               "feature": false,
-              "snark": "Authorities are investigating.",
+              "snark": "Details are still emerging.",
               "ages_poorly": false
             },
             {
@@ -521,7 +521,7 @@
               "source": "Guardian US",
               "badge": "",
               "feature": false,
-              "snark": "More information is expected.",
+              "snark": "Updates will follow.",
               "ages_poorly": false
             }
           ]
@@ -552,6 +552,6 @@
   "week_in_hindsight": [
     "\u2022 Minnesota: Federal judge denies request to block ICE surge in Minnesota",
     "\u2022 Israeli: South Africa expels top Israeli diplomat over \u2018insulting attacks\u2019 on president",
-    "\u2022 Dominion: Here are the 20 specific Fox broadcasts and tweets Dominion says were defamatory"
+    "\u2022 Andrew: Andrew should testify to US Congress, Starmer suggests after new photos"
   ]
 }
