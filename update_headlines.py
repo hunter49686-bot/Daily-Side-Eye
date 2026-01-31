@@ -1,9 +1,13 @@
 import json
 import re
+import random
 from datetime import datetime, timezone
 
 import feedparser
 
+# -------------------------
+# FEEDS
+# -------------------------
 FEEDS = {
     "Top": [
         ("BBC World", "https://feeds.bbci.co.uk/news/world/rss.xml"),
@@ -19,22 +23,85 @@ FEEDS = {
     ],
 }
 
+# -------------------------
+# SNARK (large, dry, sarcastic)
+# -------------------------
 SNARK = [
-    "Strong statement. Details pending.",
-    "Everyone is monitoring the situation.",
-    "This will surely calm everyone down.",
-    "A bold claim enters the chat.",
-    "Nobody panicked. Publicly.",
+    "Officials say it's under control. So that's something.",
+    "A confident plan has been announced. Reality is pending.",
+    "Everyone is calm. On paper.",
+    "Sources confirm: people have opinions.",
+    "This will surely be handled with nuance.",
+    "A decision was made. Consequences scheduled for later.",
+    "A timeline was provided. Nobody believes it.",
+    "A new policy arrives, wearing a trench coat of exceptions.",
+    "Experts disagree, loudly and on schedule.",
+    "An investigation begins. Again.",
+    "A statement was issued. Substance not included.",
+    "This is either nothing or everything. Stay tuned.",
+    "Leaders urged restraint, then did the opposite.",
+    "A 'temporary' measure enters its permanent era.",
+    "A bold prediction, fresh out of context.",
+    "Officials clarified the confusion with more confusion.",
+    "The situation remains fluid. Like Jell-O.",
+    "A committee has been formed. Problem solved, basically.",
+    "Numbers were cited. Interpretation may vary.",
+    "A spokesperson reassured everyone with vowels and verbs.",
+    "A compromise is proposed. Someone will hate it.",
+    "A surprise move surprises exactly nobody.",
+    "The plan is simple. The details are complicated.",
+    "An 'unprecedented' event, right on schedule.",
+    "A leak appears. Accountability does not.",
+    "A 'hard line' is drawn in pencil.",
+    "Expectations were managed. Results were not.",
+    "A win is declared. The scoreboard is unavailable.",
+    "A debate erupts over what words mean.",
+    "A headline confidently outruns the facts.",
+    "The fine print is doing most of the work here.",
+    "A promise is made. The follow-through is optional.",
+    "A familiar problem returns for an encore performance.",
+    "A big announcement, with a small footnote doing cardio.",
+    "A reform effort begins by renaming things.",
+    "A decisive moment, sponsored by ambiguity.",
+    "The issue is complex. The takes are not.",
+    "A new strategy arrives: hope.",
+    "Another day, another 'exclusive' that isn't.",
+    "The market reacted emotionally. As usual.",
+    "A breakthrough is claimed. Validation pending.",
+    "A 'common sense' solution sparks uncommon disagreement.",
+    "A statement walks back the statement.",
+    "A plan is unveiled. Implementation sold separately.",
+    "Officials 'welcomed' the news. Whatever that means.",
+    "A technical glitch causes human drama.",
+    "A quick fix becomes the long-term architecture.",
+    "Everyone asked questions. Few liked the answers.",
+    "A review is underway. Translation: not today.",
+    "A new record is set. Whether that's good is unclear.",
+    "A timeline slips quietly into the night.",
+    "A decision is postponed for maximum efficiency.",
+    "A 'transparent' process offers frosted glass.",
+    "The report recommends more reports.",
+    "A new rule appears. Enforcement TBD.",
+    "A 'surprising' twist, telegraphed for weeks.",
+    "A simple explanation is bravely ignored.",
+    "A plan meets reality. Reality wins.",
+    "A spokesperson says the quiet part out loud.",
+    "A revised estimate replaces the previous guess.",
+    "A confident narrative meets inconvenient data.",
+    "The details are scarce, but the certainty is abundant.",
+    "A bold pivot, executed in slow motion.",
+    "A dispute escalates. Calm statements follow.",
+    "The solution is obvious, except for everyone disagreeing.",
 ]
 
+# -------------------------
+# TRAGEDY FILTER
+# -------------------------
 TRAGEDY_KEYWORDS = [
-    "killed", "dead", "death", "deaths",
-    "shooting", "shooter", "murder", "homicide",
-    "war", "bomb", "bombing", "explosion", "attack",
-    "crash", "collision", "derail",
-    "earthquake", "wildfire", "flood", "hurricane",
-    "victim", "victims", "wounded", "injured",
-    "terror",
+    "killed", "dead", "death", "dies", "shooting", "shooter",
+    "murder", "war", "bomb", "explosion", "attack",
+    "crash", "collision", "earthquake", "wildfire", "flood",
+    "victim", "victims", "injured", "wounded", "terror"
 ]
 
 NEUTRAL_FALLBACKS = [
@@ -44,12 +111,12 @@ NEUTRAL_FALLBACKS = [
     "Situation remains unclear.",
 ]
 
+# -------------------------
+# HELPERS
+# -------------------------
 def clean_title(text):
     text = re.sub(r"\s+", " ", text or "").strip()
     return text[:160]
-
-def pick_snark(i):
-    return SNARK[i % len(SNARK)]
 
 def is_tragic(title):
     t = (title or "").lower()
@@ -58,10 +125,20 @@ def is_tragic(title):
 def neutral_line(i):
     return NEUTRAL_FALLBACKS[i % len(NEUTRAL_FALLBACKS)]
 
-def parse_feed(source_name, feed_url):
+def build_snark_pool():
+    pool = SNARK[:]
+    random.shuffle(pool)
+    return pool
+
+def get_unique_snark(pool, used_count):
+    if pool:
+        return pool.pop()
+    return f"Everyone is monitoring the situation. (v{used_count + 1})"
+
+def parse_feed(source, url):
     items = []
     try:
-        feed = feedparser.parse(feed_url)
+        feed = feedparser.parse(url)
         for entry in feed.entries[:25]:
             title = clean_title(getattr(entry, "title", ""))
             link = getattr(entry, "link", "")
@@ -69,7 +146,7 @@ def parse_feed(source_name, feed_url):
                 items.append({
                     "title": title,
                     "url": link,
-                    "source": source_name,
+                    "source": source
                 })
     except Exception:
         return []
@@ -77,50 +154,60 @@ def parse_feed(source_name, feed_url):
 
 def dedupe(items):
     seen = set()
-    result = []
-    for item in items:
-        url = item.get("url", "")
-        if not url or url in seen:
+    out = []
+    for it in items:
+        u = it.get("url", "")
+        if not u or u in seen:
             continue
-        seen.add(url)
-        result.append(item)
-    return result
+        seen.add(u)
+        out.append(it)
+    return out
 
+# -------------------------
+# MAIN
+# -------------------------
 def main():
-    section_names = ["Top", "Business", "World / Tech / Weird"]
     columns = [{"sections": []}, {"sections": []}, {"sections": []}]
+    snark_pool = build_snark_pool()
+    snark_used = 0
 
-    for idx, section in enumerate(section_names):
+    for col_idx, section_name in enumerate(FEEDS.keys()):
         combined = []
-        for source, feed_url in FEEDS.get(section, []):
-            combined.extend(parse_feed(source, feed_url))
+        for source, url in FEEDS[section_name]:
+            combined.extend(parse_feed(source, url))
 
         combined = dedupe(combined)[:12]
 
         rendered = []
         for i, item in enumerate(combined):
             title = item["title"]
+            tragic = is_tragic(title)
+
+            snark = neutral_line(i) if tragic else get_unique_snark(snark_pool, snark_used)
+            if not tragic:
+                snark_used += 1
+
             rendered.append({
                 "title": title,
                 "url": item["url"],
                 "source": item["source"],
-                "badge": "TOP" if section == "Top" and i == 0 else "",
-                "feature": section == "Top" and i == 0,
-                "snark": neutral_line(i) if is_tragic(title) else pick_snark(i),
+                "badge": "TOP" if section_name == "Top" and i == 0 else "",
+                "feature": section_name == "Top" and i == 0,
+                "snark": snark
             })
 
-        columns[idx]["sections"].append({
-            "name": section,
-            "items": rendered,
+        columns[col_idx]["sections"].append({
+            "name": section_name,
+            "items": rendered
         })
 
     data = {
         "site": {
             "name": "THE DAILY SIDE-EYE",
-            "tagline": "Dry news links. Equal-opportunity skepticism.",
+            "tagline": "Dry news links. Equal-opportunity skepticism."
         },
         "generated_utc": datetime.now(timezone.utc).isoformat(),
-        "columns": columns,
+        "columns": columns
     }
 
     with open("headlines.json", "w", encoding="utf-8") as f:
