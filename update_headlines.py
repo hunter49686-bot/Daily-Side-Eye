@@ -4,10 +4,6 @@ from datetime import datetime, timezone
 
 import feedparser
 
-# -----------------------------
-# RSS FEEDS (keep these simple)
-# Use HTTPS wherever possible.
-# -----------------------------
 FEEDS = {
     "Top": [
         ("BBC World", "https://feeds.bbci.co.uk/news/world/rss.xml"),
@@ -25,7 +21,7 @@ FEEDS = {
 
 SNARK = [
     "Strong statement. Details pending.",
-    "Everyone is ‘monitoring the situation.’",
+    "Everyone is monitoring the situation.",
     "This will surely calm everyone down.",
     "A bold claim enters the chat.",
     "Nobody panicked. Publicly.",
@@ -38,7 +34,7 @@ TRAGEDY_KEYWORDS = [
     "crash", "collision", "derail",
     "earthquake", "wildfire", "flood", "hurricane",
     "victim", "victims", "wounded", "injured",
-    "terror"
+    "terror",
 ]
 
 NEUTRAL_FALLBACKS = [
@@ -48,81 +44,83 @@ NEUTRAL_FALLBACKS = [
     "Situation remains unclear.",
 ]
 
-def clean_title(t: str) -> str:
-    t = re.sub(r"\s+", " ", (t or "")).strip()
-    return t[:160]
+def clean_title(text):
+    text = re.sub(r"\s+", " ", text or "").strip()
+    return text[:160]
 
-def pick_snark(i: int) -> str:
+def pick_snark(i):
     return SNARK[i % len(SNARK)]
 
-def is_tragic(title: str) -> bool:
+def is_tragic(title):
     t = (title or "").lower()
     return any(word in t for word in TRAGEDY_KEYWORDS)
 
-def neutral_line(i: int) -> str:
+def neutral_line(i):
     return NEUTRAL_FALLBACKS[i % len(NEUTRAL_FALLBACKS)]
 
-def parse_feed(source_name: str, feed_url: str):
-    """
-    Returns a list of dicts: {title, url, source}
-    This function is defensive: it never raises, it just returns fewer items.
-    """
+def parse_feed(source_name, feed_url):
     items = []
     try:
-        d = feedparser.parse(feed_url)
-        for e in getattr(d, "entries", [])[:25]:
-            title = clean_title(getattr(e, "title", ""))
-            link = getattr(e, "link", "")
+        feed = feedparser.parse(feed_url)
+        for entry in feed.entries[:25]:
+            title = clean_title(getattr(entry, "title", ""))
+            link = getattr(entry, "link", "")
             if title and link:
-                items.append({"title": title, "url": link, "source": source_name})
+                items.append({
+                    "title": title,
+                    "url": link,
+                    "source": source_name,
+                })
     except Exception:
-        # If a feed is down or malformed, just skip it.
         return []
     return items
 
 def dedupe(items):
     seen = set()
-    out = []
-    for it in items:
-        u = it.get("url", "")
-        if not u or u in seen:
+    result = []
+    for item in items:
+        url = item.get("url", "")
+        if not url or url in seen:
             continue
-        seen.add(u)
-        out.append(it)
-    return out
+        seen.add(url)
+        result.append(item)
+    return result
 
 def main():
     section_names = ["Top", "Business", "World / Tech / Weird"]
     columns = [{"sections": []}, {"sections": []}, {"sections": []}]
 
-    for idx, sec in enumerate(section_names):
+    for idx, section in enumerate(section_names):
         combined = []
-        for src, feed_url in FEEDS.get(sec, []):
-            combined.extend(parse_feed(src, feed_url))
+        for source, feed_url in FEEDS.get(section, []):
+            combined.extend(parse_feed(source, feed_url))
 
         combined = dedupe(combined)[:12]
 
-        rendered_items = []
-        for i, it in enumerate(combined):
-            title = it["title"]
-            rendered_items.append({
+        rendered = []
+        for i, item in enumerate(combined):
+            title = item["title"]
+            rendered.append({
                 "title": title,
-                "url": it["url"],
-                "source": it["source"],
-                "badge": "TOP" if (sec == "Top" and i == 0) else "",
-                "feature": True if (sec == "Top" and i == 0) else False,
+                "url": item["url"],
+                "source": item["source"],
+                "badge": "TOP" if section == "Top" and i == 0 else "",
+                "feature": section == "Top" and i == 0,
                 "snark": neutral_line(i) if is_tragic(title) else pick_snark(i),
             })
 
-        columns[idx]["sections"].append({"name": sec, "items": rendered_items})
+        columns[idx]["sections"].append({
+            "name": section,
+            "items": rendered,
+        })
 
     data = {
         "site": {
             "name": "THE DAILY SIDE-EYE",
-            "tagline": "Dry news links. Equal-opportunity skepticism."
+            "tagline": "Dry news links. Equal-opportunity skepticism.",
         },
         "generated_utc": datetime.now(timezone.utc).isoformat(),
-        "columns": columns
+        "columns": columns,
     }
 
     with open("headlines.json", "w", encoding="utf-8") as f:
