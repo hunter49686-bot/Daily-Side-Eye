@@ -3,7 +3,7 @@
     "name": "THE DAILY SIDE-EYE",
     "tagline": "Headlines with a raised eyebrow."
   },
-  "generated_utc": "2026-01-31T05:18:15.056165+00:00",
+  "generated_utc": "2026-01-31T05:27:15.984108+00:00",
   "columns": [
     {
       "sections": [
@@ -11,60 +11,20 @@
           "name": "Breaking",
           "items": [
             {
-              "title": "Epstein invited 'The Duke' to meet Russian woman",
-              "url": "https://www.bbc.com/news/articles/c4g5490xmkeo?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Front Page",
+              "title": "LIVE: ABC News Live",
+              "url": "https://abcnews.go.com/Live/video/abcnews-live-41463246",
+              "source": "ABC Top Stories",
               "badge": "BREAK",
               "feature": true,
-              "snark": "This will surely be handled with nuance."
+              "snark": "A headline that begs for an edit button."
             },
             {
-              "title": "I mocked the Saudi leader on YouTube - then my phone was hacked and I was beaten up in London",
-              "url": "https://www.bbc.com/news/articles/cj6w3zgden0o?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Front Page",
+              "title": "US government shuts down partially over homeland security funding",
+              "url": "https://www.theguardian.com/us-news/2026/jan/31/us-government-shutdown-dhs-funding",
+              "source": "The Guardian US",
               "badge": "",
               "feature": false,
-              "snark": "A compromise is proposed. Someone will hate it."
-            },
-            {
-              "title": "'I spoke to ChatGPT 8 times a day' - Gen Z's loneliness 'crisis'",
-              "url": "https://www.bbc.com/news/articles/cg4ewrw2drpo?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Front Page",
-              "badge": "",
-              "feature": false,
-              "snark": "A statement was issued. Substance not included."
-            },
-            {
-              "title": "Ukraine sees quieter night as Trump says Putin will not attack its cities",
-              "url": "https://www.bbc.com/news/articles/c4g4yj92kwro?at_medium=RSS&at_campaign=rss",
-              "source": "BBC World",
-              "badge": "",
-              "feature": false,
-              "snark": "For now: Updates may follow. More as it develops."
-            },
-            {
-              "title": "Civil rights investigation opened into Alex Pretti shooting",
-              "url": "https://www.bbc.com/news/articles/c5yvw89p3p1o?at_medium=RSS&at_campaign=rss",
-              "source": "BBC World",
-              "badge": "",
-              "feature": false,
-              "snark": "Currently: No clear timeline yet. Updates expected."
-            },
-            {
-              "title": "At least 170 killed in air strikes during Myanmar's widely criticised election, UN says",
-              "url": "https://www.bbc.com/news/articles/cg5gl8grv66o?at_medium=RSS&at_campaign=rss",
-              "source": "BBC World",
-              "badge": "",
-              "feature": false,
-              "snark": "So far: Authorities are investigating. Awaiting confirmation."
-            },
-            {
-              "title": "Some on-air claims about Dominion Voting Systems were false, Fox News acknowledges in statement after deal is announced",
-              "url": "https://www.cnn.com/business/live-news/fox-news-dominion-trial-04-18-23/index.html",
-              "source": "CNN Top Stories",
-              "badge": "",
-              "feature": false,
-              "snark": "The fine print is doing most of the work here."
+              "snark": "A calm exterior, frantic interior."
             },
             {
               "title": "Dominion still has pending lawsuits against election deniers such as Rudy Giuliani and Sidney Powell",
@@ -72,164 +32,71 @@
               "source": "CNN Top Stories",
               "badge": "",
               "feature": false,
-              "snark": "A bold prediction, fresh out of context."
+              "snark": "Everyone agrees. On nothing."
             },
-            {
-              "title": "Here are the 20 specific Fox broadcasts and tweets Dominion says were defamatory",
-              "url": "https://www.cnn.com/2023/04/17/media/dominion-fox-news-allegations/index.html",
-              "source": "CNN Top Stories",
-              "badge": "",
-              "feature": false,
-              "snark": "Expectations were managed. Results were not."
-            },
-            {
-              "title": "How Europe Is Moving to Reduce Dependence on Trump",
-              "url": "https://www.nytimes.com/2026/01/31/world/europe/eu-trump-greenland-europe.html",
-              "source": "NYT HomePage",
-              "badge": "",
-              "feature": false,
-              "snark": "Experts disagree, loudly and on schedule."
-            },
-            {
-              "title": "U.S. Allies Are Drawing Closer to China, but on Beijing’s Terms",
-              "url": "https://www.nytimes.com/2026/01/31/world/asia/trump-xi-starmer-carney.html",
-              "source": "NYT HomePage",
-              "badge": "",
-              "feature": false,
-              "snark": "Officials say it's under control. So that's something."
-            },
-            {
-              "title": "ICE Expands Power of Agents to Arrest People Without Warrants",
-              "url": "https://www.nytimes.com/2026/01/30/us/politics/ice-expands-power-agents-warrants.html",
-              "source": "NYT HomePage",
-              "badge": "",
-              "feature": false,
-              "snark": "Currently: Situation remains unclear. Details pending."
-            },
-            {
-              "title": "More than 200 killed in coltan mine collapse in eastern DRC, officials say",
-              "url": "https://www.theguardian.com/world/2026/jan/30/more-than-200-killed-in-coltan-mine-collapse-in-eastern-drc-officials-say",
-              "source": "The Guardian World",
-              "badge": "",
-              "feature": false,
-              "snark": "So far: Additional confirmation is pending. More as it develops."
-            },
-            {
-              "title": "Islamic State claims attack on international airport and airbase in Niger",
-              "url": "https://www.theguardian.com/world/2026/jan/30/niger-airport-airbase-attack-islamic-state",
-              "source": "The Guardian World",
-              "badge": "",
-              "feature": false,
-              "snark": "Currently: Additional confirmation is pending. More as it develops."
-            },
-            {
-              "title": "South Africa expels top Israeli diplomat over ‘insulting attacks’ on president",
-              "url": "https://www.theguardian.com/world/2026/jan/30/south-africa-expels-israel-diplomat-insults-president",
-              "source": "The Guardian World",
-              "badge": "",
-              "feature": false,
-              "snark": "At this point: Updates may follow. Details pending."
-            }
-          ]
-        },
-        {
-          "name": "Top",
-          "items": [
             {
               "title": "Takeaways from the millions of newly released Epstein files",
               "url": "https://www.bbc.com/news/articles/cevnmxyy4wjo?at_medium=RSS&at_campaign=rss",
-              "source": "BBC World",
-              "badge": "TOP",
-              "feature": true,
-              "snark": "A new strategy arrives: hope."
-            },
-            {
-              "title": "Schitt's Creek and Home Alone star Catherine O'Hara dies aged 71",
-              "url": "https://www.bbc.com/news/articles/czr4jn4621lo?at_medium=RSS&at_campaign=rss",
-              "source": "BBC World",
+              "source": "BBC Front Page",
               "badge": "",
               "feature": false,
-              "snark": "Details are still emerging."
+              "snark": "A compromise is proposed. Someone will hate it."
             },
             {
-              "title": "UN risks 'imminent financial collapse', secretary general warns",
-              "url": "https://www.bbc.com/news/articles/cr579mdv4m7o?at_medium=RSS&at_campaign=rss",
-              "source": "BBC World",
+              "title": "3 million pages of Epstein documents released",
+              "url": "https://www.nbcnews.com/nightly-news/video/3-million-pages-of-epstein-documents-released-256926277708",
+              "source": "NBC Top Stories",
               "badge": "",
               "feature": false,
-              "snark": "Authorities are investigating."
+              "snark": "A 'common sense' solution sparks uncommon disagreement."
             },
             {
-              "title": "One wrong move and it could all go wrong - the men clearing deadly undersea Russian mines",
-              "url": "https://www.bbc.com/news/articles/c70lgwprw7ko?at_medium=RSS&at_campaign=rss",
-              "source": "BBC World",
+              "title": "Thousands of anti-ICE protesters take to US streets in day of action",
+              "url": "https://www.theguardian.com/us-news/2026/jan/30/ice-protests-friday-strike",
+              "source": "The Guardian US",
               "badge": "",
               "feature": false,
-              "snark": "Situation remains unclear."
+              "snark": "They said 'soon.' They meant 'sometime.'"
             },
             {
-              "title": "Trump picks Kevin Warsh to lead the US Federal Reserve",
-              "url": "https://www.bbc.com/news/articles/c2d7yddrl2xo?at_medium=RSS&at_campaign=rss",
-              "source": "BBC World",
+              "title": "Trump's Cuba oil tariff threat creates new diplomatic challenge for Mexico's Sheinbaum",
+              "url": "https://www.latimes.com/world-nation/story/2026-01-30/trumps-cuba-oil-tariff-threat-creates-new-diplomatic-challenge-for-mexicos-sheinbaum",
+              "source": "LA Times - Nation",
               "badge": "",
               "feature": false,
-              "snark": "Developing story."
+              "snark": "A minor detail becomes the main event."
             },
             {
-              "title": "This tiny Australian town is up for sale - but the locals don't want to leave",
-              "url": "https://www.bbc.com/news/articles/c3wz49z6gyyo?at_medium=RSS&at_campaign=rss",
-              "source": "BBC World",
+              "title": "Epstein invited 'The Duke' to meet Russian woman",
+              "url": "https://www.bbc.com/news/articles/c4g5490xmkeo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Front Page",
               "badge": "",
               "feature": false,
-              "snark": "An 'unprecedented' event, right on schedule."
+              "snark": "Confidence was expressed. Evidence was not."
             },
             {
-              "title": "Luigi Mangione will not face death penalty if convicted, judge rules",
-              "url": "https://www.bbc.com/news/articles/c78egdg3r0po?at_medium=RSS&at_campaign=rss",
-              "source": "BBC World",
+              "title": "Partial government shutdown goes into effect, as Senate deal awaits House vote",
+              "url": "https://abcnews.go.com/Politics/graham-blockade-stalls-government-funding-deal-hours-shutdown/story?id=129712452",
+              "source": "ABC Top Stories",
               "badge": "",
               "feature": false,
-              "snark": "Authorities are investigating."
+              "snark": "A plan exists. The details are on a separate planet."
             },
             {
-              "title": "This army chief threatened to castrate opposition leader and claimed descent from Jesus",
-              "url": "https://www.bbc.com/news/articles/cdjnp9m8wvgo?at_medium=RSS&at_campaign=rss",
-              "source": "BBC World",
+              "title": "Senate approves spending package allowing for DHS funding negotiation",
+              "url": "https://www.nbcnews.com/video/senate-approves-spending-package-allowing-for-dhs-funding-negotiation-256927813916",
+              "source": "NBC Top Stories",
               "badge": "",
               "feature": false,
-              "snark": "A decisive moment, sponsored by ambiguity."
+              "snark": "Everyone is monitoring the situation. Vigorously."
             },
             {
-              "title": "Iran wants to make deal rather than face military action, Trump says",
-              "url": "https://www.bbc.com/news/articles/cd9ew2kwj0lo?at_medium=RSS&at_campaign=rss",
-              "source": "BBC World",
+              "title": "Shutdown nears as lawmakers brace for next round of ICE negotiations",
+              "url": "https://www.latimes.com/politics/story/2026-01-30/shutdown-senate-ice-negotiations",
+              "source": "LA Times - Nation",
               "badge": "",
               "feature": false,
-              "snark": "A win is declared. The scoreboard is unavailable."
-            },
-            {
-              "title": "Mali lawmaker jailed in Ivory Coast for insulting president",
-              "url": "https://www.bbc.com/news/articles/c74vgxp0zr4o?at_medium=RSS&at_campaign=rss",
-              "source": "BBC World",
-              "badge": "",
-              "feature": false,
-              "snark": "A timeline slips quietly into the night."
-            },
-            {
-              "title": "Stay or go - what's next for coyote that escaped to Alcatraz?",
-              "url": "https://www.bbc.com/news/articles/c0q4y95yv4jo?at_medium=RSS&at_campaign=rss",
-              "source": "BBC World",
-              "badge": "",
-              "feature": false,
-              "snark": "A 'transparent' process offers frosted glass."
-            },
-            {
-              "title": "Former CNN host Don Lemon charged over anti-ICE protest at Minnesota church",
-              "url": "https://www.bbc.com/news/articles/c24gm3dz36po?at_medium=RSS&at_campaign=rss",
-              "source": "BBC World",
-              "badge": "",
-              "feature": false,
-              "snark": "A technical glitch causes human drama."
+              "snark": "A modest proposal, with immodest confidence."
             }
           ]
         }
@@ -241,12 +108,60 @@
           "name": "Business",
           "items": [
             {
+              "title": "Seahawks sale rumors swirl ahead of Super Bowl, Paul Allen's estate denies report",
+              "url": "https://abcnews.go.com/Business/wireStory/seahawks-sale-rumors-swirl-ahead-super-bowl-paul-129723740",
+              "source": "ABC Business",
+              "badge": "",
+              "feature": false,
+              "snark": "Sources say. Sources always say."
+            },
+            {
+              "title": "How major US stock indexes fared Friday, 1/30/2026",
+              "url": "https://abcnews.go.com/Business/wireStory/major-us-stock-indexes-fared-friday-1302026-129718694",
+              "source": "ABC Business",
+              "badge": "",
+              "feature": false,
+              "snark": "This is why we can’t have nice things."
+            },
+            {
               "title": "Trump picks Kevin Warsh to lead the US Federal Reserve",
               "url": "https://www.bbc.com/news/articles/c2d7yddrl2xo?at_medium=RSS&at_campaign=rss",
               "source": "BBC Business",
               "badge": "",
               "feature": false,
-              "snark": "Developing story."
+              "snark": "An investigation begins. Answers do not."
+            },
+            {
+              "title": "Trump says U.S. will decertify Canadian-made planes, threatens 50% tariff",
+              "url": "https://www.washingtonpost.com/politics/2026/01/30/us-trump-canada-aircraft-tariff/",
+              "source": "Washington Post - Business",
+              "badge": "",
+              "feature": false,
+              "snark": "A new chapter in an old mess."
+            },
+            {
+              "title": "Companies are getting hit by rising prices, just like consumers",
+              "url": "https://www.nbcnews.com/business/economy/inflation-consumer-businesses-higher-prices-ppi-december-rcna256712",
+              "source": "NBC Business",
+              "badge": "",
+              "feature": false,
+              "snark": "This is fine. (It is not fine.)"
+            },
+            {
+              "title": "Silver plummets after Trump taps Kevin Warsh to chair Federal Reserve",
+              "url": "https://www.nbcnews.com/business/markets/silver-gold-trump-kevin-warsh-rcna256777",
+              "source": "NBC Business",
+              "badge": "",
+              "feature": false,
+              "snark": "A quick briefing. A long aftermath."
+            },
+            {
+              "title": "Trump taps career staffer to lead statistics agency whose chief he fired",
+              "url": "https://www.washingtonpost.com/business/2026/01/30/trump-nominates-matsumoto-bls/",
+              "source": "Washington Post - Business",
+              "badge": "",
+              "feature": false,
+              "snark": "A measured response, using a broken ruler."
             },
             {
               "title": "Will Trump's pick to lead US central bank get him the change he wants?",
@@ -254,87 +169,7 @@
               "source": "BBC Business",
               "badge": "",
               "feature": false,
-              "snark": "A 'common sense' solution sparks uncommon disagreement."
-            },
-            {
-              "title": "Three reasons for the record rise in gold prices, and one why they are falling",
-              "url": "https://www.bbc.com/news/articles/c87r2700dq8o?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Business",
-              "badge": "",
-              "feature": false,
-              "snark": "The plan is simple. The details are complicated."
-            },
-            {
-              "title": "Labubu to open seven UK shops, after PM's China visit",
-              "url": "https://www.bbc.com/news/articles/cgm4kyw482eo?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Business",
-              "badge": "",
-              "feature": false,
-              "snark": "A confident plan has been announced. Reality is pending."
-            },
-            {
-              "title": "'We hope it's not the end': Firm behind Prince George's baby shoes warns it may close",
-              "url": "https://www.bbc.com/news/articles/c78eyv1zdl3o?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Business",
-              "badge": "",
-              "feature": false,
-              "snark": "Developing story."
-            },
-            {
-              "title": "Visit the North Sea oil field used to store greenhouse gas",
-              "url": "https://www.bbc.com/news/articles/cq5y7dd284do?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Business",
-              "badge": "",
-              "feature": false,
-              "snark": "Numbers were cited. Interpretation may vary."
-            },
-            {
-              "title": "Millions to get £150 off energy bills for further five years",
-              "url": "https://www.bbc.com/news/articles/cedw468e50wo?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Business",
-              "badge": "",
-              "feature": false,
-              "snark": "A quick fix becomes the long-term architecture."
-            },
-            {
-              "title": "Healthcare, visas and whisky: What did UK and China get from Starmer's visit?",
-              "url": "https://www.bbc.com/news/articles/cm2j04lk83zo?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Business",
-              "badge": "",
-              "feature": false,
-              "snark": "The solution is obvious, except for everyone disagreeing."
-            },
-            {
-              "title": "Trump says 'very dangerous' for UK to do business with China as Starmer lands in Shanghai",
-              "url": "https://www.bbc.com/news/articles/c0keyyeyr41o?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Business",
-              "badge": "",
-              "feature": false,
-              "snark": "The details are scarce, but the certainty is abundant."
-            },
-            {
-              "title": "Is your boss toxic? This is how to handle them",
-              "url": "https://www.bbc.com/news/articles/c23r2xkdk2go?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Business",
-              "badge": "",
-              "feature": false,
-              "snark": "A familiar problem returns for an encore performance."
-            },
-            {
-              "title": "Why the US dollar hit a four-year low and could fall further",
-              "url": "https://www.bbc.com/news/articles/czjg2rlyvyzo?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Business",
-              "badge": "",
-              "feature": false,
-              "snark": "A 'surprising' twist, telegraphed for weeks."
-            },
-            {
-              "title": "Apple reports best-ever iPhone sales as Mac dips",
-              "url": "https://www.bbc.com/news/articles/cy8yw190q83o?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Business",
-              "badge": "",
-              "feature": false,
-              "snark": "Officials 'welcomed' the news. Whatever that means."
+              "snark": "A bold claim enters witness protection."
             }
           ]
         }
@@ -343,113 +178,111 @@
     {
       "sections": [
         {
-          "name": "World / Tech / Weird",
+          "name": "World / Politics",
           "items": [
             {
-              "title": "Apple reports best-ever iPhone sales as Mac dips",
-              "url": "https://www.bbc.com/news/articles/cy8yw190q83o?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Tech",
+              "title": "From stilettos to safety concerns on Inauguration Day: 4 takeaways from Melania Trump's new movie",
+              "url": "https://abcnews.go.com/US/wireStory/stilettos-safety-concerns-inauguration-day-4-takeaways-melania-129724947",
+              "source": "ABC US Headlines",
               "badge": "",
               "feature": false,
-              "snark": "This is either nothing or everything. Stay tuned."
+              "snark": "File under: avoidable."
             },
             {
-              "title": "He calls me sweetheart and winks at me - but he's not my boyfriend, he's AI",
-              "url": "https://www.bbc.com/news/articles/c62njv82n0wo?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Tech",
+              "title": "Schitt's Creek and Home Alone star Catherine O'Hara dies aged 71",
+              "url": "https://www.bbc.com/news/articles/czr4jn4621lo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC US & Canada",
               "badge": "",
               "feature": false,
-              "snark": "A decision is postponed for maximum efficiency."
+              "snark": "This is either progress or performance art."
             },
             {
-              "title": "UK bans Coinbase ads implying crypto can ease cost of living concerns",
-              "url": "https://www.bbc.com/news/articles/cx2yv31482vo?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Tech",
+              "title": "Through carnage of the government crackdown, Iranian protesters looked to Trump",
+              "url": "https://www.nbcnews.com/world/iran/carnage-government-crackdown-iranian-protesters-looked-trump-rcna256364",
+              "source": "NBC World",
               "badge": "",
               "feature": false,
-              "snark": "A timeline was provided. Nobody believes it."
+              "snark": "The explanation is technically words."
             },
             {
-              "title": "Driverless taxis set to launch in UK as soon as September",
-              "url": "https://www.bbc.com/news/articles/czej9n578k9o?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Tech",
+              "title": "More than 200 killed in coltan mine collapse in eastern DRC, officials say",
+              "url": "https://www.theguardian.com/world/2026/jan/30/more-than-200-killed-in-coltan-mine-collapse-in-eastern-drc-officials-say",
+              "source": "The Guardian World",
               "badge": "",
               "feature": false,
-              "snark": "A spokesperson says the quiet part out loud."
+              "snark": "Now featuring: consequences."
             },
             {
-              "title": "Tesla cuts car models in shift to robots and AI",
-              "url": "https://www.bbc.com/news/articles/c620177qdg5o?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Tech",
+              "title": "Trump nominates government economist to lead Bureau of Labor Statistics",
+              "url": "https://abcnews.go.com/US/wireStory/trump-nominates-government-economist-lead-bureau-labor-statistics-129723955",
+              "source": "ABC US Headlines",
               "badge": "",
               "feature": false,
-              "snark": "A surprise move surprises exactly nobody."
+              "snark": "Now with 20% more uncertainty."
             },
             {
-              "title": "Facebook-owner Meta to nearly double AI spending",
-              "url": "https://www.bbc.com/news/articles/cn8jkyk78gno?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Tech",
+              "title": "Trump's Cuba oil tariff threat creates new diplomatic challenge for Mexico's Sheinbaum",
+              "url": "https://www.latimes.com/world-nation/story/2026-01-30/trumps-cuba-oil-tariff-threat-creates-new-diplomatic-challenge-for-mexicos-sheinbaum",
+              "source": "LA Times - World",
               "badge": "",
               "feature": false,
-              "snark": "A new record is set. Whether that's good is unclear."
+              "snark": "The truth is out there. Not here."
             },
             {
-              "title": "Iran's internet is returning - but not for everyone",
-              "url": "https://www.bbc.com/news/articles/cz7y2ddgl23o?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Tech",
+              "title": "ICE buys warehouses for mass detention network, rattling locals",
+              "url": "https://www.washingtonpost.com/investigations/2026/01/30/ice-warehouse-detention-dhs-immigration/",
+              "source": "Washington Post - National",
               "badge": "",
               "feature": false,
-              "snark": "A review is underway. Translation: not today."
+              "snark": "The headline writes checks the facts can't cash."
             },
             {
-              "title": "Government offers UK adults free AI training for work",
-              "url": "https://www.bbc.com/news/articles/cp37prvp072o?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Tech",
+              "title": "Takeaways from the millions of newly released Epstein files",
+              "url": "https://www.bbc.com/news/articles/cevnmxyy4wjo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC World",
               "badge": "",
               "feature": false,
-              "snark": "An investigation begins. Again."
+              "snark": "A straight answer takes a scenic route."
             },
             {
-              "title": "Amazon confirms 16,000 job cuts after accidental email",
-              "url": "https://www.bbc.com/news/articles/cx2ywzxlxnlo?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Tech",
+              "title": "Protesters take to streets nationwide to decry ICE tactics in Minneapolis",
+              "url": "https://www.washingtonpost.com/nation/2026/01/30/minneapolis-protests-ice/",
+              "source": "Washington Post - National",
               "badge": "",
               "feature": false,
-              "snark": "A headline confidently outruns the facts."
+              "snark": "The situation is dynamic. Like a runaway shopping cart."
             },
             {
-              "title": "Pornhub to restrict access for UK users from next week",
-              "url": "https://www.bbc.com/news/articles/czr428rxg57o?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Tech",
+              "title": "Islamic State claims attack on international airport and airbase in Niger",
+              "url": "https://www.theguardian.com/world/2026/jan/30/niger-airport-airbase-attack-islamic-state",
+              "source": "The Guardian World",
               "badge": "",
               "feature": false,
-              "snark": "A spokesperson reassured everyone with vowels and verbs."
+              "snark": "Confidence is high. Accuracy is TBD."
             },
             {
-              "title": "TikTok US pushes back on claims it is censoring content",
-              "url": "https://www.bbc.com/news/articles/ckgjedpn8p8o?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Tech",
+              "title": "Shutdown nears as lawmakers brace for next round of ICE negotiations",
+              "url": "https://www.latimes.com/politics/story/2026-01-30/shutdown-senate-ice-negotiations",
+              "source": "LA Times - World",
               "badge": "",
               "feature": false,
-              "snark": "A statement walks back the statement."
+              "snark": "Updates may follow. So may regret."
             },
             {
-              "title": "AI boom will produce victors and carnage, tech boss warns",
-              "url": "https://www.bbc.com/news/articles/cr57p2ve8glo?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Tech",
+              "title": "Confusion in Kyiv and Moscow after Trump says Putin agreed to pause attacks for a week",
+              "url": "https://www.nbcnews.com/world/russia/trump-putin-russia-ceasefire-ukraine-kyiv-cold-peace-talks-zelenskyy-rcna256682",
+              "source": "NBC World",
               "badge": "",
               "feature": false,
-              "snark": "Situation remains unclear."
+              "snark": "A 'strategy' is announced. Execution sold separately."
             }
           ]
         }
       ]
     }
   ],
-  "refresh": {
-    "breaking": "hourly",
-    "others": "every 3 hours",
-    "three_hour_boundary": false,
-    "max_per_source_per_section": 3
+  "_meta": {
+    "full_refresh_every_hours": 3,
+    "last_full_refresh_utc": "2026-01-31T05:27:15.984108+00:00"
   }
 }
