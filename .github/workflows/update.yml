@@ -1,15 +1,8 @@
-name: Update headlines.json (3x daily)
+name: Update headlines (hourly)
 
 on:
   schedule:
-    # GitHub cron is UTC.
-    # Detroit is UTC-5 in winter (Jan), so:
-    # 7:00 AM ET  = 12:00 UTC
-    # 1:00 PM ET  = 18:00 UTC
-    # 7:00 PM ET  = 00:00 UTC (next day)
-    - cron: "0 12 * * *"
-    - cron: "0 18 * * *"
-    - cron: "0 0 * * *"
+    - cron: "0 * * * *"   # every hour on the hour (UTC)
   workflow_dispatch: {}
 
 permissions:
@@ -28,7 +21,7 @@ jobs:
           python-version: "3.11"
 
       - name: Install deps
-        run: pip install feedparser python-dateutil
+        run: pip install feedparser
 
       - name: Run updater
         run: python update_headlines.py
