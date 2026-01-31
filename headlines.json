@@ -3,7 +3,7 @@
     "name": "THE DAILY SIDE-EYE",
     "tagline": "Headlines with a raised eyebrow."
   },
-  "generated_utc": "2026-01-31T13:54:18.289045+00:00",
+  "generated_utc": "2026-01-31T14:53:29.225718+00:00",
   "columns": [
     {
       "sections": [
@@ -11,52 +11,12 @@
           "name": "Breaking",
           "items": [
             {
-              "title": "Epstein files latest: photos appear to show former prince Andrew crouching over female",
-              "url": "https://www.theguardian.com/us-news/live/2026/jan/31/jeffrey-epstein-files-latest-news-updates-prince-andrew-elon-musk-peter-mandelson-donald-trump",
-              "source": "The Guardian US",
-              "badge": "BREAK",
-              "feature": true,
-              "snark": "A modest proposal, with immodest confidence."
-            },
-            {
-              "title": "Dominion still has pending lawsuits against election deniers such as Rudy Giuliani and Sidney Powell",
-              "url": "https://www.cnn.com/business/live-news/fox-news-dominion-trial-04-18-23/h_8d51e3ae2714edaa0dace837305d03b8",
-              "source": "CNN Top Stories",
-              "badge": "",
-              "feature": false,
-              "snark": "A decision was made. Accountability was not."
-            },
-            {
               "title": "Israeli air strikes kill at least 27 Palestinians in Gaza, rescue officials say",
               "url": "https://www.bbc.com/news/articles/c701g1g00gdo?at_medium=RSS&at_campaign=rss",
               "source": "BBC Front Page",
-              "badge": "",
-              "feature": false,
-              "snark": "A breakthrough—followed by a breakdown."
-            },
-            {
-              "title": "3 million pages of Epstein documents released",
-              "url": "https://www.nbcnews.com/nightly-news/video/3-million-pages-of-epstein-documents-released-256926277708",
-              "source": "NBC Top Stories",
-              "badge": "",
-              "feature": false,
-              "snark": "A plan exists. The details are on a separate planet."
-            },
-            {
-              "title": "Trump officials have tried to justify ICE shootings. Is it backfiring in court?",
-              "url": "https://www.latimes.com/california/story/2026-01-31/ice-shootings-trump-officials-statements-court-cases",
-              "source": "LA Times - Nation",
-              "badge": "",
-              "feature": false,
-              "snark": "A victory lap, taken before the race."
-            },
-            {
-              "title": "LIVE: ABC News Live",
-              "url": "https://abcnews.go.com/Live/video/abcnews-live-41463246",
-              "source": "ABC Top Stories",
-              "badge": "",
-              "feature": false,
-              "snark": "They've considered all options. Except the obvious one."
+              "badge": "BREAK",
+              "feature": true,
+              "snark": "File under: avoidable."
             },
             {
               "title": "Partial government shutdown goes into effect, as Senate deal awaits House vote",
@@ -64,12 +24,52 @@
               "source": "ABC Top Stories",
               "badge": "",
               "feature": false,
-              "snark": "A minor detail becomes the main event."
+              "snark": "A decision was made. Accountability was not."
             },
             {
-              "title": "Nurses remember Alex Pretti and vow to ‘bring the care our patients need’",
-              "url": "https://www.theguardian.com/us-news/2026/jan/31/nurses-memorial-alex-pretti-killing",
+              "title": "Dominion still has pending lawsuits against election deniers such as Rudy Giuliani and Sidney Powell",
+              "url": "https://www.cnn.com/business/live-news/fox-news-dominion-trial-04-18-23/h_8d51e3ae2714edaa0dace837305d03b8",
+              "source": "CNN Top Stories",
+              "badge": "",
+              "feature": false,
+              "snark": "A minor tweak triggers major drama."
+            },
+            {
+              "title": "Trump officials have tried to justify ICE shootings. Is it backfiring in court?",
+              "url": "https://www.latimes.com/california/story/2026-01-31/ice-shootings-trump-officials-statements-court-cases",
+              "source": "LA Times - Nation",
+              "badge": "",
+              "feature": false,
+              "snark": "A modest proposal, with immodest confidence."
+            },
+            {
+              "title": "New message from top Democrats: The U.S. Justice Department can't be trusted",
+              "url": "https://www.latimes.com/politics/story/2026-01-31/new-message-from-top-democrats-u-s-justice-department-cant-be-trusted",
+              "source": "LA Times - Nation",
+              "badge": "",
+              "feature": false,
+              "snark": "A committee will decide, eventually."
+            },
+            {
+              "title": "LIVE: ABC News Live",
+              "url": "https://abcnews.go.com/Live/video/abcnews-live-41463246",
+              "source": "ABC Top Stories",
+              "badge": "",
+              "feature": false,
+              "snark": "Expect clarity shortly. Bring snacks."
+            },
+            {
+              "title": "Epstein files latest: photos appear to show former prince Andrew crouching over female",
+              "url": "https://www.theguardian.com/us-news/live/2026/jan/31/jeffrey-epstein-files-latest-news-updates-prince-andrew-elon-musk-peter-mandelson-donald-trump",
               "source": "The Guardian US",
+              "badge": "",
+              "feature": false,
+              "snark": "A 'strategy' is announced. Execution sold separately."
+            },
+            {
+              "title": "3 million pages of Epstein documents released",
+              "url": "https://www.nbcnews.com/nightly-news/video/3-million-pages-of-epstein-documents-released-256926277708",
+              "source": "NBC Top Stories",
               "badge": "",
               "feature": false,
               "snark": "This will age… interestingly."
@@ -80,7 +80,7 @@
               "source": "NBC Top Stories",
               "badge": "",
               "feature": false,
-              "snark": "Expect clarity shortly. Bring snacks."
+              "snark": "Developing story. Developing patience."
             },
             {
               "title": "Takeaways from the millions of newly released Epstein files",
@@ -88,15 +88,15 @@
               "source": "BBC Front Page",
               "badge": "",
               "feature": false,
-              "snark": "Developing story. Developing patience."
+              "snark": "It's complicated, but so is the excuse."
             },
             {
-              "title": "New message from top Democrats: The U.S. Justice Department can't be trusted",
-              "url": "https://www.latimes.com/politics/story/2026-01-31/new-message-from-top-democrats-u-s-justice-department-cant-be-trusted",
-              "source": "LA Times - Nation",
+              "title": "What have we learned from the newly released Epstein files?",
+              "url": "https://www.theguardian.com/us-news/2026/jan/31/epstein-files-what-have-we-learned-prince-andrew-peter-mandelson-elon-musk-donald-trump",
+              "source": "The Guardian US",
               "badge": "",
               "feature": false,
-              "snark": "Officials promise transparency, then immediately dim the lights."
+              "snark": "The consequences are loading…"
             }
           ]
         }
@@ -186,7 +186,7 @@
               "source": "ABC US Headlines",
               "badge": "",
               "feature": false,
-              "snark": "The consequences are loading…"
+              "snark": "A victory lap, taken before the race."
             },
             {
               "title": "Takeaways from the millions of newly released Epstein files",
