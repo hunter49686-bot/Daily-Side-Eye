@@ -1,125 +1,193 @@
+
 <!doctype html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>The Daily Side-Eye</title>
+
   <style>
     body{font-family:Arial,Helvetica,sans-serif;margin:0;background:#fff;color:#111}
     .wrap{max-width:1000px;margin:0 auto;padding:12px}
-    header{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:2px solid #ddd;padding-bottom:10px}
+
+    header{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-end;
+      border-bottom:2px solid #ddd;
+      padding-bottom:10px
+    }
+
     h1{margin:0;font-size:22px;letter-spacing:.5px}
     .meta{font-size:12px;color:#666;text-align:right}
+    #tagline{font-size:12px;color:#666;margin-top:4px}
+    #updated{font-size:12px;color:#666;margin-top:10px}
+
     .grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:12px}
     @media(max-width:900px){.grid{grid-template-columns:1fr 1fr}}
     @media(max-width:620px){.grid{grid-template-columns:1fr}}
+
     .section{margin:0 0 14px}
-    .section h2{margin:0 0 8px;font-size:12px;text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid #ddd;padding-bottom:6px}
+    .section h2{
+      margin:0 0 8px;
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:1px;
+      border-bottom:1px solid #ddd;
+      padding-bottom:6px
+    }
+
     .item{margin:0 0 10px;line-height:1.15}
-    .item a{font-weight:800;font-size:14px;color:#0a0a0a;text-decoration:none}
+    .item a{
+      font-weight:800;
+      font-size:14px;
+      color:#0a0a0a;
+      text-decoration:none
+    }
     .item a:hover{text-decoration:underline}
+
     .src{font-size:11px;color:#666;margin-left:6px;font-weight:400}
     .snark{margin-top:3px;font-size:12px;color:#222}
-    .badge{display:inline-block;font-size:10px;border:1px solid #ddd;padding:1px 7px;border-radius:999px;margin-right:6px;background:#fafafa}
-    .feature a{color:#b00000;font-weight:900;font-size:16px}
-    .footer{margin-top:22px;padding-top:14px;border-top:2px solid #ddd;color:#666;font-size:12px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+    .badge{
+      display:inline-block;
+      font-size:10px;
+      border:1px solid #ddd;
+      padding:1px 7px;
+      border-radius:999px;
+      margin-right:6px;
+      background:#fafafa
+    }
+
+    /* Featured (Top) story styling */
+    .feature a{
+      color:#b00000;
+      font-weight:900;
+      font-size:18px;
+      letter-spacing:.2px
+    }
+
+    .footer{
+      margin-top:22px;
+      padding-top:14px;
+      border-top:2px solid #ddd;
+      color:#666;
+      font-size:12px;
+      display:flex;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      gap:10px
+    }
   </style>
 </head>
+
 <body>
-<div class="wrap">
-  <header>
-    <div>
-      <h1 id="brand">THE DAILY SIDE-EYE</h1>
-      <div style="font-size:12px;color:#666;margin-top:4px" id="tagline">General news, lightly seasoned with skepticism.</div>
-    </div>
-    <div class="meta">
-      <div id="dateLine"></div>
-      <div id="clock"></div>
-    </div>
-  </header>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1 id="brand">THE DAILY SIDE-EYE</h1>
+        <div id="tagline">Dry news links. Equal-opportunity skepticism.</div>
+      </div>
 
-  <div id="updated" style="font-size:12px;color:#666;margin-top:10px;"></div>
-<div class="grid" id="grid"></div>
+      <div class="meta">
+        <div id="dateLine"></div>
+        <div id="clock"></div>
+      </div>
+    </header>
 
-  <div class="footer">
-    <div>© <span id="year"></span> The Daily Side-Eye</div>
-    <div>Auto-updated from RSS → JSON</div>
+    <!-- Added: last updated line from headlines.json -->
+    <div id="updated"></div>
+
+    <div class="grid" id="grid"></div>
+
+    <div class="footer">
+      <div>© <span id="year"></span> The Daily Side-Eye</div>
+      <div>Auto-updated from RSS → JSON</div>
+    </div>
   </div>
-</div>
 
-<script>
-  function updateClock(){
-    const now = new Date();
-    document.getElementById("dateLine").textContent =
-      now.toLocaleDateString(undefined,{weekday:"long",year:"numeric",month:"long",day:"numeric"});
-    document.getElementById("clock").textContent =
-      now.toLocaleTimeString(undefined,{hour:"2-digit",minute:"2-digit"});
-    document.getElementById("year").textContent = now.getFullYear();
-  }
-  updateClock(); setInterval(updateClock, 1000);
-
-  function esc(s){return String(s??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#39;");}
-
-  async function load(){
-  const res = await fetch("headlines.json?ts=" + Date.now());
-  const data = await res.json();
-
-  // Show last-updated time from the JSON (converted to your local time automatically)
-  const updatedEl = document.getElementById("updated");
-  if (updatedEl) {
-    if (data.generated_utc) {
-      const d = new Date(data.generated_utc);
-      updatedEl.textContent = "Last updated: " + d.toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" });
-    } else {
-      updatedEl.textContent = "";
+  <script>
+    function updateClock(){
+      const now = new Date();
+      document.getElementById("dateLine").textContent =
+        now.toLocaleDateString(undefined,{weekday:"long",year:"numeric",month:"long",day:"numeric"});
+      document.getElementById("clock").textContent =
+        now.toLocaleTimeString(undefined,{hour:"2-digit",minute:"2-digit"});
+      document.getElementById("year").textContent = now.getFullYear();
     }
-  }
+    updateClock();
+    setInterval(updateClock, 1000);
 
-  document.getElementById("brand").textContent = data?.site?.name || "THE DAILY SIDE-EYE";
-  ...
-}
-    document.getElementById("tagline").textContent = data?.site?.tagline || "";
+    function esc(s){
+      return String(s ?? "")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#39;");
+    }
 
-    const grid = document.getElementById("grid");
-    grid.innerHTML = "";
+    async function load(){
+      const res = await fetch("headlines.json?ts=" + Date.now());
+      const data = await res.json();
 
-    (data.columns||[]).forEach(col => {
-      const colDiv = document.createElement("div");
+      // Site name/tagline from JSON (if present)
+      document.getElementById("brand").textContent = data?.site?.name || "THE DAILY SIDE-EYE";
+      document.getElementById("tagline").textContent = data?.site?.tagline || "Dry news links. Equal-opportunity skepticism.";
 
-      (col.sections||[]).forEach(sec => {
-        const secDiv = document.createElement("div");
-        secDiv.className = "section";
-        const h2 = document.createElement("h2");
-        h2.textContent = sec.name || "";
-        secDiv.appendChild(h2);
+      // Added: show last-updated time from JSON (converted to your local time automatically)
+      const updatedEl = document.getElementById("updated");
+      if (updatedEl) {
+        if (data.generated_utc) {
+          const d = new Date(data.generated_utc);
+          updatedEl.textContent = "Last updated: " + d.toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" });
+        } else {
+          updatedEl.textContent = "";
+        }
+      }
 
-        (sec.items||[]).forEach(it => {
-          const row = document.createElement("div");
-          row.className = "item" + (it.feature ? " feature" : "");
-          const badge = it.badge ? `<span class="badge">${esc(it.badge)}</span>` : "";
-          const src = it.source ? `<span class="src">(${esc(it.source)})</span>` : "";
-          const img = it.image
-  ? `<div style="margin:6px 0">
-       <img src="${esc(it.image)}" style="max-width:100%; max-height:120px; object-fit:cover; border-radius:6px;">
-     </div>`
-  : "";
-          const snark = it.snark ? `<div class="snark">${esc(it.snark)}</div>` : "";
-          row.innerHTML = `${badge}${img}
-          <a href="${esc(it.url||"#")}" target="_blank" rel="noopener noreferrer">${esc(it.title||"")}</a>${src}${snark}`;
-          secDiv.appendChild(row);
+      const grid = document.getElementById("grid");
+      grid.innerHTML = "";
+
+      (data.columns || []).forEach(col => {
+        const colDiv = document.createElement("div");
+
+        (col.sections || []).forEach(sec => {
+          const secDiv = document.createElement("div");
+          secDiv.className = "section";
+
+          const h2 = document.createElement("h2");
+          h2.textContent = sec.name || "";
+          secDiv.appendChild(h2);
+
+          (sec.items || []).forEach(it => {
+            const row = document.createElement("div");
+            row.className = "item" + (it.feature ? " feature" : "");
+
+            const badge = it.badge ? `<span class="badge">${esc(it.badge)}</span>` : "";
+            const src = it.source ? `<span class="src">(${esc(it.source)})</span>` : "";
+            const snark = it.snark ? `<div class="snark">${esc(it.snark)}</div>` : "";
+
+            row.innerHTML =
+              `${badge}` +
+              `<a href="${esc(it.url || "#")}" target="_blank" rel="noopener noreferrer">${esc(it.title || "")}</a>` +
+              `${src}` +
+              `${snark}`;
+
+            secDiv.appendChild(row);
+          });
+
+          colDiv.appendChild(secDiv);
         });
 
-        colDiv.appendChild(secDiv);
+        grid.appendChild(colDiv);
       });
+    }
 
-      grid.appendChild(colDiv);
+    load().catch(err => {
+      document.getElementById("grid").innerHTML = "<p>Could not load headlines.json yet.</p>";
+      console.error(err);
     });
-  }
-
-  load().catch(err => {
-    document.getElementById("grid").innerHTML = "<p>Could not load headlines.json yet.</p>";
-    console.error(err);
-  });
-</script>
+  </script>
 </body>
 </html>
