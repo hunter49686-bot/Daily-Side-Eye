@@ -3,7 +3,7 @@
     "name": "THE DAILY SIDE-EYE",
     "tagline": "Headlines with a raised eyebrow."
   },
-  "generated_utc": "2026-01-31T05:11:59.385624+00:00",
+  "generated_utc": "2026-01-31T05:18:15.056165+00:00",
   "columns": [
     {
       "sections": [
@@ -11,12 +11,36 @@
           "name": "Breaking",
           "items": [
             {
+              "title": "Epstein invited 'The Duke' to meet Russian woman",
+              "url": "https://www.bbc.com/news/articles/c4g5490xmkeo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Front Page",
+              "badge": "BREAK",
+              "feature": true,
+              "snark": "This will surely be handled with nuance."
+            },
+            {
+              "title": "I mocked the Saudi leader on YouTube - then my phone was hacked and I was beaten up in London",
+              "url": "https://www.bbc.com/news/articles/cj6w3zgden0o?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Front Page",
+              "badge": "",
+              "feature": false,
+              "snark": "A compromise is proposed. Someone will hate it."
+            },
+            {
+              "title": "'I spoke to ChatGPT 8 times a day' - Gen Z's loneliness 'crisis'",
+              "url": "https://www.bbc.com/news/articles/cg4ewrw2drpo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Front Page",
+              "badge": "",
+              "feature": false,
+              "snark": "A statement was issued. Substance not included."
+            },
+            {
               "title": "Ukraine sees quieter night as Trump says Putin will not attack its cities",
               "url": "https://www.bbc.com/news/articles/c4g4yj92kwro?at_medium=RSS&at_campaign=rss",
               "source": "BBC World",
-              "badge": "BREAK",
-              "feature": true,
-              "snark": "More information expected soon. "
+              "badge": "",
+              "feature": false,
+              "snark": "For now: Updates may follow. More as it develops."
             },
             {
               "title": "Civil rights investigation opened into Alex Pretti shooting",
@@ -24,7 +48,7 @@
               "source": "BBC World",
               "badge": "",
               "feature": false,
-              "snark": "Reporting continues. "
+              "snark": "Currently: No clear timeline yet. Updates expected."
             },
             {
               "title": "At least 170 killed in air strikes during Myanmar's widely criticised election, UN says",
@@ -32,47 +56,79 @@
               "source": "BBC World",
               "badge": "",
               "feature": false,
-              "snark": "Context is still being gathered. "
+              "snark": "So far: Authorities are investigating. Awaiting confirmation."
             },
             {
-              "title": "An ingredient for this curry is missing - and in eight minutes, it's at the door",
-              "url": "https://www.bbc.com/news/articles/cvgx7ykl12go?at_medium=RSS&at_campaign=rss",
-              "source": "BBC World",
+              "title": "Some on-air claims about Dominion Voting Systems were false, Fox News acknowledges in statement after deal is announced",
+              "url": "https://www.cnn.com/business/live-news/fox-news-dominion-trial-04-18-23/index.html",
+              "source": "CNN Top Stories",
               "badge": "",
               "feature": false,
-              "snark": "Officials say it's under control. So that's something."
+              "snark": "The fine print is doing most of the work here."
             },
             {
-              "title": "What to know about the partial government shutdown",
-              "url": "https://www.npr.org/2026/01/31/nx-s1-5694716/partial-government-shutdown",
-              "source": "NPR News",
+              "title": "Dominion still has pending lawsuits against election deniers such as Rudy Giuliani and Sidney Powell",
+              "url": "https://www.cnn.com/business/live-news/fox-news-dominion-trial-04-18-23/h_8d51e3ae2714edaa0dace837305d03b8",
+              "source": "CNN Top Stories",
               "badge": "",
               "feature": false,
-              "snark": "A decision was made. Consequences scheduled for later."
+              "snark": "A bold prediction, fresh out of context."
             },
             {
-              "title": "'Melania' is Amazon's airbrushed and astronomically pricey portrait of the First Lady",
-              "url": "https://www.npr.org/2026/01/30/nx-s1-5691558/melania-documentary-review",
-              "source": "NPR News",
+              "title": "Here are the 20 specific Fox broadcasts and tweets Dominion says were defamatory",
+              "url": "https://www.cnn.com/2023/04/17/media/dominion-fox-news-allegations/index.html",
+              "source": "CNN Top Stories",
               "badge": "",
               "feature": false,
-              "snark": "Everyone is calm. On paper."
+              "snark": "Expectations were managed. Results were not."
             },
             {
-              "title": "Photos: Thousands once again protest ICE in Minneapolis and across the U.S.",
-              "url": "https://www.npr.org/sections/the-picture-show/2026/01/30/g-s1-108087/photos-thousands-once-again-protest-ice-in-minneapolis-and-across-the-u-s",
-              "source": "NPR News",
+              "title": "How Europe Is Moving to Reduce Dependence on Trump",
+              "url": "https://www.nytimes.com/2026/01/31/world/europe/eu-trump-greenland-europe.html",
+              "source": "NYT HomePage",
               "badge": "",
               "feature": false,
               "snark": "Experts disagree, loudly and on schedule."
             },
             {
-              "title": "Judge rules Luigi Mangione should not face death penalty",
-              "url": "https://www.npr.org/2026/01/30/g-s1-108032/judge-rules-luigi-mangione-should-not-face-death-penalty",
-              "source": "NPR News",
+              "title": "U.S. Allies Are Drawing Closer to China, but on Beijing’s Terms",
+              "url": "https://www.nytimes.com/2026/01/31/world/asia/trump-xi-starmer-carney.html",
+              "source": "NYT HomePage",
               "badge": "",
               "feature": false,
-              "snark": "Details are still emerging. "
+              "snark": "Officials say it's under control. So that's something."
+            },
+            {
+              "title": "ICE Expands Power of Agents to Arrest People Without Warrants",
+              "url": "https://www.nytimes.com/2026/01/30/us/politics/ice-expands-power-agents-warrants.html",
+              "source": "NYT HomePage",
+              "badge": "",
+              "feature": false,
+              "snark": "Currently: Situation remains unclear. Details pending."
+            },
+            {
+              "title": "More than 200 killed in coltan mine collapse in eastern DRC, officials say",
+              "url": "https://www.theguardian.com/world/2026/jan/30/more-than-200-killed-in-coltan-mine-collapse-in-eastern-drc-officials-say",
+              "source": "The Guardian World",
+              "badge": "",
+              "feature": false,
+              "snark": "So far: Additional confirmation is pending. More as it develops."
+            },
+            {
+              "title": "Islamic State claims attack on international airport and airbase in Niger",
+              "url": "https://www.theguardian.com/world/2026/jan/30/niger-airport-airbase-attack-islamic-state",
+              "source": "The Guardian World",
+              "badge": "",
+              "feature": false,
+              "snark": "Currently: Additional confirmation is pending. More as it develops."
+            },
+            {
+              "title": "South Africa expels top Israeli diplomat over ‘insulting attacks’ on president",
+              "url": "https://www.theguardian.com/world/2026/jan/30/south-africa-expels-israel-diplomat-insults-president",
+              "source": "The Guardian World",
+              "badge": "",
+              "feature": false,
+              "snark": "At this point: Updates may follow. Details pending."
             }
           ]
         },
@@ -389,5 +445,11 @@
         }
       ]
     }
-  ]
+  ],
+  "refresh": {
+    "breaking": "hourly",
+    "others": "every 3 hours",
+    "three_hour_boundary": false,
+    "max_per_source_per_section": 3
+  }
 }
