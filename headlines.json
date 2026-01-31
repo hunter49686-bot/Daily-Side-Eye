@@ -3,7 +3,7 @@
     "name": "THE DAILY SIDE-EYE",
     "tagline": "Headlines with a raised eyebrow."
   },
-  "generated_utc": "2026-01-31T19:38:36.452975+00:00",
+  "generated_utc": "2026-01-31T19:43:44.557116+00:00",
   "columns": [
     {
       "sections": [
@@ -16,7 +16,10 @@
               "source": "BBC Front Page",
               "badge": "BREAK",
               "feature": true,
-              "snark": "A bold prediction, fresh out of context."
+              "snark": "Officials say it is under control. So that is something.",
+              "meter": 1,
+              "ages_poorly": false,
+              "tragic": false
             },
             {
               "title": "Israeli air strikes kill at least 32 Palestinians in Gaza, rescue officials say",
@@ -24,7 +27,10 @@
               "source": "BBC Front Page",
               "badge": "",
               "feature": false,
-              "snark": "For now: Details are still emerging. Awaiting confirmation."
+              "snark": "Currently: Details are still emerging. Awaiting confirmation.",
+              "meter": 2,
+              "ages_poorly": false,
+              "tragic": true
             },
             {
               "title": "Zack Polanski is having fun. But can the Green leader become a serious player?",
@@ -32,15 +38,32 @@
               "source": "BBC Front Page",
               "badge": "",
               "feature": false,
-              "snark": "Officials say it is under control. So that is something."
+              "snark": "An investigation begins. Again.",
+              "meter": 1,
+              "ages_poorly": false,
+              "tragic": false
             },
             {
-              "title": "US government partially shuts down despite last minute funding deal",
-              "url": "https://www.bbc.com/news/articles/ce8rk33dpvmo?at_medium=RSS&at_campaign=rss",
+              "title": "Federal judge denies request to block ICE surge in Minnesota",
+              "url": "https://www.bbc.com/news/articles/c78vgnz3z6eo?at_medium=RSS&at_campaign=rss",
               "source": "BBC World",
               "badge": "",
               "feature": false,
-              "snark": "An investigation begins. Again."
+              "snark": "A compromise is proposed. Someone will hate it.",
+              "meter": 4,
+              "ages_poorly": false,
+              "tragic": false
+            },
+            {
+              "title": "Five killed in gas explosions in Iran, officials say",
+              "url": "https://www.bbc.com/news/articles/cd9ew5p3zvko?at_medium=RSS&at_campaign=rss",
+              "source": "BBC World",
+              "badge": "",
+              "feature": false,
+              "snark": "As of now: More to come as this develops. Awaiting confirmation.",
+              "meter": 2,
+              "ages_poorly": false,
+              "tragic": true
             },
             {
               "title": "Pokémon cancels event at controversial Japan shrine following backlash",
@@ -48,15 +71,10 @@
               "source": "BBC World",
               "badge": "",
               "feature": false,
-              "snark": "A temporary measure enters its permanent era."
-            },
-            {
-              "title": "Iran wants to make deal rather than face military action, Trump says",
-              "url": "https://www.bbc.com/news/articles/cd9ew2kwj0lo?at_medium=RSS&at_campaign=rss",
-              "source": "BBC World",
-              "badge": "",
-              "feature": false,
-              "snark": "A strategy is announced. Execution sold separately."
+              "snark": "A bold prediction, fresh out of context.",
+              "meter": 1,
+              "ages_poorly": false,
+              "tragic": false
             },
             {
               "title": "Some on-air claims about Dominion Voting Systems were false, Fox News acknowledges in statement after deal is announced",
@@ -64,7 +82,10 @@
               "source": "CNN Top Stories",
               "badge": "",
               "feature": false,
-              "snark": "A surprise move surprises exactly nobody."
+              "snark": "A surprise move surprises exactly nobody.",
+              "meter": 4,
+              "ages_poorly": false,
+              "tragic": false
             },
             {
               "title": "Dominion still has pending lawsuits against election deniers such as Rudy Giuliani and Sidney Powell",
@@ -72,7 +93,10 @@
               "source": "CNN Top Stories",
               "badge": "",
               "feature": false,
-              "snark": "A headline confidently outruns the facts."
+              "snark": "A temporary measure enters its permanent era.",
+              "meter": 3,
+              "ages_poorly": false,
+              "tragic": false
             },
             {
               "title": "Here are the 20 specific Fox broadcasts and tweets Dominion says were defamatory",
@@ -80,7 +104,76 @@
               "source": "CNN Top Stories",
               "badge": "",
               "feature": false,
-              "snark": "A compromise is proposed. Someone will hate it."
+              "snark": "A strategy is announced. Execution sold separately.",
+              "meter": 1,
+              "ages_poorly": false,
+              "tragic": false
+            },
+            {
+              "title": "How Fear of ICE Upended Life in One Minnesota School District",
+              "url": "https://www.nytimes.com/2026/01/31/us/minneapolis-school-district-ice-agents.html",
+              "source": "NYT HomePage",
+              "badge": "",
+              "feature": false,
+              "snark": "A headline confidently outruns the facts.",
+              "meter": 1,
+              "ages_poorly": false,
+              "tragic": false
+            },
+            {
+              "title": "Kevin Warsh Has a Tough Job Ahead. It’s Not the First Time.",
+              "url": "https://www.nytimes.com/2026/01/31/business/kevin-warsh-fed-chair.html",
+              "source": "NYT HomePage",
+              "badge": "",
+              "feature": false,
+              "snark": "At this point: Early reports are still being verified. Updates expected.",
+              "meter": 1,
+              "ages_poorly": false,
+              "tragic": true
+            },
+            {
+              "title": "A Hawkish Kevin Warsh at the Fed Could Haunt Bessent",
+              "url": "https://www.nytimes.com/2026/01/31/business/scott-bessent-kevin-warsh-trump.html",
+              "source": "NYT HomePage",
+              "badge": "",
+              "feature": false,
+              "snark": "At this point: Additional confirmation is pending. More soon.",
+              "meter": 2,
+              "ages_poorly": false,
+              "tragic": true
+            },
+            {
+              "title": "Niger’s military ruler vows retaliation after gunfire and explosions heard in capital",
+              "url": "https://www.theguardian.com/world/2026/jan/29/gunfire-blasts-heard-airport-niamey-niger-planes-hit-reports",
+              "source": "Guardian World",
+              "badge": "",
+              "feature": false,
+              "snark": "Currently: Additional confirmation is pending. More soon.",
+              "meter": 1,
+              "ages_poorly": false,
+              "tragic": true
+            },
+            {
+              "title": "Hundreds feared dead in attempt to cross Mediterranean during cyclone",
+              "url": "https://www.theguardian.com/world/2026/jan/26/hundreds-feared-dead-after-attempting-to-cross-mediterranean-amid-cyclone-harry",
+              "source": "Guardian World",
+              "badge": "",
+              "feature": false,
+              "snark": "For now: Officials have not released full information. Awaiting confirmation.",
+              "meter": 1,
+              "ages_poorly": false,
+              "tragic": true
+            },
+            {
+              "title": "Mexico president says Trump tariffs on Cuba’s oil suppliers could trigger humanitarian crisis",
+              "url": "https://www.theguardian.com/world/2026/jan/30/mexico-sheinbaum-trump-tariffs-cuba-oil-crisis",
+              "source": "Guardian World",
+              "badge": "",
+              "feature": false,
+              "snark": "For now: Authorities are investigating. Details pending.",
+              "meter": 2,
+              "ages_poorly": false,
+              "tragic": false
             }
           ]
         },
@@ -109,7 +202,8 @@
               "source": "BBC World",
               "badge": "",
               "feature": false,
-              "snark": "The optics are doing most of the work here."
+              "snark": "The optics are doing most of the work here.",
+              "ages_poorly": true
             },
             {
               "title": "More than 200 killed in coltan mine collapse in eastern DRC, officials say",
@@ -354,6 +448,16 @@
         }
       ]
     }
+  ],
+  "features": {
+    "side_eye_meter": true,
+    "ages_poorly": true,
+    "week_in_hindsight": true
+  },
+  "week_in_hindsight": [
+    "Investigations were plentiful: about 1 headline(s) referenced probes/reviews.",
+    "Talks and deals appeared often: about 1 headline(s).",
+    "Plans and strategies were announced: about 1 headline(s)."
   ],
   "refresh": {
     "breaking": "hourly",
