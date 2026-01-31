@@ -3,7 +3,7 @@
     "name": "THE DAILY SIDE-EYE",
     "tagline": "Headlines with a raised eyebrow."
   },
-  "generated_utc": "2026-01-31T15:47:41.831483+00:00",
+  "generated_utc": "2026-01-31T16:58:57.327071+00:00",
   "columns": [
     {
       "sections": [
@@ -11,68 +11,12 @@
           "name": "Breaking",
           "items": [
             {
-              "title": "3 million pages of Epstein documents released",
-              "url": "https://www.nbcnews.com/nightly-news/video/3-million-pages-of-epstein-documents-released-256926277708",
-              "source": "NBC Top Stories",
+              "title": "Israeli air strikes kill at least 28 Palestinians in Gaza, rescue officials say",
+              "url": "https://www.bbc.com/news/articles/c701g1g00gdo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Front Page",
               "badge": "BREAK",
               "feature": true,
-              "snark": "The explanation is technically words."
-            },
-            {
-              "title": "Epstein files latest: photos appear to show former prince Andrew crouching over female",
-              "url": "https://www.theguardian.com/us-news/live/2026/jan/31/jeffrey-epstein-files-latest-news-updates-prince-andrew-elon-musk-peter-mandelson-donald-trump",
-              "source": "The Guardian US",
-              "badge": "",
-              "feature": false,
-              "snark": "A quick fix becomes the long-term architecture."
-            },
-            {
-              "title": "Partial government shutdown goes into effect, as Senate deal awaits House vote",
-              "url": "https://abcnews.go.com/Politics/graham-blockade-stalls-government-funding-deal-hours-shutdown/story?id=129712452",
-              "source": "ABC Top Stories",
-              "badge": "",
-              "feature": false,
-              "snark": "This is why we can’t have nice things."
-            },
-            {
-              "title": "Latest Epstein revelations dig even deeper hole for Andrew",
-              "url": "https://www.bbc.com/news/articles/c20z4ze349jo?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Front Page",
-              "badge": "",
-              "feature": false,
-              "snark": "This will surely be handled with nuance."
-            },
-            {
-              "title": "Trump officials have tried to justify ICE shootings. Is it backfiring in court?",
-              "url": "https://www.latimes.com/california/story/2026-01-31/ice-shootings-trump-officials-statements-court-cases",
-              "source": "LA Times - Nation",
-              "badge": "",
-              "feature": false,
-              "snark": "Sources say. Sources always say."
-            },
-            {
-              "title": "LIVE: ABC News Live",
-              "url": "https://abcnews.go.com/Live/video/abcnews-live-41463246",
-              "source": "ABC Top Stories",
-              "badge": "",
-              "feature": false,
-              "snark": "A victory lap, taken before the race."
-            },
-            {
-              "title": "Dominion still has pending lawsuits against election deniers such as Rudy Giuliani and Sidney Powell",
-              "url": "https://www.cnn.com/business/live-news/fox-news-dominion-trial-04-18-23/h_8d51e3ae2714edaa0dace837305d03b8",
-              "source": "CNN Top Stories",
-              "badge": "",
-              "feature": false,
-              "snark": "A breakthrough—followed by a breakdown."
-            },
-            {
-              "title": "New message from top Democrats: The U.S. Justice Department can't be trusted",
-              "url": "https://www.latimes.com/politics/story/2026-01-31/new-message-from-top-democrats-u-s-justice-department-cant-be-trusted",
-              "source": "LA Times - Nation",
-              "badge": "",
-              "feature": false,
-              "snark": "The timeline is fluid. Like a spilled drink."
+              "snark": "If this was the plan, yikes."
             },
             {
               "title": "Senate approves spending package allowing for DHS funding negotiation",
@@ -80,23 +24,79 @@
               "source": "NBC Top Stories",
               "badge": "",
               "feature": false,
-              "snark": "Confidence was expressed. Evidence was not."
+              "snark": "They said 'soon.' They meant 'sometime.'"
             },
             {
-              "title": "Israeli air strikes kill at least 28 Palestinians in Gaza, rescue officials say",
-              "url": "https://www.bbc.com/news/articles/c701g1g00gdo?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Front Page",
+              "title": "Partial government shutdown goes into effect, as Senate deal awaits House vote",
+              "url": "https://abcnews.go.com/Politics/graham-blockade-stalls-government-funding-deal-hours-shutdown/story?id=129712452",
+              "source": "ABC Top Stories",
               "badge": "",
               "feature": false,
-              "snark": "A measured response, using a broken ruler."
+              "snark": "A 'strategy' is announced. Execution sold separately."
             },
             {
-              "title": "One dead and six missing as fishing boat out of historic Massachusetts port is lost at sea",
-              "url": "https://www.theguardian.com/us-news/2026/jan/31/lily-jean-fishing-boat-gloucester-massachusetts",
+              "title": "3 million pages of Epstein documents released",
+              "url": "https://www.nbcnews.com/nightly-news/video/3-million-pages-of-epstein-documents-released-256926277708",
+              "source": "NBC Top Stories",
+              "badge": "",
+              "feature": false,
+              "snark": "Sources say. Sources always say."
+            },
+            {
+              "title": "Epstein files latest: photos appear to show former prince Andrew crouching over female",
+              "url": "https://www.theguardian.com/us-news/live/2026/jan/31/jeffrey-epstein-files-latest-news-updates-prince-andrew-elon-musk-peter-mandelson-donald-trump",
               "source": "The Guardian US",
               "badge": "",
               "feature": false,
-              "snark": "A confident forecast meets chaotic reality."
+              "snark": "A reminder that 'simple' is a marketing term."
+            },
+            {
+              "title": "New message from top Democrats: The U.S. Justice Department can't be trusted",
+              "url": "https://www.latimes.com/politics/story/2026-01-31/new-message-from-top-democrats-u-s-justice-department-cant-be-trusted",
+              "source": "LA Times - Nation",
+              "badge": "",
+              "feature": false,
+              "snark": "A big announcement, with a small footnote doing cardio."
+            },
+            {
+              "title": "LIVE: ABC News Live",
+              "url": "https://abcnews.go.com/Live/video/abcnews-live-41463246",
+              "source": "ABC Top Stories",
+              "badge": "",
+              "feature": false,
+              "snark": "Officials promise transparency, then immediately dim the lights."
+            },
+            {
+              "title": "Dominion still has pending lawsuits against election deniers such as Rudy Giuliani and Sidney Powell",
+              "url": "https://www.cnn.com/business/live-news/fox-news-dominion-trial-04-18-23/h_8d51e3ae2714edaa0dace837305d03b8",
+              "source": "CNN Top Stories",
+              "badge": "",
+              "feature": false,
+              "snark": "A victory lap, taken before the race."
+            },
+            {
+              "title": "Snow and blizzards move into US east coast as 85 dead from last week’s storm",
+              "url": "https://www.theguardian.com/us-news/2026/jan/31/winter-weather-east-coast",
+              "source": "The Guardian US",
+              "badge": "",
+              "feature": false,
+              "snark": "The explanation is technically words."
+            },
+            {
+              "title": "Trump officials have tried to justify ICE shootings. Is it backfiring in court?",
+              "url": "https://www.latimes.com/california/story/2026-01-31/ice-shootings-trump-officials-statements-court-cases",
+              "source": "LA Times - Nation",
+              "badge": "",
+              "feature": false,
+              "snark": "Expect clarity shortly. Bring snacks."
+            },
+            {
+              "title": "Latest Epstein revelations dig even deeper hole for Andrew",
+              "url": "https://www.bbc.com/news/articles/c20z4ze349jo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Front Page",
+              "badge": "",
+              "feature": false,
+              "snark": "Expect pushback. Expect spin."
             }
           ]
         }
@@ -108,12 +108,20 @@
           "name": "Business",
           "items": [
             {
+              "title": "Companies are getting hit by rising prices, just like consumers",
+              "url": "https://www.nbcnews.com/business/economy/inflation-consumer-businesses-higher-prices-ppi-december-rcna256712",
+              "source": "NBC Business",
+              "badge": "",
+              "feature": false,
+              "snark": "This is why we can’t have nice things."
+            },
+            {
               "title": "Starbucks feels the heat as more chains compete for US coffee drinkers",
               "url": "https://abcnews.go.com/Business/wireStory/starbucks-feels-heat-chains-compete-us-coffee-drinkers-129728180",
               "source": "ABC Business",
               "badge": "",
               "feature": false,
-              "snark": "A compromise is proposed. Someone will hate it."
+              "snark": "Everyone agrees. On nothing."
             },
             {
               "title": "Trump taps career staffer to lead statistics agency whose chief he fired",
@@ -121,7 +129,7 @@
               "source": "Washington Post - Business",
               "badge": "",
               "feature": false,
-              "snark": "Experts weigh in; nobody gains weight from it."
+              "snark": "Nothing to see here—please stop looking."
             },
             {
               "title": "For the first time in 50 years, college grads are losing their edge",
@@ -129,23 +137,7 @@
               "source": "Washington Post - Business",
               "badge": "",
               "feature": false,
-              "snark": "A 'final' decision enters its sequel era."
-            },
-            {
-              "title": "Seahawks sale rumors swirl ahead of Super Bowl, Paul Allen's estate denies report",
-              "url": "https://abcnews.go.com/Business/wireStory/seahawks-sale-rumors-swirl-ahead-super-bowl-paul-129723740",
-              "source": "ABC Business",
-              "badge": "",
-              "feature": false,
-              "snark": "This is fine. (It is not fine.)"
-            },
-            {
-              "title": "Companies are getting hit by rising prices, just like consumers",
-              "url": "https://www.nbcnews.com/business/economy/inflation-consumer-businesses-higher-prices-ppi-december-rcna256712",
-              "source": "NBC Business",
-              "badge": "",
-              "feature": false,
-              "snark": "The truth is out there. Not here."
+              "snark": "Confidence was expressed. Evidence was not."
             },
             {
               "title": "Phone lines stay open as tax return deadline looms",
@@ -153,7 +145,7 @@
               "source": "BBC Business",
               "badge": "",
               "feature": false,
-              "snark": "The numbers were cited. Interpretation may vary."
+              "snark": "This is either progress or performance art."
             },
             {
               "title": "Silver plummets after Trump taps Kevin Warsh to chair Federal Reserve",
@@ -161,7 +153,15 @@
               "source": "NBC Business",
               "badge": "",
               "feature": false,
-              "snark": "A quick briefing. A long aftermath."
+              "snark": "The consequences are loading…"
+            },
+            {
+              "title": "India hosts Arab foreign ministers to deepen trade and strategic ties",
+              "url": "https://abcnews.go.com/Business/wireStory/india-hosts-arab-foreign-ministers-deepen-trade-strategic-129731878",
+              "source": "ABC Business",
+              "badge": "",
+              "feature": false,
+              "snark": "A measured response, using a broken ruler."
             },
             {
               "title": "Plan ahead and dress wisely: How to minimise add-on costs when you fly",
@@ -169,7 +169,7 @@
               "source": "BBC Business",
               "badge": "",
               "feature": false,
-              "snark": "Another day, another 'unprecedented' thing."
+              "snark": "A promise was made. A reminder will be needed."
             }
           ]
         }
@@ -181,20 +181,20 @@
           "name": "World / Politics",
           "items": [
             {
-              "title": "ICE claim that a man shattered his skull running into wall triggers tension at a Minnesota hospital",
-              "url": "https://abcnews.go.com/US/wireStory/ice-claim-man-shattered-skull-running-wall-triggers-129728439",
+              "title": "Farmers took in a freezing calf. Their kids cuddled up with her.",
+              "url": "https://www.washingtonpost.com/lifestyle/2026/01/31/newborn-calf-kids-cuddle-snowstorm/",
+              "source": "Washington Post - National",
+              "badge": "",
+              "feature": false,
+              "snark": "A solution appears, then immediately asks for a manager."
+            },
+            {
+              "title": "Demonstrators in Milan protest ICE unit at Winter Olympics, criticizing 'creeping fascism'",
+              "url": "https://abcnews.go.com/US/wireStory/demonstrators-milan-protest-ice-unit-winter-olympics-criticizing-129734460",
               "source": "ABC US Headlines",
               "badge": "",
               "feature": false,
-              "snark": "Everyone agrees. On nothing."
-            },
-            {
-              "title": "Takeaways from the millions of newly released Epstein files",
-              "url": "https://www.bbc.com/news/articles/cevnmxyy4wjo?at_medium=RSS&at_campaign=rss",
-              "source": "BBC US & Canada",
-              "badge": "",
-              "feature": false,
-              "snark": "An investigation begins. Answers do not."
+              "snark": "A minor detail becomes the main event."
             },
             {
               "title": "Trump officials have tried to justify ICE shootings. Is it backfiring in court?",
@@ -202,31 +202,31 @@
               "source": "LA Times - World",
               "badge": "",
               "feature": false,
-              "snark": "A minor tweak triggers major drama."
+              "snark": "This will surely be handled with nuance."
             },
             {
-              "title": "Raised in the segregated South, Gladys West was a hidden figure behind GPS",
+              "title": "Mathematician Gladys West dies at 95. She was a hidden figure behind GPS.",
               "url": "https://www.washingtonpost.com/obituaries/2026/01/31/gladys-west-dead-gps-mathematician/",
               "source": "Washington Post - National",
               "badge": "",
               "feature": false,
-              "snark": "The plot thickens. The facts thin out."
+              "snark": "It's complicated, but so is the excuse."
             },
             {
-              "title": "New message from top Democrats: The U.S. Justice Department can't be trusted",
-              "url": "https://www.latimes.com/politics/story/2026-01-31/new-message-from-top-democrats-u-s-justice-department-cant-be-trusted",
-              "source": "LA Times - World",
+              "title": "As officials disparage Pretti and Good, families of Black people killed by police have déjà vu",
+              "url": "https://abcnews.go.com/US/wireStory/officials-disparage-pretti-good-families-black-people-killed-129732421",
+              "source": "ABC US Headlines",
               "badge": "",
               "feature": false,
-              "snark": "The consequences are loading…"
+              "snark": "A bold claim enters witness protection."
             },
             {
-              "title": "Islamic State claims attack on international airport and airbase in Niger",
-              "url": "https://www.theguardian.com/world/2026/jan/30/niger-airport-airbase-attack-islamic-state",
-              "source": "The Guardian World",
+              "title": "Takeaways from the millions of newly released Epstein files",
+              "url": "https://www.bbc.com/news/articles/cevnmxyy4wjo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC US & Canada",
               "badge": "",
               "feature": false,
-              "snark": "The situation is dynamic. Like a runaway shopping cart."
+              "snark": "A breakthrough—followed by a breakdown."
             },
             {
               "title": "Iranian protesters share hope for outside help as Trump weighs military action",
@@ -234,31 +234,7 @@
               "source": "NBC World",
               "badge": "",
               "feature": false,
-              "snark": "They said 'soon.' They meant 'sometime.'"
-            },
-            {
-              "title": "Pedro Pascal and Meryl Streep lead tributes to Catherine O'Hara",
-              "url": "https://www.bbc.com/news/articles/czejk8pnk82o?at_medium=RSS&at_campaign=rss",
-              "source": "BBC US & Canada",
-              "badge": "",
-              "feature": false,
-              "snark": "More soon, they assure us. They always do."
-            },
-            {
-              "title": "Punxsutawney Phil prepares to issue his Groundhog Day weather verdict",
-              "url": "https://abcnews.go.com/US/wireStory/punxsutawney-phil-prepares-issue-groundhog-day-weather-verdict-129730504",
-              "source": "ABC US Headlines",
-              "badge": "",
-              "feature": false,
-              "snark": "This is either progress or performance art."
-            },
-            {
-              "title": "‘If you can, help us’: Iranian protesters plea for help as conflict continues",
-              "url": "https://www.nbcnews.com/video/-iranian-protesters-plea-for-help-as-conflict-in-the-country-continues-256934469897",
-              "source": "NBC World",
-              "badge": "",
-              "feature": false,
-              "snark": "A calm exterior, frantic interior."
+              "snark": "A minor tweak triggers major drama."
             },
             {
               "title": "More than 200 killed in coltan mine collapse in eastern DRC, officials say",
@@ -266,15 +242,39 @@
               "source": "The Guardian World",
               "badge": "",
               "feature": false,
-              "snark": "We'll circle back. Forever."
+              "snark": "Everyone is monitoring the situation. Vigorously."
             },
             {
-              "title": "Farmers took in a freezing calf. Their kids cuddled up with her.",
-              "url": "https://www.washingtonpost.com/lifestyle/2026/01/31/newborn-calf-kids-cuddle-snowstorm/",
-              "source": "Washington Post - National",
+              "title": "‘If you can, help us’: Iranian protesters plea for help as conflict continues",
+              "url": "https://www.nbcnews.com/video/-iranian-protesters-plea-for-help-as-conflict-in-the-country-continues-256934469897",
+              "source": "NBC World",
               "badge": "",
               "feature": false,
-              "snark": "Proceeding exactly as predicted—badly."
+              "snark": "Updates may follow. So may regret."
+            },
+            {
+              "title": "Pedro Pascal and Meryl Streep lead tributes to Catherine O'Hara",
+              "url": "https://www.bbc.com/news/articles/czejk8pnk82o?at_medium=RSS&at_campaign=rss",
+              "source": "BBC World",
+              "badge": "",
+              "feature": false,
+              "snark": "A committee will decide, eventually."
+            },
+            {
+              "title": "New message from top Democrats: The U.S. Justice Department can't be trusted",
+              "url": "https://www.latimes.com/politics/story/2026-01-31/new-message-from-top-democrats-u-s-justice-department-cant-be-trusted",
+              "source": "LA Times - World",
+              "badge": "",
+              "feature": false,
+              "snark": "A confident forecast meets chaotic reality."
+            },
+            {
+              "title": "Islamic State claims attack on international airport and airbase in Niger",
+              "url": "https://www.theguardian.com/world/2026/jan/30/niger-airport-airbase-attack-islamic-state",
+              "source": "The Guardian World",
+              "badge": "",
+              "feature": false,
+              "snark": "Developing story. Developing patience."
             }
           ]
         }
@@ -283,6 +283,6 @@
   ],
   "_meta": {
     "full_refresh_every_hours": 3,
-    "last_full_refresh_utc": "2026-01-31T13:54:18.289045+00:00"
+    "last_full_refresh_utc": "2026-01-31T16:58:57.327071+00:00"
   }
 }
