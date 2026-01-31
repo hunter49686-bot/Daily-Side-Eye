@@ -3,7 +3,7 @@
     "name": "THE DAILY SIDE-EYE",
     "tagline": "Headlines with a raised eyebrow."
   },
-  "generated_utc": "2026-01-31T09:54:05.003457+00:00",
+  "generated_utc": "2026-01-31T10:54:32.083795+00:00",
   "columns": [
     {
       "sections": [
@@ -11,84 +11,20 @@
           "name": "Breaking",
           "items": [
             {
-              "title": "Epstein files latest: Andrew, Elon Musk, Peter Mandelson among those named in newly released documents",
-              "url": "https://www.theguardian.com/us-news/live/2026/jan/31/jeffrey-epstein-files-latest-news-updates-prince-andrew-elon-musk-peter-mandelson-donald-trump",
-              "source": "The Guardian US",
-              "badge": "BREAK",
-              "feature": true,
-              "snark": "This is fine. (It is not fine.)"
-            },
-            {
-              "title": "LIVE: ABC News Live",
-              "url": "https://abcnews.go.com/Live/video/abcnews-live-41463246",
-              "source": "ABC Top Stories",
-              "badge": "",
-              "feature": false,
-              "snark": "The situation is dynamic. Like a runaway shopping cart."
-            },
-            {
               "title": "Partial government shutdown goes into effect, as Senate deal awaits House vote",
               "url": "https://abcnews.go.com/Politics/graham-blockade-stalls-government-funding-deal-hours-shutdown/story?id=129712452",
               "source": "ABC Top Stories",
-              "badge": "",
-              "feature": false,
-              "snark": "An 'update' that raises more questions than it answers."
+              "badge": "BREAK",
+              "feature": true,
+              "snark": "Expect clarity shortly. Bring snacks."
             },
             {
-              "title": "Photos appearing to show Andrew on all fours over woman released in Epstein files",
+              "title": "Photos released in Epstein files appear to show Andrew on all fours over female",
               "url": "https://www.bbc.com/news/articles/c4g5490xmkeo?at_medium=RSS&at_campaign=rss",
               "source": "BBC Front Page",
               "badge": "",
               "feature": false,
-              "snark": "A delay, with extra delay."
-            },
-            {
-              "title": "3 million pages of Epstein documents released",
-              "url": "https://www.nbcnews.com/nightly-news/video/3-million-pages-of-epstein-documents-released-256926277708",
-              "source": "NBC Top Stories",
-              "badge": "",
-              "feature": false,
-              "snark": "This is either progress or performance art."
-            },
-            {
-              "title": "Takeaways from the millions of newly released Epstein files",
-              "url": "https://www.bbc.com/news/articles/cevnmxyy4wjo?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Front Page",
-              "badge": "",
-              "feature": false,
-              "snark": "Developing story. Developing patience."
-            },
-            {
-              "title": "Shutdown nears as lawmakers brace for next round of ICE negotiations",
-              "url": "https://www.latimes.com/politics/story/2026-01-30/shutdown-senate-ice-negotiations",
-              "source": "LA Times - Nation",
-              "badge": "",
-              "feature": false,
-              "snark": "Everyone is monitoring the situation. Vigorously."
-            },
-            {
-              "title": "Dominion still has pending lawsuits against election deniers such as Rudy Giuliani and Sidney Powell",
-              "url": "https://www.cnn.com/business/live-news/fox-news-dominion-trial-04-18-23/h_8d51e3ae2714edaa0dace837305d03b8",
-              "source": "CNN Top Stories",
-              "badge": "",
-              "feature": false,
-              "snark": "A straight answer takes a scenic route."
-            },
-            {
-              "title": "Senate approves spending package allowing for DHS funding negotiation",
-              "url": "https://www.nbcnews.com/video/senate-approves-spending-package-allowing-for-dhs-funding-negotiation-256927813916",
-              "source": "NBC Top Stories",
-              "badge": "",
-              "feature": false,
-              "snark": "A plan exists. The details are on a separate planet."
-            },
-            {
-              "title": "More than 300 anti-ICE protests planned across US this weekend",
-              "url": "https://www.theguardian.com/us-news/2026/jan/31/anti-ice-protests-weekend",
-              "source": "The Guardian US",
-              "badge": "",
-              "feature": false,
-              "snark": "Officials promise transparency, then immediately dim the lights."
+              "snark": "The situation is dynamic. Like a runaway shopping cart."
             },
             {
               "title": "Trump's Cuba oil tariff threat creates new diplomatic challenge for Mexico's Sheinbaum",
@@ -96,7 +32,71 @@
               "source": "LA Times - Nation",
               "badge": "",
               "feature": false,
-              "snark": "A calm exterior, frantic interior."
+              "snark": "Nothing to see here—please stop looking."
+            },
+            {
+              "title": "Dominion still has pending lawsuits against election deniers such as Rudy Giuliani and Sidney Powell",
+              "url": "https://www.cnn.com/business/live-news/fox-news-dominion-trial-04-18-23/h_8d51e3ae2714edaa0dace837305d03b8",
+              "source": "CNN Top Stories",
+              "badge": "",
+              "feature": false,
+              "snark": "A measured response, using a broken ruler."
+            },
+            {
+              "title": "Will corporate America finally stand up to the Trump administration?",
+              "url": "https://www.theguardian.com/us-news/2026/jan/31/trump-corporate-america-ice-minneapolis",
+              "source": "The Guardian US",
+              "badge": "",
+              "feature": false,
+              "snark": "Calm statements follow. Loud consequences remain."
+            },
+            {
+              "title": "Takeaways from the millions of newly released Epstein files",
+              "url": "https://www.bbc.com/news/articles/cevnmxyy4wjo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Front Page",
+              "badge": "",
+              "feature": false,
+              "snark": "We'll circle back. Forever."
+            },
+            {
+              "title": "3 million pages of Epstein documents released",
+              "url": "https://www.nbcnews.com/nightly-news/video/3-million-pages-of-epstein-documents-released-256926277708",
+              "source": "NBC Top Stories",
+              "badge": "",
+              "feature": false,
+              "snark": "A headline that begs for an edit button."
+            },
+            {
+              "title": "Shutdown nears as lawmakers brace for next round of ICE negotiations",
+              "url": "https://www.latimes.com/politics/story/2026-01-30/shutdown-senate-ice-negotiations",
+              "source": "LA Times - Nation",
+              "badge": "",
+              "feature": false,
+              "snark": "A delay, with extra delay."
+            },
+            {
+              "title": "LIVE: ABC News Live",
+              "url": "https://abcnews.go.com/Live/video/abcnews-live-41463246",
+              "source": "ABC Top Stories",
+              "badge": "",
+              "feature": false,
+              "snark": "The optics are doing most of the work."
+            },
+            {
+              "title": "Senate approves spending package allowing for DHS funding negotiation",
+              "url": "https://www.nbcnews.com/video/senate-approves-spending-package-allowing-for-dhs-funding-negotiation-256927813916",
+              "source": "NBC Top Stories",
+              "badge": "",
+              "feature": false,
+              "snark": "A reset button is requested."
+            },
+            {
+              "title": "Epstein files latest: photos appear to show former prince Andrew crouching over woman",
+              "url": "https://www.theguardian.com/us-news/live/2026/jan/31/jeffrey-epstein-files-latest-news-updates-prince-andrew-elon-musk-peter-mandelson-donald-trump",
+              "source": "The Guardian US",
+              "badge": "",
+              "feature": false,
+              "snark": "It's complicated, but so is the excuse."
             }
           ]
         }
@@ -210,7 +210,7 @@
               "source": "ABC US Headlines",
               "badge": "",
               "feature": false,
-              "snark": "A headline that begs for an edit button."
+              "snark": "Nothing says stability like emergency meetings."
             },
             {
               "title": "More than 200 killed in coltan mine collapse in eastern DRC, officials say",
@@ -258,7 +258,7 @@
               "source": "LA Times - World",
               "badge": "",
               "feature": false,
-              "snark": "It's complicated, but so is the excuse."
+              "snark": "A quick briefing. A long aftermath."
             },
             {
               "title": "Protesters take to streets nationwide to decry ICE tactics in Minneapolis",
