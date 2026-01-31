@@ -8,20 +8,32 @@ import feedparser
 # -------------------------
 # FEEDS
 # -------------------------
-FEEDS = {
-    "Top": [
-        ("BBC World", "https://feeds.bbci.co.uk/news/world/rss.xml"),
-        ("NPR News", "https://feeds.npr.org/1001/rss.xml"),
-    ],
-    "Business": [
-        ("BBC Business", "https://feeds.bbci.co.uk/news/business/rss.xml"),
-        ("NPR Business", "https://feeds.npr.org/1006/rss.xml"),
-    ],
-    "World / Tech / Weird": [
-        ("BBC Tech", "https://feeds.bbci.co.uk/news/technology/rss.xml"),
-        ("NPR Technology", "https://feeds.npr.org/1019/rss.xml"),
-    ],
-}
+BREAKING_FEEDS = [
+    ("BBC World", "https://feeds.bbci.co.uk/news/world/rss.xml"),
+    ("NPR News", "https://feeds.npr.org/1001/rss.xml"),
+]
+
+TOP_FEEDS = [
+    ("BBC World", "https://feeds.bbci.co.uk/news/world/rss.xml"),
+    ("NPR News", "https://feeds.npr.org/1001/rss.xml"),
+]
+
+BUSINESS_FEEDS = [
+    ("BBC Business", "https://feeds.bbci.co.uk/news/business/rss.xml"),
+    ("NPR Business", "https://feeds.npr.org/1006/rss.xml"),
+]
+
+WORLD_TECH_WEIRD_FEEDS = [
+    ("BBC Tech", "https://feeds.bbci.co.uk/news/technology/rss.xml"),
+    ("NPR Technology", "https://feeds.npr.org/1019/rss.xml"),
+]
+
+# Exactly 3 columns. Breaking at top of Column 1.
+LAYOUT = [
+    [("Breaking", BREAKING_FEEDS), ("Top", TOP_FEEDS)],
+    [("Business", BUSINESS_FEEDS)],
+    [("World / Tech / Weird", WORLD_TECH_WEIRD_FEEDS)],
+]
 
 # -------------------------
 # SNARK (large, dry, sarcastic)
@@ -95,7 +107,7 @@ SNARK = [
 ]
 
 # -------------------------
-# TRAGEDY FILTER
+# TRAGEDY FILTER (no snark)
 # -------------------------
 TRAGEDY_KEYWORDS = [
     "killed", "dead", "death", "dies", "shooting", "shooter",
@@ -112,7 +124,47 @@ NEUTRAL_FALLBACKS = [
 ]
 
 # -------------------------
-# HELPERS
+# JSON reuse helpers (so Top/Business/World stay static between 3h refreshes)
+# -------------------------
+def load_previous_json(path="headlines.json"):
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return None
+
+def get_previous_section(prev_data, section_name):
+    if not prev_data:
+        return None
+    try:
+        for col in prev_data.get("columns", []):
+            for sec in col.get("sections", []):
+                if sec.get("name") == section_name:
+                    return sec
+    except Exception:
+        return None
+    return None
+
+def collect_existing_sublines(prev_data, section_names_to_reuse):
+    """
+    Collect already-used subheadline strings (snark or neutral) from
+    reused sections so Breaking doesn't duplicate them.
+    """
+    used = set()
+    if not prev_data:
+        return used
+    for name in section_names_to_reuse:
+        sec = get_previous_section(prev_data, name)
+        if not sec:
+            continue
+        for it in sec.get("items", []):
+            s = (it.get("snark") or "").strip()
+            if s:
+                used.add(s)
+    return used
+
+# -------------------------
+# Core helpers
 # -------------------------
 def clean_title(text):
     text = re.sub(r"\s+", " ", text or "").strip()
@@ -122,19 +174,6 @@ def is_tragic(title):
     t = (title or "").lower()
     return any(word in t for word in TRAGEDY_KEYWORDS)
 
-def neutral_line(i):
-    return NEUTRAL_FALLBACKS[i % len(NEUTRAL_FALLBACKS)]
-
-def build_snark_pool():
-    pool = SNARK[:]
-    random.shuffle(pool)
-    return pool
-
-def get_unique_snark(pool, used_count):
-    if pool:
-        return pool.pop()
-    return f"Everyone is monitoring the situation. (v{used_count + 1})"
-
 def parse_feed(source, url):
     items = []
     try:
@@ -143,11 +182,7 @@ def parse_feed(source, url):
             title = clean_title(getattr(entry, "title", ""))
             link = getattr(entry, "link", "")
             if title and link:
-                items.append({
-                    "title": title,
-                    "url": link,
-                    "source": source
-                })
+                items.append({"title": title, "url": link, "source": source})
     except Exception:
         return []
     return items
@@ -163,51 +198,117 @@ def dedupe(items):
         out.append(it)
     return out
 
+def build_snark_pool(exclude_set):
+    pool = [s for s in SNARK if s not in exclude_set]
+    random.shuffle(pool)
+    return pool
+
+def get_unique_line(pool, used_set, fallback_base):
+    """
+    Always returns a string not already in used_set.
+    - Pops from pool first (no repeats).
+    - If exhausted, appends a unique suffix to guarantee uniqueness.
+    """
+    while pool:
+        candidate = pool.pop()
+        if candidate not in used_set:
+            used_set.add(candidate)
+            return candidate
+
+    i = 2
+    candidate = fallback_base
+    while candidate in used_set:
+        candidate = f"{fallback_base} (v{i})"
+        i += 1
+    used_set.add(candidate)
+    return candidate
+
+def neutral_line_unique(i, used_set):
+    base = NEUTRAL_FALLBACKS[i % len(NEUTRAL_FALLBACKS)]
+    return get_unique_line([], used_set, base)
+
+def build_section(section_name, feeds, badge_first, feature_first, snark_pool, used_sublines):
+    combined = []
+    for source, url in feeds:
+        combined.extend(parse_feed(source, url))
+
+    combined = dedupe(combined)[:12]
+
+    rendered = []
+    for i, item in enumerate(combined):
+        title = item["title"]
+        tragic = is_tragic(title)
+
+        if tragic:
+            sub = neutral_line_unique(i, used_sublines)
+        else:
+            sub = get_unique_line(snark_pool, used_sublines, "Everyone is monitoring the situation.")
+
+        rendered.append({
+            "title": title,
+            "url": item["url"],
+            "source": item["source"],
+            "badge": badge_first if i == 0 else "",
+            "feature": True if (feature_first and i == 0) else False,
+            "snark": sub
+        })
+
+    return {"name": section_name, "items": rendered}
+
 # -------------------------
 # MAIN
 # -------------------------
 def main():
-    columns = [{"sections": []}, {"sections": []}, {"sections": []}]
-    snark_pool = build_snark_pool()
-    snark_used = 0
+    prev = load_previous_json("headlines.json")
+    now_utc = datetime.now(timezone.utc)
 
-    for col_idx, section_name in enumerate(FEEDS.keys()):
-        combined = []
-        for source, url in FEEDS[section_name]:
-            combined.extend(parse_feed(source, url))
+    # Refresh non-breaking sections every 3 hours (UTC boundary).
+    # Breaking refreshes every hour.
+    three_hour_boundary = (now_utc.hour % 3 == 0)
 
-        combined = dedupe(combined)[:12]
+    reuse_sections = []
+    if not three_hour_boundary:
+        reuse_sections = ["Top", "Business", "World / Tech / Weird"]
 
-        rendered = []
-        for i, item in enumerate(combined):
-            title = item["title"]
-            tragic = is_tragic(title)
+    used_sublines = collect_existing_sublines(prev, reuse_sections)
+    snark_pool = build_snark_pool(used_sublines)
 
-            snark = neutral_line(i) if tragic else get_unique_snark(snark_pool, snark_used)
-            if not tragic:
-                snark_used += 1
+    columns = []
+    for col in LAYOUT:
+        col_obj = {"sections": []}
 
-            rendered.append({
-                "title": title,
-                "url": item["url"],
-                "source": item["source"],
-                "badge": "TOP" if section_name == "Top" and i == 0 else "",
-                "feature": section_name == "Top" and i == 0,
-                "snark": snark
-            })
+        for section_name, feeds in col:
+            should_refresh = (section_name == "Breaking") or three_hour_boundary
 
-        columns[col_idx]["sections"].append({
-            "name": section_name,
-            "items": rendered
-        })
+            if not should_refresh:
+                prev_sec = get_previous_section(prev, section_name)
+                if prev_sec:
+                    col_obj["sections"].append(prev_sec)
+                    continue
+
+            if section_name == "Breaking":
+                sec = build_section(section_name, feeds, "BREAK", True, snark_pool, used_sublines)
+            elif section_name == "Top":
+                sec = build_section(section_name, feeds, "TOP", True, snark_pool, used_sublines)
+            else:
+                sec = build_section(section_name, feeds, "", False, snark_pool, used_sublines)
+
+            col_obj["sections"].append(sec)
+
+        columns.append(col_obj)
 
     data = {
         "site": {
             "name": "THE DAILY SIDE-EYE",
             "tagline": "Dry news links. Equal-opportunity skepticism."
         },
-        "generated_utc": datetime.now(timezone.utc).isoformat(),
-        "columns": columns
+        "generated_utc": now_utc.isoformat(),
+        "columns": columns,
+        "refresh": {
+            "breaking": "hourly",
+            "others": "every 3 hours",
+            "three_hour_boundary": three_hour_boundary
+        }
     }
 
     with open("headlines.json", "w", encoding="utf-8") as f:
