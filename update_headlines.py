@@ -117,10 +117,28 @@ TRAGEDY_KEYWORDS = [
 ]
 
 NEUTRAL_FALLBACKS = [
+    NEUTRAL_FALLBACKS = [
     "Developing story.",
     "Details are still emerging.",
     "Authorities are investigating.",
     "Situation remains unclear.",
+    "More information expected soon.",
+    "A fuller picture is forming.",
+    "Updates may follow.",
+    "Reporting continues.",
+    "This is still unfolding.",
+    "Context is still being gathered.",
+    "Key details remain unconfirmed.",
+    "Officials have not released full information.",
+    "No clear timeline yet.",
+    "More to come as this develops.",
+    "Early reports are still being verified.",
+    "Additional confirmation is pending.",
+    "Expect revisions as reporting advances.",
+    "Information remains partial at this time.",
+    "The facts are still coming in.",
+    "This remains under review.",
+]
 ]
 
 # -------------------------
