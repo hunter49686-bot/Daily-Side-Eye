@@ -1,7 +1,7 @@
 import json
 import random
 import re
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 
 import feedparser
 
@@ -11,6 +11,9 @@ import feedparser
 MAX_ITEMS_PER_SECTION = 18
 MAX_PER_SOURCE_PER_SECTION = 3  # lower = more diversity
 
+HISTORY_FILE = "history.json"
+HISTORY_MAX_DAYS = 10  # keep small for a static repo
+
 # =====================
 # RSS FEEDS
 # =====================
@@ -18,30 +21,34 @@ BREAKING_FEEDS = [
     ("BBC Front Page", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/front_page/rss.xml"),
     ("BBC World", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/world/rss.xml"),
     ("CNN Top Stories", "http://rss.cnn.com/rss/cnn_topstories.rss"),
-    ("AP Top News", "https://apnews.com/rss"),
+    ("NYT HomePage", "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml"),
+    ("Guardian World", "https://www.theguardian.com/world/rss"),
 ]
 
 TOP_FEEDS = [
     ("BBC World", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/world/rss.xml"),
-    ("Guardian World", "https://www.theguardian.com/world/rss"),
+    ("Guardian US", "https://www.theguardian.com/us/rss"),
     ("NYT HomePage", "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml"),
+    ("Reuters World", "https://feeds.reuters.com/Reuters/worldNews"),
 ]
 
 BUSINESS_FEEDS = [
     ("BBC Business", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/business/rss.xml"),
     ("Guardian Business", "https://www.theguardian.com/business/rss"),
     ("CNBC Top News", "https://www.cnbc.com/id/100003114/device/rss/rss.html"),
+    ("Reuters Business", "https://feeds.reuters.com/reuters/businessNews"),
 ]
 
 TECH_FEEDS = [
     ("BBC Tech", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/technology/rss.xml"),
     ("Guardian Tech", "https://www.theguardian.com/technology/rss"),
     ("Ars Technica", "https://feeds.arstechnica.com/arstechnica/index/"),
+    ("The Verge", "https://www.theverge.com/rss/index.xml"),
 ]
 
 WEIRD_FEEDS = [
-    ("Reuters Oddly Enough", "https://www.reutersagency.com/feed/?best-sectors=oddly-enough"),
-    ("Guardian US", "https://www.theguardian.com/us/rss"),
+    ("Reuters Oddly Enough", "https://feeds.reuters.com/reuters/oddlyEnoughNews"),
+    ("Guardian Science", "https://www.theguardian.com/science/rss"),
     ("BBC Science", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/sci/tech/rss.xml"),
 ]
 
@@ -112,21 +119,18 @@ VARIANT_SUFFIX = ["More soon.", "Updates expected.", "Details pending.", "More a
 # TRAGEDY SAFETY
 # =====================
 TRAGEDY_KEYWORDS = [
-    # death / loss
     "dead", "death", "dies", "died", "dying",
     "killed", "kill", "killing", "fatal", "fatally",
     "passed", "passing", "obituary", "funeral", "memorial",
     "grief", "grieving", "mourning",
     "loss", "lost",
 
-    # injury / harm / medical crisis
     "injured", "injury", "hurt", "hurting", "wounded",
     "pain", "painful", "suffering", "suffered",
     "critical", "critical condition", "hospitalized", "hospitalised",
     "icu", "intensive care", "life-threatening", "life threatening",
     "overdose",
 
-    # violence / crime / abuse
     "shooting", "shooter", "shot", "gunfire",
     "stabbing", "stabbed",
     "assault", "attack", "attacked",
@@ -135,10 +139,8 @@ TRAGEDY_KEYWORDS = [
     "abduction", "kidnap", "kidnapped", "hostage",
     "domestic violence", "abuse",
 
-    # self-harm / suicide
     "suicide", "self-harm", "self harm",
 
-    # disasters / accidents
     "fire", "wildfire", "blaze", "burning",
     "explosion", "exploded", "blast",
     "bomb", "bombing",
@@ -148,18 +150,15 @@ TRAGEDY_KEYWORDS = [
     "storm", "hurricane", "tornado", "cyclone",
     "landslide", "mudslide",
 
-    # war / conflict / terror
     "war", "combat", "fighting",
     "airstrike", "strike", "missile", "shelling",
     "invasion", "siege",
     "terror", "terrorist", "terrorism",
 
-    # emotional / human tragedy
     "sad", "sorrow", "heartbreaking", "tragic",
     "tragedy", "devastating", "devastation",
     "trauma", "traumatic",
 
-    # victims / missing
     "victim", "victims",
     "casualty", "casualties",
     "missing", "disappeared",
@@ -187,6 +186,42 @@ TRAGEDY_PHRASES = [
 ]
 
 # =====================
+# SIDE-EYE METER + AGES POORLY RULES
+# =====================
+SIDE_EYE_TRIGGERS = [
+    "officials", "reportedly", "sources", "claims", "denies", "denied",
+    "investigation", "probe", "review", "inquiry",
+    "leak", "leaked",
+    "report", "reports",
+    "talks", "negotiations",
+    "plan", "strategy",
+    "announced", "announcement",
+    "timeline",
+    "deal",
+    "crisis",
+    "warning", "warns",
+    "sanctions",
+    "election",
+    "court", "lawsuit", "judge",
+    "inflation", "recession", "rates", "central bank", "fed",
+]
+
+AGES_POORLY_TRIGGERS = [
+    # things that often flip quickly (no tragedy, just volatility)
+    "will", "could", "may", "might",
+    "forecast", "predict", "prediction",
+    "expected", "expects",
+    "plan", "pledge", "promise",
+    "deal", "talks",
+    "nominee", "pick",
+    "ruling", "court",
+    "rates", "inflation",
+    "election", "poll",
+    "ceasefire",
+    "launch",
+]
+
+# =====================
 # HELPERS
 # =====================
 def clean(text):
@@ -203,6 +238,40 @@ def is_tragic_title(title):
             return True
     return False
 
+def side_eye_score(title):
+    """
+    Returns 0..5 (higher = more skeptical).
+    Conservative, keyword-based, no sentiment model.
+    """
+    t = (title or "").lower()
+    hits = 0
+    for w in SIDE_EYE_TRIGGERS:
+        if w in t:
+            hits += 1
+    # Map hits to 0..5
+    if hits <= 0:
+        return 1
+    if hits == 1:
+        return 2
+    if hits == 2:
+        return 3
+    if hits == 3:
+        return 4
+    return 5
+
+def eligible_for_ages_poorly(section_name, title):
+    """
+    Choose from non-tragic Top/Business (and sometimes Breaking if you want),
+    but we will keep it conservative: Top + Business only.
+    """
+    if section_name not in ["Top", "Business"]:
+        return False
+    if is_tragic_title(title):
+        return False
+    t = (title or "").lower()
+    # must contain at least one volatility trigger
+    return any(w in t for w in AGES_POORLY_TRIGGERS)
+
 def parse_feed(source, url):
     items = []
     feed = feedparser.parse(url)
@@ -213,12 +282,16 @@ def parse_feed(source, url):
             items.append({"title": title[:180], "url": link, "source": source})
     return items
 
-def load_previous():
+def load_json_file(path, default_value):
     try:
-        with open("headlines.json", "r", encoding="utf-8") as f:
+        with open(path, "r", encoding="utf-8") as f:
             return json.load(f)
     except Exception:
-        return None
+        return default_value
+
+def save_json_file(path, obj):
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(obj, f, indent=2, ensure_ascii=False)
 
 def unique_text_from_pool(pool, used_set, fallback_base):
     while pool:
@@ -249,11 +322,76 @@ def pick_snark_unique(snark_pool, used_sublines):
     fallback = random.choice(NEUTRAL_FALLBACKS)
     return unique_text_from_pool(snark_pool, used_sublines, fallback)
 
+def ymd_from_utc_iso(iso_str):
+    try:
+        dt = datetime.fromisoformat(iso_str.replace("Z", "+00:00"))
+        dt = dt.astimezone(timezone.utc)
+        return dt.strftime("%Y-%m-%d")
+    except Exception:
+        return None
+
+def build_week_in_hindsight(history):
+    """
+    Build dry, factual-ish lines from last 7 days of saved snapshots.
+    We avoid claiming events happened; we summarize patterns in the headlines.
+    """
+    # Flatten titles from last 7 days
+    cutoff = datetime.now(timezone.utc) - timedelta(days=7)
+    titles = []
+    for day in history:
+        day_utc = day.get("generated_utc", "")
+        try:
+            dt = datetime.fromisoformat(day_utc.replace("Z", "+00:00")).astimezone(timezone.utc)
+        except Exception:
+            continue
+        if dt < cutoff:
+            continue
+        for t in day.get("titles", []):
+            titles.append((t or "").lower())
+
+    if not titles:
+        return [
+            "Not enough history yet. Check back after a few updates.",
+        ]
+
+    def count_contains(needle):
+        n = needle.lower()
+        c = 0
+        for t in titles:
+            if n in t:
+                c += 1
+        return c
+
+    developing = count_contains("develop")
+    investigate = count_contains("investigat") + count_contains("probe") + count_contains("review")
+    talks = count_contains("talk") + count_contains("deal") + count_contains("negotiat")
+    warn = count_contains("warn")
+    plan = count_contains("plan") + count_contains("strategy")
+
+    lines = []
+    # Only include lines that have non-zero counts
+    if developing > 0:
+        lines.append("Developing stayed popular: " + str(developing) + " headline(s) used it (or close variants).")
+    if investigate > 0:
+        lines.append("Investigations were plentiful: about " + str(investigate) + " headline(s) referenced probes/reviews.")
+    if talks > 0:
+        lines.append("Talks and deals appeared often: about " + str(talks) + " headline(s).")
+    if warn > 0:
+        lines.append("Warnings were issued: about " + str(warn) + " headline(s).")
+    if plan > 0:
+        lines.append("Plans and strategies were announced: about " + str(plan) + " headline(s).")
+
+    if not lines:
+        lines = ["This week was oddly low on recurring buzzwords."]
+
+    # Keep it short and readable
+    return lines[:5]
+
 # =====================
 # MAIN
 # =====================
 def main():
-    prev = load_previous()
+    prev = load_json_file("headlines.json", None)
     now = datetime.now(timezone.utc)
 
     # Breaking refreshes every run. Others refresh every 3 hours (UTC boundary).
@@ -282,6 +420,9 @@ def main():
     random.shuffle(snark_pool)
 
     columns = []
+    # Collect candidates for the daily "ages poorly" pick
+    ages_poorly_candidates = []
+    today_key = now.strftime("%Y-%m-%d")
 
     for col in LAYOUT:
         col_out = {"sections": []}
@@ -300,6 +441,10 @@ def main():
                     if reused:
                         break
                 if reused:
+                    # While reusing, still track potential candidates for "ages poorly"
+                    for it in reused.get("items", []):
+                        if eligible_for_ages_poorly(section_name, it.get("title", "")):
+                            ages_poorly_candidates.append((section_name, it.get("url", "")))
                     col_out["sections"].append(reused)
                     continue
 
@@ -339,17 +484,27 @@ def main():
                 else:
                     sub = pick_snark_unique(snark_pool, used_sublines)
 
-                used_urls.add(it["url"])
-                per_source[src] += 1
+                meter = side_eye_score(it["title"])
 
-                section_items.append({
+                item_out = {
                     "title": it["title"],
                     "url": it["url"],
                     "source": it["source"],
                     "badge": badge,
                     "feature": feature,
                     "snark": sub,
-                })
+                    "meter": meter,              # 1..5
+                    "ages_poorly": False,         # set later
+                    "tragic": tragic,             # for UI decisions if desired
+                }
+
+                used_urls.add(it["url"])
+                per_source[src] += 1
+                section_items.append(item_out)
+
+                # Candidate pool for daily "ages poorly"
+                if eligible_for_ages_poorly(section_name, it["title"]):
+                    ages_poorly_candidates.append((section_name, it["url"]))
 
                 if len(section_items) >= MAX_ITEMS_PER_SECTION:
                     break
@@ -358,6 +513,51 @@ def main():
 
         columns.append(col_out)
 
+    # Pick ONE "ages poorly" headline per day (stable-ish)
+    # We do this by hashing the day into the candidate list index.
+    ages_poorly_url = ""
+    if ages_poorly_candidates:
+        # deterministic selection based on date so it does not jump each run
+        idx = sum(ord(c) for c in today_key) % len(ages_poorly_candidates)
+        ages_poorly_url = ages_poorly_candidates[idx][1]
+
+    if ages_poorly_url:
+        for col in columns:
+            for sec in col.get("sections", []):
+                for it in sec.get("items", []):
+                    if it.get("url") == ages_poorly_url:
+                        it["ages_poorly"] = True
+
+    # Build/update history.json to support "Week in Hindsight"
+    history = load_json_file(HISTORY_FILE, [])
+    # Add snapshot for today (one per day)
+    existing_days = set()
+    for h in history:
+        k = ymd_from_utc_iso(h.get("generated_utc", ""))
+        if k:
+            existing_days.add(k)
+
+    if today_key not in existing_days:
+        titles_today = []
+        for col in columns:
+            for sec in col.get("sections", []):
+                for it in sec.get("items", []):
+                    titles_today.append(it.get("title", ""))
+
+        history.append({
+            "generated_utc": now.isoformat(),
+            "titles": titles_today[:200],  # cap
+        })
+
+    # Trim history to last N days
+    # Keep entries with valid ISO times, sort by generated_utc
+    def sort_key(x):
+        return x.get("generated_utc", "")
+    history = sorted(history, key=sort_key)[-HISTORY_MAX_DAYS:]
+    save_json_file(HISTORY_FILE, history)
+
+    week_lines = build_week_in_hindsight(history)
+
     out = {
         "site": {
             "name": "THE DAILY SIDE-EYE",
@@ -365,6 +565,12 @@ def main():
         },
         "generated_utc": now.isoformat(),
         "columns": columns,
+        "features": {
+            "side_eye_meter": True,
+            "ages_poorly": True,
+            "week_in_hindsight": True,
+        },
+        "week_in_hindsight": week_lines,
         "refresh": {
             "breaking": "hourly",
             "others": "every 3 hours (UTC boundary)",
@@ -373,8 +579,7 @@ def main():
         },
     }
 
-    with open("headlines.json", "w", encoding="utf-8") as f:
-        json.dump(out, f, indent=2, ensure_ascii=False)
+    save_json_file("headlines.json", out)
 
 if __name__ == "__main__":
     main()
