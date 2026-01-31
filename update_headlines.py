@@ -21,7 +21,8 @@ def should_refresh(section_name: str, now_utc: datetime) -> bool:
     return (now_utc.hour % 3 == 0)
 
 # --------------------------------------------
-# RSS FEEDS (expanded, less BBC-heavy)
+# RSS FEEDS (balanced, not all BBC)
+# NOTE: Keep these aligned with what your site already shows.
 # --------------------------------------------
 BREAKING_FEEDS = [
     ("AP Top News", "https://apnews.com/apf-topnews?output=rss"),
@@ -36,6 +37,8 @@ TOP_FEEDS = [
     ("NPR News", "https://feeds.npr.org/1001/rss.xml"),
     ("Guardian World", "https://www.theguardian.com/world/rss"),
     ("BBC World", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/world/rss.xml"),
+    # If you’re using NYT in your repo already, keep it here:
+    ("NYT HomePage", "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml"),
 ]
 
 BUSINESS_FEEDS = [
@@ -43,6 +46,8 @@ BUSINESS_FEEDS = [
     ("CNBC", "https://www.cnbc.com/id/100003114/device/rss/rss.html"),
     ("MarketWatch", "https://feeds.content.dowjones.io/public/rss/mw_topstories"),
     ("BBC Business", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/business/rss.xml"),
+    # Guardian business is often helpful for variety:
+    ("Guardian Business", "https://www.theguardian.com/business/rss"),
 ]
 
 TECH_FEEDS = [
@@ -51,12 +56,14 @@ TECH_FEEDS = [
     ("Wired", "https://www.wired.com/feed/rss"),
     ("Reuters Technology", "https://feeds.reuters.com/reuters/technologyNews"),
     ("BBC Tech", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/technology/rss.xml"),
+    ("Guardian Tech", "https://www.theguardian.com/technology/rss"),
 ]
 
 WEIRD_FEEDS = [
     ("Reuters Oddly Enough", "https://feeds.reuters.com/reuters/oddlyEnoughNews"),
     ("Smithsonian", "https://www.smithsonianmag.com/rss/latest_articles/"),
     ("BBC Science", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/sci/tech/rss.xml"),
+    ("Guardian US", "https://www.theguardian.com/us-news/rss"),
 ]
 
 # 3 columns: (1) Breaking + Top, (2) Business, (3) Tech + Weird
@@ -86,9 +93,16 @@ SNARK_POOL = [
     "Everyone is monitoring the situation.",
     "Talks were constructive. Feelings were shared.",
     "A framework is emerging. It will be revisited.",
+    "Confidence is high. Evidence is pending.",
+    "The optics are doing most of the work here.",
+    "This is either a turning point or a rehearsal.",
+    "A quick fix becomes the long-term architecture.",
+    "The fine print is doing most of the work here.",
+    "Everyone is calm. On paper.",
+    "A big announcement, with a small footnote doing cardio.",
 ]
 
-# STRICT tragedy-safe sublines (no cadence, no jokes)
+# STRICT tragedy-safe sublines (no cadence, no jokes, no “as of now”)
 TRAGEDY_SUBLINES = [
     "Authorities are investigating.",
     "Details are still emerging.",
@@ -98,6 +112,16 @@ TRAGEDY_SUBLINES = [
     "Updates will follow.",
 ]
 
+# Phrases from older versions you want to purge on reuse
+OLD_NEUTRAL_PREFIXES = [
+    "as of now:", "so far:", "at this point:", "for now:", "currently:",
+]
+OLD_NEUTRAL_FRAGMENTS = [
+    "awaiting confirmation", "updates expected", "more as it develops",
+    "early reports are still being verified", "key details remain unconfirmed",
+    "context is still being gathered", "situation remains unclear",
+]
+
 # Expanded tragedy keywords (for safety)
 TRAGEDY_KEYWORDS = [
     "dead", "death", "dies", "died", "killed", "kill", "fatal",
@@ -105,7 +129,7 @@ TRAGEDY_KEYWORDS = [
     "injured", "hurt", "pain", "sorrow", "sad", "grief",
     "shooting", "shot", "stabbed", "attack", "assault", "murder",
     "fire", "burn", "explosion", "blast", "crash", "collision",
-    "war", "airstrike", "bomb", "terror", "hostage", "massacre",
+    "war", "airstrike", "air strike", "bomb", "terror", "hostage", "massacre",
     "missing", "disaster", "tragedy", "victim", "hospitalized",
     "collapse", "collapsed",
 ]
@@ -116,6 +140,42 @@ AGES_POORLY_TRIGGERS = [
     "nominee", "rates", "inflation", "election", "forecast", "poll",
     "set to", "aims to",
 ]
+
+# Language Watch terms (counts shown in footer)
+LANGUAGE_WATCH_TERMS = [
+    ("Developing", r"\bdevelop\w*\b"),
+    ("Sources say", r"\bsources?\s+(say|said)\b"),
+    ("Under review", r"\bunder\s+review\b"),
+    ("Officials said", r"\bofficials?\s+(say|said)\b"),
+    ("Expected to", r"\bexpected\s+to\b"),
+]
+
+# “One Line Everyone Missed” triggers
+MISSED_TRIGGERS = [
+    "familiar with the matter",
+    "sources say",
+    "sources said",
+    "according to",
+    "officials said",
+    "spokesperson",
+    "statement",
+    "under review",
+]
+
+# Nothing Burger triggers
+NOTHING_BURGER_TRIGGERS = [
+    "talks", "discuss", "discussion", "meet", "meeting", "negotiat",
+    "consider", "review", "framework", "plan", "proposal", "weigh",
+    "signal", "aims to", "expected", "set to",
+]
+
+# Stopwords for topic extraction
+STOPWORDS = set("""
+a an and are as at be by for from has have he her his i if in into is it its
+just may more most much new not of on or our out over she so that the their
+them then there these they this to too was we were what when where which who
+will with you your vs via amid after before
+""".split())
 
 # --------------------------------------------
 # HELPERS
@@ -129,7 +189,7 @@ def normalize(s: str) -> str:
 def parse_feed(source_name: str, url: str):
     out = []
     f = feedparser.parse(url)
-    for e in getattr(f, "entries", [])[:100]:
+    for e in getattr(f, "entries", [])[:120]:
         title = clean(getattr(e, "title", ""))
         link = getattr(e, "link", "")
         if title and link:
@@ -140,23 +200,63 @@ def is_tragic(title: str) -> bool:
     t = normalize(title)
     return any(k in t for k in TRAGEDY_KEYWORDS)
 
-def shorten_title(t: str, max_len: int = 115) -> str:
+def shorten_title(t: str, max_len: int = 120) -> str:
     t = clean(t)
-    if len(t) <= max_len:
-        return t
-    return t[: max_len - 1].rstrip() + "…"
+    return t if len(t) <= max_len else t[: max_len - 1].rstrip() + "…"
 
-# Stopwords for topic extraction (keep it simple and safe)
-STOPWORDS = set("""
-a an and are as at be by for from has have he her his i if in into is it its
-just may more most much new not of on or our out over she so that the their
-them then there these they this to too was we were what when where which who
-will with you your vs via amid after before
-""".split())
+def looks_like_old_neutral(snark: str) -> bool:
+    s = normalize(snark)
+    if any(p in s for p in OLD_NEUTRAL_PREFIXES):
+        return True
+    if any(frag in s for frag in OLD_NEUTRAL_FRAGMENTS):
+        return True
+    return False
+
+def build_language_watch(all_titles):
+    joined = "\n".join(all_titles).lower()
+    rows = []
+    for label, pattern in LANGUAGE_WATCH_TERMS:
+        try:
+            n = len(re.findall(pattern, joined, flags=re.IGNORECASE))
+        except Exception:
+            n = 0
+        rows.append({"label": label, "count": n})
+    rows.sort(key=lambda x: (-x["count"], x["label"]))
+    nonzero = [r for r in rows if r["count"] > 0]
+    return nonzero[:5] if nonzero else rows[:3]
+
+def pick_one_line_missed(candidates, day_seed):
+    matches = []
+    for it in candidates:
+        t = normalize(it.get("title", ""))
+        if any(trig in t for trig in MISSED_TRIGGERS):
+            matches.append(it)
+    pool = matches if matches else [it for it in candidates if not it.get("tragic")]
+    if not pool:
+        pool = candidates[:]
+    if not pool:
+        return None
+    return pool[day_seed % len(pool)]
+
+def pick_nothing_burger(candidates, day_seed):
+    pool = []
+    for it in candidates:
+        if it.get("tragic"):
+            continue
+        sec = it.get("section")
+        # Prefer Business/Top for burger; allow fallback to Tech if needed
+        if sec not in ["Business", "Top", "Tech"]:
+            continue
+        t = normalize(it.get("title", ""))
+        if any(trig in t for trig in NOTHING_BURGER_TRIGGERS):
+            pool.append(it)
+    if not pool:
+        pool = [it for it in candidates if (not it.get("tragic")) and it.get("section") in ["Business", "Top", "Tech"]]
+    if not pool:
+        return None
+    return pool[(day_seed * 3 + 7) % len(pool)]
 
 def extract_cap_phrases(title: str):
-    # Pull sequences of 1-4 TitleCase words: "Federal Reserve", "Donald Trump"
-    # Avoid very short junk.
     words = re.findall(r"[A-Za-z][A-Za-z'\-]+", title)
     phrases = []
     buf = []
@@ -175,18 +275,17 @@ def extract_cap_phrases(title: str):
         else:
             flush()
     flush()
-    # De-dupe while preserving order
+
     seen = set()
     out = []
     for p in phrases:
-        key = p.lower()
-        if key not in seen:
-            seen.add(key)
+        k = p.lower()
+        if k not in seen:
+            seen.add(k)
             out.append(p)
     return out
 
 def extract_keywords(title: str):
-    # Lowercase tokens >=4 chars, excluding stopwords.
     tokens = re.findall(r"[a-zA-Z][a-zA-Z'\-]+", title.lower())
     out = []
     for tok in tokens:
@@ -200,12 +299,10 @@ def extract_keywords(title: str):
 
 def build_week_in_hindsight(candidates):
     """
-    candidates: list of dicts with keys: title, source, section, tragic
-    We will focus on Breaking + Top only.
-    Rank topics by:
-      1) number of distinct sources that mention the topic
+    Auto-generates 3 bullets based on topics most repeated in Breaking+Top.
+    Ranked by:
+      1) distinct sources mentioning topic
       2) total mentions
-    Then create 3 bullets with representative headlines (neutral wording).
     """
     pool = [c for c in candidates if c.get("section") in ["Breaking", "Top"]]
     if not pool:
@@ -217,25 +314,21 @@ def build_week_in_hindsight(candidates):
     for c in pool:
         title = c.get("title", "")
         src = c.get("source", "")
-
-        # Candidate topics: capitalized phrases first, plus a few keywords
+        # Topics: cap phrases, else a few keywords
         topics = extract_cap_phrases(title)
-        kws = extract_keywords(title)[:3]  # keep small to avoid noisy topics
+        kws = extract_keywords(title)[:3]
 
-        # Normalize and add
         for t in topics:
             key = t.lower()
             topic_to_sources.setdefault(key, set()).add(src)
             topic_to_titles.setdefault(key, []).append(title)
 
-        # For keywords, only use if we have no cap phrases (helps with "Epstein", etc.)
         if not topics:
             for kw in kws:
                 key = kw.lower()
                 topic_to_sources.setdefault(key, set()).add(src)
                 topic_to_titles.setdefault(key, []).append(title)
 
-    # Filter out extremely generic topics
     def is_generic(key: str) -> bool:
         k = key.lower()
         if k in STOPWORDS:
@@ -258,7 +351,6 @@ def build_week_in_hindsight(candidates):
 
     scored.sort(key=lambda x: (-x[0], -x[1], x[2]))
 
-    # Pick top 3 distinct topics (avoid near-duplicates by substring)
     picked = []
     picked_keys = []
     for src_count, mention_count, key in scored:
@@ -272,17 +364,22 @@ def build_week_in_hindsight(candidates):
     bullets = []
     for key in picked:
         titles = topic_to_titles.get(key, [])
-        # representative headline: shortest title that contains the topic
         rep = sorted(titles, key=lambda s: len(s))[0] if titles else key
         rep = shorten_title(rep, 120)
-
-        # Friendly display name
         display = " ".join([w.capitalize() for w in key.split()]) if " " in key else key.capitalize()
-
-        # Build neutral bullet
         bullets.append(f"• {display}: {rep}")
 
     return bullets
+
+def pick_unique_snark(used_sublines: set) -> str:
+    # best-effort uniqueness; falls back if exhausted
+    tries = 0
+    while tries < 40:
+        s = random.choice(SNARK_POOL)
+        if s not in used_sublines:
+            return s
+        tries += 1
+    return random.choice(SNARK_POOL)
 
 # --------------------------------------------
 # MAIN
@@ -297,17 +394,42 @@ def main():
 
     now = datetime.now(timezone.utc)
     day_seed = int(now.strftime("%Y%m%d"))
-    random.seed(day_seed + now.hour)  # small drift, stable within hour
+    random.seed(day_seed + now.hour)
 
     used_urls = set()
     used_sublines = set()
 
+    # start with a shuffled pool so the page “feels” fresh
     snark_pool = SNARK_POOL[:]
     random.shuffle(snark_pool)
 
     columns = []
-    ages_candidates = []      # list of urls eligible for "IF THIS AGES POORLY"
-    today_candidates = []     # for week_in_hindsight and other meta features
+    ages_candidates = []
+    today_candidates = []
+
+    def sanitize_item(section_name: str, it: dict):
+        """Fix reused legacy fields so old neutral/cadence text can’t survive."""
+        title = it.get("title", "")
+        tragic = is_tragic(title)
+
+        # enforce tragedy-safe tone
+        if tragic:
+            it["snark"] = random.choice(TRAGEDY_SUBLINES)
+            it["ages_poorly"] = False
+        else:
+            # purge old neutral cadence lines from older versions
+            if looks_like_old_neutral(it.get("snark", "")):
+                it["snark"] = pick_unique_snark(used_sublines)
+
+        # ages poorly ONLY Business/Tech
+        if section_name not in ["Business", "Tech"]:
+            it["ages_poorly"] = False
+
+        # collect sublines to avoid duplicates
+        if it.get("snark"):
+            used_sublines.add(it["snark"])
+
+        return tragic
 
     for col in LAYOUT:
         col_out = {"sections": []}
@@ -315,29 +437,30 @@ def main():
         for section_name, feeds in col:
             refresh = should_refresh(section_name, now)
 
-            # Reuse previous section if not refreshing
+            # Reuse previous section if not refreshing — but SANITIZE so old content can't linger
             if not refresh and prev:
-                reused = False
                 reused_section = None
                 for pcol in prev.get("columns", []):
                     for psec in pcol.get("sections", []):
                         if psec.get("name") == section_name:
                             reused_section = psec
-                            col_out["sections"].append(psec)
-                            reused = True
                             break
-                    if reused:
+                    if reused_section:
                         break
 
-                if reused and reused_section:
+                if reused_section:
+                    # sanitize reused items
                     for it in reused_section.get("items", []):
+                        tragic = sanitize_item(section_name, it)
                         today_candidates.append({
                             "title": it.get("title", ""),
                             "url": it.get("url", ""),
                             "source": it.get("source", ""),
                             "section": section_name,
-                            "tragic": is_tragic(it.get("title", "")),
+                            "tragic": tragic,
                         })
+
+                    col_out["sections"].append(reused_section)
                     continue
 
             # Pull fresh
@@ -366,16 +489,12 @@ def main():
                 if tragic:
                     sub = random.choice(TRAGEDY_SUBLINES)
                 else:
-                    # Use snark, ensure unique across page best-effort
                     if snark_pool:
                         sub = snark_pool.pop()
+                        if sub in used_sublines:
+                            sub = pick_unique_snark(used_sublines)
                     else:
-                        sub = random.choice(SNARK_POOL)
-
-                    tries = 0
-                    while sub in used_sublines and tries < 25:
-                        sub = random.choice(SNARK_POOL)
-                        tries += 1
+                        sub = pick_unique_snark(used_sublines)
 
                 used_sublines.add(sub)
 
@@ -389,7 +508,7 @@ def main():
                     "ages_poorly": False,
                 }
 
-                # Ages poorly candidates ONLY in Business + Tech, non-tragic
+                # Ages poorly candidates ONLY Business + Tech, non-tragic
                 if section_name in ["Business", "Tech"] and not tragic:
                     t = title.lower()
                     if any(w in t for w in AGES_POORLY_TRIGGERS):
@@ -414,28 +533,41 @@ def main():
 
         columns.append(col_out)
 
-    # Mark exactly one item/day as "IF THIS AGES POORLY"
+    # Mark exactly one item/day as "IF THIS AGES POORLY" (Business/Tech only)
     if ages_candidates:
         pick = ages_candidates[day_seed % len(ages_candidates)]
         for col in columns:
             for sec in col.get("sections", []):
+                sec_name = sec.get("name")
                 for it in sec.get("items", []):
-                    if it.get("url") == pick:
+                    if it.get("url") == pick and sec_name in ["Business", "Tech"] and (not is_tragic(it.get("title", ""))):
                         it["ages_poorly"] = True
 
-    # Auto-generate Week in Hindsight based on most repeated Breaking/Top topics
+    # Feature: One Line Everyone Missed
+    missed = pick_one_line_missed(today_candidates, day_seed)
+
+    # Feature: Nothing Burger of the Day
+    burger = pick_nothing_burger(today_candidates, day_seed)
+
+    # Feature: Language Watch
+    language_watch = build_language_watch([c.get("title", "") for c in today_candidates])
+
+    # Week in Hindsight (auto from Breaking+Top)
     week_in_hindsight = build_week_in_hindsight(today_candidates)
     if not week_in_hindsight:
         week_in_hindsight = [
-            "• Top stories rotated quickly today. Check back after the next refresh.",
-            "• Breaking updates more often than the other sections by design.",
-            "• If this ages poorly appears once per day (Business/Tech only).",
+            "• Not enough overlap yet to summarize. Check back after the next refresh.",
+            "• Breaking updates more often than other sections by design.",
+            "• Business/Tech get the one daily 'If This Ages Poorly' tag.",
         ]
 
     out = {
         "site": {"name": SITE_NAME, "tagline": TAGLINE},
         "generated_utc": now.isoformat(),
         "columns": columns,
+        "one_line_everyone_missed": missed,
+        "nothing_burger": burger,
+        "language_watch": language_watch,
         "week_in_hindsight": week_in_hindsight,
     }
 
