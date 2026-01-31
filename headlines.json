@@ -3,7 +3,7 @@
     "name": "THE DAILY SIDE-EYE",
     "tagline": "Headlines with a raised eyebrow."
   },
-  "generated_utc": "2026-01-31T05:09:06.936915+00:00",
+  "generated_utc": "2026-01-31T05:11:59.385624+00:00",
   "columns": [
     {
       "sections": [
@@ -16,7 +16,7 @@
               "source": "BBC World",
               "badge": "BREAK",
               "feature": true,
-              "snark": "Currently: Developing story. More as it develops."
+              "snark": "More information expected soon. "
             },
             {
               "title": "Civil rights investigation opened into Alex Pretti shooting",
@@ -24,7 +24,7 @@
               "source": "BBC World",
               "badge": "",
               "feature": false,
-              "snark": "For now: Details are still emerging. Awaiting confirmation."
+              "snark": "Reporting continues. "
             },
             {
               "title": "At least 170 killed in air strikes during Myanmar's widely criticised election, UN says",
@@ -32,7 +32,7 @@
               "source": "BBC World",
               "badge": "",
               "feature": false,
-              "snark": "For now: Authorities are investigating. Awaiting confirmation."
+              "snark": "Context is still being gathered. "
             },
             {
               "title": "An ingredient for this curry is missing - and in eight minutes, it's at the door",
@@ -40,7 +40,7 @@
               "source": "BBC World",
               "badge": "",
               "feature": false,
-              "snark": "A committee has been formed. Problem solved, basically."
+              "snark": "Officials say it's under control. So that's something."
             },
             {
               "title": "What to know about the partial government shutdown",
@@ -48,7 +48,7 @@
               "source": "NPR News",
               "badge": "",
               "feature": false,
-              "snark": "Everyone is calm. On paper."
+              "snark": "A decision was made. Consequences scheduled for later."
             },
             {
               "title": "'Melania' is Amazon's airbrushed and astronomically pricey portrait of the First Lady",
@@ -56,7 +56,7 @@
               "source": "NPR News",
               "badge": "",
               "feature": false,
-              "snark": "Officials clarified the confusion with more confusion."
+              "snark": "Everyone is calm. On paper."
             },
             {
               "title": "Photos: Thousands once again protest ICE in Minneapolis and across the U.S.",
@@ -64,7 +64,7 @@
               "source": "NPR News",
               "badge": "",
               "feature": false,
-              "snark": "A new rule appears. Enforcement TBD."
+              "snark": "Experts disagree, loudly and on schedule."
             },
             {
               "title": "Judge rules Luigi Mangione should not face death penalty",
@@ -72,7 +72,7 @@
               "source": "NPR News",
               "badge": "",
               "feature": false,
-              "snark": "Currently: This is still unfolding. More soon."
+              "snark": "Details are still emerging. "
             }
           ]
         },
@@ -389,11 +389,5 @@
         }
       ]
     }
-  ],
-  "refresh": {
-    "breaking": "hourly",
-    "others": "every 3 hours",
-    "three_hour_boundary": false,
-    "max_per_source_per_section": 4
-  }
+  ]
 }
