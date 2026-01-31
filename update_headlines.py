@@ -5,16 +5,17 @@ from datetime import datetime, timezone
 
 import feedparser
 
-# -------------------------
-# TUNING
-# -------------------------
+
+# =====================
+# CONFIG
+# =====================
 MAX_ITEMS_PER_SECTION = 12
-MAX_PER_SOURCE_PER_SECTION = 4  # cap each publisher inside a section
+MAX_PER_SOURCE_PER_SECTION = 4
 
 
-# -------------------------
+# =====================
 # FEEDS
-# -------------------------
+# =====================
 BREAKING_FEEDS = [
     ("BBC World", "https://feeds.bbci.co.uk/news/world/rss.xml"),
     ("NPR News", "https://feeds.npr.org/1001/rss.xml"),
@@ -30,381 +31,191 @@ BUSINESS_FEEDS = [
     ("NPR Business", "https://feeds.npr.org/1006/rss.xml"),
 ]
 
-WORLD_TECH_WEIRD_FEEDS = [
+MISC_FEEDS = [
     ("BBC Tech", "https://feeds.bbci.co.uk/news/technology/rss.xml"),
-    ("NPR Technology", "https://feeds.npr.org/1019/rss.xml"),
+    ("NPR Tech", "https://feeds.npr.org/1019/rss.xml"),
 ]
 
-# 3 columns; Breaking at top of column 1
+
 LAYOUT = [
     [("Breaking", BREAKING_FEEDS), ("Top", TOP_FEEDS)],
     [("Business", BUSINESS_FEEDS)],
-    [("World / Tech / Weird", WORLD_TECH_WEIRD_FEEDS)],
+    [("World / Tech / Weird", MISC_FEEDS)],
 ]
 
 
-# -------------------------
-# SNARK + NEUTRAL
-# -------------------------
+# =====================
+# TEXT
+# =====================
 SNARK = [
-    "Officials say it's under control. So that's something.",
     "A confident plan has been announced. Reality is pending.",
-    "Everyone is calm. On paper.",
-    "Sources confirm: people have opinions.",
-    "This will surely be handled with nuance.",
+    "Officials say it's under control. So that's something.",
     "A decision was made. Consequences scheduled for later.",
-    "A timeline was provided. Nobody believes it.",
-    "A new policy arrives, wearing a trench coat of exceptions.",
     "Experts disagree, loudly and on schedule.",
-    "An investigation begins. Again.",
-    "A statement was issued. Substance not included.",
-    "This is either nothing or everything. Stay tuned.",
-    "Leaders urged restraint, then did the opposite.",
-    "A 'temporary' measure enters its permanent era.",
-    "A bold prediction, fresh out of context.",
-    "Officials clarified the confusion with more confusion.",
-    "The situation remains fluid. Like Jell-O.",
-    "A committee has been formed. Problem solved, basically.",
-    "Numbers were cited. Interpretation may vary.",
-    "A spokesperson reassured everyone with vowels and verbs.",
-    "A compromise is proposed. Someone will hate it.",
-    "A surprise move surprises exactly nobody.",
     "The plan is simple. The details are complicated.",
-    "An 'unprecedented' event, right on schedule.",
-    "A leak appears. Accountability does not.",
-    "A 'hard line' is drawn in pencil.",
-    "Expectations were managed. Results were not.",
-    "A win is declared. The scoreboard is unavailable.",
-    "A debate erupts over what words mean.",
-    "A headline confidently outruns the facts.",
-    "The fine print is doing most of the work here.",
-    "A promise is made. The follow-through is optional.",
-    "A familiar problem returns for an encore performance.",
+    "Numbers were cited. Interpretation may vary.",
+    "This will surely be handled with nuance.",
     "A big announcement, with a small footnote doing cardio.",
-    "A reform effort begins by renaming things.",
-    "A decisive moment, sponsored by ambiguity.",
-    "The issue is complex. The takes are not.",
-    "A new strategy arrives: hope.",
-    "Another day, another 'exclusive' that isn't.",
-    "The market reacted emotionally. As usual.",
-    "A breakthrough is claimed. Validation pending.",
-    "A 'common sense' solution sparks uncommon disagreement.",
-    "A statement walks back the statement.",
-    "A plan is unveiled. Implementation sold separately.",
-    "Officials 'welcomed' the news. Whatever that means.",
-    "A technical glitch causes human drama.",
-    "A quick fix becomes the long-term architecture.",
-    "Everyone asked questions. Few liked the answers.",
-    "A review is underway. Translation: not today.",
-    "A new record is set. Whether that's good is unclear.",
-    "A timeline slips quietly into the night.",
-    "A decision is postponed for maximum efficiency.",
-    "A 'transparent' process offers frosted glass.",
-    "The report recommends more reports.",
-    "A new rule appears. Enforcement TBD.",
-    "A 'surprising' twist, telegraphed for weeks.",
-    "A simple explanation is bravely ignored.",
-    "A plan meets reality. Reality wins.",
-    "A spokesperson says the quiet part out loud.",
-    "A revised estimate replaces the previous guess.",
-    "A confident narrative meets inconvenient data.",
-    "The details are scarce, but the certainty is abundant.",
-    "A bold pivot, executed in slow motion.",
-    "A dispute escalates. Calm statements follow.",
-    "The solution is obvious, except for everyone disagreeing.",
+    "A statement was issued. Substance not included.",
+    "A compromise is proposed. Someone will hate it.",
+    "The situation remains fluid. Like Jell-O.",
+    "A timeline was provided. Nobody believes it.",
+    "A bold prediction, fresh out of context.",
+    "Everyone is calm. On paper.",
+    "An investigation begins. Again.",
 ]
 
-NEUTRAL_FALLBACKS = [
+NEUTRAL = [
     "Developing story.",
     "Details are still emerging.",
     "Authorities are investigating.",
     "Situation remains unclear.",
     "More information expected soon.",
-    "Updates may follow.",
     "Reporting continues.",
-    "This is still unfolding.",
+    "Updates may follow.",
     "Context is still being gathered.",
-    "Key details remain unconfirmed.",
-    "A fuller picture is forming.",
-    "Early reports are still being verified.",
-    "Additional confirmation is pending.",
-    "Expect revisions as reporting advances.",
-    "Officials have not released full information.",
-    "No clear timeline yet.",
-    "More to come as this develops.",
-    "Information remains partial at this time.",
 ]
 
-# Used to generate unique variants WITHOUT visible "(v2)" suffixes
-VARIANT_PREFIX = ["For now:", "As of now:", "Currently:", "So far:", "At this point:"]
-VARIANT_SUFFIX = ["More soon.", "Updates expected.", "Details pending.", "More as it develops.", "Awaiting confirmation."]
-
-
-# -------------------------
-# TRAGEDY FILTER (no snark)
-# -------------------------
 TRAGEDY_KEYWORDS = [
-    "killed", "dead", "death", "dies", "shooting", "shooter",
-    "murder", "war", "bomb", "explosion", "attack",
-    "crash", "collision", "earthquake", "wildfire", "flood",
-    "victim", "victims", "injured", "wounded", "terror",
+    "dead", "dies", "killed", "death", "shooting", "attack",
+    "war", "explosion", "terror", "crash", "earthquake",
 ]
 
 
-# -------------------------
-# LOAD PREVIOUS JSON (reuse sections)
-# -------------------------
-def load_previous_json(path="headlines.json"):
+# =====================
+# HELPERS
+# =====================
+def clean(text):
+    return re.sub(r"\s+", " ", text or "").strip()
+
+
+def is_tragic(title):
+    t = title.lower()
+    return any(k in t for k in TRAGEDY_KEYWORDS)
+
+
+def parse_feed(source, url):
+    items = []
+    feed = feedparser.parse(url)
+    for e in feed.entries[:40]:
+        title = clean(getattr(e, "title", ""))
+        link = getattr(e, "link", "")
+        if title and link:
+            items.append({"title": title, "url": link, "source": source})
+    return items
+
+
+def unique_line(pool, used, fallback):
+    random.shuffle(pool)
+    for s in pool:
+        if s not in used:
+            used.add(s)
+            return s
+    while True:
+        candidate = fallback + " "
+        if candidate not in used:
+            used.add(candidate)
+            return candidate
+
+
+def load_previous():
     try:
-        with open(path, "r", encoding="utf-8") as f:
+        with open("headlines.json", "r", encoding="utf-8") as f:
             return json.load(f)
     except Exception:
         return None
 
 
-def get_previous_section(prev_data, section_name):
-    if not prev_data:
-        return None
-    try:
-        for col in prev_data.get("columns", []):
-            for sec in col.get("sections", []):
-                if sec.get("name") == section_name:
-                    return sec
-    except Exception:
-        return None
-    return None
-
-
-def collect_existing_sublines(prev_data, section_names_to_reuse):
-    used = set()
-    if not prev_data:
-        return used
-    for name in section_names_to_reuse:
-        sec = get_previous_section(prev_data, name)
-        if not sec:
-            continue
-        for it in sec.get("items", []):
-            s = (it.get("snark") or "").strip()
-            if s:
-                used.add(s)
-    return used
-
-
-def collect_existing_urls(prev_data, section_names_to_reuse):
-    used = set()
-    if not prev_data:
-        return used
-    for name in section_names_to_reuse:
-        sec = get_previous_section(prev_data, name)
-        if not sec:
-            continue
-        for it in sec.get("items", []):
-            u = (it.get("url") or "").strip()
-            if u:
-                used.add(u)
-    return used
-
-
-# -------------------------
-# HELPERS
-# -------------------------
-def clean_title(text):
-    text = re.sub(r"\s+", " ", text or "").strip()
-    return text[:160]
-
-
-def is_tragic(title):
-    t = (title or "").lower()
-    return any(word in t for word in TRAGEDY_KEYWORDS)
-
-
-def parse_feed(source, url):
-    items = []
-    try:
-        feed = feedparser.parse(url)
-        for entry in feed.entries[:40]:
-            title = clean_title(getattr(entry, "title", ""))
-            link = getattr(entry, "link", "")
-            if title and link:
-                items.append({"title": title, "url": link, "source": source})
-    except Exception:
-        return []
-    return items
-
-
-def dedupe_by_url(items):
-    seen = set()
-    out = []
-    for it in items:
-        u = it.get("url", "")
-        if not u or u in seen:
-            continue
-        seen.add(u)
-        out.append(it)
-    return out
-
-
-def build_snark_pool(exclude_set):
-    pool = [s for s in SNARK if s not in exclude_set]
-    random.shuffle(pool)
-    return pool
-
-
-def unique_text_from_pool(pool, used_set, fallback_base):
-    """
-    Returns a unique line without visible version suffixes.
-    - Uses pool if possible.
-    - Otherwise generates unique variants using prefix/suffix.
-    """
-    while pool:
-        candidate = pool.pop()
-        if candidate not in used_set:
-            used_set.add(candidate)
-            return candidate
-
-    # generate unique variants, no "(v2)" anywhere
-    for _ in range(400):
-        candidate = f"{random.choice(VARIANT_PREFIX)} {fallback_base} {random.choice(VARIANT_SUFFIX)}"
-        candidate = re.sub(r"\s+", " ", candidate).strip()
-        if candidate not in used_set:
-            used_set.add(candidate)
-            return candidate
-
-    # last resort: punctuation tweak (still no v2)
-    candidate = fallback_base
-    if candidate in used_set:
-        candidate = fallback_base + " "
-    used_set.add(candidate)
-    return candidate
-
-
-def neutral_line_unique(i, used_set):
-    base = NEUTRAL_FALLBACKS[i % len(NEUTRAL_FALLBACKS)]
-    return unique_text_from_pool([], used_set, base)
-
-
-def select_items_for_section(raw_items, global_seen_urls):
-    """
-    Apply:
-      - per-section URL dedupe
-      - global URL dedupe across the whole page
-      - cap items per source per section
-    """
-    raw_items = dedupe_by_url(raw_items)
-
-    picked = []
-    per_source = {}
-
-    for it in raw_items:
-        url = it["url"]
-        src = it["source"]
-
-        if url in global_seen_urls:
-            continue
-
-        per_source[src] = per_source.get(src, 0)
-        if per_source[src] >= MAX_PER_SOURCE_PER_SECTION:
-            continue
-
-        picked.append(it)
-        global_seen_urls.add(url)
-        per_source[src] += 1
-
-        if len(picked) >= MAX_ITEMS_PER_SECTION:
-            break
-
-    return picked
-
-
-def build_section(section_name, feeds, badge_first, feature_first, snark_pool, used_sublines, global_seen_urls):
-    combined = []
-    for source, url in feeds:
-        combined.extend(parse_feed(source, url))
-
-    combined = select_items_for_section(combined, global_seen_urls)
-
-    rendered = []
-    for i, item in enumerate(combined):
-        title = item["title"]
-        tragic = is_tragic(title)
-
-        if tragic:
-            sub = neutral_line_unique(i, used_sublines)
-        else:
-            sub = unique_text_from_pool(snark_pool, used_sublines, "Everyone is monitoring the situation.")
-
-        rendered.append({
-            "title": title,
-            "url": item["url"],
-            "source": item["source"],
-            "badge": badge_first if i == 0 else "",
-            "feature": bool(feature_first and i == 0),
-            "snark": sub,
-        })
-
-    return {"name": section_name, "items": rendered}
-
-
-# -------------------------
+# =====================
 # MAIN
-# -------------------------
+# =====================
 def main():
-    prev = load_previous_json("headlines.json")
-    now_utc = datetime.now(timezone.utc)
+    prev = load_previous()
+    now = datetime.now(timezone.utc)
+    three_hour = (now.hour % 3 == 0)
 
-    # refresh other sections every 3 hours (UTC boundary)
-    three_hour_boundary = (now_utc.hour % 3 == 0)
+    used_urls = set()
+    used_sublines = set()
 
-    # reuse non-breaking sections between 3-hour boundaries
-    reuse_sections = []
-    if not three_hour_boundary:
-        reuse_sections = ["Top", "Business", "World / Tech / Weird"]
-
-    used_sublines = collect_existing_sublines(prev, reuse_sections)
-    global_seen_urls = collect_existing_urls(prev, reuse_sections)
-    snark_pool = build_snark_pool(used_sublines)
+    if prev and not three_hour:
+        for col in prev.get("columns", []):
+            for sec in col.get("sections", []):
+                if sec.get("name") != "Breaking":
+                    for it in sec.get("items", []):
+                        used_urls.add(it["url"])
+                        used_sublines.add(it.get("snark", ""))
 
     columns = []
+
     for col in LAYOUT:
-        col_obj = {"sections": []}
+        col_out = {"sections": []}
 
-        for section_name, feeds in col:
-            should_refresh = (section_name == "Breaking") or three_hour_boundary
+        for name, feeds in col:
+            refresh = (name.startswith("Breaking") or three_hour)
 
-            if not should_refresh:
-                prev_sec = get_previous_section(prev, section_name)
-                if prev_sec:
-                    col_obj["sections"].append(prev_sec)
+            if not refresh and prev:
+                for pcol in prev["columns"]:
+                    for psec in pcol["sections"]:
+                        if psec["name"] == name:
+                            col_out["sections"].append(psec)
+                            break
+                continue
+
+            raw = []
+            for src, url in feeds:
+                raw.extend(parse_feed(src, url))
+
+            section_items = []
+            per_source = {}
+
+            for it in raw:
+                if it["url"] in used_urls:
                     continue
 
-            if section_name == "Breaking":
-                sec = build_section(section_name, feeds, "BREAK", True, snark_pool, used_sublines, global_seen_urls)
-            elif section_name == "Top":
-                sec = build_section(section_name, feeds, "TOP", True, snark_pool, used_sublines, global_seen_urls)
-            else:
-                sec = build_section(section_name, feeds, "", False, snark_pool, used_sublines, global_seen_urls)
+                src = it["source"]
+                per_source[src] = per_source.get(src, 0)
+                if per_source[src] >= MAX_PER_SOURCE_PER_SECTION:
+                    continue
 
-            col_obj["sections"].append(sec)
+                used_urls.add(it["url"])
+                per_source[src] += 1
 
-        columns.append(col_obj)
+                tragic = is_tragic(it["title"])
+                if tragic:
+                    sub = unique_line([], used_sublines, random.choice(NEUTRAL))
+                else:
+                    sub = unique_line(SNARK, used_sublines, random.choice(NEUTRAL))
 
-    data = {
+                section_items.append({
+                    "title": it["title"],
+                    "url": it["url"],
+                    "source": it["source"],
+                    "badge": "BREAK" if name.startswith("Breaking") and not section_items else "",
+                    "feature": bool(name.startswith("Breaking") and not section_items),
+                    "snark": sub,
+                })
+
+                if len(section_items) >= MAX_ITEMS_PER_SECTION:
+                    break
+
+            col_out["sections"].append({
+                "name": name,
+                "items": section_items,
+            })
+
+        columns.append(col_out)
+
+    out = {
         "site": {
             "name": "THE DAILY SIDE-EYE",
-            "tagline": "Headlines with a raised eyebrow."
+            "tagline": "Headlines with a raised eyebrow.",
         },
-        "generated_utc": now_utc.isoformat(),
+        "generated_utc": now.isoformat(),
         "columns": columns,
-        "refresh": {
-            "breaking": "hourly",
-            "others": "every 3 hours",
-            "three_hour_boundary": three_hour_boundary,
-            "max_per_source_per_section": MAX_PER_SOURCE_PER_SECTION,
-        },
     }
 
     with open("headlines.json", "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=2, ensure_ascii=False)
+        json.dump(out, f, indent=2, ensure_ascii=False)
 
 
 if __name__ == "__main__":
