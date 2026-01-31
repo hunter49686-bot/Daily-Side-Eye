@@ -3,7 +3,7 @@
     "name": "THE DAILY SIDE-EYE",
     "tagline": "Headlines with a raised eyebrow."
   },
-  "generated_utc": "2026-01-31T19:43:44.557116+00:00",
+  "generated_utc": "2026-01-31T19:47:53.429352+00:00",
   "columns": [
     {
       "sections": [
@@ -18,8 +18,7 @@
               "feature": true,
               "snark": "Officials say it is under control. So that is something.",
               "meter": 1,
-              "ages_poorly": false,
-              "tragic": false
+              "ages_poorly": false
             },
             {
               "title": "Israeli air strikes kill at least 32 Palestinians in Gaza, rescue officials say",
@@ -27,10 +26,9 @@
               "source": "BBC Front Page",
               "badge": "",
               "feature": false,
-              "snark": "Currently: Details are still emerging. Awaiting confirmation.",
+              "snark": "At the moment, details are still emerging. confirmation is pending.",
               "meter": 2,
-              "ages_poorly": false,
-              "tragic": true
+              "ages_poorly": false
             },
             {
               "title": "Zack Polanski is having fun. But can the Green leader become a serious player?",
@@ -38,43 +36,9 @@
               "source": "BBC Front Page",
               "badge": "",
               "feature": false,
-              "snark": "An investigation begins. Again.",
+              "snark": "A win is declared. The scoreboard is unavailable.",
               "meter": 1,
-              "ages_poorly": false,
-              "tragic": false
-            },
-            {
-              "title": "Federal judge denies request to block ICE surge in Minnesota",
-              "url": "https://www.bbc.com/news/articles/c78vgnz3z6eo?at_medium=RSS&at_campaign=rss",
-              "source": "BBC World",
-              "badge": "",
-              "feature": false,
-              "snark": "A compromise is proposed. Someone will hate it.",
-              "meter": 4,
-              "ages_poorly": false,
-              "tragic": false
-            },
-            {
-              "title": "Five killed in gas explosions in Iran, officials say",
-              "url": "https://www.bbc.com/news/articles/cd9ew5p3zvko?at_medium=RSS&at_campaign=rss",
-              "source": "BBC World",
-              "badge": "",
-              "feature": false,
-              "snark": "As of now: More to come as this develops. Awaiting confirmation.",
-              "meter": 2,
-              "ages_poorly": false,
-              "tragic": true
-            },
-            {
-              "title": "Pokémon cancels event at controversial Japan shrine following backlash",
-              "url": "https://www.bbc.com/news/articles/cdjn0nmnjmwo?at_medium=RSS&at_campaign=rss",
-              "source": "BBC World",
-              "badge": "",
-              "feature": false,
-              "snark": "A bold prediction, fresh out of context.",
-              "meter": 1,
-              "ages_poorly": false,
-              "tragic": false
+              "ages_poorly": false
             },
             {
               "title": "Some on-air claims about Dominion Voting Systems were false, Fox News acknowledges in statement after deal is announced",
@@ -82,10 +46,9 @@
               "source": "CNN Top Stories",
               "badge": "",
               "feature": false,
-              "snark": "A surprise move surprises exactly nobody.",
+              "snark": "A statement was issued. Substance not included.",
               "meter": 4,
-              "ages_poorly": false,
-              "tragic": false
+              "ages_poorly": false
             },
             {
               "title": "Dominion still has pending lawsuits against election deniers such as Rudy Giuliani and Sidney Powell",
@@ -93,10 +56,9 @@
               "source": "CNN Top Stories",
               "badge": "",
               "feature": false,
-              "snark": "A temporary measure enters its permanent era.",
+              "snark": "Numbers were cited. Interpretation may vary.",
               "meter": 3,
-              "ages_poorly": false,
-              "tragic": false
+              "ages_poorly": false
             },
             {
               "title": "Here are the 20 specific Fox broadcasts and tweets Dominion says were defamatory",
@@ -104,76 +66,9 @@
               "source": "CNN Top Stories",
               "badge": "",
               "feature": false,
-              "snark": "A strategy is announced. Execution sold separately.",
+              "snark": "Experts disagree, loudly and on schedule.",
               "meter": 1,
-              "ages_poorly": false,
-              "tragic": false
-            },
-            {
-              "title": "How Fear of ICE Upended Life in One Minnesota School District",
-              "url": "https://www.nytimes.com/2026/01/31/us/minneapolis-school-district-ice-agents.html",
-              "source": "NYT HomePage",
-              "badge": "",
-              "feature": false,
-              "snark": "A headline confidently outruns the facts.",
-              "meter": 1,
-              "ages_poorly": false,
-              "tragic": false
-            },
-            {
-              "title": "Kevin Warsh Has a Tough Job Ahead. It’s Not the First Time.",
-              "url": "https://www.nytimes.com/2026/01/31/business/kevin-warsh-fed-chair.html",
-              "source": "NYT HomePage",
-              "badge": "",
-              "feature": false,
-              "snark": "At this point: Early reports are still being verified. Updates expected.",
-              "meter": 1,
-              "ages_poorly": false,
-              "tragic": true
-            },
-            {
-              "title": "A Hawkish Kevin Warsh at the Fed Could Haunt Bessent",
-              "url": "https://www.nytimes.com/2026/01/31/business/scott-bessent-kevin-warsh-trump.html",
-              "source": "NYT HomePage",
-              "badge": "",
-              "feature": false,
-              "snark": "At this point: Additional confirmation is pending. More soon.",
-              "meter": 2,
-              "ages_poorly": false,
-              "tragic": true
-            },
-            {
-              "title": "Niger’s military ruler vows retaliation after gunfire and explosions heard in capital",
-              "url": "https://www.theguardian.com/world/2026/jan/29/gunfire-blasts-heard-airport-niamey-niger-planes-hit-reports",
-              "source": "Guardian World",
-              "badge": "",
-              "feature": false,
-              "snark": "Currently: Additional confirmation is pending. More soon.",
-              "meter": 1,
-              "ages_poorly": false,
-              "tragic": true
-            },
-            {
-              "title": "Hundreds feared dead in attempt to cross Mediterranean during cyclone",
-              "url": "https://www.theguardian.com/world/2026/jan/26/hundreds-feared-dead-after-attempting-to-cross-mediterranean-amid-cyclone-harry",
-              "source": "Guardian World",
-              "badge": "",
-              "feature": false,
-              "snark": "For now: Officials have not released full information. Awaiting confirmation.",
-              "meter": 1,
-              "ages_poorly": false,
-              "tragic": true
-            },
-            {
-              "title": "Mexico president says Trump tariffs on Cuba’s oil suppliers could trigger humanitarian crisis",
-              "url": "https://www.theguardian.com/world/2026/jan/30/mexico-sheinbaum-trump-tariffs-cuba-oil-crisis",
-              "source": "Guardian World",
-              "badge": "",
-              "feature": false,
-              "snark": "For now: Authorities are investigating. Details pending.",
-              "meter": 2,
-              "ages_poorly": false,
-              "tragic": false
+              "ages_poorly": false
             }
           ]
         },
@@ -222,7 +117,7 @@
               "snark": "So far: Details are still emerging. Updates expected."
             },
             {
-              "title": "South Africa expels top Israeli diplomat over ‘insulting attacks’ on president",
+              "title": "South Africa expels top Israeli diplomat over \u2018insulting attacks\u2019 on president",
               "url": "https://www.theguardian.com/world/2026/jan/30/south-africa-expels-israel-diplomat-insults-president",
               "source": "Guardian World",
               "badge": "",
@@ -238,7 +133,7 @@
               "snark": "The plan is simple. The details are complicated."
             },
             {
-              "title": "Bovino Is Said to Have Mocked Prosecutor’s Jewish Faith on Call With Lawyers",
+              "title": "Bovino Is Said to Have Mocked Prosecutor\u2019s Jewish Faith on Call With Lawyers",
               "url": "https://www.nytimes.com/2026/01/31/us/bovino-jewish-prosecutor-minnesota.html",
               "source": "NYT HomePage",
               "badge": "",
@@ -252,6 +147,71 @@
               "badge": "",
               "feature": false,
               "snark": "As of now: Key details remain unconfirmed. Awaiting confirmation."
+            }
+          ]
+        },
+        {
+          "name": "Top",
+          "items": [
+            {
+              "title": "Takeaways from the millions of newly released Epstein files",
+              "url": "https://www.bbc.com/news/articles/cevnmxyy4wjo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC World",
+              "badge": "",
+              "feature": false,
+              "snark": "A review is underway.",
+              "meter": 1,
+              "ages_poorly": false
+            },
+            {
+              "title": "Federal judge denies request to block ICE surge in Minnesota",
+              "url": "https://www.bbc.com/news/articles/c78vgnz3z6eo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC World",
+              "badge": "",
+              "feature": false,
+              "snark": "The plan is simple. The details are complicated.",
+              "meter": 3,
+              "ages_poorly": false
+            },
+            {
+              "title": "Five killed in gas explosions in Iran, officials say",
+              "url": "https://www.bbc.com/news/articles/cd9ew5p3zvko?at_medium=RSS&at_campaign=rss",
+              "source": "BBC World",
+              "badge": "",
+              "feature": false,
+              "snark": "As things stand, authorities are investigating. reporting continues.",
+              "meter": 2,
+              "ages_poorly": false
+            },
+            {
+              "title": "Chelsea v West Ham United: Premier League \u2013 live",
+              "url": "https://www.theguardian.com/football/live/2026/jan/31/chelsea-v-west-ham-united-premier-league-live",
+              "source": "Guardian US",
+              "badge": "",
+              "feature": false,
+              "snark": "A timeline was provided. Nobody believes it.",
+              "meter": 1,
+              "ages_poorly": false
+            },
+            {
+              "title": "Melania Trump documentary opens to underwhelming reception: \u2018It\u2019s not a gripping film\u2019",
+              "url": "https://www.theguardian.com/us-news/2026/jan/31/melania-trump-documentary-new-york-release",
+              "source": "Guardian US",
+              "badge": "",
+              "feature": false,
+              "snark": "A decision was made. Consequences scheduled for later.",
+              "meter": 1,
+              "ages_poorly": false
+            },
+            {
+              "title": "Jeffrey Epstein files: don\u2019t be fooled. Millions of files are still unreleased | Moira Donegan",
+              "url": "https://www.theguardian.com/commentisfree/2026/jan/31/jeffrey-epstein-unreleased-files",
+              "source": "Guardian US",
+              "badge": "",
+              "feature": false,
+              "snark": "A compromise is proposed. Someone will hate it.",
+              "meter": 1,
+              "ages_poorly": false
             }
           ]
         }
@@ -311,6 +271,71 @@
               "snark": "Numbers were cited. Interpretation may vary."
             }
           ]
+        },
+        {
+          "name": "Business",
+          "items": [
+            {
+              "title": "Phone lines stay open as tax return deadline looms",
+              "url": "https://www.bbc.com/news/articles/cwy10ye2030o?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Business",
+              "badge": "",
+              "feature": false,
+              "snark": "At the moment, developing story. reporting continues.",
+              "meter": 1,
+              "ages_poorly": false
+            },
+            {
+              "title": "Plan ahead and dress wisely: How to minimise add-on costs when you fly",
+              "url": "https://www.bbc.com/news/articles/c5y28w0de91o?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Business",
+              "badge": "",
+              "feature": false,
+              "snark": "A confident plan has been announced. Reality is pending.",
+              "meter": 2,
+              "ages_poorly": false
+            },
+            {
+              "title": "Trump picks Kevin Warsh to lead the US Federal Reserve",
+              "url": "https://www.bbc.com/news/articles/c2d7yddrl2xo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Business",
+              "badge": "",
+              "feature": false,
+              "snark": "For now, authorities are investigating. this remains under review.",
+              "meter": 2,
+              "ages_poorly": false
+            },
+            {
+              "title": "Everything you need to know about Kevin Warsh, Trump's pick to lead the Federal Reserve",
+              "url": "https://www.cnbc.com/2026/01/30/who-is-kevin-warsh-trumps-fed-chair-pick.html",
+              "source": "CNBC",
+              "badge": "",
+              "feature": false,
+              "snark": "Currently, more information is expected. details are still being verified.",
+              "meter": 2,
+              "ages_poorly": false
+            },
+            {
+              "title": "U.S. government partially shuts down; House vote could reopen it by Monday",
+              "url": "https://www.cnbc.com/2026/01/30/government-shutdown-senate-vote-dhs.html",
+              "source": "CNBC",
+              "badge": "",
+              "feature": false,
+              "snark": "This will surely be handled with nuance.",
+              "meter": 1,
+              "ages_poorly": true
+            },
+            {
+              "title": "Federal judge denies bid to end ICE Operation Metro Surge in Minnesota",
+              "url": "https://www.cnbc.com/2026/01/31/federal-judge-denies-bid-to-end-ice-operation-metro-surge-in-minnesota.html",
+              "source": "CNBC",
+              "badge": "",
+              "feature": false,
+              "snark": "For now, this remains under review. details are still being verified.",
+              "meter": 3,
+              "ages_poorly": false
+            }
+          ]
         }
       ]
     },
@@ -360,7 +385,7 @@
               "snark": "A timeline was provided. Nobody believes it."
             },
             {
-              "title": "AI-generated news should carry ‘nutrition’ labels, thinktank says",
+              "title": "AI-generated news should carry \u2018nutrition\u2019 labels, thinktank says",
               "url": "https://www.theguardian.com/technology/2026/jan/30/ai-generated-news-should-carry-nutrition-labels-thinktank-says",
               "source": "Guardian Tech",
               "badge": "",
@@ -394,10 +419,105 @@
           ]
         },
         {
+          "name": "Tech",
+          "items": [
+            {
+              "title": "Musk's SpaceX applies to launch 1m satellites into orbit",
+              "url": "https://www.bbc.com/news/articles/cyv5l24mrjmo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Tech",
+              "badge": "",
+              "feature": false,
+              "snark": "For now, developing story. this remains under review.",
+              "meter": 1,
+              "ages_poorly": false
+            },
+            {
+              "title": "Apple reports best-ever iPhone sales as Mac dips",
+              "url": "https://www.bbc.com/news/articles/cy8yw190q83o?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Tech",
+              "badge": "",
+              "feature": false,
+              "snark": "At present, details are still emerging. more information is expected.",
+              "meter": 1,
+              "ages_poorly": false
+            },
+            {
+              "title": "He calls me sweetheart and winks at me - but he's not my boyfriend, he's AI",
+              "url": "https://www.bbc.com/news/articles/c62njv82n0wo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Tech",
+              "badge": "",
+              "feature": false,
+              "snark": "At present, authorities are investigating. this remains under review.",
+              "meter": 1,
+              "ages_poorly": false
+            },
+            {
+              "title": "The TV industry finally concedes that the future may not be in 8K",
+              "url": "https://arstechnica.com/gadgets/2026/01/lg-joins-the-rest-of-the-world-accepts-that-people-dont-want-8k-tvs/",
+              "source": "Ars Technica",
+              "badge": "",
+              "feature": false,
+              "snark": "Currently, more information is expected. reporting continues.",
+              "meter": 1,
+              "ages_poorly": false
+            },
+            {
+              "title": "ICE protester says her Global Entry was revoked after agent scanned her face",
+              "url": "https://arstechnica.com/tech-policy/2026/01/ice-protester-says-her-global-entry-was-revoked-after-agent-scanned-her-face/",
+              "source": "Ars Technica",
+              "badge": "",
+              "feature": false,
+              "snark": "Currently, reporting continues. more information is expected.",
+              "meter": 1,
+              "ages_poorly": false
+            },
+            {
+              "title": "TrumpRx delayed as senators question if it's a giant scam with Big Pharma",
+              "url": "https://arstechnica.com/health/2026/01/trumprx-delayed-as-senators-question-if-its-a-giant-scam-with-big-pharma/",
+              "source": "Ars Technica",
+              "badge": "",
+              "feature": false,
+              "snark": "At the moment, this remains under review. this remains under review.",
+              "meter": 1,
+              "ages_poorly": false
+            },
+            {
+              "title": "SpaceX wants to put 1 million solar-powered data centers into orbit",
+              "url": "https://www.theverge.com/tech/871641/spacex-fcc-1-million-solar-powered-data-centers-satellites-orbit",
+              "source": "The Verge",
+              "badge": "",
+              "feature": false,
+              "snark": "At the moment, situation remains unclear. reporting continues.",
+              "meter": 1,
+              "ages_poorly": false
+            },
+            {
+              "title": "The AirPods 4 and Google\u2019s 4K streamer are just two of this week\u2019s best deals",
+              "url": "https://www.theverge.com/gadgets/871092/airpods-4-anc-google-tv-streamer-4k-deal-sale",
+              "source": "The Verge",
+              "badge": "",
+              "feature": false,
+              "snark": "As things stand, more information is expected. more information is expected.",
+              "meter": 1,
+              "ages_poorly": false
+            },
+            {
+              "title": "Cassette Boy forces you to see its world in a whole new way",
+              "url": "https://www.theverge.com/games/867020/cassette-boy-review-pc-playstation-xbox-nintendo-switch",
+              "source": "The Verge",
+              "badge": "",
+              "feature": false,
+              "snark": "As things stand, reporting continues. details are still being verified.",
+              "meter": 1,
+              "ages_poorly": false
+            }
+          ]
+        },
+        {
           "name": "Weird",
           "items": [
             {
-              "title": "Chelsea v West Ham United: Premier League – live",
+              "title": "Chelsea v West Ham United: Premier League \u2013 live",
               "url": "https://www.theguardian.com/football/live/2026/jan/31/chelsea-v-west-ham-united-premier-league-live",
               "source": "Guardian US",
               "badge": "",
@@ -405,7 +525,7 @@
               "snark": "For now: More information expected soon. More as it develops."
             },
             {
-              "title": "Melania Trump documentary opens to underwhelming reception: ‘It’s not a gripping film’",
+              "title": "Melania Trump documentary opens to underwhelming reception: \u2018It\u2019s not a gripping film\u2019",
               "url": "https://www.theguardian.com/us-news/2026/jan/31/melania-trump-documentary-new-york-release",
               "source": "Guardian US",
               "badge": "",
@@ -413,7 +533,7 @@
               "snark": "So far: The facts are still coming in. Updates expected."
             },
             {
-              "title": "Jeffrey Epstein files: don’t be fooled. Millions of files are still unreleased | Moira Donegan",
+              "title": "Jeffrey Epstein files: don\u2019t be fooled. Millions of files are still unreleased | Moira Donegan",
               "url": "https://www.theguardian.com/commentisfree/2026/jan/31/jeffrey-epstein-unreleased-files",
               "source": "Guardian US",
               "badge": "",
@@ -445,24 +565,46 @@
               "snark": "So far: Context is still being gathered. More soon."
             }
           ]
+        },
+        {
+          "name": "Weird",
+          "items": [
+            {
+              "title": "Treasures found on HS2 route stored in secret warehouse",
+              "url": "https://www.bbc.com/news/articles/c93v21q5xdvo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Science",
+              "badge": "",
+              "feature": false,
+              "snark": "At the moment, developing story. this remains under review.",
+              "meter": 1,
+              "ages_poorly": false
+            },
+            {
+              "title": "Polar bears on Norwegian islands fatter and healthier despite ice loss, scientists say",
+              "url": "https://www.bbc.com/news/articles/cx2l1xpz03no?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Science",
+              "badge": "",
+              "feature": false,
+              "snark": "Currently, details are still emerging. details are still being verified.",
+              "meter": 1,
+              "ages_poorly": false
+            },
+            {
+              "title": "Sunken Thames barges create new island for birds",
+              "url": "https://www.bbc.com/news/articles/cvg5zw5l42xo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Science",
+              "badge": "",
+              "feature": false,
+              "snark": "At the moment, authorities are investigating. confirmation is pending.",
+              "meter": 1,
+              "ages_poorly": false
+            }
+          ]
         }
       ]
     }
   ],
-  "features": {
-    "side_eye_meter": true,
-    "ages_poorly": true,
-    "week_in_hindsight": true
-  },
   "week_in_hindsight": [
-    "Investigations were plentiful: about 1 headline(s) referenced probes/reviews.",
-    "Talks and deals appeared often: about 1 headline(s).",
-    "Plans and strategies were announced: about 1 headline(s)."
-  ],
-  "refresh": {
-    "breaking": "hourly",
-    "others": "every 3 hours (UTC boundary)",
-    "three_hour_boundary": false,
-    "max_per_source_per_section": 3
-  }
+    "Tracking patterns. Full week view builds over time."
+  ]
 }
