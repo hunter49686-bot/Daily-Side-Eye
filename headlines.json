@@ -3,10 +3,111 @@
     "name": "THE DAILY SIDE-EYE",
     "tagline": "Dry news links. Equal-opportunity skepticism."
   },
-  "generated_utc": "2026-01-31T03:56:46.256780+00:00",
+  "generated_utc": "2026-01-31T04:09:11.862497+00:00",
   "columns": [
     {
       "sections": [
+        {
+          "name": "Breaking",
+          "items": [
+            {
+              "title": "Takeaways from the millions of newly released Epstein files",
+              "url": "https://www.bbc.com/news/articles/cevnmxyy4wjo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC World",
+              "badge": "BREAK",
+              "feature": true,
+              "snark": "Everyone is calm. On paper."
+            },
+            {
+              "title": "Schitt's Creek and Home Alone star Catherine O'Hara dies aged 71",
+              "url": "https://www.bbc.com/news/articles/czr4jn4621lo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC World",
+              "badge": "",
+              "feature": false,
+              "snark": "Details are still emerging. (v2)"
+            },
+            {
+              "title": "UN risks 'imminent financial collapse', secretary general warns",
+              "url": "https://www.bbc.com/news/articles/cr579mdv4m7o?at_medium=RSS&at_campaign=rss",
+              "source": "BBC World",
+              "badge": "",
+              "feature": false,
+              "snark": "Authorities are investigating. (v2)"
+            },
+            {
+              "title": "One wrong move and it could all go wrong - the men clearing deadly undersea Russian mines",
+              "url": "https://www.bbc.com/news/articles/c70lgwprw7ko?at_medium=RSS&at_campaign=rss",
+              "source": "BBC World",
+              "badge": "",
+              "feature": false,
+              "snark": "Situation remains unclear. (v2)"
+            },
+            {
+              "title": "Trump picks Kevin Warsh to lead the US Federal Reserve",
+              "url": "https://www.bbc.com/news/articles/c2d7yddrl2xo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC World",
+              "badge": "",
+              "feature": false,
+              "snark": "Developing story. (v2)"
+            },
+            {
+              "title": "This tiny Australian town is up for sale - but the locals don't want to leave",
+              "url": "https://www.bbc.com/news/articles/c3wz49z6gyyo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC World",
+              "badge": "",
+              "feature": false,
+              "snark": "Officials say it's under control. So that's something."
+            },
+            {
+              "title": "Luigi Mangione will not face death penalty if convicted, judge rules",
+              "url": "https://www.bbc.com/news/articles/c78egdg3r0po?at_medium=RSS&at_campaign=rss",
+              "source": "BBC World",
+              "badge": "",
+              "feature": false,
+              "snark": "Authorities are investigating. (v3)"
+            },
+            {
+              "title": "This army chief threatened to castrate opposition leader and claimed descent from Jesus",
+              "url": "https://www.bbc.com/news/articles/cdjnp9m8wvgo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC World",
+              "badge": "",
+              "feature": false,
+              "snark": "A plan meets reality. Reality wins."
+            },
+            {
+              "title": "Iran wants to make deal rather than face military action, Trump says",
+              "url": "https://www.bbc.com/news/articles/cd9ew2kwj0lo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC World",
+              "badge": "",
+              "feature": false,
+              "snark": "The situation remains fluid. Like Jell-O."
+            },
+            {
+              "title": "Mali lawmaker jailed in Ivory Coast for insulting president",
+              "url": "https://www.bbc.com/news/articles/c74vgxp0zr4o?at_medium=RSS&at_campaign=rss",
+              "source": "BBC World",
+              "badge": "",
+              "feature": false,
+              "snark": "The market reacted emotionally. As usual."
+            },
+            {
+              "title": "Stay or go - what's next for coyote that escaped to Alcatraz?",
+              "url": "https://www.bbc.com/news/articles/c0q4y95yv4jo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC World",
+              "badge": "",
+              "feature": false,
+              "snark": "The report recommends more reports."
+            },
+            {
+              "title": "Former CNN host Don Lemon charged over anti-ICE protest at Minnesota church",
+              "url": "https://www.bbc.com/news/articles/c24gm3dz36po?at_medium=RSS&at_campaign=rss",
+              "source": "BBC World",
+              "badge": "",
+              "feature": false,
+              "snark": "A committee has been formed. Problem solved, basically."
+            }
+          ]
+        },
         {
           "name": "Top",
           "items": [
@@ -320,5 +421,10 @@
         }
       ]
     }
-  ]
+  ],
+  "refresh": {
+    "breaking": "hourly",
+    "others": "every 3 hours",
+    "three_hour_boundary": false
+  }
 }
