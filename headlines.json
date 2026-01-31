@@ -3,7 +3,7 @@
     "name": "THE DAILY SIDE-EYE",
     "tagline": "Headlines with a raised eyebrow."
   },
-  "generated_utc": "2026-01-31T19:20:04.350209+00:00",
+  "generated_utc": "2026-01-31T19:26:53.790595+00:00",
   "columns": [
     {
       "sections": [
@@ -16,7 +16,7 @@
               "source": "BBC Front Page",
               "badge": "BREAK",
               "feature": true,
-              "snark": "The situation remains fluid."
+              "snark": "A bold prediction, fresh out of context."
             },
             {
               "title": "Israeli air strikes kill at least 32 Palestinians in Gaza, rescue officials say",
@@ -24,7 +24,7 @@
               "source": "BBC Front Page",
               "badge": "",
               "feature": false,
-              "snark": "Authorities are investigating."
+              "snark": "As of now: Details are still emerging. Awaiting confirmation."
             },
             {
               "title": "Zack Polanski is having fun. But can the Green leader become a serious player?",
@@ -32,7 +32,31 @@
               "source": "BBC Front Page",
               "badge": "",
               "feature": false,
-              "snark": "A bold prediction, fresh out of context."
+              "snark": "A temporary measure enters its permanent era."
+            },
+            {
+              "title": "US government partially shuts down despite last minute funding deal",
+              "url": "https://www.bbc.com/news/articles/ce8rk33dpvmo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC World",
+              "badge": "",
+              "feature": false,
+              "snark": "A compromise is proposed. Someone will hate it."
+            },
+            {
+              "title": "Pokémon cancels event at controversial Japan shrine following backlash",
+              "url": "https://www.bbc.com/news/articles/cdjn0nmnjmwo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC World",
+              "badge": "",
+              "feature": false,
+              "snark": "A surprise move surprises exactly nobody."
+            },
+            {
+              "title": "Iran wants to make deal rather than face military action, Trump says",
+              "url": "https://www.bbc.com/news/articles/cd9ew2kwj0lo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC World",
+              "badge": "",
+              "feature": false,
+              "snark": "Officials say it is under control. So that is something."
             },
             {
               "title": "Some on-air claims about Dominion Voting Systems were false, Fox News acknowledges in statement after deal is announced",
@@ -40,7 +64,7 @@
               "source": "CNN Top Stories",
               "badge": "",
               "feature": false,
-              "snark": "Officials say it is under control. So that is something."
+              "snark": "A headline confidently outruns the facts."
             },
             {
               "title": "Dominion still has pending lawsuits against election deniers such as Rudy Giuliani and Sidney Powell",
@@ -48,7 +72,7 @@
               "source": "CNN Top Stories",
               "badge": "",
               "feature": false,
-              "snark": "A timeline was provided. Nobody believes it."
+              "snark": "An investigation begins. Again."
             },
             {
               "title": "Here are the 20 specific Fox broadcasts and tweets Dominion says were defamatory",
@@ -56,10 +80,91 @@
               "source": "CNN Top Stories",
               "badge": "",
               "feature": false,
-              "snark": "A big announcement, with a small footnote doing cardio."
+              "snark": "A strategy is announced. Execution sold separately."
             }
           ]
         },
+        {
+          "name": "Top",
+          "items": [
+            {
+              "title": "Takeaways from the millions of newly released Epstein files",
+              "url": "https://www.bbc.com/news/articles/cevnmxyy4wjo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC World",
+              "badge": "",
+              "feature": false,
+              "snark": "This will surely be handled with nuance."
+            },
+            {
+              "title": "Pedro Pascal and Meryl Streep lead tributes to Catherine O'Hara",
+              "url": "https://www.bbc.com/news/articles/czejk8pnk82o?at_medium=RSS&at_campaign=rss",
+              "source": "BBC World",
+              "badge": "",
+              "feature": false,
+              "snark": "A decision was made. Consequences scheduled for later."
+            },
+            {
+              "title": "Musk's SpaceX applies to launch 1m satellites into orbit",
+              "url": "https://www.bbc.com/news/articles/cyv5l24mrjmo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC World",
+              "badge": "",
+              "feature": false,
+              "snark": "The optics are doing most of the work here."
+            },
+            {
+              "title": "More than 200 killed in coltan mine collapse in eastern DRC, officials say",
+              "url": "https://www.theguardian.com/world/2026/jan/30/more-than-200-killed-in-coltan-mine-collapse-in-eastern-drc-officials-say",
+              "source": "Guardian World",
+              "badge": "",
+              "feature": false,
+              "snark": "As of now: Developing story. Awaiting confirmation."
+            },
+            {
+              "title": "Islamic State claims attack on international airport and airbase in Niger",
+              "url": "https://www.theguardian.com/world/2026/jan/30/niger-airport-airbase-attack-islamic-state",
+              "source": "Guardian World",
+              "badge": "",
+              "feature": false,
+              "snark": "So far: Details are still emerging. Updates expected."
+            },
+            {
+              "title": "South Africa expels top Israeli diplomat over ‘insulting attacks’ on president",
+              "url": "https://www.theguardian.com/world/2026/jan/30/south-africa-expels-israel-diplomat-insults-president",
+              "source": "Guardian World",
+              "badge": "",
+              "feature": false,
+              "snark": "At this point: Authorities are investigating. Awaiting confirmation."
+            },
+            {
+              "title": "Federal Judge Denies Request to Block ICE Surge in Minnesota",
+              "url": "https://www.nytimes.com/2026/01/31/us/judge-minnesota-ice-ruling.html",
+              "source": "NYT HomePage",
+              "badge": "",
+              "feature": false,
+              "snark": "The plan is simple. The details are complicated."
+            },
+            {
+              "title": "Bovino Is Said to Have Mocked Prosecutor’s Jewish Faith on Call With Lawyers",
+              "url": "https://www.nytimes.com/2026/01/31/us/bovino-jewish-prosecutor-minnesota.html",
+              "source": "NYT HomePage",
+              "badge": "",
+              "feature": false,
+              "snark": "Experts disagree, loudly and on schedule."
+            },
+            {
+              "title": "ICE Expands Power of Agents to Arrest People Without Warrants",
+              "url": "https://www.nytimes.com/2026/01/30/us/politics/ice-expands-power-agents-warrants.html",
+              "source": "NYT HomePage",
+              "badge": "",
+              "feature": false,
+              "snark": "As of now: Key details remain unconfirmed. Awaiting confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sections": [
         {
           "name": "Business",
           "items": [
@@ -114,6 +219,146 @@
           ]
         }
       ]
+    },
+    {
+      "sections": [
+        {
+          "name": "Tech",
+          "items": [
+            {
+              "title": "Apple reports best-ever iPhone sales as Mac dips",
+              "url": "https://www.bbc.com/news/articles/cy8yw190q83o?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Tech",
+              "badge": "",
+              "feature": false,
+              "snark": "Everyone is calm. On paper."
+            },
+            {
+              "title": "He calls me sweetheart and winks at me - but he's not my boyfriend, he's AI",
+              "url": "https://www.bbc.com/news/articles/c62njv82n0wo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Tech",
+              "badge": "",
+              "feature": false,
+              "snark": "The fine print is doing most of the work here."
+            },
+            {
+              "title": "UK bans Coinbase ads implying crypto can ease cost of living concerns",
+              "url": "https://www.bbc.com/news/articles/cx2yv31482vo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Tech",
+              "badge": "",
+              "feature": false,
+              "snark": "A quick fix becomes the long-term architecture."
+            },
+            {
+              "title": "US authorities reportedly investigate claims that Meta can read encrypted WhatsApp messages",
+              "url": "https://www.theguardian.com/technology/2026/jan/31/us-authorities-reportedly-investigate-claims-that-meta-can-read-encrypted-whatsapp-messages",
+              "source": "Guardian Tech",
+              "badge": "",
+              "feature": false,
+              "snark": "The situation remains fluid."
+            },
+            {
+              "title": "Can you guess our screen time? A priest, pensioner, tech CEO and teenager reveal all",
+              "url": "https://www.theguardian.com/media/2026/jan/31/can-you-guess-our-screen-time-a-priest-pensioner-tech-ceo-and-teenager-reveal-all",
+              "source": "Guardian Tech",
+              "badge": "",
+              "feature": false,
+              "snark": "A timeline was provided. Nobody believes it."
+            },
+            {
+              "title": "AI-generated news should carry ‘nutrition’ labels, thinktank says",
+              "url": "https://www.theguardian.com/technology/2026/jan/30/ai-generated-news-should-carry-nutrition-labels-thinktank-says",
+              "source": "Guardian Tech",
+              "badge": "",
+              "feature": false,
+              "snark": "A win is declared. The scoreboard is unavailable."
+            },
+            {
+              "title": "The TV industry finally concedes that the future may not be in 8K",
+              "url": "https://arstechnica.com/gadgets/2026/01/lg-joins-the-rest-of-the-world-accepts-that-people-dont-want-8k-tvs/",
+              "source": "Ars Technica",
+              "badge": "",
+              "feature": false,
+              "snark": "A big announcement, with a small footnote doing cardio."
+            },
+            {
+              "title": "ICE protester says her Global Entry was revoked after agent scanned her face",
+              "url": "https://arstechnica.com/tech-policy/2026/01/ice-protester-says-her-global-entry-was-revoked-after-agent-scanned-her-face/",
+              "source": "Ars Technica",
+              "badge": "",
+              "feature": false,
+              "snark": "A review is underway."
+            },
+            {
+              "title": "TrumpRx delayed as senators question if it's a giant scam with Big Pharma",
+              "url": "https://arstechnica.com/health/2026/01/trumprx-delayed-as-senators-question-if-its-a-giant-scam-with-big-pharma/",
+              "source": "Ars Technica",
+              "badge": "",
+              "feature": false,
+              "snark": "At this point: A fuller picture is forming. More soon."
+            }
+          ]
+        },
+        {
+          "name": "Weird",
+          "items": [
+            {
+              "title": "Chelsea v West Ham United: Premier League – live",
+              "url": "https://www.theguardian.com/football/live/2026/jan/31/chelsea-v-west-ham-united-premier-league-live",
+              "source": "Guardian US",
+              "badge": "",
+              "feature": false,
+              "snark": "For now: More information expected soon. More as it develops."
+            },
+            {
+              "title": "Melania Trump documentary opens to underwhelming reception: ‘It’s not a gripping film’",
+              "url": "https://www.theguardian.com/us-news/2026/jan/31/melania-trump-documentary-new-york-release",
+              "source": "Guardian US",
+              "badge": "",
+              "feature": false,
+              "snark": "So far: The facts are still coming in. Updates expected."
+            },
+            {
+              "title": "Jeffrey Epstein files: don’t be fooled. Millions of files are still unreleased | Moira Donegan",
+              "url": "https://www.theguardian.com/commentisfree/2026/jan/31/jeffrey-epstein-unreleased-files",
+              "source": "Guardian US",
+              "badge": "",
+              "feature": false,
+              "snark": "As of now: Early reports are still being verified. Awaiting confirmation."
+            },
+            {
+              "title": "Treasures found on HS2 route stored in secret warehouse",
+              "url": "https://www.bbc.com/news/articles/c93v21q5xdvo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Science",
+              "badge": "",
+              "feature": false,
+              "snark": "So far: Situation remains unclear. More as it develops."
+            },
+            {
+              "title": "Polar bears on Norwegian islands fatter and healthier despite ice loss, scientists say",
+              "url": "https://www.bbc.com/news/articles/cx2l1xpz03no?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Science",
+              "badge": "",
+              "feature": false,
+              "snark": "As of now: More information expected soon. Awaiting confirmation."
+            },
+            {
+              "title": "Sunken Thames barges create new island for birds",
+              "url": "https://www.bbc.com/news/articles/cvg5zw5l42xo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Science",
+              "badge": "",
+              "feature": false,
+              "snark": "So far: Context is still being gathered. More soon."
+            }
+          ]
+        }
+      ]
     }
-  ]
+  ],
+  "refresh": {
+    "breaking": "hourly",
+    "others": "every 3 hours (UTC boundary)",
+    "three_hour_boundary": false,
+    "max_per_source_per_section": 3
+  }
 }
