@@ -1,15 +1,16 @@
 import json
-import re
 import random
+import re
 from datetime import datetime, timezone
 
 import feedparser
 
 # -------------------------
-# TUNING KNOBS
+# TUNING
 # -------------------------
 MAX_ITEMS_PER_SECTION = 12
-MAX_PER_SOURCE_PER_SECTION = 3  # <- (3) cap each publisher inside a section
+MAX_PER_SOURCE_PER_SECTION = 4  # cap each publisher inside a section
+
 
 # -------------------------
 # FEEDS
@@ -34,15 +35,16 @@ WORLD_TECH_WEIRD_FEEDS = [
     ("NPR Technology", "https://feeds.npr.org/1019/rss.xml"),
 ]
 
-# Exactly 3 columns. Breaking at top of Column 1.
+# 3 columns; Breaking at top of column 1
 LAYOUT = [
     [("Breaking", BREAKING_FEEDS), ("Top", TOP_FEEDS)],
     [("Business", BUSINESS_FEEDS)],
     [("World / Tech / Weird", WORLD_TECH_WEIRD_FEEDS)],
 ]
 
+
 # -------------------------
-# SNARK (large, dry, sarcastic)
+# SNARK + NEUTRAL
 # -------------------------
 SNARK = [
     "Officials say it's under control. So that's something.",
@@ -112,17 +114,6 @@ SNARK = [
     "The solution is obvious, except for everyone disagreeing.",
 ]
 
-# -------------------------
-# TRAGEDY FILTER (no snark)
-# -------------------------
-TRAGEDY_KEYWORDS = [
-    "killed", "dead", "death", "dies", "shooting", "shooter",
-    "murder", "war", "bomb", "explosion", "attack",
-    "crash", "collision", "earthquake", "wildfire", "flood",
-    "victim", "victims", "injured", "wounded", "terror"
-]
-
-# Expanded neutrals so we rarely need to synthesize variants
 NEUTRAL_FALLBACKS = [
     "Developing story.",
     "Details are still emerging.",
@@ -144,25 +135,24 @@ NEUTRAL_FALLBACKS = [
     "Information remains partial at this time.",
 ]
 
-# When we MUST create a unique line, do it without ugly "(v2)" suffixes
-VARIANT_PREFIX = [
-    "For now:",
-    "As of now:",
-    "At this point:",
-    "Currently:",
-    "So far:",
-]
+# Used to generate unique variants WITHOUT visible "(v2)" suffixes
+VARIANT_PREFIX = ["For now:", "As of now:", "Currently:", "So far:", "At this point:"]
+VARIANT_SUFFIX = ["More soon.", "Updates expected.", "Details pending.", "More as it develops.", "Awaiting confirmation."]
 
-VARIANT_SUFFIX = [
-    "More soon.",
-    "Updates expected.",
-    "Details pending.",
-    "More as it develops.",
-    "Awaiting confirmation.",
-]
 
 # -------------------------
-# JSON reuse helpers
+# TRAGEDY FILTER (no snark)
+# -------------------------
+TRAGEDY_KEYWORDS = [
+    "killed", "dead", "death", "dies", "shooting", "shooter",
+    "murder", "war", "bomb", "explosion", "attack",
+    "crash", "collision", "earthquake", "wildfire", "flood",
+    "victim", "victims", "injured", "wounded", "terror",
+]
+
+
+# -------------------------
+# LOAD PREVIOUS JSON (reuse sections)
 # -------------------------
 def load_previous_json(path="headlines.json"):
     try:
@@ -170,6 +160,7 @@ def load_previous_json(path="headlines.json"):
             return json.load(f)
     except Exception:
         return None
+
 
 def get_previous_section(prev_data, section_name):
     if not prev_data:
@@ -182,6 +173,7 @@ def get_previous_section(prev_data, section_name):
     except Exception:
         return None
     return None
+
 
 def collect_existing_sublines(prev_data, section_names_to_reuse):
     used = set()
@@ -197,6 +189,7 @@ def collect_existing_sublines(prev_data, section_names_to_reuse):
                 used.add(s)
     return used
 
+
 def collect_existing_urls(prev_data, section_names_to_reuse):
     used = set()
     if not prev_data:
@@ -211,16 +204,19 @@ def collect_existing_urls(prev_data, section_names_to_reuse):
                 used.add(u)
     return used
 
+
 # -------------------------
-# Core helpers
+# HELPERS
 # -------------------------
 def clean_title(text):
     text = re.sub(r"\s+", " ", text or "").strip()
     return text[:160]
 
+
 def is_tragic(title):
     t = (title or "").lower()
     return any(word in t for word in TRAGEDY_KEYWORDS)
+
 
 def parse_feed(source, url):
     items = []
@@ -235,6 +231,7 @@ def parse_feed(source, url):
         return []
     return items
 
+
 def dedupe_by_url(items):
     seen = set()
     out = []
@@ -246,15 +243,18 @@ def dedupe_by_url(items):
         out.append(it)
     return out
 
+
 def build_snark_pool(exclude_set):
     pool = [s for s in SNARK if s not in exclude_set]
     random.shuffle(pool)
     return pool
 
+
 def unique_text_from_pool(pool, used_set, fallback_base):
     """
-    Returns a unique line, without visible numbering.
-    If pool is exhausted, generates a unique variant using prefix/suffix.
+    Returns a unique line without visible version suffixes.
+    - Uses pool if possible.
+    - Otherwise generates unique variants using prefix/suffix.
     """
     while pool:
         candidate = pool.pop()
@@ -262,31 +262,34 @@ def unique_text_from_pool(pool, used_set, fallback_base):
             used_set.add(candidate)
             return candidate
 
-    # Generate a unique variant without "(v2)"
-    for _ in range(300):
+    # generate unique variants, no "(v2)" anywhere
+    for _ in range(400):
         candidate = f"{random.choice(VARIANT_PREFIX)} {fallback_base} {random.choice(VARIANT_SUFFIX)}"
         candidate = re.sub(r"\s+", " ", candidate).strip()
         if candidate not in used_set:
             used_set.add(candidate)
             return candidate
 
-    # Absolute last resort (should never happen): tiny punctuation variation
+    # last resort: punctuation tweak (still no v2)
     candidate = fallback_base
     if candidate in used_set:
         candidate = fallback_base + " "
     used_set.add(candidate)
     return candidate
 
+
 def neutral_line_unique(i, used_set):
     base = NEUTRAL_FALLBACKS[i % len(NEUTRAL_FALLBACKS)]
     return unique_text_from_pool([], used_set, base)
 
-# -------------------------
-# Selection rules per section
-#   - global URL dedupe across page
-#   - cap per source per section
-# -------------------------
+
 def select_items_for_section(raw_items, global_seen_urls):
+    """
+    Apply:
+      - per-section URL dedupe
+      - global URL dedupe across the whole page
+      - cap items per source per section
+    """
     raw_items = dedupe_by_url(raw_items)
 
     picked = []
@@ -312,6 +315,7 @@ def select_items_for_section(raw_items, global_seen_urls):
 
     return picked
 
+
 def build_section(section_name, feeds, badge_first, feature_first, snark_pool, used_sublines, global_seen_urls):
     combined = []
     for source, url in feeds:
@@ -334,11 +338,12 @@ def build_section(section_name, feeds, badge_first, feature_first, snark_pool, u
             "url": item["url"],
             "source": item["source"],
             "badge": badge_first if i == 0 else "",
-            "feature": True if (feature_first and i == 0) else False,
-            "snark": sub
+            "feature": bool(feature_first and i == 0),
+            "snark": sub,
         })
 
     return {"name": section_name, "items": rendered}
+
 
 # -------------------------
 # MAIN
@@ -347,22 +352,16 @@ def main():
     prev = load_previous_json("headlines.json")
     now_utc = datetime.now(timezone.utc)
 
-    # Refresh non-breaking sections every 3 hours (UTC boundary).
-    # Breaking refreshes every hour.
+    # refresh other sections every 3 hours (UTC boundary)
     three_hour_boundary = (now_utc.hour % 3 == 0)
 
-    # If we're not on a 3-hour boundary, reuse these sections unchanged:
+    # reuse non-breaking sections between 3-hour boundaries
     reuse_sections = []
     if not three_hour_boundary:
         reuse_sections = ["Top", "Business", "World / Tech / Weird"]
 
-    # Used sublines from reused sections so Breaking can't duplicate them:
     used_sublines = collect_existing_sublines(prev, reuse_sections)
-
-    # Used URLs from reused sections so Breaking can't duplicate stories:
     global_seen_urls = collect_existing_urls(prev, reuse_sections)
-
-    # Snark pool excludes any already-used sublines (from reused sections):
     snark_pool = build_snark_pool(used_sublines)
 
     columns = []
@@ -378,5 +377,35 @@ def main():
                     col_obj["sections"].append(prev_sec)
                     continue
 
-            # Build fresh section, applying global dedupe + per-source cap:
-            if section_name == "Breaking”:
+            if section_name == "Breaking":
+                sec = build_section(section_name, feeds, "BREAK", True, snark_pool, used_sublines, global_seen_urls)
+            elif section_name == "Top":
+                sec = build_section(section_name, feeds, "TOP", True, snark_pool, used_sublines, global_seen_urls)
+            else:
+                sec = build_section(section_name, feeds, "", False, snark_pool, used_sublines, global_seen_urls)
+
+            col_obj["sections"].append(sec)
+
+        columns.append(col_obj)
+
+    data = {
+        "site": {
+            "name": "THE DAILY SIDE-EYE",
+            "tagline": "Headlines with a raised eyebrow."
+        },
+        "generated_utc": now_utc.isoformat(),
+        "columns": columns,
+        "refresh": {
+            "breaking": "hourly",
+            "others": "every 3 hours",
+            "three_hour_boundary": three_hour_boundary,
+            "max_per_source_per_section": MAX_PER_SOURCE_PER_SECTION,
+        },
+    }
+
+    with open("headlines.json", "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=2, ensure_ascii=False)
+
+
+if __name__ == "__main__":
+    main()
