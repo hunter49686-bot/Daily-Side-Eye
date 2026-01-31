@@ -4,62 +4,69 @@ import re
 from datetime import datetime, timezone
 import feedparser
 
-# -----------------------------
+# --------------------------------------------
 # CONFIG
-# -----------------------------
+# --------------------------------------------
 MAX_ITEMS_PER_SECTION = 18
 MAX_PER_SOURCE_PER_SECTION = 3
 
-# Breaking refreshes every run. Others refresh only on UTC hours divisible by 3.
-# (If you changed your cron/timezone in Actions, keep this as-is; it uses UTC inside runner.)
-# -----------------------------
+# Breaking refreshes every run.
+# All other sections refresh only on UTC hours divisible by 3.
+# (Your GitHub Actions runner uses UTC by default.)
+def should_refresh(section_name: str, now_utc: datetime) -> bool:
+    if section_name == "Breaking":
+        return True
+    return (now_utc.hour % 3 == 0)
 
-# -----------------------------
-# RSS FEEDS
-# -----------------------------
+# --------------------------------------------
+# RSS FEEDS (expanded, less BBC-heavy)
+# --------------------------------------------
 BREAKING_FEEDS = [
-    ("BBC Front Page", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/front_page/rss.xml"),
-    ("CNN Top Stories", "http://rss.cnn.com/rss/cnn_topstories.rss"),
     ("AP Top News", "https://apnews.com/apf-topnews?output=rss"),
+    ("Reuters World", "https://feeds.reuters.com/Reuters/worldNews"),
+    ("CNN Top Stories", "http://rss.cnn.com/rss/cnn_topstories.rss"),
+    ("BBC Front Page", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/front_page/rss.xml"),
 ]
 
 TOP_FEEDS = [
-    ("BBC World", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/world/rss.xml"),
-    ("Guardian US", "https://www.theguardian.com/us/rss"),
     ("Reuters World", "https://feeds.reuters.com/Reuters/worldNews"),
+    ("AP Top News", "https://apnews.com/apf-topnews?output=rss"),
     ("NPR News", "https://feeds.npr.org/1001/rss.xml"),
+    ("Guardian World", "https://www.theguardian.com/world/rss"),
+    ("BBC World", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/world/rss.xml"),
 ]
 
 BUSINESS_FEEDS = [
-    ("BBC Business", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/business/rss.xml"),
     ("Reuters Business", "https://feeds.reuters.com/reuters/businessNews"),
     ("CNBC", "https://www.cnbc.com/id/100003114/device/rss/rss.html"),
-    ("WSJ World News", "https://feeds.a.dj.com/rss/RSSWorldNews.xml"),
+    ("MarketWatch", "https://feeds.content.dowjones.io/public/rss/mw_topstories"),
+    ("BBC Business", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/business/rss.xml"),
 ]
 
 TECH_FEEDS = [
-    ("BBC Tech", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/technology/rss.xml"),
     ("Ars Technica", "https://feeds.arstechnica.com/arstechnica/index/"),
     ("The Verge", "https://www.theverge.com/rss/index.xml"),
     ("Wired", "https://www.wired.com/feed/rss"),
+    ("Reuters Technology", "https://feeds.reuters.com/reuters/technologyNews"),
+    ("BBC Tech", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/technology/rss.xml"),
 ]
 
 WEIRD_FEEDS = [
     ("Reuters Oddly Enough", "https://feeds.reuters.com/reuters/oddlyEnoughNews"),
-    ("BBC Science", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/sci/tech/rss.xml"),
     ("Smithsonian", "https://www.smithsonianmag.com/rss/latest_articles/"),
+    ("BBC Science", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/sci/tech/rss.xml"),
 ]
 
-# Layout: 3 columns. Breaking at top of column 1.
+# 3 columns: (1) Breaking + Top, (2) Business, (3) Tech + Weird
 LAYOUT = [
     [("Breaking", BREAKING_FEEDS), ("Top", TOP_FEEDS)],
     [("Business", BUSINESS_FEEDS)],
     [("Tech", TECH_FEEDS), ("Weird", WEIRD_FEEDS)],
 ]
 
-# -----------------------------
+# --------------------------------------------
 # COPY POOLS
-# -----------------------------
+# --------------------------------------------
 SNARK_POOL = [
     "A confident plan has been announced. Reality is pending.",
     "Officials say it is under control. So that is something.",
@@ -72,51 +79,24 @@ SNARK_POOL = [
     "A compromise is proposed. Someone will hate it.",
     "A timeline was provided. Nobody believes it.",
     "A win is declared. The scoreboard is unavailable.",
-    "A review is underway.",
     "An update arrived. Clarity did not.",
     "Strong words were used. Outcomes remain TBD.",
+    "Everyone is monitoring the situation.",
+    "Talks were constructive. Feelings were shared.",
+    "A framework is emerging. It will be revisited.",
 ]
 
-# One "prefix-style" neutral per section max (prevents repetitive cadence)
-NEUTRAL_BASE = [
-    "Developing story.",
-    "Details are still emerging.",
+# STRICT tragedy-safe sublines (no cadence, no jokes, no “as of now”)
+TRAGEDY_SUBLINES = [
     "Authorities are investigating.",
-    "Situation remains unclear.",
+    "Details are still emerging.",
+    "Reporting continues.",
     "More information is expected.",
-    "Reporting continues.",
-    "This remains under review.",
+    "This is a developing situation.",
+    "Updates will follow.",
 ]
 
-PREFIXES = [
-    "At present,",
-    "Currently,",
-    "For now,",
-    "As things stand,",
-    "At the moment,",
-]
-
-SUFFIXES = [
-    "more information is expected.",
-    "details are still being verified.",
-    "confirmation is pending.",
-    "reporting continues.",
-    "this remains under review.",
-]
-
-# Short neutrals after that (no repeated “As of now/So far” rhythm)
-SOFT_NEUTRALS = [
-    "More information expected.",
-    "Reporting continues.",
-    "Further details pending.",
-    "Updates may follow.",
-    "Confirmation pending.",
-    "Still developing.",
-    "More soon.",
-    "Details pending.",
-]
-
-# Expanded tragedy keywords (respectful neutral only)
+# Expanded tragedy keywords (for safety)
 TRAGEDY_KEYWORDS = [
     "dead", "death", "dies", "died", "killed", "kill", "fatal",
     "passed", "pass away", "loss", "lost", "mourning", "funeral",
@@ -125,15 +105,16 @@ TRAGEDY_KEYWORDS = [
     "fire", "burn", "explosion", "blast", "crash", "collision",
     "war", "airstrike", "bomb", "terror", "hostage", "massacre",
     "missing", "disaster", "tragedy", "victim", "hospitalized",
+    "collapse", "collapsed",
 ]
 
-# "If this ages poorly" candidates (non-tragic only, Top/Business only)
+# Ages-poorly triggers (non-tragic only, and ONLY Business + Tech)
 AGES_POORLY_TRIGGERS = [
     "will", "could", "may", "might", "expected", "plan", "deal", "talks",
     "nominee", "rates", "inflation", "election", "forecast", "poll",
+    "set to", "aims to",
 ]
 
-# Language Watch terms (counts shown in footer)
 LANGUAGE_WATCH_TERMS = [
     ("Developing", r"\bdevelop\w*\b"),
     ("Sources say", r"\bsources?\s+(say|said)\b"),
@@ -142,7 +123,6 @@ LANGUAGE_WATCH_TERMS = [
     ("Expected to", r"\bexpected\s+to\b"),
 ]
 
-# “One Line Everyone Missed” triggers (pick one headline containing these)
 MISSED_TRIGGERS = [
     "familiar with the matter",
     "sources say",
@@ -154,74 +134,37 @@ MISSED_TRIGGERS = [
     "under review",
 ]
 
-# Nothing Burger triggers (pick one headline that is inherently empty)
 NOTHING_BURGER_TRIGGERS = [
-    "talks",
-    "discuss",
-    "discussion",
-    "meet",
-    "meeting",
-    "negotiat",
-    "consider",
-    "review",
-    "framework",
-    "plan",
-    "proposal",
-    "weigh",
-    "weighs",
-    "signal",
-    "aims to",
-    "expected",
-    "set to",
+    "talks", "discuss", "discussion", "meet", "meeting", "negotiat",
+    "consider", "review", "framework", "plan", "proposal", "weigh",
+    "signal", "aims to", "expected", "set to",
 ]
 
-# -----------------------------
+# --------------------------------------------
 # HELPERS
-# -----------------------------
-def clean(text):
+# --------------------------------------------
+def clean(text: str) -> str:
     return re.sub(r"\s+", " ", text or "").strip()
 
-def parse_feed(source_name, url):
+def normalize(s: str) -> str:
+    return re.sub(r"\s+", " ", (s or "").lower()).strip()
+
+def parse_feed(source_name: str, url: str):
     out = []
     f = feedparser.parse(url)
-    for e in getattr(f, "entries", [])[:80]:
+    for e in getattr(f, "entries", [])[:100]:
         title = clean(getattr(e, "title", ""))
         link = getattr(e, "link", "")
         if title and link:
             out.append({"title": title, "url": link, "source": source_name})
     return out
 
-def is_tragic(title):
-    t = (title or "").lower()
+def is_tragic(title: str) -> bool:
+    t = normalize(title)
     return any(k in t for k in TRAGEDY_KEYWORDS)
 
-def one_prefix_neutral(used_sublines, idx):
-    base = NEUTRAL_BASE[idx % len(NEUTRAL_BASE)]
-    s = f"{random.choice(PREFIXES)} {base.lower()} {random.choice(SUFFIXES)}"
-    tries = 0
-    while s in used_sublines and tries < 10:
-        s = f"{random.choice(PREFIXES)} {random.choice(NEUTRAL_BASE).lower()} {random.choice(SUFFIXES)}"
-        tries += 1
-    used_sublines.add(s)
-    return s
-
-def soft_neutral(used_sublines):
-    random.shuffle(SOFT_NEUTRALS)
-    for s in SOFT_NEUTRALS:
-        if s not in used_sublines:
-            used_sublines.add(s)
-            return s
-    s = random.choice(SOFT_NEUTRALS)
-    used_sublines.add(s)
-    return s
-
-def normalize_for_match(s):
-    s = (s or "").lower()
-    s = re.sub(r"\s+", " ", s).strip()
-    return s
-
 def build_language_watch(all_titles):
-    joined = "\n".join((t or "") for t in all_titles).lower()
+    joined = "\n".join(all_titles).lower()
     rows = []
     for label, pattern in LANGUAGE_WATCH_TERMS:
         try:
@@ -229,22 +172,14 @@ def build_language_watch(all_titles):
         except Exception:
             n = 0
         rows.append({"label": label, "count": n})
-    # Sort by count desc, then label
     rows.sort(key=lambda x: (-x["count"], x["label"]))
-    # Keep only non-zero; if all zero, keep top 3 with zeros
     nonzero = [r for r in rows if r["count"] > 0]
-    if nonzero:
-        return nonzero[:5]
-    return rows[:3]
+    return nonzero[:5] if nonzero else rows[:3]
 
 def pick_one_line_missed(candidates, day_seed):
-    """
-    candidates: list of dicts with title,url,source,section
-    deterministically pick one per day among matches; fallback to any non-tragic.
-    """
     matches = []
     for it in candidates:
-        t = normalize_for_match(it.get("title", ""))
+        t = normalize(it.get("title", ""))
         if any(trig in t for trig in MISSED_TRIGGERS):
             matches.append(it)
 
@@ -255,37 +190,31 @@ def pick_one_line_missed(candidates, day_seed):
     if not pool:
         return None
 
-    idx = day_seed % len(pool)
-    return pool[idx]
+    return pool[day_seed % len(pool)]
 
 def pick_nothing_burger(candidates, day_seed):
-    """
-    Pick one per day from Business/Top candidates that look like empty process headlines.
-    """
     pool = []
     for it in candidates:
         if it.get("tragic"):
             continue
         sec = it.get("section")
-        if sec not in ["Top", "Business"]:
+        if sec not in ["Top", "Business", "Tech"]:
             continue
-        t = normalize_for_match(it.get("title", ""))
+        t = normalize(it.get("title", ""))
         if any(trig in t for trig in NOTHING_BURGER_TRIGGERS):
             pool.append(it)
 
     if not pool:
-        # fallback: any non-tragic from Top/Business
-        pool = [it for it in candidates if (not it.get("tragic")) and it.get("section") in ["Top", "Business"]]
+        pool = [it for it in candidates if (not it.get("tragic")) and it.get("section") in ["Top", "Business", "Tech"]]
 
     if not pool:
         return None
 
-    idx = (day_seed * 3 + 7) % len(pool)
-    return pool[idx]
+    return pool[(day_seed * 3 + 7) % len(pool)]
 
-# -----------------------------
+# --------------------------------------------
 # MAIN
-# -----------------------------
+# --------------------------------------------
 def main():
     prev = None
     try:
@@ -295,7 +224,6 @@ def main():
         prev = None
 
     now = datetime.now(timezone.utc)
-    three_hour = (now.hour % 3 == 0)
     day_seed = int(now.strftime("%Y%m%d"))
 
     used_urls = set()
@@ -304,43 +232,42 @@ def main():
     snark_pool = SNARK_POOL[:]
     random.shuffle(snark_pool)
 
-    neutral_used_by_section = {}
-
     columns = []
-    ages_candidates = []         # urls
-    today_candidates = []        # for missed + nothing burger + language watch
+    ages_candidates = []     # list of urls eligible for "IF THIS AGES POORLY"
+    today_candidates = []    # for missed/burger/language watch
 
     for col in LAYOUT:
         col_out = {"sections": []}
 
         for section_name, feeds in col:
-            refresh = (section_name == "Breaking") or three_hour
+            refresh = should_refresh(section_name, now)
 
             # Reuse previous section if not refreshing
             if not refresh and prev:
                 reused = False
+                reused_section = None
                 for pcol in prev.get("columns", []):
                     for psec in pcol.get("sections", []):
                         if psec.get("name") == section_name:
+                            reused_section = psec
                             col_out["sections"].append(psec)
                             reused = True
                             break
                     if reused:
                         break
-                if reused:
-                    # also add reused items to candidates for missed/nothing/language watch
-                    for it in psec.get("items", []):
+
+                if reused and reused_section:
+                    for it in reused_section.get("items", []):
                         today_candidates.append({
-                            "title": it.get("title",""),
-                            "url": it.get("url",""),
-                            "source": it.get("source",""),
+                            "title": it.get("title", ""),
+                            "url": it.get("url", ""),
+                            "source": it.get("source", ""),
                             "section": section_name,
-                            "tragic": is_tragic(it.get("title","")),
+                            "tragic": is_tragic(it.get("title", "")),
                         })
                     continue
 
-            neutral_used_by_section.setdefault(section_name, False)
-
+            # Pull fresh
             raw = []
             for src_name, url in feeds:
                 raw.extend(parse_feed(src_name, url))
@@ -362,22 +289,23 @@ def main():
 
                 tragic = is_tragic(title)
 
-                # Subheadline logic:
-                # - Tragic: neutral only
-                # - Non-tragic: snark preferred
-                # - Only ONE prefix-neutral per section per run
+                # Subheadline assignment
                 if tragic:
-                    if not neutral_used_by_section[section_name]:
-                        sub = one_prefix_neutral(used_sublines, i)
-                        neutral_used_by_section[section_name] = True
-                    else:
-                        sub = soft_neutral(used_sublines)
+                    sub = random.choice(TRAGEDY_SUBLINES)
                 else:
+                    # Use snark, but ensure unique across page
                     if snark_pool:
                         sub = snark_pool.pop()
-                        used_sublines.add(sub)
                     else:
-                        sub = soft_neutral(used_sublines)
+                        # fallback: reuse snark pool in a shuffled cycle without duplicating if possible
+                        sub = random.choice(SNARK_POOL)
+
+                    tries = 0
+                    while sub in used_sublines and tries < 20:
+                        sub = random.choice(SNARK_POOL)
+                        tries += 1
+
+                used_sublines.add(sub)
 
                 item = {
                     "title": title,
@@ -389,8 +317,8 @@ def main():
                     "ages_poorly": False,
                 }
 
-                # Ages poorly candidate (Top/Business only, non-tragic only)
-                if section_name in ["Top", "Business"] and not tragic:
+                # Ages poorly candidates ONLY in Business + Tech, non-tragic
+                if section_name in ["Business", "Tech"] and not tragic:
                     t = title.lower()
                     if any(w in t for w in AGES_POORLY_TRIGGERS):
                         ages_candidates.append(url)
@@ -423,30 +351,20 @@ def main():
                     if it.get("url") == pick:
                         it["ages_poorly"] = True
 
-    # ONE LINE EVERYONE MISSED (deterministic per day)
     missed = pick_one_line_missed(today_candidates, day_seed)
-
-    # NOTHING BURGER OF THE DAY (deterministic per day)
     burger = pick_nothing_burger(today_candidates, day_seed)
-
-    # LANGUAGE WATCH (TODAY)
-    titles_today = [c.get("title", "") for c in today_candidates]
-    language_watch = build_language_watch(titles_today)
+    language_watch = build_language_watch([c.get("title", "") for c in today_candidates])
 
     out = {
         "site": {"name": "THE DAILY SIDE-EYE", "tagline": "Headlines with a raised eyebrow."},
         "generated_utc": now.isoformat(),
         "columns": columns,
-
-        # Features 1–3 data
-        "one_line_everyone_missed": missed,     # dict or None
-        "nothing_burger": burger,               # dict or None
-        "language_watch": language_watch,       # list of {label,count}
-
-        # Keep your existing section for now (can be made real later)
+        "one_line_everyone_missed": missed,
+        "nothing_burger": burger,
+        "language_watch": language_watch,
         "week_in_hindsight": [
-            "Language tends to repeat because newsrooms repeat. Today, you can see which phrases won.",
-            "If this ages poorly is one per day, non-tragic by design.",
+            "Language repeats. So does the news.",
+            "One 'If This Ages Poorly' is selected daily from Business/Tech only.",
         ],
     }
 
