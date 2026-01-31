@@ -3,7 +3,7 @@
     "name": "THE DAILY SIDE-EYE",
     "tagline": "Headlines with a raised eyebrow."
   },
-  "generated_utc": "2026-01-31T20:29:58.138930+00:00",
+  "generated_utc": "2026-01-31T20:49:46.990749+00:00",
   "columns": [
     {
       "sections": [
@@ -16,7 +16,7 @@
               "source": "CNN Top Stories",
               "badge": "BREAK",
               "feature": true,
-              "snark": "Strong words were used. Outcomes remain TBD.",
+              "snark": "Everyone is monitoring the situation.",
               "ages_poorly": false
             },
             {
@@ -25,7 +25,7 @@
               "source": "CNN Top Stories",
               "badge": "",
               "feature": false,
-              "snark": "Everyone is monitoring the situation.",
+              "snark": "A big announcement, with a small footnote doing cardio.",
               "ages_poorly": false
             },
             {
@@ -34,7 +34,7 @@
               "source": "CNN Top Stories",
               "badge": "",
               "feature": false,
-              "snark": "A confident plan has been announced. Reality is pending.",
+              "snark": "Talks were constructive. Feelings were shared.",
               "ages_poorly": false
             },
             {
@@ -43,7 +43,7 @@
               "source": "BBC Front Page",
               "badge": "",
               "feature": false,
-              "snark": "The plan is simple. The details are complicated.",
+              "snark": "Strong words were used. Outcomes remain TBD.",
               "ages_poorly": false
             },
             {
@@ -61,7 +61,7 @@
               "source": "BBC Front Page",
               "badge": "",
               "feature": false,
-              "snark": "Officials say it is under control. So that is something.",
+              "snark": "A win is declared. The scoreboard is unavailable.",
               "ages_poorly": false
             }
           ]
@@ -75,7 +75,8 @@
               "source": "BBC World",
               "badge": "",
               "feature": false,
-              "snark": "This will surely be handled with nuance."
+              "snark": "This will surely be handled with nuance.",
+              "ages_poorly": false
             },
             {
               "title": "Pedro Pascal and Meryl Streep lead tributes to Catherine O'Hara",
@@ -83,7 +84,8 @@
               "source": "BBC World",
               "badge": "",
               "feature": false,
-              "snark": "A decision was made. Consequences scheduled for later."
+              "snark": "A decision was made. Consequences scheduled for later.",
+              "ages_poorly": false
             },
             {
               "title": "Musk's SpaceX applies to launch 1m satellites into orbit",
@@ -92,7 +94,7 @@
               "badge": "",
               "feature": false,
               "snark": "The optics are doing most of the work here.",
-              "ages_poorly": true
+              "ages_poorly": false
             },
             {
               "title": "More than 200 killed in coltan mine collapse in eastern DRC, officials say",
@@ -100,7 +102,8 @@
               "source": "Guardian World",
               "badge": "",
               "feature": false,
-              "snark": "As of now: Developing story. Awaiting confirmation."
+              "snark": "Details are still emerging.",
+              "ages_poorly": false
             },
             {
               "title": "Islamic State claims attack on international airport and airbase in Niger",
@@ -108,7 +111,8 @@
               "source": "Guardian World",
               "badge": "",
               "feature": false,
-              "snark": "So far: Details are still emerging. Updates expected."
+              "snark": "This is a developing situation.",
+              "ages_poorly": false
             },
             {
               "title": "South Africa expels top Israeli diplomat over \u2018insulting attacks\u2019 on president",
@@ -116,7 +120,8 @@
               "source": "Guardian World",
               "badge": "",
               "feature": false,
-              "snark": "At this point: Authorities are investigating. Awaiting confirmation."
+              "snark": "More information is expected.",
+              "ages_poorly": false
             },
             {
               "title": "Federal Judge Denies Request to Block ICE Surge in Minnesota",
@@ -124,7 +129,8 @@
               "source": "NYT HomePage",
               "badge": "",
               "feature": false,
-              "snark": "The plan is simple. The details are complicated."
+              "snark": "The plan is simple. The details are complicated.",
+              "ages_poorly": false
             },
             {
               "title": "Bovino Is Said to Have Mocked Prosecutor\u2019s Jewish Faith on Call With Lawyers",
@@ -132,7 +138,8 @@
               "source": "NYT HomePage",
               "badge": "",
               "feature": false,
-              "snark": "Experts disagree, loudly and on schedule."
+              "snark": "Experts disagree, loudly and on schedule.",
+              "ages_poorly": false
             },
             {
               "title": "ICE Expands Power of Agents to Arrest People Without Warrants",
@@ -140,7 +147,8 @@
               "source": "NYT HomePage",
               "badge": "",
               "feature": false,
-              "snark": "As of now: Key details remain unconfirmed. Awaiting confirmation."
+              "snark": "Reporting continues.",
+              "ages_poorly": false
             }
           ]
         }
@@ -157,7 +165,8 @@
               "source": "BBC Business",
               "badge": "",
               "feature": false,
-              "snark": "More information expected."
+              "snark": "Reporting continues.",
+              "ages_poorly": false
             },
             {
               "title": "Plan ahead and dress wisely: How to minimise add-on costs when you fly",
@@ -173,7 +182,8 @@
               "source": "BBC Business",
               "badge": "",
               "feature": false,
-              "snark": "Details are still emerging."
+              "snark": "Authorities are investigating.",
+              "ages_poorly": false
             },
             {
               "title": "Will corporate America finally stand up to the Trump administration?",
@@ -278,7 +288,7 @@
               "source": "Ars Technica",
               "badge": "",
               "feature": false,
-              "snark": "At this point: A fuller picture is forming. More soon."
+              "snark": "Officials say it is under control. So that is something."
             }
           ]
         },
@@ -291,7 +301,8 @@
               "source": "Guardian US",
               "badge": "",
               "feature": false,
-              "snark": "For now: More information expected soon. More as it develops."
+              "snark": "Confidence is high. Evidence is pending.",
+              "ages_poorly": false
             },
             {
               "title": "Melania Trump documentary opens to underwhelming reception: \u2018It\u2019s not a gripping film\u2019",
@@ -299,7 +310,8 @@
               "source": "Guardian US",
               "badge": "",
               "feature": false,
-              "snark": "So far: The facts are still coming in. Updates expected."
+              "snark": "This is either a turning point or a rehearsal.",
+              "ages_poorly": false
             },
             {
               "title": "Jeffrey Epstein files: don\u2019t be fooled. Millions of files are still unreleased | Moira Donegan",
@@ -307,7 +319,8 @@
               "source": "Guardian US",
               "badge": "",
               "feature": false,
-              "snark": "As of now: Early reports are still being verified. Awaiting confirmation."
+              "snark": "A framework is emerging. It will be revisited.",
+              "ages_poorly": false
             },
             {
               "title": "Treasures found on HS2 route stored in secret warehouse",
@@ -315,7 +328,8 @@
               "source": "BBC Science",
               "badge": "",
               "feature": false,
-              "snark": "So far: Situation remains unclear. More as it develops."
+              "snark": "Authorities are investigating.",
+              "ages_poorly": false
             },
             {
               "title": "Polar bears on Norwegian islands fatter and healthier despite ice loss, scientists say",
@@ -323,7 +337,8 @@
               "source": "BBC Science",
               "badge": "",
               "feature": false,
-              "snark": "As of now: More information expected soon. Awaiting confirmation."
+              "snark": "More information is expected.",
+              "ages_poorly": false
             },
             {
               "title": "Sunken Thames barges create new island for birds",
@@ -331,7 +346,8 @@
               "source": "BBC Science",
               "badge": "",
               "feature": false,
-              "snark": "So far: Context is still being gathered. More soon."
+              "snark": "An update arrived. Clarity did not.",
+              "ages_poorly": false
             }
           ]
         }
@@ -359,7 +375,8 @@
     }
   ],
   "week_in_hindsight": [
-    "Language repeats. So does the news.",
-    "One 'If This Ages Poorly' is selected daily from Business/Tech only."
+    "\u2022 Israeli: South Africa expels top Israeli diplomat over \u2018insulting attacks\u2019 on president",
+    "\u2022 Dominion: Here are the 20 specific Fox broadcasts and tweets Dominion says were defamatory",
+    "\u2022 Agents: ICE Expands Power of Agents to Arrest People Without Warrants"
   ]
 }
