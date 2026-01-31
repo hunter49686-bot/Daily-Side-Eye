@@ -3,7 +3,7 @@
     "name": "THE DAILY SIDE-EYE",
     "tagline": "Headlines with a raised eyebrow."
   },
-  "generated_utc": "2026-01-31T07:50:12.197030+00:00",
+  "generated_utc": "2026-01-31T09:00:23.595801+00:00",
   "columns": [
     {
       "sections": [
@@ -11,52 +11,12 @@
           "name": "Breaking",
           "items": [
             {
-              "title": "Partial government shutdown goes into effect, as Senate deal awaits House vote",
-              "url": "https://abcnews.go.com/Politics/graham-blockade-stalls-government-funding-deal-hours-shutdown/story?id=129712452",
-              "source": "ABC Top Stories",
-              "badge": "BREAK",
-              "feature": true,
-              "snark": "A victory lap, taken before the race."
-            },
-            {
-              "title": "French MPs demand explanation over tech firm’s contract to help ICE in US",
-              "url": "https://www.theguardian.com/us-news/2026/jan/31/french-mps-demand-explanation-over-tech-firm-capgemini-contract-ice",
-              "source": "The Guardian US",
-              "badge": "",
-              "feature": false,
-              "snark": "Expect clarity shortly. Bring snacks."
-            },
-            {
-              "title": "Epstein invited 'The Duke' to meet Russian woman",
-              "url": "https://www.bbc.com/news/articles/c4g5490xmkeo?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Front Page",
-              "badge": "",
-              "feature": false,
-              "snark": "Now featuring: consequences."
-            },
-            {
-              "title": "Shutdown nears as lawmakers brace for next round of ICE negotiations",
-              "url": "https://www.latimes.com/politics/story/2026-01-30/shutdown-senate-ice-negotiations",
-              "source": "LA Times - Nation",
-              "badge": "",
-              "feature": false,
-              "snark": "A reminder that 'simple' is a marketing term."
-            },
-            {
               "title": "More than 300 anti-ICE protests planned across US this weekend",
               "url": "https://www.theguardian.com/us-news/2026/jan/31/anti-ice-protests-weekend",
               "source": "The Guardian US",
-              "badge": "",
-              "feature": false,
-              "snark": "A bold move, executed in pencil."
-            },
-            {
-              "title": "Dominion still has pending lawsuits against election deniers such as Rudy Giuliani and Sidney Powell",
-              "url": "https://www.cnn.com/business/live-news/fox-news-dominion-trial-04-18-23/h_8d51e3ae2714edaa0dace837305d03b8",
-              "source": "CNN Top Stories",
-              "badge": "",
-              "feature": false,
-              "snark": "The bar was low. They brought a shovel."
+              "badge": "BREAK",
+              "feature": true,
+              "snark": "Confidence was expressed. Evidence was not."
             },
             {
               "title": "3 million pages of Epstein documents released",
@@ -64,7 +24,39 @@
               "source": "NBC Top Stories",
               "badge": "",
               "feature": false,
-              "snark": "The timeline is fluid. Like a spilled drink."
+              "snark": "Nothing says stability like emergency meetings."
+            },
+            {
+              "title": "French MPs demand explanation over tech firm’s contract to help ICE in US",
+              "url": "https://www.theguardian.com/us-news/2026/jan/31/french-mps-demand-explanation-over-tech-firm-capgemini-contract-ice",
+              "source": "The Guardian US",
+              "badge": "",
+              "feature": false,
+              "snark": "A modest proposal, with immodest confidence."
+            },
+            {
+              "title": "Dominion still has pending lawsuits against election deniers such as Rudy Giuliani and Sidney Powell",
+              "url": "https://www.cnn.com/business/live-news/fox-news-dominion-trial-04-18-23/h_8d51e3ae2714edaa0dace837305d03b8",
+              "source": "CNN Top Stories",
+              "badge": "",
+              "feature": false,
+              "snark": "File under: avoidable."
+            },
+            {
+              "title": "Partial government shutdown goes into effect, as Senate deal awaits House vote",
+              "url": "https://abcnews.go.com/Politics/graham-blockade-stalls-government-funding-deal-hours-shutdown/story?id=129712452",
+              "source": "ABC Top Stories",
+              "badge": "",
+              "feature": false,
+              "snark": "A straight answer takes a scenic route."
+            },
+            {
+              "title": "Shutdown nears as lawmakers brace for next round of ICE negotiations",
+              "url": "https://www.latimes.com/politics/story/2026-01-30/shutdown-senate-ice-negotiations",
+              "source": "LA Times - Nation",
+              "badge": "",
+              "feature": false,
+              "snark": "A statement was issued. Substance not included."
             },
             {
               "title": "Takeaways from the millions of newly released Epstein files",
@@ -72,7 +64,15 @@
               "source": "BBC Front Page",
               "badge": "",
               "feature": false,
-              "snark": "A minor tweak triggers major drama."
+              "snark": "An 'update' that raises more questions than it answers."
+            },
+            {
+              "title": "Epstein invited 'The Duke' to meet Russian woman",
+              "url": "https://www.bbc.com/news/articles/c4g5490xmkeo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Front Page",
+              "badge": "",
+              "feature": false,
+              "snark": "A 'common sense' solution sparks uncommon disagreement."
             },
             {
               "title": "Trump's Cuba oil tariff threat creates new diplomatic challenge for Mexico's Sheinbaum",
@@ -80,7 +80,7 @@
               "source": "LA Times - Nation",
               "badge": "",
               "feature": false,
-              "snark": "Confidence was expressed. Evidence was not."
+              "snark": "This will age… interestingly."
             },
             {
               "title": "LIVE: ABC News Live",
@@ -88,7 +88,7 @@
               "source": "ABC Top Stories",
               "badge": "",
               "feature": false,
-              "snark": "Confidence is high. Accuracy is TBD."
+              "snark": "A promise was made. A reminder will be needed."
             },
             {
               "title": "Senate approves spending package allowing for DHS funding negotiation",
@@ -96,7 +96,7 @@
               "source": "NBC Top Stories",
               "badge": "",
               "feature": false,
-              "snark": "Everyone is monitoring the situation. Vigorously."
+              "snark": "An investigation begins. Answers do not."
             }
           ]
         }
@@ -108,44 +108,12 @@
           "name": "Business",
           "items": [
             {
-              "title": "Seahawks sale rumors swirl ahead of Super Bowl, Paul Allen's estate denies report",
-              "url": "https://abcnews.go.com/Business/wireStory/seahawks-sale-rumors-swirl-ahead-super-bowl-paul-129723740",
+              "title": "Starbucks feels the heat as more chains compete for US coffee drinkers",
+              "url": "https://abcnews.go.com/Business/wireStory/starbucks-feels-heat-chains-compete-us-coffee-drinkers-129728180",
               "source": "ABC Business",
               "badge": "",
               "feature": false,
-              "snark": "A promise was made. A reminder will be needed."
-            },
-            {
-              "title": "How major US stock indexes fared Friday, 1/30/2026",
-              "url": "https://abcnews.go.com/Business/wireStory/major-us-stock-indexes-fared-friday-1302026-129718694",
-              "source": "ABC Business",
-              "badge": "",
-              "feature": false,
-              "snark": "This is why we can’t have nice things."
-            },
-            {
-              "title": "Trump picks Kevin Warsh to lead the US Federal Reserve",
-              "url": "https://www.bbc.com/news/articles/c2d7yddrl2xo?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Business",
-              "badge": "",
-              "feature": false,
-              "snark": "An investigation begins. Answers do not."
-            },
-            {
-              "title": "Trump says U.S. will decertify Canadian-made planes, threatens 50% tariff",
-              "url": "https://www.washingtonpost.com/politics/2026/01/30/us-trump-canada-aircraft-tariff/",
-              "source": "Washington Post - Business",
-              "badge": "",
-              "feature": false,
-              "snark": "It's complicated, but so is the excuse."
-            },
-            {
-              "title": "Companies are getting hit by rising prices, just like consumers",
-              "url": "https://www.nbcnews.com/business/economy/inflation-consumer-businesses-higher-prices-ppi-december-rcna256712",
-              "source": "NBC Business",
-              "badge": "",
-              "feature": false,
-              "snark": "This is fine. (It is not fine.)"
+              "snark": "The headline writes checks the facts can't cash."
             },
             {
               "title": "Silver plummets after Trump taps Kevin Warsh to chair Federal Reserve",
@@ -153,7 +121,7 @@
               "source": "NBC Business",
               "badge": "",
               "feature": false,
-              "snark": "A quick briefing. A long aftermath."
+              "snark": "A minor tweak triggers major drama."
             },
             {
               "title": "Trump taps career staffer to lead statistics agency whose chief he fired",
@@ -161,7 +129,31 @@
               "source": "Washington Post - Business",
               "badge": "",
               "feature": false,
-              "snark": "A measured response, using a broken ruler."
+              "snark": "Unclear. Remains unclear. Probably will stay unclear."
+            },
+            {
+              "title": "Trump says U.S. will decertify Canadian-made planes, threatens 50% tariff",
+              "url": "https://www.washingtonpost.com/politics/2026/01/30/us-trump-canada-aircraft-tariff/",
+              "source": "Washington Post - Business",
+              "badge": "",
+              "feature": false,
+              "snark": "A breakthrough—followed by a breakdown."
+            },
+            {
+              "title": "Seahawks sale rumors swirl ahead of Super Bowl, Paul Allen's estate denies report",
+              "url": "https://abcnews.go.com/Business/wireStory/seahawks-sale-rumors-swirl-ahead-super-bowl-paul-129723740",
+              "source": "ABC Business",
+              "badge": "",
+              "feature": false,
+              "snark": "This is either progress or performance art."
+            },
+            {
+              "title": "Trump picks Kevin Warsh to lead the US Federal Reserve",
+              "url": "https://www.bbc.com/news/articles/c2d7yddrl2xo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Business",
+              "badge": "",
+              "feature": false,
+              "snark": "Now featuring: consequences."
             },
             {
               "title": "Will Trump's pick to lead US central bank get him the change he wants?",
@@ -169,7 +161,15 @@
               "source": "BBC Business",
               "badge": "",
               "feature": false,
-              "snark": "Calm statements follow. Loud consequences remain."
+              "snark": "The consequences are loading…"
+            },
+            {
+              "title": "Companies are getting hit by rising prices, just like consumers",
+              "url": "https://www.nbcnews.com/business/economy/inflation-consumer-businesses-higher-prices-ppi-december-rcna256712",
+              "source": "NBC Business",
+              "badge": "",
+              "feature": false,
+              "snark": "The timeline is fluid. Like a spilled drink."
             }
           ]
         }
@@ -181,84 +181,20 @@
           "name": "World / Politics",
           "items": [
             {
-              "title": "From stilettos to safety concerns on Inauguration Day: 4 takeaways from Melania Trump's new movie",
-              "url": "https://abcnews.go.com/US/wireStory/stilettos-safety-concerns-inauguration-day-4-takeaways-melania-129724947",
-              "source": "ABC US Headlines",
-              "badge": "",
-              "feature": false,
-              "snark": "File under: avoidable."
-            },
-            {
-              "title": "Schitt's Creek and Home Alone star Catherine O'Hara dies aged 71",
-              "url": "https://www.bbc.com/news/articles/czr4jn4621lo?at_medium=RSS&at_campaign=rss",
-              "source": "BBC US & Canada",
-              "badge": "",
-              "feature": false,
-              "snark": "This is either progress or performance art."
-            },
-            {
-              "title": "Through carnage of the government crackdown, Iranian protesters looked to Trump",
-              "url": "https://www.nbcnews.com/world/iran/carnage-government-crackdown-iranian-protesters-looked-trump-rcna256364",
-              "source": "NBC World",
-              "badge": "",
-              "feature": false,
-              "snark": "The explanation is technically words."
-            },
-            {
-              "title": "More than 200 killed in coltan mine collapse in eastern DRC, officials say",
-              "url": "https://www.theguardian.com/world/2026/jan/30/more-than-200-killed-in-coltan-mine-collapse-in-eastern-drc-officials-say",
-              "source": "The Guardian World",
-              "badge": "",
-              "feature": false,
-              "snark": "The plot thickens. The facts thin out."
-            },
-            {
-              "title": "Trump nominates government economist to lead Bureau of Labor Statistics",
-              "url": "https://abcnews.go.com/US/wireStory/trump-nominates-government-economist-lead-bureau-labor-statistics-129723955",
-              "source": "ABC US Headlines",
-              "badge": "",
-              "feature": false,
-              "snark": "Now with 20% more uncertainty."
-            },
-            {
-              "title": "Trump's Cuba oil tariff threat creates new diplomatic challenge for Mexico's Sheinbaum",
-              "url": "https://www.latimes.com/world-nation/story/2026-01-30/trumps-cuba-oil-tariff-threat-creates-new-diplomatic-challenge-for-mexicos-sheinbaum",
-              "source": "LA Times - World",
-              "badge": "",
-              "feature": false,
-              "snark": "The truth is out there. Not here."
-            },
-            {
               "title": "ICE buys warehouses for mass detention network, rattling locals",
               "url": "https://www.washingtonpost.com/investigations/2026/01/30/ice-warehouse-detention-dhs-immigration/",
-              "source": "Washington Post - National",
-              "badge": "",
-              "feature": false,
-              "snark": "The headline writes checks the facts can't cash."
-            },
-            {
-              "title": "Takeaways from the millions of newly released Epstein files",
-              "url": "https://www.bbc.com/news/articles/cevnmxyy4wjo?at_medium=RSS&at_campaign=rss",
-              "source": "BBC World",
-              "badge": "",
-              "feature": false,
-              "snark": "A straight answer takes a scenic route."
-            },
-            {
-              "title": "Protesters take to streets nationwide to decry ICE tactics in Minneapolis",
-              "url": "https://www.washingtonpost.com/nation/2026/01/30/minneapolis-protests-ice/",
               "source": "Washington Post - National",
               "badge": "",
               "feature": false,
               "snark": "The situation is dynamic. Like a runaway shopping cart."
             },
             {
-              "title": "Islamic State claims attack on international airport and airbase in Niger",
-              "url": "https://www.theguardian.com/world/2026/jan/30/niger-airport-airbase-attack-islamic-state",
-              "source": "The Guardian World",
+              "title": "Winning numbers drawn in Friday’s Mega Millions",
+              "url": "https://abcnews.go.com/US/wireStory/winning-numbers-drawn-fridays-mega-millions-129727652",
+              "source": "ABC US Headlines",
               "badge": "",
               "feature": false,
-              "snark": "Everyone is shocked. Again."
+              "snark": "This is why we can’t have nice things."
             },
             {
               "title": "Shutdown nears as lawmakers brace for next round of ICE negotiations",
@@ -266,7 +202,39 @@
               "source": "LA Times - World",
               "badge": "",
               "feature": false,
-              "snark": "Updates may follow. So may regret."
+              "snark": "A decision was made. Accountability was not."
+            },
+            {
+              "title": "ICE claim that a man shattered his skull running into wall triggers tension at a Minnesota hospital",
+              "url": "https://abcnews.go.com/US/wireStory/ice-claim-man-shattered-skull-running-wall-triggers-129728439",
+              "source": "ABC US Headlines",
+              "badge": "",
+              "feature": false,
+              "snark": "Officials promise transparency, then immediately dim the lights."
+            },
+            {
+              "title": "More than 200 killed in coltan mine collapse in eastern DRC, officials say",
+              "url": "https://www.theguardian.com/world/2026/jan/30/more-than-200-killed-in-coltan-mine-collapse-in-eastern-drc-officials-say",
+              "source": "The Guardian World",
+              "badge": "",
+              "feature": false,
+              "snark": "The numbers were cited. Interpretation may vary."
+            },
+            {
+              "title": "Schitt's Creek and Home Alone star Catherine O'Hara dies aged 71",
+              "url": "https://www.bbc.com/news/articles/czr4jn4621lo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC US & Canada",
+              "badge": "",
+              "feature": false,
+              "snark": "A 'final' decision enters its sequel era."
+            },
+            {
+              "title": "Takeaways from the millions of newly released Epstein files",
+              "url": "https://www.bbc.com/news/articles/cevnmxyy4wjo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC US & Canada",
+              "badge": "",
+              "feature": false,
+              "snark": "A calm exterior, frantic interior."
             },
             {
               "title": "Confusion in Kyiv and Moscow after Trump says Putin agreed to pause attacks for a week",
@@ -274,7 +242,39 @@
               "source": "NBC World",
               "badge": "",
               "feature": false,
-              "snark": "The consequences are loading…"
+              "snark": "A plan exists. The details are on a separate planet."
+            },
+            {
+              "title": "Islamic State claims attack on international airport and airbase in Niger",
+              "url": "https://www.theguardian.com/world/2026/jan/30/niger-airport-airbase-attack-islamic-state",
+              "source": "The Guardian World",
+              "badge": "",
+              "feature": false,
+              "snark": "New details emerge. Old questions remain."
+            },
+            {
+              "title": "Trump's Cuba oil tariff threat creates new diplomatic challenge for Mexico's Sheinbaum",
+              "url": "https://www.latimes.com/world-nation/story/2026-01-30/trumps-cuba-oil-tariff-threat-creates-new-diplomatic-challenge-for-mexicos-sheinbaum",
+              "source": "LA Times - World",
+              "badge": "",
+              "feature": false,
+              "snark": "It's complicated, but so is the excuse."
+            },
+            {
+              "title": "Protesters take to streets nationwide to decry ICE tactics in Minneapolis",
+              "url": "https://www.washingtonpost.com/nation/2026/01/30/minneapolis-protests-ice/",
+              "source": "Washington Post - National",
+              "badge": "",
+              "feature": false,
+              "snark": "Now with 20% more uncertainty."
+            },
+            {
+              "title": "Through carnage of the government crackdown, Iranian protesters looked to Trump",
+              "url": "https://www.nbcnews.com/world/iran/carnage-government-crackdown-iranian-protesters-looked-trump-rcna256364",
+              "source": "NBC World",
+              "badge": "",
+              "feature": false,
+              "snark": "Confidence is high. Accuracy is TBD."
             }
           ]
         }
@@ -283,6 +283,6 @@
   ],
   "_meta": {
     "full_refresh_every_hours": 3,
-    "last_full_refresh_utc": "2026-01-31T05:27:15.984108+00:00"
+    "last_full_refresh_utc": "2026-01-31T09:00:23.595801+00:00"
   }
 }
