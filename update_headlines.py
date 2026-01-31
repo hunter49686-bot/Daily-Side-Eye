@@ -379,4 +379,4 @@ def main():
                     continue
 
             # Build fresh section, applying global dedupe + per-source cap:
-            if section_name == "Breaking
+            if section_name == "Breaking”:
