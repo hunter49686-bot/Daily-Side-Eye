@@ -4,10 +4,19 @@ import re
 from datetime import datetime, timezone
 import feedparser
 
+# -----------------------------
+# CONFIG
+# -----------------------------
 MAX_ITEMS_PER_SECTION = 18
 MAX_PER_SOURCE_PER_SECTION = 3
 
-# ---------------- RSS FEEDS ----------------
+# Breaking refreshes every run. Others refresh only on UTC hours divisible by 3.
+# (If you changed your cron/timezone in Actions, keep this as-is; it uses UTC inside runner.)
+# -----------------------------
+
+# -----------------------------
+# RSS FEEDS
+# -----------------------------
 BREAKING_FEEDS = [
     ("BBC Front Page", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/front_page/rss.xml"),
     ("CNN Top Stories", "http://rss.cnn.com/rss/cnn_topstories.rss"),
@@ -48,7 +57,9 @@ LAYOUT = [
     [("Tech", TECH_FEEDS), ("Weird", WEIRD_FEEDS)],
 ]
 
-# ---------------- COPY POOLS ----------------
+# -----------------------------
+# COPY POOLS
+# -----------------------------
 SNARK_POOL = [
     "A confident plan has been announced. Reality is pending.",
     "Officials say it is under control. So that is something.",
@@ -66,7 +77,7 @@ SNARK_POOL = [
     "Strong words were used. Outcomes remain TBD.",
 ]
 
-# One "prefix-style" neutral per section max (prevents "As of now / So far" spam)
+# One "prefix-style" neutral per section max (prevents repetitive cadence)
 NEUTRAL_BASE = [
     "Developing story.",
     "Details are still emerging.",
@@ -93,7 +104,7 @@ SUFFIXES = [
     "this remains under review.",
 ]
 
-# Short neutrals after that (no repetitive cadence)
+# Short neutrals after that (no repeated “As of now/So far” rhythm)
 SOFT_NEUTRALS = [
     "More information expected.",
     "Reporting continues.",
@@ -116,12 +127,57 @@ TRAGEDY_KEYWORDS = [
     "missing", "disaster", "tragedy", "victim", "hospitalized",
 ]
 
+# "If this ages poorly" candidates (non-tragic only, Top/Business only)
 AGES_POORLY_TRIGGERS = [
     "will", "could", "may", "might", "expected", "plan", "deal", "talks",
-    "nominee", "rates", "inflation", "election", "forecast",
+    "nominee", "rates", "inflation", "election", "forecast", "poll",
 ]
 
-# ---------------- HELPERS ----------------
+# Language Watch terms (counts shown in footer)
+LANGUAGE_WATCH_TERMS = [
+    ("Developing", r"\bdevelop\w*\b"),
+    ("Sources say", r"\bsources?\s+(say|said)\b"),
+    ("Under review", r"\bunder\s+review\b"),
+    ("Officials said", r"\bofficials?\s+(say|said)\b"),
+    ("Expected to", r"\bexpected\s+to\b"),
+]
+
+# “One Line Everyone Missed” triggers (pick one headline containing these)
+MISSED_TRIGGERS = [
+    "familiar with the matter",
+    "sources say",
+    "sources said",
+    "according to",
+    "officials said",
+    "spokesperson",
+    "statement",
+    "under review",
+]
+
+# Nothing Burger triggers (pick one headline that is inherently empty)
+NOTHING_BURGER_TRIGGERS = [
+    "talks",
+    "discuss",
+    "discussion",
+    "meet",
+    "meeting",
+    "negotiat",
+    "consider",
+    "review",
+    "framework",
+    "plan",
+    "proposal",
+    "weigh",
+    "weighs",
+    "signal",
+    "aims to",
+    "expected",
+    "set to",
+]
+
+# -----------------------------
+# HELPERS
+# -----------------------------
 def clean(text):
     return re.sub(r"\s+", " ", text or "").strip()
 
@@ -159,7 +215,77 @@ def soft_neutral(used_sublines):
     used_sublines.add(s)
     return s
 
-# ---------------- MAIN ----------------
+def normalize_for_match(s):
+    s = (s or "").lower()
+    s = re.sub(r"\s+", " ", s).strip()
+    return s
+
+def build_language_watch(all_titles):
+    joined = "\n".join((t or "") for t in all_titles).lower()
+    rows = []
+    for label, pattern in LANGUAGE_WATCH_TERMS:
+        try:
+            n = len(re.findall(pattern, joined, flags=re.IGNORECASE))
+        except Exception:
+            n = 0
+        rows.append({"label": label, "count": n})
+    # Sort by count desc, then label
+    rows.sort(key=lambda x: (-x["count"], x["label"]))
+    # Keep only non-zero; if all zero, keep top 3 with zeros
+    nonzero = [r for r in rows if r["count"] > 0]
+    if nonzero:
+        return nonzero[:5]
+    return rows[:3]
+
+def pick_one_line_missed(candidates, day_seed):
+    """
+    candidates: list of dicts with title,url,source,section
+    deterministically pick one per day among matches; fallback to any non-tragic.
+    """
+    matches = []
+    for it in candidates:
+        t = normalize_for_match(it.get("title", ""))
+        if any(trig in t for trig in MISSED_TRIGGERS):
+            matches.append(it)
+
+    pool = matches if matches else [it for it in candidates if not it.get("tragic")]
+    if not pool:
+        pool = candidates[:]
+
+    if not pool:
+        return None
+
+    idx = day_seed % len(pool)
+    return pool[idx]
+
+def pick_nothing_burger(candidates, day_seed):
+    """
+    Pick one per day from Business/Top candidates that look like empty process headlines.
+    """
+    pool = []
+    for it in candidates:
+        if it.get("tragic"):
+            continue
+        sec = it.get("section")
+        if sec not in ["Top", "Business"]:
+            continue
+        t = normalize_for_match(it.get("title", ""))
+        if any(trig in t for trig in NOTHING_BURGER_TRIGGERS):
+            pool.append(it)
+
+    if not pool:
+        # fallback: any non-tragic from Top/Business
+        pool = [it for it in candidates if (not it.get("tragic")) and it.get("section") in ["Top", "Business"]]
+
+    if not pool:
+        return None
+
+    idx = (day_seed * 3 + 7) % len(pool)
+    return pool[idx]
+
+# -----------------------------
+# MAIN
+# -----------------------------
 def main():
     prev = None
     try:
@@ -170,6 +296,7 @@ def main():
 
     now = datetime.now(timezone.utc)
     three_hour = (now.hour % 3 == 0)
+    day_seed = int(now.strftime("%Y%m%d"))
 
     used_urls = set()
     used_sublines = set()
@@ -180,7 +307,8 @@ def main():
     neutral_used_by_section = {}
 
     columns = []
-    ages_candidates = []
+    ages_candidates = []         # urls
+    today_candidates = []        # for missed + nothing burger + language watch
 
     for col in LAYOUT:
         col_out = {"sections": []}
@@ -200,6 +328,15 @@ def main():
                     if reused:
                         break
                 if reused:
+                    # also add reused items to candidates for missed/nothing/language watch
+                    for it in psec.get("items", []):
+                        today_candidates.append({
+                            "title": it.get("title",""),
+                            "url": it.get("url",""),
+                            "source": it.get("source",""),
+                            "section": section_name,
+                            "tragic": is_tragic(it.get("title","")),
+                        })
                     continue
 
             neutral_used_by_section.setdefault(section_name, False)
@@ -252,6 +389,7 @@ def main():
                     "ages_poorly": False,
                 }
 
+                # Ages poorly candidate (Top/Business only, non-tragic only)
                 if section_name in ["Top", "Business"] and not tragic:
                     t = title.lower()
                     if any(w in t for w in AGES_POORLY_TRIGGERS):
@@ -260,6 +398,14 @@ def main():
                 items.append(item)
                 used_urls.add(url)
                 per_source[src] += 1
+
+                today_candidates.append({
+                    "title": title,
+                    "url": url,
+                    "source": src,
+                    "section": section_name,
+                    "tragic": tragic,
+                })
 
                 if len(items) >= MAX_ITEMS_PER_SECTION:
                     break
@@ -270,7 +416,6 @@ def main():
 
     # Mark exactly one item/day as "IF THIS AGES POORLY"
     if ages_candidates:
-        day_seed = int(now.strftime("%Y%m%d"))
         pick = ages_candidates[day_seed % len(ages_candidates)]
         for col in columns:
             for sec in col.get("sections", []):
@@ -278,14 +423,30 @@ def main():
                     if it.get("url") == pick:
                         it["ages_poorly"] = True
 
+    # ONE LINE EVERYONE MISSED (deterministic per day)
+    missed = pick_one_line_missed(today_candidates, day_seed)
+
+    # NOTHING BURGER OF THE DAY (deterministic per day)
+    burger = pick_nothing_burger(today_candidates, day_seed)
+
+    # LANGUAGE WATCH (TODAY)
+    titles_today = [c.get("title", "") for c in today_candidates]
+    language_watch = build_language_watch(titles_today)
+
     out = {
         "site": {"name": "THE DAILY SIDE-EYE", "tagline": "Headlines with a raised eyebrow."},
         "generated_utc": now.isoformat(),
         "columns": columns,
+
+        # Features 1–3 data
+        "one_line_everyone_missed": missed,     # dict or None
+        "nothing_burger": burger,               # dict or None
+        "language_watch": language_watch,       # list of {label,count}
+
+        # Keep your existing section for now (can be made real later)
         "week_in_hindsight": [
-            "Investigations were plentiful: about 1 headline(s) referenced probes/reviews.",
-            "Talks and deals appeared often: about 1 headline(s).",
-            "Plans and strategies were announced: about 1 headline(s).",
+            "Language tends to repeat because newsrooms repeat. Today, you can see which phrases won.",
+            "If this ages poorly is one per day, non-tragic by design.",
         ],
     }
 
