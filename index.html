@@ -149,7 +149,7 @@ html,body{
 
   <div class="header">
     <div class="site-title" id="siteName">THE DAILY SIDE-EYE</div>
-    <div class="tagline" id="siteTagline"></div>
+    <div class="tagline" id="siteTagline">Headlines with a raised eyebrow.</div>
     <div class="meta" id="updated"></div>
   </div>
 
@@ -159,61 +159,76 @@ html,body{
 </div>
 
 <script>
-function qs(id){return document.getElementById(id);}
+function qs(id){ return document.getElementById(id); }
 
 function renderStory(item){
-  const div=document.createElement("div");
-  div.className="story"+(item.feature?" feature":"");
+  const div = document.createElement("div");
+  div.className = "story" + (item.feature ? " feature" : "");
 
-  let badge=item.badge?`<span class="badge">${item.badge}</span>`:"";
+  const badge = item.badge ? `<span class="badge">${item.badge}</span>` : "";
 
-  div.innerHTML=`
+  div.innerHTML = `
     ${badge}
     <a href="${item.url}" target="_blank" rel="noopener noreferrer">
       ${item.title}
     </a>
     <span class="source">(${item.source})</span>
-    ${item.snark?`<div class="snark">${item.snark}</div>`:""}
+    ${item.snark ? `<div class="snark">${item.snark}</div>` : ``}
   `;
   return div;
 }
 
-fetch("./headlines.json?v="+Date.now())
-  .then(r=>r.json())
-  .then(data=>{
-    qs("siteTagline").textContent=data.site?.tagline||"";
-    qs("updated").textContent=
-      "Last updated: "+
-      new Date(data.generated_utc).toLocaleString();
+function render(data){
+  // Site header
+  if (data.site?.name) qs("siteName").textContent = data.site.name;
+  if (data.site?.tagline) qs("siteTagline").textContent = data.site.tagline;
 
-    const cols=qs("columns");
-    cols.innerHTML="";
+  // Last updated (from generated_utc)
+  const utc = data.generated_utc;
+  if (utc) {
+    qs("updated").textContent = "Last updated: " + new Date(utc).toLocaleString();
+  } else {
+    qs("updated").textContent = "";
+  }
 
-    data.columns.forEach(col=>{
-      const colDiv=document.createElement("div");
+  // Columns / sections
+  const cols = qs("columns");
+  cols.innerHTML = "";
 
-      col.sections.forEach(section=>{
-        const sec=document.createElement("div");
-        sec.className="section";
+  (data.columns || []).forEach(col => {
+    const colDiv = document.createElement("div");
 
-        const title=document.createElement("div");
-        title.className="section-title"+
-          (section.name.toLowerCase()==="breaking"?" breaking":"");
-        title.textContent=section.name;
-        sec.appendChild(title);
+    (col.sections || []).forEach(section => {
+      const sec = document.createElement("div");
+      sec.className = "section";
 
-        section.items.forEach(item=>{
-          sec.appendChild(renderStory(item));
-        });
+      const title = document.createElement("div");
+      const isBreaking = (section.name || "").toLowerCase() === "breaking";
+      title.className = "section-title" + (isBreaking ? " breaking" : "");
+      title.textContent = section.name || "";
+      sec.appendChild(title);
 
-        colDiv.appendChild(sec);
+      (section.items || []).forEach(item => {
+        sec.appendChild(renderStory(item));
       });
 
-      cols.appendChild(colDiv);
+      colDiv.appendChild(sec);
     });
+
+    cols.appendChild(colDiv);
+  });
+}
+
+fetch("./headlines.json?v=" + Date.now(), { cache: "no-store" })
+  .then(r => {
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    return r.json();
   })
-  .catch(err=>{
-    qs("columns").innerHTML="<p>Error loading headlines.</p>";
+  .then(render)
+  .catch(err => {
+    // If something ever fails, show a simple message (no debug dump)
+    qs("updated").textContent = "Unable to load headlines right now.";
+    qs("columns").innerHTML = "<p>Refresh in a minute.</p>";
     console.error(err);
   });
 </script>
