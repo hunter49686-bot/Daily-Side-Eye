@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>THE DAILY SIDE-EYE</title>
 
-  <!-- IMPORTANT: this makes the browser re-fetch the HTML more often -->
+  <!-- Helps discourage caching of HTML -->
   <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
@@ -23,15 +23,17 @@
     .header{border-bottom:2px solid var(--rule);margin-bottom:16px}
     .site-title{font-size:44px;font-weight:900;letter-spacing:1px}
     .tagline{font-size:18px;color:var(--muted);margin-top:4px}
-    .meta-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:10px 0 2px}
+    .meta-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:10px 0 10px}
     .meta{font-size:13px;color:var(--muted)}
     .btn{
-      font-size:12px; font-weight:700;
+      font-size:12px;font-weight:700;
       border:1px solid var(--rule);
-      background:#fafafa; color:#222;
-      padding:6px 10px; border-radius:6px;
+      background:#fafafa;color:#222;
+      padding:6px 10px;border-radius:6px;
     }
     .btn:active{transform:translateY(1px)}
+    .error{margin:10px 0;color:#900;font-size:13px;display:none}
+
     .columns{display:grid;grid-template-columns:1fr 1fr;gap:32px}
     @media(max-width:900px){.columns{grid-template-columns:1fr}}
 
@@ -45,7 +47,7 @@
     .story{margin-bottom:18px}
     .story a{
       color:var(--ink);text-decoration:none;
-      font-weight:700;               /* headlines bold */
+      font-weight:700; /* bold headlines */
       font-size:18px;line-height:1.25
     }
     .story a:hover{text-decoration:underline}
@@ -58,26 +60,27 @@
     }
     .source{font-size:12px;color:var(--muted);margin-left:6px}
     .snark{font-size:14px;color:#555;font-weight:400;margin-top:3px;line-height:1.3}
+    .note{font-size:12px;color:var(--muted);margin-top:6px}
 
-    .footer{margin-top:40px;padding-top:12px;border-top:1px solid var(--rule);
-      font-size:13px;color:var(--muted);text-align:center}
-    .error{margin-top:10px;color:#900;font-size:13px}
+    .footer{
+      margin-top:40px;padding-top:12px;border-top:1px solid var(--rule);
+      font-size:13px;color:var(--muted);text-align:center
+    }
   </style>
 </head>
 
 <body>
   <div class="container">
-
     <div class="header">
       <div class="site-title" id="siteName">THE DAILY SIDE-EYE</div>
       <div class="tagline" id="siteTagline">Headlines with a raised eyebrow.</div>
 
       <div class="meta-row">
-        <div class="meta" id="updated"></div>
+        <div class="meta" id="updated">Loading…</div>
         <button class="btn" id="hardRefreshBtn" type="button">Hard refresh</button>
       </div>
 
-      <div class="error" id="err" style="display:none"></div>
+      <div class="error" id="err"></div>
     </div>
 
     <div class="columns" id="columns"></div>
@@ -85,7 +88,7 @@
     <div class="footer">© The Daily Side-Eye</div>
   </div>
 
-  <!-- IMPORTANT: versioned JS file so HTML changes take effect reliably -->
-  <script src="./app.js?v=20260201a"></script>
+  <!-- Bump this version whenever you change app.js -->
+  <script src="./app.js?v=20260201b"></script>
 </body>
 </html>
