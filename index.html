@@ -1,237 +1,91 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>THE DAILY SIDE-EYE</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>THE DAILY SIDE-EYE</title>
 
-<style>
-:root{
-  --ink:#111;
-  --muted:#666;
-  --rule:#ddd;
-  --accent:#b00000;
-  --bg:#fff;
-}
+  <!-- IMPORTANT: this makes the browser re-fetch the HTML more often -->
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
 
-html,body{
-  margin:0;
-  padding:0;
-  background:var(--bg);
-  color:var(--ink);
-  font-family: Arial, Helvetica, sans-serif;
-}
+  <style>
+    :root{
+      --ink:#111;
+      --muted:#666;
+      --rule:#ddd;
+      --accent:#b00000;
+      --bg:#fff;
+    }
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif}
+    .container{max-width:1100px;margin:0 auto;padding:18px}
+    .header{border-bottom:2px solid var(--rule);margin-bottom:16px}
+    .site-title{font-size:44px;font-weight:900;letter-spacing:1px}
+    .tagline{font-size:18px;color:var(--muted);margin-top:4px}
+    .meta-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:10px 0 2px}
+    .meta{font-size:13px;color:var(--muted)}
+    .btn{
+      font-size:12px; font-weight:700;
+      border:1px solid var(--rule);
+      background:#fafafa; color:#222;
+      padding:6px 10px; border-radius:6px;
+    }
+    .btn:active{transform:translateY(1px)}
+    .columns{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+    @media(max-width:900px){.columns{grid-template-columns:1fr}}
 
-.container{
-  max-width:1100px;
-  margin:0 auto;
-  padding:18px;
-}
+    .section{margin-bottom:28px}
+    .section-title{
+      font-size:26px;font-weight:900;text-transform:uppercase;letter-spacing:1px;
+      border-bottom:2px solid var(--rule);padding-bottom:6px;margin-bottom:14px
+    }
+    .section-title.breaking{color:var(--accent);border-bottom:3px solid var(--accent)}
 
-.header{
-  border-bottom:2px solid var(--rule);
-  margin-bottom:16px;
-}
+    .story{margin-bottom:18px}
+    .story a{
+      color:var(--ink);text-decoration:none;
+      font-weight:700;               /* headlines bold */
+      font-size:18px;line-height:1.25
+    }
+    .story a:hover{text-decoration:underline}
+    .story.feature a{color:var(--accent);font-weight:900;font-size:20px}
 
-.site-title{
-  font-size:44px;
-  font-weight:900;
-  letter-spacing:1px;
-}
+    .badge{
+      display:inline-block;font-size:11px;font-weight:800;
+      padding:2px 6px;margin-right:6px;border-radius:3px;
+      border:1px solid var(--accent);color:var(--accent)
+    }
+    .source{font-size:12px;color:var(--muted);margin-left:6px}
+    .snark{font-size:14px;color:#555;font-weight:400;margin-top:3px;line-height:1.3}
 
-.tagline{
-  font-size:18px;
-  color:var(--muted);
-  margin-top:4px;
-}
-
-.meta{
-  font-size:13px;
-  color:var(--muted);
-  margin-top:8px;
-}
-
-.columns{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:32px;
-}
-
-@media(max-width:900px){
-  .columns{grid-template-columns:1fr;}
-}
-
-/* SECTION HEADERS */
-.section{
-  margin-bottom:28px;
-}
-
-.section-title{
-  font-size:26px;
-  font-weight:900;
-  text-transform:uppercase;
-  letter-spacing:1px;
-  border-bottom:2px solid var(--rule);
-  padding-bottom:6px;
-  margin-bottom:14px;
-}
-
-.section-title.breaking{
-  color:var(--accent);
-  border-bottom:3px solid var(--accent);
-}
-
-/* STORIES */
-.story{
-  margin-bottom:18px;
-}
-
-.story a{
-  color:var(--ink);
-  text-decoration:none;
-  font-weight:700;              /* HEADLINES BOLD */
-  font-size:18px;
-  line-height:1.25;
-}
-
-.story a:hover{
-  text-decoration:underline;
-}
-
-.story.feature a{
-  color:var(--accent);
-  font-weight:900;
-  font-size:20px;
-}
-
-/* BADGE */
-.badge{
-  display:inline-block;
-  font-size:11px;
-  font-weight:800;
-  padding:2px 6px;
-  margin-right:6px;
-  border-radius:3px;
-  border:1px solid var(--accent);
-  color:var(--accent);
-}
-
-/* SOURCE */
-.source{
-  font-size:12px;
-  color:var(--muted);
-  margin-left:6px;
-}
-
-/* SNARK / SUBHEAD */
-.snark{
-  font-size:14px;
-  color:#555;
-  font-weight:400;             /* LIGHTER THAN HEADLINE */
-  margin-top:3px;
-  line-height:1.3;
-}
-
-/* FOOTER */
-.footer{
-  margin-top:40px;
-  padding-top:12px;
-  border-top:1px solid var(--rule);
-  font-size:13px;
-  color:var(--muted);
-  text-align:center;
-}
-</style>
+    .footer{margin-top:40px;padding-top:12px;border-top:1px solid var(--rule);
+      font-size:13px;color:var(--muted);text-align:center}
+    .error{margin-top:10px;color:#900;font-size:13px}
+  </style>
 </head>
 
 <body>
-<div class="container">
+  <div class="container">
 
-  <div class="header">
-    <div class="site-title" id="siteName">THE DAILY SIDE-EYE</div>
-    <div class="tagline" id="siteTagline">Headlines with a raised eyebrow.</div>
-    <div class="meta" id="updated"></div>
+    <div class="header">
+      <div class="site-title" id="siteName">THE DAILY SIDE-EYE</div>
+      <div class="tagline" id="siteTagline">Headlines with a raised eyebrow.</div>
+
+      <div class="meta-row">
+        <div class="meta" id="updated"></div>
+        <button class="btn" id="hardRefreshBtn" type="button">Hard refresh</button>
+      </div>
+
+      <div class="error" id="err" style="display:none"></div>
+    </div>
+
+    <div class="columns" id="columns"></div>
+
+    <div class="footer">© The Daily Side-Eye</div>
   </div>
 
-  <div class="columns" id="columns"></div>
-
-  <div class="footer">© The Daily Side-Eye</div>
-</div>
-
-<script>
-function qs(id){ return document.getElementById(id); }
-
-function renderStory(item){
-  const div = document.createElement("div");
-  div.className = "story" + (item.feature ? " feature" : "");
-
-  const badge = item.badge ? `<span class="badge">${item.badge}</span>` : "";
-
-  div.innerHTML = `
-    ${badge}
-    <a href="${item.url}" target="_blank" rel="noopener noreferrer">
-      ${item.title}
-    </a>
-    <span class="source">(${item.source})</span>
-    ${item.snark ? `<div class="snark">${item.snark}</div>` : ``}
-  `;
-  return div;
-}
-
-function render(data){
-  // Site header
-  if (data.site?.name) qs("siteName").textContent = data.site.name;
-  if (data.site?.tagline) qs("siteTagline").textContent = data.site.tagline;
-
-  // Last updated (from generated_utc)
-  const utc = data.generated_utc;
-  if (utc) {
-    qs("updated").textContent = "Last updated: " + new Date(utc).toLocaleString();
-  } else {
-    qs("updated").textContent = "";
-  }
-
-  // Columns / sections
-  const cols = qs("columns");
-  cols.innerHTML = "";
-
-  (data.columns || []).forEach(col => {
-    const colDiv = document.createElement("div");
-
-    (col.sections || []).forEach(section => {
-      const sec = document.createElement("div");
-      sec.className = "section";
-
-      const title = document.createElement("div");
-      const isBreaking = (section.name || "").toLowerCase() === "breaking";
-      title.className = "section-title" + (isBreaking ? " breaking" : "");
-      title.textContent = section.name || "";
-      sec.appendChild(title);
-
-      (section.items || []).forEach(item => {
-        sec.appendChild(renderStory(item));
-      });
-
-      colDiv.appendChild(sec);
-    });
-
-    cols.appendChild(colDiv);
-  });
-}
-
-fetch("./headlines.json?v=" + Date.now(), { cache: "no-store" })
-  .then(r => {
-    if (!r.ok) throw new Error("HTTP " + r.status);
-    return r.json();
-  })
-  .then(render)
-  .catch(err => {
-    // If something ever fails, show a simple message (no debug dump)
-    qs("updated").textContent = "Unable to load headlines right now.";
-    qs("columns").innerHTML = "<p>Refresh in a minute.</p>";
-    console.error(err);
-  });
-</script>
-
+  <!-- IMPORTANT: versioned JS file so HTML changes take effect reliably -->
+  <script src="./app.js?v=20260201a"></script>
 </body>
 </html>
