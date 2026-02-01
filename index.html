@@ -1,286 +1,178 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>THE DAILY SIDE-EYE</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>THE DAILY SIDE-EYE</title>
 
-  <style>
-    :root{
-      --ink:#111;
-      --muted:#666;
-      --rule:#ddd;
-      --accent:#b00000;
-      --bg:#fff;
-    }
-    html,body{background:var(--bg); color:var(--ink); margin:0; font-family: Arial, Helvetica, sans-serif;}
-    .container{max-width:1200px; margin:0 auto; padding:16px;}
-    .header{
-      display:flex; justify-content:space-between; align-items:flex-start; gap:16px;
-      border-bottom:2px solid var(--rule); padding-bottom:10px; margin-bottom:12px;
-    }
-    .site-title{font-size:34px; font-weight:900; letter-spacing:.5px; margin:0;}
-    .tagline{font-size:16px; color:#444; margin-top:4px;}
-    .date{font-size:14px; color:#444; text-align:right; line-height:1.35;}
-    .updated{font-size:13px; color:var(--muted); margin:10px 0 18px;}
-
-    .columns{display:grid; grid-template-columns:1fr 1fr 1fr; gap:28px; align-items:start;}
-    @media (max-width: 900px){ .columns{grid-template-columns:1fr;} }
-
-    /* Section titles bigger + bold */
-    .section-title{
-      font-size:20px;
-      font-weight:900;
-      letter-spacing:1.5px;
-      text-transform:uppercase;
-      margin:0 0 14px;
-      border-bottom:1px solid var(--rule);
-      padding-bottom:6px;
-    }
-    .section-title.breaking{
-      font-size:22px;
-      color:var(--accent);
-      font-weight:900;
-      border-bottom:2px solid var(--accent);
-    }
-
-    .story{margin-bottom:16px;}
-
-    /* ✅ Headlines visibly bold on mobile */
-    .story a{
-      color:var(--ink);
-      text-decoration:none;
-      font-weight:700; /* <-- visible bold */
-      line-height:1.25;
-    }
-    .story a:hover{text-decoration:underline;}
-
-    /* Featured stays stronger */
-    .story.feature a{
-      color:var(--accent);
-      font-size:19px;
-      font-weight:900;
-    }
-
-    .badge{
-      display:inline-block;
-      font-size:11px;
-      font-weight:800;
-      padding:2px 6px;
-      border:1px solid var(--accent);
-      color:var(--accent);
-      margin-right:6px;
-      border-radius:3px;
-    }
-    .source{font-size:12px; color:var(--muted); margin-left:4px;}
-
-    /* Snark/sub-headline lighter */
-    .snark{
-      font-size:14px;
-      color:#666;
-      font-weight:400;
-      margin-top:2px;
-      line-height:1.25;
-    }
-
-    .empty{font-size:13px; color:var(--muted); margin:8px 0 18px;}
-    .footer{
-      border-top:1px solid var(--rule);
-      margin-top:26px;
-      padding-top:10px;
-      font-size:13px;
-      color:var(--muted);
-      text-align:center;
-    }
-    .statusline{
-      font-size:12px;
-      color:var(--muted);
-      margin-top:6px;
-    }
-    .statusline strong{color:#333;}
-  </style>
+<style>
+:root{
+  --ink:#111;
+  --muted:#666;
+  --rule:#ddd;
+  --accent:#b00000;
+  --bg:#fff;
+}
+html,body{
+  background:var(--bg);
+  color:var(--ink);
+  margin:0;
+  font-family:Arial, Helvetica, sans-serif;
+}
+.container{
+  max-width:1200px;
+  margin:0 auto;
+  padding:16px;
+}
+.header{
+  border-bottom:2px solid var(--rule);
+  padding-bottom:10px;
+  margin-bottom:12px;
+}
+.site-title{
+  font-size:36px;
+  font-weight:900;
+}
+.tagline{
+  font-size:16px;
+  color:#444;
+  margin-top:4px;
+}
+.updated{
+  font-size:13px;
+  color:var(--muted);
+  margin:10px 0 18px;
+}
+.columns{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:28px;
+}
+@media (max-width:900px){
+  .columns{grid-template-columns:1fr;}
+}
+.section-title{
+  font-size:20px;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:1.2px;
+  border-bottom:1px solid var(--rule);
+  margin-bottom:14px;
+  padding-bottom:6px;
+}
+.section-title.breaking{
+  color:var(--accent);
+  border-bottom:2px solid var(--accent);
+}
+.story{
+  margin-bottom:16px;
+}
+.story a{
+  color:var(--ink);
+  text-decoration:none;
+  font-weight:700; /* bold headlines */
+  line-height:1.25;
+}
+.story a:hover{text-decoration:underline;}
+.story.feature a{
+  color:var(--accent);
+  font-weight:900;
+  font-size:19px;
+}
+.source{
+  font-size:12px;
+  color:var(--muted);
+  margin-left:4px;
+}
+.snark{
+  font-size:14px;
+  color:#666;
+  font-weight:400;
+  margin-top:2px;
+}
+.badge{
+  display:inline-block;
+  font-size:11px;
+  font-weight:800;
+  padding:2px 6px;
+  border:1px solid var(--accent);
+  color:var(--accent);
+  margin-right:6px;
+  border-radius:3px;
+}
+.footer{
+  border-top:1px solid var(--rule);
+  margin-top:26px;
+  padding-top:10px;
+  font-size:13px;
+  color:var(--muted);
+  text-align:center;
+}
+</style>
 </head>
 
 <body>
-  <div class="container">
-    <div class="header">
-      <div>
-        <div class="site-title" id="siteName">THE DAILY SIDE-EYE</div>
-        <div class="tagline" id="siteTagline">Headlines with a raised eyebrow.</div>
-        <div class="statusline" id="liveStatus"></div>
-      </div>
-      <div class="date" id="today"></div>
-    </div>
-
-    <div class="updated" id="updated"></div>
-    <div class="columns" id="columns"></div>
-
-    <div class="footer" id="footer"></div>
+<div class="container">
+  <div class="header">
+    <div class="site-title" id="siteName">THE DAILY SIDE-EYE</div>
+    <div class="tagline" id="siteTagline">Headlines with a raised eyebrow.</div>
   </div>
 
-  <script>
-    // ====== SETTINGS YOU CAN EDIT ======
-    // How often the page checks for new headlines.json (milliseconds)
-    const REFRESH_EVERY_MS = 5 * 60 * 1000; // 5 minutes
-    // If you want “almost immediate” updates, use 60 * 1000 (1 min)
-    // ==================================
+  <div class="updated" id="updated"></div>
+  <div class="columns" id="columns"></div>
 
-    const SPECIAL_LAYOUT = [
-      ["Breaking", "Nothing Burger of the Day"],
-      ["A Line Most People Missed"],
-      ["Week in Review"]
-    ];
+  <div class="footer">© The Daily Side-Eye</div>
+</div>
 
-    const PAGE_VERSION = "index.html auto-refresh v1";
+<script>
+async function loadHeadlines(){
+  try{
+    const res = await fetch("./headlines.json?v=" + Date.now(), { cache:"no-store" });
+    const data = await res.json();
 
-    const s = (x) => (x ?? "").toString().trim();
+    document.getElementById("siteName").textContent = data.site?.name || "";
+    document.getElementById("siteTagline").textContent = data.site?.tagline || "";
 
-    function setTodayStamp(){
-      const now = new Date();
-      document.getElementById("today").textContent =
-        now.toLocaleDateString(undefined, { weekday:"long", year:"numeric", month:"long", day:"numeric" }) +
-        " " + now.toLocaleTimeString([], { hour:"2-digit", minute:"2-digit" });
+    if(data.generated_utc){
+      document.getElementById("updated").textContent =
+        "Last updated: " + new Date(data.generated_utc).toLocaleString();
     }
 
-    function renderStory(item){
-      const div = document.createElement("div");
-      div.className = "story" + (item.feature ? " feature" : "");
+    const columns = document.getElementById("columns");
+    columns.innerHTML = "";
 
-      const badgeHtml = item.badge ? `<span class="badge">${item.badge}</span>` : "";
-      div.innerHTML = `
-        ${badgeHtml}
-        <a href="${item.url}" target="_blank" rel="noopener noreferrer">${item.title}</a>
-        <span class="source">(${item.source})</span>
-        <div class="snark">${s(item.snark)}</div>
-      `;
-      return div;
-    }
+    (data.columns || []).forEach(col=>{
+      const colDiv = document.createElement("div");
+      (col.sections || []).forEach(sec=>{
+        const title = document.createElement("div");
+        title.className = "section-title" + (sec.name === "Breaking" ? " breaking" : "");
+        title.textContent = sec.name;
+        colDiv.appendChild(title);
 
-    function renderSectionBlock(name, sec){
-      const wrap = document.createElement("div");
-
-      const title = document.createElement("div");
-      title.className = "section-title" + (name === "Breaking" ? " breaking" : "");
-      title.textContent = name;
-      wrap.appendChild(title);
-
-      const items = (sec && sec.items) ? sec.items : [];
-      if (!items.length){
-        const empty = document.createElement("div");
-        empty.className = "empty";
-        empty.textContent = "No items right now.";
-        wrap.appendChild(empty);
-        return wrap;
-      }
-
-      for (const item of items){
-        wrap.appendChild(renderStory(item));
-      }
-      return wrap;
-    }
-
-    function findSectionAnywhere(data, name){
-      for (const col of (data.columns || [])){
-        for (const sec of (col.sections || [])){
-          if (s(sec.name) === name) return sec;
-        }
-      }
-      return null;
-    }
-
-    function renderFixedLayoutOrFallback(data){
-      const cols = document.getElementById("columns");
-      cols.innerHTML = "";
-
-      // Try to build the special 3-column layout using exact section names.
-      const needed = new Set(SPECIAL_LAYOUT.flat());
-      const foundMap = {};
-      let missing = [];
-
-      needed.forEach(n => {
-        const sec = findSectionAnywhere(data, n);
-        if (sec) foundMap[n] = sec;
-        else missing.push(n);
-      });
-
-      // If any special section is missing, fall back to rendering everything as-is.
-      if (missing.length){
-        // Render all sections by original columns, so page never looks broken.
-        (data.columns || []).forEach(col => {
-          const colDiv = document.createElement("div");
-          (col.sections || []).forEach(sec => {
-            colDiv.appendChild(renderSectionBlock(s(sec.name), sec));
-          });
-          cols.appendChild(colDiv);
+        (sec.items || []).forEach(item=>{
+          const div = document.createElement("div");
+          div.className = "story" + (item.feature ? " feature" : "");
+          div.innerHTML = `
+            ${item.badge ? `<span class="badge">${item.badge}</span>` : ""}
+            <a href="${item.url}" target="_blank" rel="noopener">${item.title}</a>
+            <span class="source">(${item.source})</span>
+            <div class="snark">${item.snark || ""}</div>
+          `;
+          colDiv.appendChild(div);
         });
+      });
+      columns.appendChild(colDiv);
+    });
 
-        document.getElementById("liveStatus").innerHTML =
-          `<strong>Live:</strong> auto-refresh on • <strong>Layout:</strong> fallback (missing: ${missing.join(", ")})`;
-        return;
-      }
+  }catch(err){
+    document.getElementById("updated").textContent =
+      "Error loading headlines.json";
+    console.error(err);
+  }
+}
 
-      // Render special layout (3 cols)
-      for (let i=0; i<3; i++){
-        const colDiv = document.createElement("div");
-        SPECIAL_LAYOUT[i].forEach(name => colDiv.appendChild(renderSectionBlock(name, foundMap[name])));
-        cols.appendChild(colDiv);
-      }
-
-      document.getElementById("liveStatus").innerHTML =
-        `<strong>Live:</strong> auto-refresh on • <strong>Layout:</strong> fixed sections`;
-    }
-
-    function updateHeaderFromData(data){
-      if (data.site?.name) document.getElementById("siteName").textContent = data.site.name;
-      if (data.site?.tagline) document.getElementById("siteTagline").textContent = data.site.tagline;
-
-      if (data.generated_utc) {
-        const d = new Date(data.generated_utc);
-        document.getElementById("updated").textContent = "Last updated: " + d.toLocaleString();
-      } else {
-        document.getElementById("updated").textContent = "Last updated: —";
-      }
-
-      document.getElementById("footer").textContent = "© The Daily Side-Eye • " + PAGE_VERSION;
-    }
-
-    async function fetchHeadlinesNoCache(){
-      // cache-bust the JSON request every time
-      const url = "headlines.json?v=" + Date.now();
-      const res = await fetch(url, { cache: "no-store" });
-      if (!res.ok) throw new Error("HTTP " + res.status);
-      return await res.json();
-    }
-
-    let lastGeneratedUTC = null;
-    let firstLoad = true;
-
-    async function refreshIfChanged(){
-      try{
-        const data = await fetchHeadlinesNoCache();
-
-        // Only re-render if the generator timestamp changed (or first load).
-        const gen = data.generated_utc || "";
-        const changed = (gen && gen !== lastGeneratedUTC) || firstLoad;
-
-        if (changed){
-          lastGeneratedUTC = gen;
-          updateHeaderFromData(data);
-          renderFixedLayoutOrFallback(data);
-          firstLoad = false;
-        }
-
-      }catch(err){
-        document.getElementById("liveStatus").innerHTML =
-          `<strong>Live:</strong> auto-refresh on • <strong>Error:</strong> ${err.message}`;
-      }
-    }
-
-    // Initialize
-    setTodayStamp();
-    refreshIfChanged();
-    setInterval(setTodayStamp, 60 * 1000);          // update clock
-    setInterval(refreshIfChanged, REFRESH_EVERY_MS);// refresh headlines
-  </script>
+loadHeadlines();
+setInterval(loadHeadlines, 5 * 60 * 1000);
+</script>
 </body>
 </html>
