@@ -3,68 +3,13 @@
     "name": "THE DAILY SIDE-EYE",
     "tagline": "Headlines with a raised eyebrow."
   },
-  "generated_utc": "2026-02-01T05:18:06.544023+00:00",
+  "generated_utc": "2026-02-01T05:44:59.050825+00:00",
   "columns": [
     {
       "sections": [
         {
           "name": "Breaking",
-          "items": [
-            {
-              "title": "Some on-air claims about Dominion Voting Systems were false, Fox News acknowledges in statement after deal is announced",
-              "url": "https://www.cnn.com/business/live-news/fox-news-dominion-trial-04-18-23/index.html",
-              "source": "CNN Top Stories",
-              "badge": "BREAK",
-              "feature": true,
-              "snark": "The plan is simple. The details are complicated.",
-              "ages_poorly": false
-            },
-            {
-              "title": "Dominion still has pending lawsuits against election deniers such as Rudy Giuliani and Sidney Powell",
-              "url": "https://www.cnn.com/business/live-news/fox-news-dominion-trial-04-18-23/h_8d51e3ae2714edaa0dace837305d03b8",
-              "source": "CNN Top Stories",
-              "badge": "",
-              "feature": false,
-              "snark": "The optics are doing most of the work here.",
-              "ages_poorly": false
-            },
-            {
-              "title": "Here are the 20 specific Fox broadcasts and tweets Dominion says were defamatory",
-              "url": "https://www.cnn.com/2023/04/17/media/dominion-fox-news-allegations/index.html",
-              "source": "CNN Top Stories",
-              "badge": "",
-              "feature": false,
-              "snark": "A compromise is proposed. Someone will hate it.",
-              "ages_poorly": false
-            },
-            {
-              "title": "Second Epstein victim claims she was sent to UK for sex with Andrew, lawyer says",
-              "url": "https://www.bbc.com/news/articles/clymxxlm3xzo?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Front Page",
-              "badge": "",
-              "feature": false,
-              "snark": "This is a developing situation.",
-              "ages_poorly": false
-            },
-            {
-              "title": "Andrew should testify to US Congress, Starmer suggests after new photos",
-              "url": "https://www.bbc.com/news/articles/cgrd7kpg9pwo?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Front Page",
-              "badge": "",
-              "feature": false,
-              "snark": "This will surely be handled with nuance.",
-              "ages_poorly": false
-            },
-            {
-              "title": "Israeli air strikes kill at least 32 Palestinians in Gaza, rescue officials say",
-              "url": "https://www.bbc.com/news/articles/c701g1g00gdo?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Front Page",
-              "badge": "",
-              "feature": false,
-              "snark": "Reporting continues.",
-              "ages_poorly": false
-            }
-          ]
+          "items": []
         },
         {
           "name": "Top",
@@ -115,7 +60,7 @@
               "ages_poorly": false
             },
             {
-              "title": "South Africa expels top Israeli diplomat over \u2018insulting attacks\u2019 on president",
+              "title": "South Africa expels top Israeli diplomat over ‘insulting attacks’ on president",
               "url": "https://www.theguardian.com/world/2026/jan/30/south-africa-expels-israel-diplomat-insults-president",
               "source": "Guardian World",
               "badge": "",
@@ -169,7 +114,7 @@
               "ages_poorly": false
             },
             {
-              "title": "Bovino Is Said to Have Mocked Prosecutor\u2019s Jewish Faith on Call With Lawyers",
+              "title": "Bovino Is Said to Have Mocked Prosecutor’s Jewish Faith on Call With Lawyers",
               "url": "https://www.nytimes.com/2026/01/31/us/bovino-jewish-prosecutor-minnesota.html",
               "source": "NYT HomePage",
               "badge": "",
@@ -214,7 +159,7 @@
               "ages_poorly": false
             },
             {
-              "title": "\u2018They upset me every time I see them\u2019: How long do I keep my mother\u2019s IRS and medical records? She died 4 years ago.",
+              "title": "‘They upset me every time I see them’: How long do I keep my mother’s IRS and medical records? She died 4 years ago.",
               "url": "https://www.marketwatch.com/story/they-upset-me-every-time-i-see-them-how-long-do-i-keep-my-mothers-irs-and-medical-records-she-died-4-years-ago-22a436fc?mod=mw_rss_topstories",
               "source": "MarketWatch",
               "badge": "",
@@ -232,7 +177,7 @@
               "ages_poorly": false
             },
             {
-              "title": "Kevin Warsh isn\u2019t who investors think he is \u2014 how you can profit from their mistake",
+              "title": "Kevin Warsh isn’t who investors think he is — how you can profit from their mistake",
               "url": "https://www.marketwatch.com/story/trump-picked-kevin-warsh-to-boost-markets-what-this-means-for-your-portfolio-f83826cb?mod=mw_rss_topstories",
               "source": "MarketWatch",
               "badge": "",
@@ -301,257 +246,10 @@
     {
       "sections": [
         {
-          "name": "Tech",
-          "items": [
-            {
-              "title": "A cup of coffee for depression treatment has better results than microdosing",
-              "url": "https://arstechnica.com/health/2026/01/placebo-outperforms-lsd-microdosing-for-depression/",
-              "source": "Ars Technica",
-              "badge": "",
-              "feature": false,
-              "snark": "The plan is simple. The details are complicated.",
-              "ages_poorly": false
-            },
-            {
-              "title": "The TV industry finally concedes that the future may not be in 8K",
-              "url": "https://arstechnica.com/gadgets/2026/01/lg-joins-the-rest-of-the-world-accepts-that-people-dont-want-8k-tvs/",
-              "source": "Ars Technica",
-              "badge": "",
-              "feature": false,
-              "snark": "Confidence is high. Evidence is pending.",
-              "ages_poorly": true
-            },
-            {
-              "title": "ICE protester says her Global Entry was revoked after agent scanned her face",
-              "url": "https://arstechnica.com/tech-policy/2026/01/ice-protester-says-her-global-entry-was-revoked-after-agent-scanned-her-face/",
-              "source": "Ars Technica",
-              "badge": "",
-              "feature": false,
-              "snark": "A decision was made. Consequences scheduled for later.",
-              "ages_poorly": false
-            },
-            {
-              "title": "\u201cNo more Minnesota nice, Minneapolis will strike\u201d",
-              "url": "https://www.theverge.com/policy/871606/minneapolis-general-strike-anti-ice-protest",
-              "source": "The Verge",
-              "badge": "",
-              "feature": false,
-              "snark": "A framework is emerging. It will be revisited.",
-              "ages_poorly": false
-            },
-            {
-              "title": "SpaceX wants to put 1 million solar-powered data centers into orbit",
-              "url": "https://www.theverge.com/tech/871641/spacex-fcc-1-million-solar-powered-data-centers-satellites-orbit",
-              "source": "The Verge",
-              "badge": "",
-              "feature": false,
-              "snark": "Experts disagree, loudly and on schedule.",
-              "ages_poorly": false
-            },
-            {
-              "title": "The AirPods 4 and Google\u2019s 4K streamer are just two of this week\u2019s best deals",
-              "url": "https://www.theverge.com/gadgets/871092/airpods-4-anc-google-tv-streamer-4k-deal-sale",
-              "source": "The Verge",
-              "badge": "",
-              "feature": false,
-              "snark": "The plan is simple. The details are complicated.",
-              "ages_poorly": false
-            },
-            {
-              "title": "Onnit's Instant Melatonin Spray Keeps Bedtime Uncomplicated",
-              "url": "https://www.wired.com/story/onnit-instant-melatonin-spray-rave/",
-              "source": "Wired",
-              "badge": "",
-              "feature": false,
-              "snark": "This will surely be handled with nuance.",
-              "ages_poorly": false
-            },
-            {
-              "title": "Cordless Stick Vacuum Throw Down: Bosch, Shark, Dyson (2026)",
-              "url": "https://www.wired.com/story/cordless-stick-vacuum-comparison/",
-              "source": "Wired",
-              "badge": "",
-              "feature": false,
-              "snark": "Confidence is high. Evidence is pending.",
-              "ages_poorly": false
-            },
-            {
-              "title": "Best Mirrorless Cameras (2026): Full-Frame, APS-C, and More",
-              "url": "https://www.wired.com/gallery/best-mirrorless-cameras/",
-              "source": "Wired",
-              "badge": "",
-              "feature": false,
-              "snark": "Talks were constructive. Feelings were shared.",
-              "ages_poorly": false
-            },
-            {
-              "title": "Musk's SpaceX applies to launch 1m satellites into orbit",
-              "url": "https://www.bbc.com/news/articles/cyv5l24mrjmo?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Tech",
-              "badge": "",
-              "feature": false,
-              "snark": "The optics are doing most of the work here.",
-              "ages_poorly": false
-            },
-            {
-              "title": "Apple reports best-ever iPhone sales as Mac dips",
-              "url": "https://www.bbc.com/news/articles/cy8yw190q83o?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Tech",
-              "badge": "",
-              "feature": false,
-              "snark": "Everyone is calm. On paper.",
-              "ages_poorly": false
-            },
-            {
-              "title": "He calls me sweetheart and winks at me - but he's not my boyfriend, he's AI",
-              "url": "https://www.bbc.com/news/articles/c62njv82n0wo?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Tech",
-              "badge": "",
-              "feature": false,
-              "snark": "A statement was issued. Substance not included.",
-              "ages_poorly": false
-            },
-            {
-              "title": "US authorities reportedly investigate claims that Meta can read encrypted WhatsApp messages",
-              "url": "https://www.theguardian.com/technology/2026/jan/31/us-authorities-reportedly-investigate-claims-that-meta-can-read-encrypted-whatsapp-messages",
-              "source": "Guardian Tech",
-              "badge": "",
-              "feature": false,
-              "snark": "A framework is emerging. It will be revisited.",
-              "ages_poorly": false
-            },
-            {
-              "title": "Can you guess our screen time? A priest, pensioner, tech CEO and teenager reveal all",
-              "url": "https://www.theguardian.com/media/2026/jan/31/can-you-guess-our-screen-time-a-priest-pensioner-tech-ceo-and-teenager-reveal-all",
-              "source": "Guardian Tech",
-              "badge": "",
-              "feature": false,
-              "snark": "A big announcement, with a small footnote doing cardio.",
-              "ages_poorly": false
-            },
-            {
-              "title": "AI-generated news should carry \u2018nutrition\u2019 labels, thinktank says",
-              "url": "https://www.theguardian.com/technology/2026/jan/30/ai-generated-news-should-carry-nutrition-labels-thinktank-says",
-              "source": "Guardian Tech",
-              "badge": "",
-              "feature": false,
-              "snark": "Talks were constructive. Feelings were shared.",
-              "ages_poorly": false
-            }
-          ]
-        },
-        {
-          "name": "Weird",
-          "items": [
-            {
-              "title": "'Rising Star' of a Prominent Yellowstone Wolf Pack Was Illegally Killed, Sparking a Poaching Investigation",
-              "url": "https://www.smithsonianmag.com/smart-news/rising-star-of-a-prominent-yellowstone-wolf-pack-was-illegally-killed-sparking-a-poaching-investigation-180988113/",
-              "source": "Smithsonian",
-              "badge": "",
-              "feature": false,
-              "snark": "This is a developing situation.",
-              "ages_poorly": false
-            },
-            {
-              "title": "From 'The Karate Kid' to 'Clueless,' These Are the 25 New Additions to the National Film Registry. See the Full List Here",
-              "url": "https://www.smithsonianmag.com/smart-news/from-karate-kid-to-clueless-these-are-the-25-new-additions-to-the-national-film-registry-see-the-full-list-here-180988110/",
-              "source": "Smithsonian",
-              "badge": "",
-              "feature": false,
-              "snark": "This is either a turning point or a rehearsal.",
-              "ages_poorly": false
-            },
-            {
-              "title": "When Vampire Bats Become Close Friends, They Start \u2018Talking\u2019 Like Each Other",
-              "url": "https://www.smithsonianmag.com/smithsonian-institution/when-vampire-bats-become-close-friends-they-start-talking-like-each-other-180988114/",
-              "source": "Smithsonian",
-              "badge": "",
-              "feature": false,
-              "snark": "This is either a turning point or a rehearsal.",
-              "ages_poorly": false
-            },
-            {
-              "title": "Treasures found on HS2 route stored in secret warehouse",
-              "url": "https://www.bbc.com/news/articles/c93v21q5xdvo?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Science",
-              "badge": "",
-              "feature": false,
-              "snark": "Updates will follow.",
-              "ages_poorly": false
-            },
-            {
-              "title": "Polar bears on Norwegian islands fatter and healthier despite ice loss, scientists say",
-              "url": "https://www.bbc.com/news/articles/cx2l1xpz03no?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Science",
-              "badge": "",
-              "feature": false,
-              "snark": "Authorities are investigating.",
-              "ages_poorly": false
-            },
-            {
-              "title": "Sunken Thames barges create new island for birds",
-              "url": "https://www.bbc.com/news/articles/cvg5zw5l42xo?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Science",
-              "badge": "",
-              "feature": false,
-              "snark": "The optics are doing most of the work here.",
-              "ages_poorly": false
-            },
-            {
-              "title": "Shooting at Mardi Gras parade in Louisiana leaves six people injured",
-              "url": "https://www.theguardian.com/us-news/2026/jan/31/mardi-gras-parade-shooting-louisiana",
-              "source": "Guardian US",
-              "badge": "",
-              "feature": false,
-              "snark": "This is a developing situation.",
-              "ages_poorly": false
-            },
-            {
-              "title": "Democrats request \u2018urgent\u2019 review of unredacted Epstein files to evaluate DoJ compliance",
-              "url": "https://www.theguardian.com/us-news/live/2026/jan/31/jeffrey-epstein-files-latest-news-updates-prince-andrew-elon-musk-peter-mandelson-donald-trump",
-              "source": "Guardian US",
-              "badge": "",
-              "feature": false,
-              "snark": "A framework is emerging. It will be revisited.",
-              "ages_poorly": false
-            },
-            {
-              "title": "Search for survivors halted after Massachusetts fishing boat lost at sea",
-              "url": "https://www.theguardian.com/us-news/2026/jan/31/lily-jean-fishing-boat-gloucester-massachusetts",
-              "source": "Guardian US",
-              "badge": "",
-              "feature": false,
-              "snark": "Reporting continues.",
-              "ages_poorly": false
-            }
-          ]
+          "name": "World / Tech / Weird",
+          "items": []
         }
       ]
     }
-  ],
-  "one_line_everyone_missed": {
-    "title": "Some on-air claims about Dominion Voting Systems were false, Fox News acknowledges in statement after deal is announced",
-    "url": "https://www.cnn.com/business/live-news/fox-news-dominion-trial-04-18-23/index.html",
-    "source": "CNN Top Stories",
-    "section": "Breaking",
-    "tragic": false
-  },
-  "nothing_burger": {
-    "title": "Plan ahead and dress wisely: How to minimise add-on costs when you fly",
-    "url": "https://www.bbc.com/news/articles/c5y28w0de91o?at_medium=RSS&at_campaign=rss",
-    "source": "BBC Business",
-    "section": "Business",
-    "tragic": false
-  },
-  "language_watch": [
-    {
-      "label": "Officials said",
-      "count": 3
-    }
-  ],
-  "week_in_hindsight": [
-    "\u2022 Minnesota: Federal judge denies request to block ICE surge in Minnesota",
-    "\u2022 Israeli: South Africa expels top Israeli diplomat over \u2018insulting attacks\u2019 on president",
-    "\u2022 Andrew: Andrew should testify to US Congress, Starmer suggests after new photos"
   ]
 }
