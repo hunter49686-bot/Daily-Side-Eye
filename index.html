@@ -1,193 +1,194 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>THE DAILY SIDE-EYE</title>
+<meta charset="UTF-8" />
+<title>The Daily Side-Eye</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    :root{
-      --ink:#111;
-      --muted:#666;
-      --rule:#ddd;
-      --accent:#b00000;
-      --bg:#fff;
+<style>
+  body{
+    font-family: Arial, Helvetica, sans-serif;
+    margin:20px;
+    color:#111;
+  }
+
+  header{
+    border-bottom:2px solid #ddd;
+    margin-bottom:15px;
+    padding-bottom:10px;
+  }
+
+  h1{
+    font-size:32px;
+    margin:0;
+  }
+
+  .tagline{
+    color:#555;
+    margin-top:4px;
+    font-size:16px;
+  }
+
+  .meta{
+    color:#666;
+    font-size:13px;
+    margin-top:6px;
+  }
+
+  .columns{
+    display:flex;
+    gap:30px;
+    margin-top:20px;
+  }
+
+  .column{
+    flex:1;
+  }
+
+  /* SECTION HEADERS */
+  .section-title{
+    font-size:20px;
+    font-weight:800;
+    margin:20px 0 10px 0;
+    border-bottom:1px solid #ddd;
+    padding-bottom:4px;
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+  }
+
+  /* STORY BLOCK */
+  .story{
+    margin-bottom:14px;
+  }
+
+  /* HEADLINES */
+  .story a{
+    text-decoration:none;
+    color:#000;
+    font-weight:600; /* subtle bold */
+    line-height:1.25;
+  }
+
+  .story a:hover{
+    text-decoration:underline;
+  }
+
+  /* FEATURED / BREAKING */
+  .story.feature a{
+    color:#b30000;
+    font-weight:900;
+  }
+
+  .badge{
+    display:inline-block;
+    font-size:11px;
+    border:1px solid #aaa;
+    border-radius:12px;
+    padding:2px 8px;
+    margin-right:6px;
+    vertical-align:middle;
+    color:#333;
+  }
+
+  .source{
+    color:#777;
+    font-size:13px;
+    margin-left:4px;
+  }
+
+  /* SNARK */
+  .snark{
+    font-size:14px;
+    color:#555;
+    font-weight:400;
+    margin-top:3px;
+  }
+
+  @media(max-width:900px){
+    .columns{
+      flex-direction:column;
     }
-    html,body{background:var(--bg); color:var(--ink); margin:0; font-family: Arial, Helvetica, sans-serif;}
-    .container{max-width:1200px; margin:0 auto; padding:16px;}
-    .header{display:flex; justify-content:space-between; align-items:flex-start; gap:16px; border-bottom:2px solid var(--rule); padding-bottom:10px; margin-bottom:12px;}
-    .site-title{font-size:34px; font-weight:900; letter-spacing:.5px; margin:0;}
-    .tagline{font-size:16px; color:#444; margin-top:4px;}
-    .date{font-size:14px; color:#444; text-align:right; line-height:1.35;}
-    .updated{font-size:13px; color:var(--muted); margin:10px 0 18px;}
-
-    .columns{display:grid; grid-template-columns:1fr 1fr 1fr; gap:28px; align-items:start;}
-    @media (max-width: 900px){ .columns{grid-template-columns:1fr;} }
-
-    /* Section titles bigger + bold */
-    .section-title{
-      font-size:20px;
-      font-weight:900;
-      letter-spacing:1.5px;
-      text-transform:uppercase;
-      margin:0 0 14px;
-      border-bottom:1px solid var(--rule);
-      padding-bottom:6px;
-    }
-    .section-title.breaking{
-      font-size:22px;
-      color:var(--accent);
-      font-weight:900;
-      border-bottom:2px solid var(--accent);
-    }
-
-    .story{margin-bottom:16px;}
-    .story a{color:var(--ink); text-decoration:none;}
-    .story a:hover{text-decoration:underline;}
-    .story.feature a{color:var(--accent); font-size:19px; font-weight:900;}
-    .badge{display:inline-block; font-size:11px; font-weight:800; padding:2px 6px; border:1px solid var(--accent); color:var(--accent); margin-right:6px; border-radius:3px;}
-    .source{font-size:12px; color:var(--muted); margin-left:4px;}
-    .snark{font-size:14px; color:#444; margin-top:2px; line-height:1.25;}
-
-    .empty{font-size:13px; color:var(--muted); margin:8px 0 18px;}
-    .footer{border-top:1px solid var(--rule); margin-top:26px; padding-top:10px; font-size:13px; color:var(--muted); text-align:center;}
-  </style>
+  }
+</style>
 </head>
 
 <body>
-  <div class="container">
 
-    <div class="header">
-      <div>
-        <div class="site-title" id="siteName">THE DAILY SIDE-EYE</div>
-        <div class="tagline" id="siteTagline">Headlines with a raised eyebrow.</div>
-      </div>
-      <div class="date" id="today"></div>
-    </div>
-
-    <div class="updated" id="updated"></div>
-
-    <div class="columns" id="columns"></div>
-
-    <div class="footer">© The Daily Side-Eye</div>
+<header>
+  <h1 id="site-name">THE DAILY SIDE-EYE</h1>
+  <div class="tagline" id="site-tagline">Headlines with a raised eyebrow.</div>
+  <div class="meta">
+    <span id="date"></span><br>
+    Last updated: <span id="updated"></span>
   </div>
+</header>
 
-  <script>
-    const SECTION_ORDER = [
-      "Breaking",
-      "Nothing Burger of the Day",
-      "A Line Most People Missed",
-      "Week in Review"
-    ];
+<div class="columns" id="content"></div>
 
-    // Helper: safe string
-    const s = (x) => (x ?? "").toString().trim();
+<script>
+fetch("headlines.json")
+  .then(res => res.json())
+  .then(data => {
 
-    // Render one story
-    function renderStory(item){
-      const div = document.createElement("div");
-      const isFeature = !!item.feature;
+    // Header
+    document.getElementById("site-name").textContent = data.site.name;
+    document.getElementById("site-tagline").textContent = data.site.tagline;
 
-      div.className = "story" + (isFeature ? " feature" : "");
-      const badgeHtml = item.badge ? `<span class="badge">${item.badge}</span>` : "";
-      div.innerHTML = `
-        ${badgeHtml}
-        <a href="${item.url}" target="_blank" rel="noopener noreferrer">${item.title}</a>
-        <span class="source">(${item.source})</span>
-        <div class="snark">${s(item.snark)}</div>
-      `;
-      return div;
-    }
+    const now = new Date();
+    document.getElementById("date").textContent =
+      now.toLocaleDateString(undefined,{weekday:"long",year:"numeric",month:"long",day:"numeric"}) +
+      ", " +
+      now.toLocaleTimeString(undefined,{hour:"numeric",minute:"2-digit"});
 
-    // Find section by exact name across all columns
-    function findSection(data, name){
-      for (const col of (data.columns || [])){
-        for (const sec of (col.sections || [])){
-          if (s(sec.name) === name) return sec;
-        }
-      }
-      return null;
-    }
+    const updated = new Date(data.generated_utc);
+    document.getElementById("updated").textContent =
+      updated.toLocaleDateString() + ", " +
+      updated.toLocaleTimeString(undefined,{hour:"numeric",minute:"2-digit"});
 
-    // Render a section block
-    function renderSectionBlock(name, sec){
-      const wrap = document.createElement("div");
+    const content = document.getElementById("content");
 
-      const title = document.createElement("div");
-      title.className = "section-title" + (name === "Breaking" ? " breaking" : "");
-      title.textContent = name;
-      wrap.appendChild(title);
+    data.columns.forEach(col => {
+      const column = document.createElement("div");
+      column.className = "column";
 
-      const items = (sec && sec.items) ? sec.items : [];
-      if (!items.length){
-        const empty = document.createElement("div");
-        empty.className = "empty";
-        empty.textContent = "No items right now.";
-        wrap.appendChild(empty);
-        return wrap;
-      }
+      col.sections.forEach(section => {
+        if(!section.items || section.items.length === 0) return;
 
-      for (const item of items){
-        wrap.appendChild(renderStory(item));
-      }
-      return wrap;
-    }
+        const title = document.createElement("div");
+        title.className = "section-title";
+        title.textContent = section.name;
+        column.appendChild(title);
 
-    // Lay out into 3 columns in a fixed way:
-    // Column 1: Breaking + Nothing Burger
-    // Column 2: A Line Most People Missed
-    // Column 3: Week in Review
-    function renderLayout(data){
-      const cols = document.getElementById("columns");
-      cols.innerHTML = "";
+        section.items.forEach(item => {
+          const story = document.createElement("div");
+          story.className = "story" + (item.feature ? " feature" : "");
 
-      const col1 = document.createElement("div");
-      const col2 = document.createElement("div");
-      const col3 = document.createElement("div");
+          let html = "";
 
-      const breaking = findSection(data, "Breaking");
-      const burger   = findSection(data, "Nothing Burger of the Day");
-      const missed   = findSection(data, "A Line Most People Missed");
-      const week     = findSection(data, "Week in Review");
+          if(item.badge){
+            html += `<span class="badge">${item.badge}</span>`;
+          }
 
-      col1.appendChild(renderSectionBlock("Breaking", breaking));
-      col1.appendChild(renderSectionBlock("Nothing Burger of the Day", burger));
-      col2.appendChild(renderSectionBlock("A Line Most People Missed", missed));
-      col3.appendChild(renderSectionBlock("Week in Review", week));
+          html += `<a href="${item.url}" target="_blank">${item.title}</a>`;
+          html += `<span class="source">(${item.source})</span>`;
 
-      cols.appendChild(col1);
-      cols.appendChild(col2);
-      cols.appendChild(col3);
-    }
+          story.innerHTML = html;
 
-    // MAIN
-    const jsonUrl = "headlines.json?v=" + Date.now();
+          if(item.snark){
+            const snark = document.createElement("div");
+            snark.className = "snark";
+            snark.textContent = item.snark;
+            story.appendChild(snark);
+          }
 
-    fetch(jsonUrl, { cache: "no-store" })
-      .then(res => res.json())
-      .then(data => {
-        const now = new Date();
-        document.getElementById("today").textContent =
-          now.toLocaleDateString(undefined, { weekday:"long", year:"numeric", month:"long", day:"numeric" }) +
-          " " + now.toLocaleTimeString([], { hour:"2-digit", minute:"2-digit" });
-
-        if (data.site?.name) document.getElementById("siteName").textContent = data.site.name;
-        if (data.site?.tagline) document.getElementById("siteTagline").textContent = data.site.tagline;
-
-        if (data.generated_utc) {
-          const d = new Date(data.generated_utc);
-          document.getElementById("updated").textContent = "Last updated: " + d.toLocaleString();
-        } else {
-          document.getElementById("updated").textContent = "Last updated: —";
-        }
-
-        renderLayout(data);
-      })
-      .catch(err => {
-        document.getElementById("columns").innerHTML = "<p>Unable to load headlines.</p>";
-        document.getElementById("updated").textContent = "Last updated: (error loading headlines.json)";
-        console.error(err);
+          column.appendChild(story);
+        });
       });
-  </script>
+
+      content.appendChild(column);
+    });
+  });
+</script>
+
 </body>
 </html>
