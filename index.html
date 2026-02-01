@@ -24,7 +24,7 @@
     .columns{display:grid; grid-template-columns:1fr 1fr 1fr; gap:28px; align-items:start;}
     @media (max-width: 900px){ .columns{grid-template-columns:1fr;} }
 
-    /* SECTION TITLES — bigger, bold */
+    /* Section titles bigger + bold */
     .section-title{
       font-size:20px;
       font-weight:900;
@@ -49,14 +49,7 @@
     .source{font-size:12px; color:var(--muted); margin-left:4px;}
     .snark{font-size:14px; color:#444; margin-top:2px; line-height:1.25;}
 
-    /* EXTRA SECTIONS */
-    .extras{border-top:2px solid var(--rule); margin-top:26px; padding-top:14px;}
-    .extras-grid{display:grid; grid-template-columns:1fr 1fr 1fr; gap:28px;}
-    @media (max-width: 900px){ .extras-grid{grid-template-columns:1fr;} }
-    .tiny{font-size:12px; color:var(--muted); margin-top:8px;}
-    .mini .story a{font-size:14px; font-weight:900;}
-    .mini .snark{font-size:13px; color:var(--muted);}
-
+    .empty{font-size:13px; color:var(--muted); margin:8px 0 18px;}
     .footer{border-top:1px solid var(--rule); margin-top:26px; padding-top:10px; font-size:13px; color:var(--muted); text-align:center;}
   </style>
 </head>
@@ -64,7 +57,6 @@
 <body>
   <div class="container">
 
-    <!-- HEADER -->
     <div class="header">
       <div>
         <div class="site-title" id="siteName">THE DAILY SIDE-EYE</div>
@@ -75,189 +67,97 @@
 
     <div class="updated" id="updated"></div>
 
-    <!-- MAIN COLUMNS -->
     <div class="columns" id="columns"></div>
-
-    <!-- EXTRA SECTIONS (RESTORED) -->
-    <div class="extras">
-      <div class="extras-grid">
-        <div>
-          <div class="section-title">Nothing Burger of the Day</div>
-          <div id="nothingBurger"></div>
-          <div class="tiny" id="nothingBurgerNote"></div>
-        </div>
-
-        <div>
-          <div class="section-title">A Line Most People Missed</div>
-          <div id="mostMissed"></div>
-          <div class="tiny" id="mostMissedNote"></div>
-        </div>
-
-        <div>
-          <div class="section-title">Week in Review</div>
-          <div id="weekReview"></div>
-          <div class="tiny" id="weekReviewNote"></div>
-        </div>
-      </div>
-    </div>
 
     <div class="footer">© The Daily Side-Eye</div>
   </div>
 
   <script>
-    const HISTORY_KEY = "dse_history_v1";
-    const CLICKS_KEY  = "dse_clicks_v1";
+    const SECTION_ORDER = [
+      "Breaking",
+      "Nothing Burger of the Day",
+      "A Line Most People Missed",
+      "Week in Review"
+    ];
 
-    function getLS(key, fallback){
-      try { return JSON.parse(localStorage.getItem(key) || ""); }
-      catch { return fallback; }
-    }
-    function setLS(key, val){ localStorage.setItem(key, JSON.stringify(val)); }
-    function clean(s){ return (s ?? "").toString().trim(); }
+    // Helper: safe string
+    const s = (x) => (x ?? "").toString().trim();
 
-    function trackClick(url){
-      const clicks = getLS(CLICKS_KEY, {});
-      clicks[url] = Date.now();
-      setLS(CLICKS_KEY, clicks);
-    }
+    // Render one story
+    function renderStory(item){
+      const div = document.createElement("div");
+      const isFeature = !!item.feature;
 
-    function pruneHistory(history, days=7){
-      const cutoff = Date.now() - days*24*60*60*1000;
-      return (history || []).filter(x => x && x.t && x.t >= cutoff && x.url && x.title);
-    }
-
-    function uniqByUrl(items){
-      const seen = new Set();
-      const out = [];
-      for (const it of items){
-        if (!it || !it.url) continue;
-        if (seen.has(it.url)) continue;
-        seen.add(it.url);
-        out.push(it);
-      }
-      return out;
+      div.className = "story" + (isFeature ? " feature" : "");
+      const badgeHtml = item.badge ? `<span class="badge">${item.badge}</span>` : "";
+      div.innerHTML = `
+        ${badgeHtml}
+        <a href="${item.url}" target="_blank" rel="noopener noreferrer">${item.title}</a>
+        <span class="source">(${item.source})</span>
+        <div class="snark">${s(item.snark)}</div>
+      `;
+      return div;
     }
 
-    function flattenAllItems(data){
-      const out = [];
+    // Find section by exact name across all columns
+    function findSection(data, name){
       for (const col of (data.columns || [])){
         for (const sec of (col.sections || [])){
-          for (const it of (sec.items || [])){
-            out.push({
-              title: it.title,
-              url: it.url,
-              source: it.source,
-              snark: it.snark,
-              feature: !!it.feature,
-              badge: it.badge || "",
-              section: sec.name || ""
-            });
-          }
+          if (s(sec.name) === name) return sec;
         }
       }
-      return out;
+      return null;
     }
 
-    function renderStory(it, {mini=false} = {}){
-      const story = document.createElement("div");
-      story.className = "story" + (it.feature && !mini ? " feature" : "") + (mini ? " mini" : "");
+    // Render a section block
+    function renderSectionBlock(name, sec){
+      const wrap = document.createElement("div");
 
-      const badgeHtml = it.badge ? `<span class="badge">${it.badge}</span>` : "";
-      story.innerHTML = `
-        ${badgeHtml}
-        <a href="${it.url}" target="_blank" rel="noopener noreferrer">${it.title}</a>
-        <span class="source">(${it.source})</span>
-        <div class="snark">${it.snark}</div>
-      `;
-      story.querySelector("a").addEventListener("click", () => trackClick(it.url));
-      return story;
+      const title = document.createElement("div");
+      title.className = "section-title" + (name === "Breaking" ? " breaking" : "");
+      title.textContent = name;
+      wrap.appendChild(title);
+
+      const items = (sec && sec.items) ? sec.items : [];
+      if (!items.length){
+        const empty = document.createElement("div");
+        empty.className = "empty";
+        empty.textContent = "No items right now.";
+        wrap.appendChild(empty);
+        return wrap;
+      }
+
+      for (const item of items){
+        wrap.appendChild(renderStory(item));
+      }
+      return wrap;
     }
 
-    function renderColumns(data){
-      const columnsEl = document.getElementById("columns");
-      columnsEl.innerHTML = "";
+    // Lay out into 3 columns in a fixed way:
+    // Column 1: Breaking + Nothing Burger
+    // Column 2: A Line Most People Missed
+    // Column 3: Week in Review
+    function renderLayout(data){
+      const cols = document.getElementById("columns");
+      cols.innerHTML = "";
 
-      data.columns.forEach(col => {
-        const colDiv = document.createElement("div");
+      const col1 = document.createElement("div");
+      const col2 = document.createElement("div");
+      const col3 = document.createElement("div");
 
-        col.sections.forEach(section => {
-          const title = document.createElement("div");
-          title.className = "section-title" +
-            (String(section.name).toLowerCase() === "breaking" ? " breaking" : "");
-          title.textContent = section.name;
-          colDiv.appendChild(title);
+      const breaking = findSection(data, "Breaking");
+      const burger   = findSection(data, "Nothing Burger of the Day");
+      const missed   = findSection(data, "A Line Most People Missed");
+      const week     = findSection(data, "Week in Review");
 
-          section.items.forEach(item => colDiv.appendChild(renderStory(item)));
-        });
+      col1.appendChild(renderSectionBlock("Breaking", breaking));
+      col1.appendChild(renderSectionBlock("Nothing Burger of the Day", burger));
+      col2.appendChild(renderSectionBlock("A Line Most People Missed", missed));
+      col3.appendChild(renderSectionBlock("Week in Review", week));
 
-        columnsEl.appendChild(colDiv);
-      });
-    }
-
-    function renderExtras(todayItems){
-      // Nothing Burger: pick low-stakes keyword; fallback to non-feature
-      const LOW = ["celebrity","royal","netflix","tiktok","iphone","android","review","tips","recipe","fashion","beauty","dating","viral","meme","trend","podcast","travel","diet","coffee","sleep","study"];
-      const TRAGIC = /(dead|dies|killed|death|shooting|attack|war|bomb|explosion|terror|crash|earthquake|wildfire|flood|victim|injured)/i;
-
-      const candidates = todayItems.filter(it => {
-        const t = (it.title || "").toLowerCase();
-        return !TRAGIC.test(t) && LOW.some(k => t.includes(k));
-      });
-
-      const burgerPick = (candidates[0] || todayItems.find(x => !x.feature) || todayItems[0]);
-      const nb = document.getElementById("nothingBurger");
-      nb.innerHTML = "";
-      if (burgerPick) nb.appendChild(renderStory(burgerPick, {mini:true}));
-
-      document.getElementById("nothingBurgerNote").textContent =
-        candidates.length ? "Auto-picked from low-stakes keywords (filtered to avoid tragedy)." :
-        "No obvious nothing-burgers detected — showing a non-feature headline.";
-
-      // Build/Store 7-day history (local browser)
-      let history = pruneHistory(getLS(HISTORY_KEY, []), 7);
-      const existingUrls = new Set(history.map(h => h.url));
-      for (const it of todayItems){
-        if (!existingUrls.has(it.url)){
-          history.push({ ...it, t: Date.now() });
-          existingUrls.add(it.url);
-        }
-      }
-      history = pruneHistory(history, 7);
-      setLS(HISTORY_KEY, history);
-
-      // Most missed: unclicked from history
-      const clicks = getLS(CLICKS_KEY, {});
-      const unclicked = history.filter(it => it.url && !clicks[it.url] && !it.feature && it.badge !== "BREAK");
-      const missedPick = (unclicked[0] || history.find(it => it.url && !clicks[it.url]) || null);
-
-      const mm = document.getElementById("mostMissed");
-      mm.innerHTML = "";
-      if (missedPick) mm.appendChild(renderStory(missedPick, {mini:true}));
-
-      document.getElementById("mostMissedNote").textContent =
-        missedPick ? "From the past 7 days on this device (browser storage)." :
-        "No history yet — browse normally (not Incognito) for a day.";
-
-      // Week in review: top recurring URLs in history
-      const counts = new Map();
-      for (const it of history){
-        if (!it.url) continue;
-        counts.set(it.url, (counts.get(it.url) || 0) + 1);
-      }
-      const ranked = [...counts.entries()]
-        .sort((a,b) => b[1] - a[1])
-        .slice(0, 7)
-        .map(([url]) => history.find(h => h.url === url))
-        .filter(Boolean);
-
-      const wr = document.getElementById("weekReview");
-      wr.innerHTML = "";
-      if (ranked.length){
-        ranked.forEach(it => wr.appendChild(renderStory(it, {mini:true})));
-        document.getElementById("weekReviewNote").textContent = "Top recurring headlines across your last 7 days (this device).";
-      } else {
-        document.getElementById("weekReviewNote").textContent = "No weekly history yet — visit daily to build it.";
-      }
+      cols.appendChild(col1);
+      cols.appendChild(col2);
+      cols.appendChild(col3);
     }
 
     // MAIN
@@ -281,10 +181,7 @@
           document.getElementById("updated").textContent = "Last updated: —";
         }
 
-        renderColumns(data);
-
-        const todayItems = uniqByUrl(flattenAllItems(data));
-        renderExtras(todayItems);
+        renderLayout(data);
       })
       .catch(err => {
         document.getElementById("columns").innerHTML = "<p>Unable to load headlines.</p>";
