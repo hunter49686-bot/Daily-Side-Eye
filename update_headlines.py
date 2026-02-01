@@ -1,7 +1,9 @@
 import json
 import random
 import re
+import socket
 from datetime import datetime, timezone
+from urllib.request import Request, urlopen
 
 import feedparser
 
@@ -11,7 +13,15 @@ import feedparser
 # =====================
 MAX_ITEMS_PER_SECTION = 18
 MAX_PER_SOURCE_PER_SECTION = 3
-FEED_TIMEOUT_SECONDS = 10  # prevents GitHub Actions from hanging
+HTTP_TIMEOUT_SECONDS = 10
+
+USER_AGENT = (
+    "Mozilla/5.0 (X11; Linux x86_64) "
+    "AppleWebKit/537.36 (KHTML, like Gecko) "
+    "Chrome/120.0 Safari/537.36"
+)
+
+socket.setdefaulttimeout(HTTP_TIMEOUT_SECONDS)
 
 
 # =====================
@@ -123,20 +133,46 @@ def is_tragic(title: str) -> bool:
     return any(k in t for k in TRAGEDY_KEYWORDS)
 
 
-def parse_feed(source: str, url: str):
-    """Fetch + parse a feed with a hard timeout. Returns list of dict items."""
+def fetch_bytes(url: str) -> bytes:
+    req = Request(url, headers={"User-Agent": USER_AGENT, "Accept": "application/rss+xml,application/xml;q=0.9,*/*;q=0.8"})
+    with urlopen(req, timeout=HTTP_TIMEOUT_SECONDS) as resp:
+        return resp.read()
+
+
+def parse_feed(source: str, url: str, debug_list: list):
     items = []
     try:
-        feed = feedparser.parse(url, timeout=FEED_TIMEOUT_SECONDS)
-    except Exception:
+        data = fetch_bytes(url)
+        feed = feedparser.parse(data)
+
+        # If feedparser flags bozo, keep going but record it
+        bozo = getattr(feed, "bozo", 0)
+        bozo_exc = str(getattr(feed, "bozo_exception", "")) if bozo else ""
+
+        entries = getattr(feed, "entries", [])[:80]
+        for e in entries:
+            title = clean(getattr(e, "title", ""))
+            link = getattr(e, "link", "")
+            if title and link:
+                items.append({"title": title[:180], "url": link, "source": source})
+
+        debug_list.append({
+            "source": source,
+            "url": url,
+            "items": len(items),
+            "bozo": bool(bozo),
+            "bozo_exception": bozo_exc[:140] if bozo_exc else ""
+        })
         return items
 
-    for e in getattr(feed, "entries", [])[:80]:
-        title = clean(getattr(e, "title", ""))
-        link = getattr(e, "link", "")
-        if title and link:
-            items.append({"title": title[:180], "url": link, "source": source})
-    return items
+    except Exception as ex:
+        debug_list.append({
+            "source": source,
+            "url": url,
+            "items": 0,
+            "error": str(ex)[:160]
+        })
+        return []
 
 
 def load_previous():
@@ -148,17 +184,13 @@ def load_previous():
 
 
 def unique_line(pool, used_set, fallback):
-    """
-    Ensure we never repeat a subheadline on the page.
-    Avoid showing 'v2/v3' by using whitespace-only uniqueness.
-    """
     random.shuffle(pool)
     for s in pool:
         if s not in used_set:
             used_set.add(s)
             return s
 
-    # If we run out, make a unique variant that doesn't display "v2"
+    # No visible "v2/v3": whitespace-only uniqueness
     base = fallback
     pad = " "
     while base + pad in used_set:
@@ -171,11 +203,35 @@ def dedupe_local_by_url(items):
     seen = set()
     out = []
     for it in items:
-        u = it.get("url", "").strip()
+        u = (it.get("url") or "").strip()
         if not u or u in seen:
             continue
         seen.add(u)
         out.append(it)
+    return out
+
+
+def round_robin_by_source(items):
+    """Return list of items interleaved by source so one outlet can't dominate."""
+    buckets = {}
+    for it in items:
+        buckets.setdefault(it["source"], []).append(it)
+
+    # Shuffle each bucket and shuffle the order of sources
+    sources = list(buckets.keys())
+    for s in sources:
+        random.shuffle(buckets[s])
+    random.shuffle(sources)
+
+    out = []
+    while True:
+        progressed = False
+        for s in sources:
+            if buckets[s]:
+                out.append(buckets[s].pop())
+                progressed = True
+        if not progressed:
+            break
     return out
 
 
@@ -192,8 +248,7 @@ def main():
     used_urls = set()
     used_sublines = set()
 
-    # Between 3-hour boundaries, we keep non-breaking sections the same
-    # AND prevent Breaking from repeating them.
+    # Between 3-hour boundaries, keep non-breaking sections and prevent Breaking duplicates
     if prev and not three_hour_boundary:
         for col in prev.get("columns", []):
             for sec in col.get("sections", []):
@@ -207,6 +262,7 @@ def main():
                             used_sublines.add(s)
 
     columns = []
+    debug = {"feeds": []}
 
     for col in LAYOUT:
         col_out = {"sections": []}
@@ -214,7 +270,7 @@ def main():
         for section_name, feeds in col:
             refresh = section_name.startswith("Breaking") or three_hour_boundary
 
-            # If not refreshing and we have previous data, reuse it
+            # Reuse section if not refreshing
             if not refresh and prev:
                 reused = None
                 for pcol in prev.get("columns", []):
@@ -228,16 +284,17 @@ def main():
                     col_out["sections"].append(reused)
                     continue
 
-            # Build new section
             raw = []
+            section_debug = []
             for src, url in feeds:
-                raw.extend(parse_feed(src, url))
+                raw.extend(parse_feed(src, url, section_debug))
 
-            # Key fairness fix: shuffle so later sources still show up
-            random.shuffle(raw)
+            # Record feed health for this section (PROOF of what's loading)
+            debug["feeds"].append({"section": section_name, "results": section_debug})
 
-            # Local dedupe inside this section
+            # Local dedupe + round-robin for source diversity
             raw = dedupe_local_by_url(raw)
+            raw = round_robin_by_source(raw)
 
             section_items = []
             per_source = {}
@@ -258,7 +315,6 @@ def main():
                     sub = unique_line(SNARK, used_sublines, random.choice(NEUTRAL))
 
                 is_first = (len(section_items) == 0)
-
                 section_items.append({
                     "title": it["title"],
                     "url": it["url"],
@@ -285,6 +341,9 @@ def main():
         },
         "generated_utc": now.isoformat(),
         "columns": columns,
+
+        # DEBUG: remove later if you want, but keep now to diagnose feed health
+        "debug": debug,
     }
 
     with open("headlines.json", "w", encoding="utf-8") as f:
