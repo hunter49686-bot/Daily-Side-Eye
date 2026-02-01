@@ -3,7 +3,7 @@
     "name": "THE DAILY SIDE-EYE",
     "tagline": "Headlines with a raised eyebrow."
   },
-  "generated_utc": "2026-02-01T16:38:21.636768+00:00",
+  "generated_utc": "2026-02-01T16:42:17.366041+00:00",
   "columns": [
     {
       "sections": [
@@ -11,36 +11,76 @@
           "name": "Breaking",
           "items": [
             {
-              "title": "Bondi pushes back on First Amendment claims after Don Lemon, others arrested over church disruption",
-              "url": "https://www.foxnews.com/media/bondi-pushes-back-first-amendment-claims-after-don-lemon-others-arrested-over-church-disruption",
+              "title": "How long you’re contagious with the flu — and when it’s safe to go out",
+              "url": "https://www.foxnews.com/health/how-long-youre-contagious-flu-when-its-safe-go-out",
               "source": "Fox News",
               "badge": "BREAK",
               "feature": true,
+              "snark": "Numbers were cited. Interpretation may vary."
+            },
+            {
+              "title": "Popular weight loss supplement no good at busting belly fat: study",
+              "url": "https://nypost.com/2026/02/01/health/popular-weight-loss-supplement-no-good-at-busting-belly-fat-study/",
+              "source": "New York Post",
+              "badge": "",
+              "feature": false,
               "snark": "The optics are doing most of the work here."
             },
             {
-              "title": "Gordon Ramsay shares secret for not overcooking scrambled eggs",
-              "url": "https://nypost.com/2026/02/01/lifestyle/gordon-ramsay-shares-secret-for-not-overcooking-scrambled-eggs/",
-              "source": "New York Post",
+              "title": "Islamic Republic's Predatory Contract With Its People",
+              "url": "https://www.realclearpolitics.com/2026/01/28/islamic_republics_predatory_contract_with_its_people_690379.html",
+              "source": "RealClearPolitics",
+              "badge": "",
+              "feature": false,
+              "snark": "This will surely be handled with nuance."
+            },
+            {
+              "title": "Pilot makes history after landing on top of a 56-story hotel",
+              "url": "https://www.cnn.com/videos/travel/2023/03/17/pilot-lands-on-dubai-helipad-cprog-orig-aw-ao.cnn",
+              "source": "CNN Top Stories",
               "badge": "",
               "feature": false,
               "snark": "A confident plan has been announced. Reality is pending."
             },
             {
-              "title": "Millions of Epstein Files Still Unreleased",
-              "url": "https://www.realclearpolitics.com/2026/02/01/millions_of_epstein_files_still_unreleased_690852.html",
-              "source": "RealClearPolitics",
-              "badge": "",
-              "feature": false,
-              "snark": "A compromise is proposed. Someone will hate it."
-            },
-            {
-              "title": "Florida Republicans advance bill to weaken vaccine protections for children",
-              "url": "https://www.theguardian.com/us-news/2026/feb/01/florida-bill-advances-weaken-vaccine-protections-children",
+              "title": "Democrat flips reliably red Texas district in victory that stuns Republican party",
+              "url": "https://www.theguardian.com/us-news/2026/feb/01/democrat-wins-red-texas-district-taylor-rehmet",
               "source": "The Guardian World",
               "badge": "",
               "feature": false,
-              "snark": "Experts disagree, loudly and on schedule."
+              "snark": "A decision was made. Consequences scheduled for later."
+            },
+            {
+              "title": "Swiss Alpine bar fire claims 41st victim, an 18-year-old Swiss national",
+              "url": "https://www.npr.org/2026/02/01/nx-s1-5695756/swiss-alpine-bar-fire-claims-41st-victim",
+              "source": "NPR News",
+              "badge": "",
+              "feature": false,
+              "snark": "Developing story. "
+            },
+            {
+              "title": "LA 2028 Olympics chief 'deeply regrets' flirty emails with Ghislaine Maxwell",
+              "url": "https://www.bbc.com/news/articles/cyv5z76jmpvo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Front Page",
+              "badge": "",
+              "feature": false,
+              "snark": "The explanation is technically words."
+            },
+            {
+              "title": "Here are the 20 specific Fox broadcasts and tweets Dominion says were defamatory",
+              "url": "https://www.cnn.com/2023/04/17/media/dominion-fox-news-allegations/index.html",
+              "source": "CNN Top Stories",
+              "badge": "",
+              "feature": false,
+              "snark": "A statement was issued. Substance not included."
+            },
+            {
+              "title": "Junta-backed party secures sweeping victory in Myanmar’s ‘sham’ election",
+              "url": "https://www.theguardian.com/world/2026/jan/30/junta-backed-party-victory-myanmar-sham-election",
+              "source": "The Guardian World",
+              "badge": "",
+              "feature": false,
+              "snark": "A compromise is proposed. Someone will hate it."
             },
             {
               "title": "Gaza border crossing buzzes with activity after years of near-complete closure",
@@ -48,103 +88,15 @@
               "source": "NPR News",
               "badge": "",
               "feature": false,
-              "snark": "A statement was issued. Substance not included."
-            },
-            {
-              "title": "Here's what you need to know if you haven't filed your return yet — and even if you have",
-              "url": "https://www.cnn.com/2023/04/18/success/tax-day-2023-file-irs/index.html",
-              "source": "CNN Top Stories",
-              "badge": "",
-              "feature": false,
-              "snark": "A decision was made. Consequences scheduled for later."
-            },
-            {
-              "title": "Iran's supreme leader warns of regional war if US attacks",
-              "url": "https://www.bbc.com/news/articles/cx20z5nv9jxo?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Front Page",
-              "badge": "",
-              "feature": false,
-              "snark": "Authorities are investigating. "
-            },
-            {
-              "title": "Saint Hillary Is Here To Tell You You're a Terrible Christian",
-              "url": "https://www.realclearpolitics.com/2026/02/01/saint_hillary_is_here_to_tell_you_youre_a_terrible_christian_690856.html",
-              "source": "RealClearPolitics",
-              "badge": "",
-              "feature": false,
-              "snark": "Numbers were cited. Interpretation may vary."
-            },
-            {
-              "title": "Spotlight remains on a Coalition in chaos as parliament returns, with splits and spills looming over policy",
-              "url": "https://www.theguardian.com/australia-news/2026/feb/01/spotlight-remains-on-a-coalition-in-chaos-as-parliament-returns-with-splits-and-spills-looming-over-policy",
-              "source": "The Guardian World",
-              "badge": "",
-              "feature": false,
-              "snark": "A 'common sense' solution sparks uncommon disagreement."
-            },
-            {
-              "title": "Iran's supreme leader warns any US attack would spark 'regional war'",
-              "url": "https://www.npr.org/2026/02/01/nx-s1-5695698/iran-khamenei-us-attack-warns-regional-war",
-              "source": "NPR News",
-              "badge": "",
-              "feature": false,
-              "snark": "Reporting continues. "
-            },
-            {
-              "title": "Newly released video shows scene of Jeremy Renner's snowplow accident",
-              "url": "https://www.cnn.com/videos/us/2023/04/18/jeremy-renner-snowplow-accident-bodycam-nc-melas-contd-vpx.cnn",
-              "source": "CNN Top Stories",
-              "badge": "",
-              "feature": false,
-              "snark": "A bold claim meets inconvenient details."
-            },
-            {
-              "title": "BBC News app",
-              "url": "https://www.bbc.co.uk/news/10628994?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Front Page",
-              "badge": "",
-              "feature": false,
-              "snark": "A big announcement, with a small footnote doing cardio."
-            },
-            {
-              "title": "Jon Gosselin says he coughed up a 'blood clot' in terrifying medical crisis weeks before wedding",
-              "url": "https://www.foxnews.com/entertainment/jon-gosselin-says-he-coughed-up-blood-clot-terrifying-medical-crisis-weeks-before-wedding",
-              "source": "Fox News",
-              "badge": "",
-              "feature": false,
-              "snark": "An investigation begins. Again."
-            },
-            {
-              "title": "TikTok's 1st Week of U.S. Ownership Was a Disaster",
-              "url": "https://www.realclearpolitics.com/2026/02/01/tiktoks_1st_week_of_us_ownership_was_a_disaster_690851.html",
-              "source": "RealClearPolitics",
-              "badge": "",
-              "feature": false,
-              "snark": "The explanation is technically words."
-            },
-            {
-              "title": "‘Frustrated’ by slow pace of gambling ads reform, Labor caucus wants Wells to act",
-              "url": "https://www.theguardian.com/australia-news/2026/feb/02/government-gambling-ads-reform-labor-wells",
-              "source": "The Guardian World",
-              "badge": "",
-              "feature": false,
               "snark": "The plan is simple. The details are complicated."
             },
             {
-              "title": "U.S. intervention in Venezuela divides Houston",
-              "url": "https://www.npr.org/2026/02/01/nx-s1-5686737/venezuela-maduro-trump-oil-houston",
-              "source": "NPR News",
+              "title": "Super Bowl champion Brent Jones says NFL tight end position is 'exciting to watch' after productive seasons",
+              "url": "https://www.foxnews.com/sports/super-bowl-champion-brent-jones-says-nfl-tight-end-position-exciting-watch-after-productive-seasons",
+              "source": "Fox News",
               "badge": "",
               "feature": false,
-              "snark": "This will surely be handled with nuance."
-            },
-            {
-              "title": "Review: 'Barry' takes a whack at its farewell season",
-              "url": "https://www.cnn.com/2023/04/14/entertainment/barry-season-4-review/index.html",
-              "source": "CNN Top Stories",
-              "badge": "",
-              "feature": false,
-              "snark": "Everyone is calm. On paper."
+              "snark": "A bold claim meets inconvenient details."
             },
             {
               "title": "Takeaways from the millions of newly released documents",
@@ -152,7 +104,55 @@
               "source": "BBC Front Page",
               "badge": "",
               "feature": false,
+              "snark": "A big announcement, with a small footnote doing cardio."
+            },
+            {
+              "title": "Aaron Rodgers’ marriage verified by reporter — despite wife remaining a mystery",
+              "url": "https://nypost.com/2026/02/01/sports/aaron-rodgers-marriage-verified-by-reporter-but-wife-still-a-mystery/",
+              "source": "New York Post",
+              "badge": "",
+              "feature": false,
+              "snark": "Experts disagree, loudly and on schedule."
+            },
+            {
+              "title": "Repeated gunshots fired on live TV as ex-lawmaker shot by assassins",
+              "url": "https://www.cnn.com/videos/world/2023/04/18/india-ex-lawmaker-atiq-ahmed-assassination-sud-pkg-contd-ovn-intl-hnk-vpx.cnn",
+              "source": "CNN Top Stories",
+              "badge": "",
+              "feature": false,
               "snark": "A timeline was provided. Nobody believes it."
+            },
+            {
+              "title": "Panama supreme court cancels Hong Kong company’s canal contracts",
+              "url": "https://www.theguardian.com/world/2026/jan/30/court-ends-hong-kong-china-panama-canal-contracts",
+              "source": "The Guardian World",
+              "badge": "",
+              "feature": false,
+              "snark": "A 'common sense' solution sparks uncommon disagreement."
+            },
+            {
+              "title": "Minnesota citizens detained by ICE are left rattled, even weeks later",
+              "url": "https://www.npr.org/2026/02/01/nx-s1-5689031/minnesota-citizens-detained-ice",
+              "source": "NPR News",
+              "badge": "",
+              "feature": false,
+              "snark": "An investigation begins. Again."
+            },
+            {
+              "title": "Hollywood keeps making movies families won't watch while 'Lord of the Rings' rerelease rakes in millions",
+              "url": "https://www.foxnews.com/opinion/best-films-lord-over-worst-because-hollywood-used-make-movies-everyone",
+              "source": "Fox News",
+              "badge": "",
+              "feature": false,
+              "snark": "Everyone is calm. On paper."
+            },
+            {
+              "title": "Don Lemon's 'Other' Unforgivable Crime",
+              "url": "https://www.realclearpolitics.com/2026/02/01/don_lemons_other_unforgivable_crime_690863.html",
+              "source": "RealClearPolitics",
+              "badge": "",
+              "feature": false,
+              "snark": "Reporting continues. "
             }
           ]
         },
