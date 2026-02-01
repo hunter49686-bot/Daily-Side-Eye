@@ -6,108 +6,43 @@
 <title>THE DAILY SIDE-EYE</title>
 
 <style>
-:root{
-  --ink:#111;
-  --muted:#666;
-  --rule:#ddd;
-  --accent:#b00000;
-  --bg:#fff;
-}
-html,body{
-  background:var(--bg);
-  color:var(--ink);
-  margin:0;
-  font-family:Arial, Helvetica, sans-serif;
-}
-.container{
-  max-width:1200px;
-  margin:0 auto;
-  padding:16px;
-}
-.header{
-  border-bottom:2px solid var(--rule);
-  padding-bottom:10px;
-  margin-bottom:12px;
-}
-.site-title{
-  font-size:36px;
-  font-weight:900;
-}
-.tagline{
-  font-size:16px;
-  color:#444;
-  margin-top:4px;
-}
-.updated{
-  font-size:13px;
-  color:var(--muted);
-  margin:10px 0 18px;
-}
-.columns{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:28px;
-}
-@media (max-width:900px){
-  .columns{grid-template-columns:1fr;}
-}
-.section-title{
-  font-size:20px;
-  font-weight:900;
-  text-transform:uppercase;
-  letter-spacing:1.2px;
-  border-bottom:1px solid var(--rule);
-  margin-bottom:14px;
-  padding-bottom:6px;
-}
-.section-title.breaking{
-  color:var(--accent);
-  border-bottom:2px solid var(--accent);
-}
-.story{
-  margin-bottom:16px;
-}
-.story a{
-  color:var(--ink);
-  text-decoration:none;
-  font-weight:700; /* bold headlines */
-  line-height:1.25;
-}
+:root{--ink:#111;--muted:#666;--rule:#ddd;--accent:#b00000;--bg:#fff;}
+html,body{background:var(--bg);color:var(--ink);margin:0;font-family:Arial,Helvetica,sans-serif;}
+.container{max-width:1200px;margin:0 auto;padding:16px;}
+.header{border-bottom:2px solid var(--rule);padding-bottom:10px;margin-bottom:12px;}
+.site-title{font-size:36px;font-weight:900;letter-spacing:.5px;}
+.tagline{font-size:16px;color:#444;margin-top:4px;}
+.updated{font-size:13px;color:var(--muted);margin:10px 0 10px;}
+.columns{display:grid;grid-template-columns:1fr 1fr;gap:28px;}
+@media (max-width:900px){.columns{grid-template-columns:1fr;}}
+.section-title{font-size:20px;font-weight:900;text-transform:uppercase;letter-spacing:1.2px;border-bottom:1px solid var(--rule);margin:0 0 14px;padding-bottom:6px;}
+.section-title.breaking{color:var(--accent);border-bottom:2px solid var(--accent);}
+.story{margin-bottom:16px;}
+.story a{color:var(--ink);text-decoration:none;font-weight:700;line-height:1.25;}
 .story a:hover{text-decoration:underline;}
-.story.feature a{
-  color:var(--accent);
-  font-weight:900;
-  font-size:19px;
-}
-.source{
-  font-size:12px;
-  color:var(--muted);
-  margin-left:4px;
-}
-.snark{
-  font-size:14px;
-  color:#666;
-  font-weight:400;
-  margin-top:2px;
-}
-.badge{
-  display:inline-block;
-  font-size:11px;
-  font-weight:800;
-  padding:2px 6px;
-  border:1px solid var(--accent);
-  color:var(--accent);
-  margin-right:6px;
-  border-radius:3px;
-}
-.footer{
-  border-top:1px solid var(--rule);
-  margin-top:26px;
-  padding-top:10px;
+.story.feature a{color:var(--accent);font-weight:900;font-size:19px;}
+.source{font-size:12px;color:var(--muted);margin-left:4px;}
+.snark{font-size:14px;color:#666;font-weight:400;margin-top:2px;line-height:1.25;}
+.badge{display:inline-block;font-size:11px;font-weight:800;padding:2px 6px;border:1px solid var(--accent);color:var(--accent);margin-right:6px;border-radius:3px;}
+
+.debug{
+  margin:10px 0 18px;
+  padding:10px 12px;
+  border:2px solid #c00;
+  background:#fff5f5;
+  color:#900;
   font-size:13px;
-  color:var(--muted);
-  text-align:center;
+  line-height:1.35;
+  white-space:pre-wrap;
+  word-break:break-word;
+  display:none;
 }
+.debug.ok{
+  border-color:#0a0;
+  background:#f4fff4;
+  color:#060;
+}
+.footer{border-top:1px solid var(--rule);margin-top:26px;padding-top:10px;font-size:13px;color:var(--muted);text-align:center;}
 </style>
 </head>
 
@@ -118,61 +53,140 @@ html,body{
     <div class="tagline" id="siteTagline">Headlines with a raised eyebrow.</div>
   </div>
 
-  <div class="updated" id="updated"></div>
+  <div class="updated" id="updated">Loading…</div>
+  <div class="debug" id="debug"></div>
+
   <div class="columns" id="columns"></div>
 
   <div class="footer">© The Daily Side-Eye</div>
 </div>
 
 <script>
-async function loadHeadlines(){
-  try{
-    const res = await fetch("./headlines.json?v=" + Date.now(), { cache:"no-store" });
-    const data = await res.json();
+const REFRESH_EVERY_MS = 5 * 60 * 1000;
 
-    document.getElementById("siteName").textContent = data.site?.name || "";
-    document.getElementById("siteTagline").textContent = data.site?.tagline || "";
+function showDebug(msg, ok=false){
+  const box = document.getElementById("debug");
+  box.style.display = "block";
+  box.className = "debug" + (ok ? " ok" : "");
+  box.textContent = msg;
+}
 
-    if(data.generated_utc){
-      document.getElementById("updated").textContent =
-        "Last updated: " + new Date(data.generated_utc).toLocaleString();
+function repoNameFromPath(){
+  // For GitHub Pages project sites: /REPO/...
+  // Example: /Daily-Side-Eye/  -> "Daily-Side-Eye"
+  const parts = location.pathname.split("/").filter(Boolean);
+  return parts.length ? parts[0] : "";
+}
+
+async function fetchJsonWithDiagnostics(){
+  const repo = repoNameFromPath();
+  const candidates = [
+    "./headlines.json",
+    "headlines.json",
+    "../headlines.json",
+    repo ? `/${repo}/headlines.json` : null
+  ].filter(Boolean);
+
+  const attempts = [];
+
+  for (const baseUrl of candidates){
+    const url = baseUrl + (baseUrl.includes("?") ? "&" : "?") + "v=" + Date.now();
+
+    try{
+      const res = await fetch(url, { cache: "no-store" });
+      attempts.push(`${url}  -> HTTP ${res.status}`);
+
+      if (!res.ok) continue;
+
+      const text = await res.text();
+      // Show early if it’s HTML (common when path is wrong and returns an HTML page)
+      if (text.trim().startsWith("<!doctype") || text.trim().startsWith("<html")){
+        attempts.push(`(Looks like HTML, not JSON)`);
+        continue;
+      }
+
+      const data = JSON.parse(text);
+      return { data, attempts, winner: url };
+    }catch(e){
+      attempts.push(`${url}  -> ERROR: ${e.message}`);
+    }
+  }
+
+  throw new Error("All headlines.json paths failed:\n" + attempts.join("\n"));
+}
+
+function render(data){
+  // Update header
+  document.getElementById("siteName").textContent = data.site?.name || "THE DAILY SIDE-EYE";
+  document.getElementById("siteTagline").textContent = data.site?.tagline || "Headlines with a raised eyebrow.";
+
+  if (data.generated_utc){
+    document.getElementById("updated").textContent =
+      "Last updated: " + new Date(data.generated_utc).toLocaleString();
+  } else {
+    document.getElementById("updated").textContent = "Last updated: —";
+  }
+
+  // Validate structure
+  if (!Array.isArray(data.columns) || data.columns.length === 0){
+    showDebug(
+      "Loaded JSON but did not find expected data.columns[] structure.\n" +
+      "Top-level keys found: " + Object.keys(data).join(", "),
+      false
+    );
+    document.getElementById("columns").innerHTML = "";
+    return;
+  }
+
+  const columnsEl = document.getElementById("columns");
+  columnsEl.innerHTML = "";
+
+  for (const col of data.columns){
+    const colDiv = document.createElement("div");
+
+    for (const sec of (col.sections || [])){
+      const title = document.createElement("div");
+      title.className = "section-title" + (sec.name === "Breaking" ? " breaking" : "");
+      title.textContent = sec.name || "Section";
+      colDiv.appendChild(title);
+
+      for (const item of (sec.items || [])){
+        const div = document.createElement("div");
+        div.className = "story" + (item.feature ? " feature" : "");
+
+        div.innerHTML = `
+          ${item.badge ? `<span class="badge">${item.badge}</span>` : ""}
+          <a href="${item.url || "#"}" target="_blank" rel="noopener">${item.title || "(no title)"}</a>
+          <span class="source">(${item.source || "source"})</span>
+          <div class="snark">${item.snark || ""}</div>
+        `;
+        colDiv.appendChild(div);
+      }
     }
 
-    const columns = document.getElementById("columns");
-    columns.innerHTML = "";
-
-    (data.columns || []).forEach(col=>{
-      const colDiv = document.createElement("div");
-      (col.sections || []).forEach(sec=>{
-        const title = document.createElement("div");
-        title.className = "section-title" + (sec.name === "Breaking" ? " breaking" : "");
-        title.textContent = sec.name;
-        colDiv.appendChild(title);
-
-        (sec.items || []).forEach(item=>{
-          const div = document.createElement("div");
-          div.className = "story" + (item.feature ? " feature" : "");
-          div.innerHTML = `
-            ${item.badge ? `<span class="badge">${item.badge}</span>` : ""}
-            <a href="${item.url}" target="_blank" rel="noopener">${item.title}</a>
-            <span class="source">(${item.source})</span>
-            <div class="snark">${item.snark || ""}</div>
-          `;
-          colDiv.appendChild(div);
-        });
-      });
-      columns.appendChild(colDiv);
-    });
-
-  }catch(err){
-    document.getElementById("updated").textContent =
-      "Error loading headlines.json";
-    console.error(err);
+    columnsEl.appendChild(colDiv);
   }
 }
 
-loadHeadlines();
-setInterval(loadHeadlines, 5 * 60 * 1000);
+async function load(){
+  try{
+    const { data, attempts, winner } = await fetchJsonWithDiagnostics();
+    render(data);
+    showDebug(
+      "✅ headlines.json loaded successfully.\n" +
+      "Winner: " + winner + "\n\n" +
+      "Tried:\n" + attempts.join("\n"),
+      true
+    );
+  }catch(err){
+    document.getElementById("updated").textContent = "Failed to load headlines.";
+    showDebug("❌ " + err.message, false);
+    document.getElementById("columns").innerHTML = "";
+  }
+}
+
+load();
+setInterval(load, REFRESH_EVERY_MS);
 </script>
 </body>
 </html>
