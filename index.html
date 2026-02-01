@@ -1,307 +1,39 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<title>The Daily Side-Eye</title>
-<meta name="viewport" content="width=device-width,initial-scale=1">
-
-<style>
-  :root{
-    --accent:#1f3cff;     /* bold editorial blue */
-    --accent-bg:#eef1ff;  /* subtle cool tint (NOT yellow) */
-    --text:#111;
-    --muted:#555;
-    --rule:#e5e5e5;
-  }
-
-  body{font-family:Arial,Helvetica,sans-serif;margin:0;background:#fff;color:var(--text)}
-  .wrap{max-width:1100px;margin:0 auto;padding:18px}
-
-  .topbar{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
-  h1{font-size:42px;margin:0}
-  .tagline{color:#444;margin-top:6px}
-
-  .rightnow{color:var(--muted);text-align:right;white-space:nowrap}
-  .hr{height:2px;background:var(--rule);margin:12px 0 14px}
-  #updated{color:#444;margin:0 0 14px}
-
-  /* Feature 1: ONE LINE EVERYONE MISSED */
-  .missed{
-    border-left:6px solid var(--accent);
-    padding:10px 12px;
-    margin:10px 0 16px;
-    background:linear-gradient(90deg,var(--accent-bg),#fff);
-  }
-  .missed-label{
-    font-weight:900;
-    letter-spacing:1px;
-    color:var(--accent);
-    font-size:13px;
-    margin-bottom:6px;
-  }
-  .missed a{color:var(--text);text-decoration:none;font-weight:800}
-  .missed a:hover{text-decoration:underline}
-  .missed .source{color:#666;font-weight:normal}
-
-  /* Columns */
-  .columns{display:grid;grid-template-columns:1fr 1fr 1fr;gap:28px}
-  @media(max-width:900px){.columns{grid-template-columns:1fr}}
-
-  .section-title{
-    font-weight:900;
-    font-size:24px;
-    letter-spacing:1px;
-    margin:18px 0 8px;
-  }
-  .rule{height:2px;background:var(--rule);margin-bottom:10px}
-
-  .item{margin-bottom:18px}
-  a.headline{font-weight:800;font-size:22px;color:var(--text);text-decoration:none}
-  a.headline:hover{text-decoration:underline}
-  a.feature{color:#b00000;font-size:30px}
-  .source{color:#666}
-  .sub{font-size:16px;margin-top:5px;color:#222}
-
-  .badge{border:1px solid #bbb;border-radius:999px;padding:2px 8px;font-size:12px;margin-right:6px}
-
-  /* Feature 4: IF THIS AGES POORLY - bold trendy outline, NO yellow fill */
-  .ages{
-    border:2px solid var(--accent);
-    border-radius:999px;
-    padding:2px 8px;
-    font-size:12px;
-    font-weight:900;
-    letter-spacing:.5px;
-    color:var(--accent);
-    margin-right:6px;
-    background:transparent;
-  }
-
-  /* Feature 2: NOTHING BURGER OF THE DAY */
-  .burger{
-    border:2px solid var(--accent);
-    border-radius:12px;
-    padding:10px 12px;
-    margin:0 0 14px;
-  }
-  .burger-label{
-    font-weight:900;
-    letter-spacing:1px;
-    color:var(--accent);
-    font-size:13px;
-    margin-bottom:6px;
-  }
-  .burger a{color:var(--text);text-decoration:none;font-weight:800}
-  .burger a:hover{text-decoration:underline}
-  .burger .source{color:#666;font-weight:normal}
-
-  /* Footer blocks */
-  .footer{border-top:2px solid var(--rule);margin-top:26px;padding-top:14px}
-  .footer h2{margin:0 0 10px;font-size:22px;letter-spacing:1px}
-  .langwatch{
-    margin:0 0 16px;
-    padding:10px 12px;
-    border-left:6px solid var(--accent);
-    background:linear-gradient(90deg,var(--accent-bg),#fff);
-  }
-  .langwatch-title{
-    font-weight:900;
-    letter-spacing:1px;
-    color:var(--accent);
-    font-size:13px;
-    margin-bottom:8px;
-  }
-  .langrow{display:flex;justify-content:space-between;gap:12px;margin:4px 0}
-  .langrow .term{color:#222}
-  .langrow .count{color:var(--accent);font-weight:900}
-</style>
-</head>
-
-<body>
-<div class="wrap">
-
-  <div class="topbar">
-    <div>
-      <h1 id="title"></h1>
-      <div id="tagline" class="tagline"></div>
-    </div>
-    <div class="rightnow">
-      <div id="today"></div>
-      <div id="nowtime"></div>
-    </div>
-  </div>
-
-  <div class="hr"></div>
-
-  <!-- Feature 1 -->
-  <div id="missedBox" class="missed" style="display:none;"></div>
-
-  <div id="updated"></div>
-
-  <div id="cols" class="columns"></div>
-
-  <div class="footer">
-    <!-- Feature 3 -->
-    <div id="langWatch" class="langwatch" style="display:none;"></div>
-
-    <h2>THE WEEK IN HINDSIGHT</h2>
-    <ul id="week"></ul>
-  </div>
-
-</div>
-
-<script>
-  function fmtDate(d){
-    return d.toLocaleDateString(undefined, {weekday:'long', year:'numeric', month:'long', day:'numeric'});
-  }
-  function fmtTime(d){
-    return d.toLocaleTimeString(undefined, {hour:'numeric', minute:'2-digit'});
-  }
-
-  // Render exactly 3 columns with these sections:
-  const COLUMN_PLAN = [
-    ["Breaking","Top"],
-    ["Business"],
-    ["Tech","Weird"]
-  ];
-
-  function buildSectionHTML(sec){
-    const secName = String(sec.name || "");
-    let html = '<div class="section-title">' + secName.toUpperCase() + '</div><div class="rule"></div>';
-
-    (sec.items || []).forEach(it => {
-      const ages = it.ages_poorly ? '<span class="ages">IF THIS AGES POORLY</span>' : '';
-      const badge = it.badge ? '<span class="badge">' + it.badge + '</span>' : '';
-      const headlineClass = "headline" + (it.feature ? " feature" : "");
-
-      html +=
-        '<div class="item">' +
-          ages + badge +
-          '<a class="' + headlineClass + '" href="' + it.url + '" target="_blank" rel="noopener noreferrer">' +
-            (it.title || "") +
-          '</a>' +
-          '<span class="source"> (' + (it.source || "") + ')</span>' +
-          '<div class="sub">' + (it.snark || "") + '</div>' +
-        '</div>';
-    });
-
-    return html;
-  }
-
-  function buildBurgerHTML(item){
-    if(!item || !item.title || !item.url) return "";
-    return '' +
-      '<div class="burger-label">NOTHING BURGER OF THE DAY</div>' +
-      '<a href="' + item.url + '" target="_blank" rel="noopener noreferrer">' + item.title + '</a>' +
-      '<span class="source"> (' + (item.source || "") + ')</span>';
-  }
-
-  function buildMissedHTML(item){
-    if(!item || !item.title || !item.url) return "";
-    return '' +
-      '<div class="missed-label">ONE LINE EVERYONE MISSED</div>' +
-      '<a href="' + item.url + '" target="_blank" rel="noopener noreferrer">' + item.title + '</a>' +
-      '<span class="source"> (' + (item.source || "") + ')</span>';
-  }
-
-  function buildLangWatchHTML(rows){
-    if(!rows || !rows.length) return "";
-    let html = '<div class="langwatch-title">LANGUAGE WATCH (TODAY)</div>';
-    rows.forEach(r => {
-      html += '<div class="langrow"><div class="term">"' + r.label + '"</div><div class="count">' + r.count + '</div></div>';
-    });
-    return html;
-  }
-
-  fetch("headlines.json?cb=" + Date.now())
-    .then(r => r.json())
-    .then(d => {
-      document.getElementById("title").textContent = (d.site && d.site.name) ? d.site.name : "THE DAILY SIDE-EYE";
-      document.getElementById("tagline").textContent = (d.site && d.site.tagline) ? d.site.tagline : "Headlines with a raised eyebrow.";
-
-      const now = new Date();
-      document.getElementById("today").textContent = fmtDate(now);
-      document.getElementById("nowtime").textContent = fmtTime(now);
-
-      const gen = new Date(d.generated_utc);
-      document.getElementById("updated").textContent = "Last updated: " + gen.toLocaleString();
-
-      // Feature 1: One line everyone missed
-      const missedBox = document.getElementById("missedBox");
-      const missedHTML = buildMissedHTML(d.one_line_everyone_missed);
-      if(missedHTML){
-        missedBox.innerHTML = missedHTML;
-        missedBox.style.display = "";
-      } else {
-        missedBox.style.display = "none";
-      }
-
-      // Flatten & dedupe sections by name (if updater ever outputs dupes)
-      const secMap = {};
-      (d.columns || []).forEach(col => {
-        (col.sections || []).forEach(sec => {
-          const name = String(sec.name || "");
-          if (!name) return;
-          if (!secMap[name] || ((sec.items||[]).length > (secMap[name].items||[]).length)){
-            secMap[name] = sec;
-          }
-        });
-      });
-
-      // Build exactly 3 columns
-      const cols = document.getElementById("cols");
-      cols.innerHTML = "";
-
-      COLUMN_PLAN.forEach((colNames, colIndex) => {
-        const c = document.createElement("div");
-
-        colNames.forEach(name => {
-          if (secMap[name]) {
-            const container = document.createElement("div");
-
-            // Feature 2: Nothing Burger goes at the top of the Business column (column 2)
-            if(colIndex === 1 && name === "Business"){
-              const burgerHTML = buildBurgerHTML(d.nothing_burger);
-              if(burgerHTML){
-                const burger = document.createElement("div");
-                burger.className = "burger";
-                burger.innerHTML = burgerHTML;
-                c.appendChild(burger);
-              }
-            }
-
-            container.innerHTML = buildSectionHTML(secMap[name]);
-            c.appendChild(container);
-          }
-        });
-
-        cols.appendChild(c);
-      });
-
-      // Feature 3: Language Watch
-      const langWatch = document.getElementById("langWatch");
-      const lwHTML = buildLangWatchHTML(d.language_watch);
-      if(lwHTML){
-        langWatch.innerHTML = lwHTML;
-        langWatch.style.display = "";
-      } else {
-        langWatch.style.display = "none";
-      }
-
-      // Week in hindsight
-      const week = document.getElementById("week");
-      week.innerHTML = "";
-      (d.week_in_hindsight || []).forEach(line => {
-        const li = document.createElement("li");
-        li.textContent = line;
-        week.appendChild(li);
-      });
-    })
-    .catch(err => {
-      document.getElementById("updated").textContent = "Error loading headlines.json.";
-      console.error(err);
-    });
-</script>
-
-</body>
-</html>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>THE DAILY SIDE-EYE</title>
+  <style>
+    :root{
+      --ink:#111;
+      --muted:#6b6b6b;
+      --rule:#d9d9d9;
+      --accent:#b30000;
+      --bg:#fff;
+    }
+    html,body{background:var(--bg); color:var(--ink); margin:0; font-family: Arial, Helvetica, sans-serif;}
+    .wrap{max-width:1100px; margin:0 auto; padding:18px 14px 40px;}
+    header{display:flex; justify-content:space-between; align-items:flex-start; gap:16px; padding-bottom:10px; border-bottom:2px solid var(--rule);}
+    .brand h1{margin:0; font-size:34px; letter-spacing:.5px;}
+    .brand .tagline{margin-top:4px; color:var(--muted); font-size:16px;}
+    .meta{ text-align:right; color:var(--muted); font-size:14px; line-height:1.35;}
+    .meta .date{color:#333; font-size:16px;}
+    .last-updated{margin:14px 0 10px; color:var(--muted); font-size:14px;}
+    .grid{display:grid; grid-template-columns: 1.15fr 1fr 1fr; gap:24px; align-items:start;}
+    .col{border-top:2px solid var(--rule); padding-top:12px;}
+    .section-title{
+      margin:0 0 10px;
+      font-size:20px;
+      font-weight:900;
+      letter-spacing:.6px;
+      text-transform:uppercase;
+      border-bottom:1px solid var(--rule);
+      padding-bottom:8px;
+    }
+    .item{margin:0 0 16px;}
+    .item .topline{display:flex; align-items:baseline; gap:10px; flex-wrap:wrap;}
+    .badge{
+      font-size:12px;
+      font-weight:700;
+      border:1
