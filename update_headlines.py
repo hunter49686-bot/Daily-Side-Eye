@@ -17,61 +17,48 @@ MAX_PER_SOURCE_PER_SECTION = 3
 # RSS FEEDS (EXPANDED + BALANCED)
 # =====================
 BREAKING_FEEDS = [
-    # Center / Left
     ("BBC Front Page", "https://feeds.bbci.co.uk/news/rss.xml"),
     ("CNN Top Stories", "http://rss.cnn.com/rss/cnn_topstories.rss"),
     ("NPR News", "https://feeds.npr.org/1001/rss.xml"),
     ("The Guardian World", "https://www.theguardian.com/world/rss"),
 
-    # Right-leaning
     ("Fox News", "https://feeds.foxnews.com/foxnews/latest"),
     ("New York Post", "https://nypost.com/feed/"),
 
-    # Cross-spectrum aggregator
     ("RealClearPolitics", "https://www.realclearpolitics.com/index.xml"),
 ]
 
 TOP_FEEDS = [
-    # Center / Left
     ("BBC World", "https://feeds.bbci.co.uk/news/world/rss.xml"),
     ("CNN Top Stories", "http://rss.cnn.com/rss/cnn_topstories.rss"),
     ("NPR News", "https://feeds.npr.org/1001/rss.xml"),
     ("The Guardian UK", "https://www.theguardian.com/uk/rss"),
 
-    # Right-leaning
     ("Fox News", "https://feeds.foxnews.com/foxnews/latest"),
     ("New York Post", "https://nypost.com/feed/"),
 
-    # Cross-spectrum
     ("RealClearPolitics", "https://www.realclearpolitics.com/index.xml"),
 ]
 
 BUSINESS_FEEDS = [
-    # Center / Left
     ("BBC Business", "https://feeds.bbci.co.uk/news/business/rss.xml"),
     ("CNN Business", "http://rss.cnn.com/rss/money_latest.rss"),
     ("NPR Business", "https://feeds.npr.org/1006/rss.xml"),
     ("The Guardian Business", "https://www.theguardian.com/business/rss"),
 
-    # Right-leaning / Market-focused
     ("Washington Examiner", "https://www.washingtonexaminer.com/rss.xml"),
     ("National Review", "https://www.nationalreview.com/feed/"),
 ]
 
 WORLD_TECH_WEIRD_FEEDS = [
-    # Center / Left
     ("BBC Tech", "https://feeds.bbci.co.uk/news/technology/rss.xml"),
     ("NPR Technology", "https://feeds.npr.org/1019/rss.xml"),
     ("The Guardian Tech", "https://www.theguardian.com/technology/rss"),
 
-    # Right-leaning / Opinion mix
     ("National Review", "https://www.nationalreview.com/feed/"),
-
-    # Cross-spectrum aggregator
     ("RealClearPolitics", "https://www.realclearpolitics.com/index.xml"),
 ]
 
-# Layout: 3 columns, Breaking at top of column 1
 LAYOUT = [
     [("Breaking", BREAKING_FEEDS), ("Top", TOP_FEEDS)],
     [("Business", BUSINESS_FEEDS)],
@@ -133,7 +120,7 @@ def is_tragic(title):
 def parse_feed(source, url):
     items = []
     feed = feedparser.parse(url)
-    for e in feed.entries[:60]:
+    for e in feed.entries[:80]:
         title = clean(getattr(e, "title", ""))
         link = getattr(e, "link", "")
         if title and link:
@@ -155,11 +142,24 @@ def unique_line(pool, used, fallback):
         if s not in used:
             used.add(s)
             return s
+    # No visible v2/v3: use a whitespace-only uniqueness trick
     while True:
         candidate = fallback + " "
         if candidate not in used:
             used.add(candidate)
             return candidate
+
+
+def dedupe_local_by_url(items):
+    seen = set()
+    out = []
+    for it in items:
+        u = it.get("url")
+        if not u or u in seen:
+            continue
+        seen.add(u)
+        out.append(it)
+    return out
 
 
 # =====================
@@ -173,13 +173,18 @@ def main():
     used_urls = set()
     used_sublines = set()
 
+    # Between 3-hour boundaries, reuse non-breaking sections and prevent Breaking from duplicating them
     if prev and not three_hour_boundary:
         for col in prev.get("columns", []):
             for sec in col.get("sections", []):
                 if sec.get("name") != "Breaking":
                     for it in sec.get("items", []):
-                        used_urls.add(it["url"])
-                        used_sublines.add(it.get("snark", ""))
+                        u = (it.get("url") or "").strip()
+                        s = (it.get("snark") or "").strip()
+                        if u:
+                            used_urls.add(u)
+                        if s:
+                            used_sublines.add(s)
 
     columns = []
 
@@ -189,17 +194,30 @@ def main():
         for name, feeds in col:
             refresh = name.startswith("Breaking") or three_hour_boundary
 
+            # reuse section if not refreshing
             if not refresh and prev:
-                for pcol in prev["columns"]:
-                    for psec in pcol["sections"]:
-                        if psec["name"] == name:
-                            col_out["sections"].append(psec)
+                reused = None
+                for pcol in prev.get("columns", []):
+                    for psec in pcol.get("sections", []):
+                        if psec.get("name") == name:
+                            reused = psec
                             break
-                continue
+                    if reused:
+                        break
+                if reused:
+                    col_out["sections"].append(reused)
+                    continue
 
+            # Build fresh section
             raw = []
             for src, url in feeds:
                 raw.extend(parse_feed(src, url))
+
+            # KEY FIX: shuffle so later sources (Fox/NYPost/RCP/etc.) get a fair shot
+            random.shuffle(raw)
+
+            # local URL dedupe inside this section
+            raw = dedupe_local_by_url(raw)
 
             section_items = []
             per_source = {}
@@ -219,12 +237,13 @@ def main():
                 else:
                     sub = unique_line(SNARK, used_sublines, random.choice(NEUTRAL))
 
+                is_first = (len(section_items) == 0)
                 section_items.append({
                     "title": it["title"],
                     "url": it["url"],
                     "source": it["source"],
-                    "badge": "BREAK" if name.startswith("Breaking") and not section_items else "",
-                    "feature": bool(name.startswith("Breaking") and not section_items),
+                    "badge": "BREAK" if name.startswith("Breaking") and is_first else "",
+                    "feature": bool(name.startswith("Breaking") and is_first),
                     "snark": sub,
                 })
 
