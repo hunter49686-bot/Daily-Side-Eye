@@ -26,7 +26,7 @@ MAX_PER_SOURCE_PER_SECTION = 3
 
 # Per-section caps (Breaking should feel like Breaking)
 MAX_ITEMS_BY_SECTION = {
-    "Breaking": 8,
+    "Breaking": 9,
     "Top": 16,
     "Business": 14,
     "World / Tech / Weird": 14,
@@ -37,10 +37,10 @@ FRESHNESS_DAYS_BY_SECTION = {
     "Breaking": 3,
     "Top": 7,
     "Business": 14,
-    "World / Tech / Weird": 14,
+    "World / Tech / Weird": 21,
 }
 
-# Ensure balance: if available, we will include at least 1 from these sources per section
+# Ensure balance: if available, include at least 1 from these sources per section
 BALANCE_TARGETS = [
     "Fox News",
     "New York Post",
@@ -135,6 +135,25 @@ TRAGEDY_KEYWORDS = [
     "earthquake", "wildfire", "flood", "victim", "injured",
 ]
 
+PROMO_PATTERNS = [
+    r"\bbonus code\b",
+    r"\bpromo code\b",
+    r"\bbetmgm\b",
+    r"\bdraftkings\b",
+    r"\bfanduel\b",
+    r"\bbetting\b",
+    r"\bodds\b",
+    r"\bsportsbook\b",
+    r"\bfree bet\b",
+    r"\bdeposit match\b",
+    r"\bsubscribe\b",
+    r"\bsponsored\b",
+    r"\badvertis",
+    r"\bcoupon\b",
+    r"\bdeal\b",
+]
+PROMO_RE = re.compile("|".join(PROMO_PATTERNS), re.I)
+
 # =====================
 # HELPERS
 # =====================
@@ -142,7 +161,6 @@ def clean(text: str) -> str:
     return re.sub(r"\s+", " ", text or "").strip()
 
 def norm_title_key(title: str) -> str:
-    # aggressive-ish, but stable: removes punctuation, collapses whitespace, lowercase
     t = clean(title).lower()
     t = re.sub(r"[^\w\s]", "", t)
     t = re.sub(r"\s+", " ", t).strip()
@@ -152,6 +170,9 @@ def is_tragic(title: str) -> bool:
     t = (title or "").lower()
     return any(k in t for k in TRAGEDY_KEYWORDS)
 
+def is_promo(title: str) -> bool:
+    return bool(PROMO_RE.search(title or ""))
+
 def load_previous():
     try:
         with open("headlines.json", "r", encoding="utf-8") as f:
@@ -160,7 +181,6 @@ def load_previous():
         return None
 
 def unique_line(pool, used_set, fallback):
-    # pool can be empty; fallback must be a string
     if pool:
         random.shuffle(pool)
         for sline in pool:
@@ -177,7 +197,6 @@ def unique_line(pool, used_set, fallback):
     return base + pad
 
 def entry_epoch_seconds(entry) -> int | None:
-    # feedparser returns time.struct_time in published_parsed / updated_parsed
     t = getattr(entry, "published_parsed", None) or getattr(entry, "updated_parsed", None)
     if not t:
         return None
@@ -196,7 +215,10 @@ def parse_feed(source: str, url: str):
     for e in getattr(feed, "entries", [])[:80]:
         title = clean(getattr(e, "title", ""))
         link = getattr(e, "link", "")
+
         if not title or not link:
+            continue
+        if is_promo(title):
             continue
 
         epoch = entry_epoch_seconds(e)
@@ -253,11 +275,10 @@ def filter_by_freshness(items, section_name: str, now_utc: datetime):
         if dt >= cutoff:
             fresh.append(it)
 
-    # For Breaking/Top, don't allow unknown-dated items (too risky / looks stale)
+    # For Breaking/Top, do not allow unknown-dated items (prevents “2019/2023 evergreen” weirdness)
     if section_name in ("Breaking", "Top"):
         return fresh
 
-    # For other sections: keep unknown-dated items, but push them to the end
     return fresh + unknown
 
 def round_robin(items):
@@ -337,8 +358,7 @@ def pick_section_items(raw_items, used_urls, used_sublines, section_name, now_ut
             break
         if it["url"] in used_urls:
             continue
-        src = it["source"]
-        if per_source.get(src, 0) >= MAX_PER_SOURCE_PER_SECTION:
+        if per_source.get(it["source"], 0) >= MAX_PER_SOURCE_PER_SECTION:
             continue
 
         add_item(it, is_first=(len(section_items) == 0))
