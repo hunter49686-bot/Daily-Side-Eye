@@ -3,6 +3,7 @@ name: Update headlines.json
 on:
   workflow_dispatch:
   schedule:
+    # Every 15 minutes (keep this if you want; you can change later)
     - cron: "*/15 * * * *"
 
 concurrency:
@@ -18,8 +19,10 @@ jobs:
     timeout-minutes: 8
 
     steps:
-      - name: Checkout
+      - name: Checkout (full history)
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -35,16 +38,47 @@ jobs:
         run: |
           python update_headlines.py
 
-      - name: Commit & push if changed
+      # IMPORTANT:
+      # We commit headlines.json to a separate branch ("data") so Pages does NOT rebuild every 15 min.
+      - name: Commit headlines.json to data branch (only if changed)
+        shell: bash
         run: |
+          set -euo pipefail
+
           git config user.name "dailysideeye-bot"
           git config user.email "actions@users.noreply.github.com"
 
-          if git diff --quiet; then
-            echo "No changes to commit."
+          # Ensure file exists
+          test -f headlines.json
+
+          # Stash generated file content
+          mkdir -p /tmp/dse
+          cp headlines.json /tmp/dse/headlines.json
+
+          # Create/switch to data branch (from current HEAD, doesn't matter)
+          git checkout -B data
+
+          # Restore only the generated file into the data branch working tree
+          cp /tmp/dse/headlines.json ./headlines.json
+
+          # If no change, stop
+          if git diff --quiet -- headlines.json; then
+            echo "No changes to headlines.json."
             exit 0
           fi
 
           git add headlines.json
           git commit -m "Update headlines.json"
-          git push
+
+          # Push with a small retry loop (handles transient GitHub hiccups)
+          for i in 1 2 3 4 5; do
+            if git push -u origin data; then
+              echo "Pushed to data branch."
+              exit 0
+            fi
+            echo "Push failed (attempt $i). Retrying in 10s..."
+            sleep 10
+          done
+
+          echo "Push failed after retries."
+          exit 1
