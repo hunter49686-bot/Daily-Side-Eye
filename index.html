@@ -10,6 +10,14 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
 
+  <!-- ✅ RealFaviconGenerator output -->
+  <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="shortcut icon" href="/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-title" content="Daily Side-Eye" />
+  <link rel="manifest" href="/site.webmanifest" />
+
   <style>
     :root{
       --ink:#111;
@@ -35,7 +43,7 @@
     .btn:active{transform:translateY(1px)}
     .error{margin:10px 0;color:#900;font-size:13px;display:none}
 
-    /* ✅ 3 columns on desktop, 2 on medium, 1 on mobile — appearance of sections unchanged */
+    /* 3 columns on desktop, 2 on medium, 1 on mobile */
     .columns{display:grid;grid-template-columns:1fr 1fr 1fr;gap:28px;align-items:start}
     @media(max-width:1100px){.columns{grid-template-columns:1fr 1fr}}
     @media(max-width:900px){.columns{grid-template-columns:1fr;gap:22px}}
@@ -50,7 +58,7 @@
     .story{margin-bottom:18px}
     .story a{
       color:var(--ink);text-decoration:none;
-      font-weight:700; /* bold headlines */
+      font-weight:700;
       font-size:18px;line-height:1.25
     }
     .story a:hover{text-decoration:underline}
@@ -92,6 +100,6 @@
   </div>
 
   <!-- Bump this version whenever you change app.js -->
-  <script src="./app.js?v=20260202f" defer></script>
+  <script src="./app.js?v=20260202g" defer></script>
 </body>
 </html>
