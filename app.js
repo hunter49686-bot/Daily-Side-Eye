@@ -1,9 +1,7 @@
 (() => {
-  // ===== SETTINGS =====
-  const REFRESH_EVERY_MS = 5 * 60 * 1000; // check headlines.json periodically
+  const REFRESH_EVERY_MS = 5 * 60 * 1000;
   const HISTORY_DAYS = 7;
 
-  // Local storage keys (per-device)
   const HISTORY_KEY = "dse_history_v3";
   const CLICKS_KEY  = "dse_clicks_v3";
 
@@ -16,7 +14,6 @@
     developing: "Developing"
   };
 
-  // ===== helpers =====
   const qs = (id) => document.getElementById(id);
   const s = (x) => (x ?? "").toString().trim();
 
@@ -90,7 +87,6 @@
     return out;
   }
 
-  // ===== rendering (XSS-safe) =====
   function renderStory(item){
     const div = document.createElement("div");
     div.className = "story" + (item.feature ? " feature" : "");
@@ -160,20 +156,37 @@
     return sec;
   }
 
-  // ===== algorithmic sections =====
-  function pickNothingBurger(todayItems){
-    const LOW = [
-      "celebrity","royal","netflix","tiktok","iphone","android","review","tips","recipe",
-      "fashion","beauty","dating","viral","meme","trend","podcast","travel","diet",
-      "coffee","sleep","study","app","streaming"
-    ];
-    const TRAGIC = /(dead|dies|killed|death|shooting|attack|war|bomb|explosion|terror|crash|earthquake|wildfire|flood|victim|injured)/i;
+  function findSection(data, exactName){
+    for (const col of (data?.columns || [])){
+      for (const sec of (col?.sections || [])){
+        if (s(sec?.name) === exactName) return sec;
+      }
+    }
+    return null;
+  }
 
+  function mapItems(sec){
+    return (sec?.items || []).map(it => ({
+      title: s(it?.title),
+      url: s(it?.url),
+      source: s(it?.source),
+      snark: s(it?.snark),
+      feature: !!it?.feature,
+      badge: s(it?.badge || "")
+    })).filter(it => it.url && it.title);
+  }
+
+  function stripBadgesAndFeatures(items){
+    return (items || []).filter(Boolean).map(it => ({ ...it, badge:"", feature:false }));
+  }
+
+  function pickNothingBurger(todayItems){
+    const LOW = ["celebrity","royal","netflix","tiktok","iphone","android","review","tips","recipe","fashion","beauty","dating","viral","meme","trend","podcast","travel","diet","coffee","sleep","study","app","streaming"];
+    const TRAGIC = /(dead|dies|killed|death|shooting|attack|war|bomb|explosion|terror|crash|earthquake|wildfire|flood|victim|injured)/i;
     const candidates = (todayItems || []).filter(it => {
       const t = (it?.title || "").toLowerCase();
       return it?.url && !TRAGIC.test(t) && LOW.some(k => t.includes(k));
     });
-
     return candidates[0] || (todayItems || []).find(x => x && x.url && !x.feature) || (todayItems || [])[0] || null;
   }
 
@@ -189,7 +202,6 @@
       if (!it?.url) continue;
       counts.set(it.url, (counts.get(it.url) || 0) + 1);
     }
-
     return [...counts.entries()]
       .sort((a,b) => b[1]-a[1])
       .slice(0, 7)
@@ -198,12 +210,7 @@
   }
 
   function normalizeKey(title){
-    const t = (title || "").toLowerCase()
-      .replace(/&/g, " and ")
-      .replace(/[^a-z0-9\s]/g, " ")
-      .replace(/\s+/g, " ")
-      .trim();
-
+    const t = (title || "").toLowerCase().replace(/&/g, " and ").replace(/[^a-z0-9\s]/g, " ").replace(/\s+/g, " ").trim();
     const stop = new Set(["the","a","an","to","of","in","on","for","and","or","with","as","at","by","from","into","after","before","over","under","is","are","was","were"]);
     const parts = t.split(" ").filter(w => w.length >= 4 && !stop.has(w));
     return parts.slice(0, 12).join(" ");
@@ -211,7 +218,6 @@
 
   function findSameStoryPair(todayItems){
     const items = (todayItems || []).filter(it => it && it.title && it.url && it.source);
-
     const tokens = items.map(it => {
       const key = normalizeKey(it.title);
       const set = new Set(key.split(" ").filter(Boolean));
@@ -242,43 +248,9 @@
 
     if (!best) return null;
 
-    return best.map(x => ({
-      ...x,
-      badge: "",
-      feature: false,
-      snark: ""
-    }));
+    return best.map(x => ({ ...x, badge:"", feature:false, snark:"" }));
   }
 
-  function findSection(data, exactName){
-    for (const col of (data?.columns || [])){
-      for (const sec of (col?.sections || [])){
-        if (s(sec?.name) === exactName) return sec;
-      }
-    }
-    return null;
-  }
-
-  function mapItems(sec){
-    return (sec?.items || []).map(it => ({
-      title: s(it?.title),
-      url: s(it?.url),
-      source: s(it?.source),
-      snark: s(it?.snark),
-      feature: !!it?.feature,
-      badge: s(it?.badge || "")
-    })).filter(it => it.url && it.title);
-  }
-
-  function stripBadgesAndFeatures(items){
-    return (items || []).filter(Boolean).map(it => ({
-      ...it,
-      badge: "",
-      feature: false
-    }));
-  }
-
-  // ===== layout (3 columns) =====
   function render3Cols(data){
     const colsEl = qs("columns");
     if (!colsEl) return;
@@ -286,7 +258,6 @@
 
     const todayItems = uniqByUrl(flattenAllItems(data));
 
-    // Persist 7-day history (per device)
     let history = pruneHistory(getLS(HISTORY_KEY, []));
     const existing = new Set(history.map(h => h.url));
 
@@ -309,16 +280,11 @@
     const col2 = document.createElement("div");
     const col3 = document.createElement("div");
 
-    // Column 1: Breaking + Developing + Nothing Burger
     const breakingSec = findSection(data, SPECIAL_NAMES.breaking);
-    if (breakingSec){
-      col1.appendChild(renderSection(SPECIAL_NAMES.breaking, mapItems(breakingSec), { breaking:true }));
-    }
+    if (breakingSec) col1.appendChild(renderSection(SPECIAL_NAMES.breaking, mapItems(breakingSec), { breaking:true }));
 
     const developingSec = findSection(data, SPECIAL_NAMES.developing);
-    if (developingSec){
-      col1.appendChild(renderSection(SPECIAL_NAMES.developing, mapItems(developingSec)));
-    }
+    if (developingSec) col1.appendChild(renderSection(SPECIAL_NAMES.developing, mapItems(developingSec)));
 
     col1.appendChild(renderSection(
       SPECIAL_NAMES.burger,
@@ -326,18 +292,66 @@
       { note: burgerPick ? "Auto-picked: low-stakes + tragedy-filtered." : "No suitable pick found today." }
     ));
 
-    // Column 2: Business + World / Tech / Weird
     const businessSec = findSection(data, "Business");
-    if (businessSec){
-      col2.appendChild(renderSection("Business", mapItems(businessSec)));
-    }
+    if (businessSec) col2.appendChild(renderSection("Business", mapItems(businessSec)));
 
     const wtwSec = findSection(data, "World / Tech / Weird");
-    if (wtwSec){
-      col2.appendChild(renderSection("World / Tech / Weird", mapItems(wtwSec)));
-    }
+    if (wtwSec) col2.appendChild(renderSection("World / Tech / Weird", mapItems(wtwSec)));
 
-    // Column 3: Missed + Same Story + Week
-    col3.appendChild(renderSection(
-      SPECIAL_NAMES.missed,
-      missedPick ? stripBadgesAndFeat
+    col3.appendChild(renderSection(SPECIAL_NAMES.missed, missedPick ? stripBadgesAndFeatures([missedPick]) : [], { note:"" }));
+    col3.appendChild(renderSection(SPECIAL_NAMES.same, samePair ? samePair : [], { note: samePair ? "" : "No clean pair found today." }));
+    col3.appendChild(renderSection(SPECIAL_NAMES.week, stripBadgesAndFeatures(weekList), { note:"" }));
+
+    colsEl.appendChild(col1);
+    colsEl.appendChild(col2);
+    colsEl.appendChild(col3);
+  }
+
+  async function fetchHeadlinesNoCache(){
+    const url = "./headlines.json?ts=" + Date.now();
+    const r = await fetch(url, { cache: "no-store" });
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    return await r.json();
+  }
+
+  let lastGeneratedUTC = null;
+
+  async function refresh({ force=false } = {}){
+    try{
+      clearError();
+      const data = await fetchHeadlinesNoCache();
+
+      const gen = s(data?.generated_utc);
+      if (!force && gen && gen === lastGeneratedUTC) return;
+      lastGeneratedUTC = gen || lastGeneratedUTC;
+
+      // ✅ THIS is the critical part: update ONLY the text span so the icon stays.
+      const nameEl = qs("siteNameText");
+      if (nameEl && data?.site?.name) nameEl.textContent = data.site.name;
+
+      const tagEl = qs("siteTagline");
+      if (tagEl && data?.site?.tagline) tagEl.textContent = data.site.tagline;
+
+      const updEl = qs("updated");
+      if (updEl){
+        updEl.textContent = data?.generated_utc
+          ? "Last updated: " + new Date(data.generated_utc).toLocaleString() + (force ? " • Updated ✓" : "")
+          : "";
+      }
+
+      render3Cols(data);
+    } catch (e){
+      showError("Load error: " + (e?.message || String(e)));
+      const updEl = qs("updated");
+      if (updEl) updEl.textContent = "Unable to load headlines right now.";
+      const colsEl = qs("columns");
+      if (colsEl) colsEl.innerHTML = "";
+    }
+  }
+
+  const btn = qs("hardRefreshBtn");
+  if (btn) btn.addEventListener("click", () => refresh({ force:true }));
+
+  refresh();
+  setInterval(() => refresh({ force:false }), REFRESH_EVERY_MS);
+})();
