@@ -22,11 +22,13 @@
 
   function showError(msg){
     const el = qs("err");
+    if (!el) return;
     el.style.display = "block";
     el.textContent = msg;
   }
   function clearError(){
     const el = qs("err");
+    if (!el) return;
     el.style.display = "none";
     el.textContent = "";
   }
@@ -148,7 +150,6 @@
       sec.appendChild(renderStory(it));
     }
 
-    // Only show notes when explicitly desired (we will not use notes for Missed/Week)
     if (note){
       const n = document.createElement("div");
       n.className = "note";
@@ -209,7 +210,6 @@
   }
 
   function findSameStoryPair(todayItems){
-    // Find 2 items, different sources, high overlap on normalized tokens.
     const items = (todayItems || []).filter(it => it && it.title && it.url && it.source);
 
     const tokens = items.map(it => {
@@ -242,7 +242,6 @@
 
     if (!best) return null;
 
-    // Keep this section dry: no snark/badges/features on the pair
     return best.map(x => ({
       ...x,
       badge: "",
@@ -282,6 +281,7 @@
   // ===== layout (3 columns) =====
   function render3Cols(data){
     const colsEl = qs("columns");
+    if (!colsEl) return;
     colsEl.innerHTML = "";
 
     const todayItems = uniqByUrl(flattenAllItems(data));
@@ -326,7 +326,7 @@
       { note: burgerPick ? "Auto-picked: low-stakes + tragedy-filtered." : "No suitable pick found today." }
     ));
 
-    // Column 2: Business + World / Tech / Weird (Top removed)
+    // Column 2: Business + World / Tech / Weird
     const businessSec = findSection(data, "Business");
     if (businessSec){
       col2.appendChild(renderSection("Business", mapItems(businessSec)));
@@ -340,65 +340,4 @@
     // Column 3: Missed + Same Story + Week
     col3.appendChild(renderSection(
       SPECIAL_NAMES.missed,
-      missedPick ? stripBadgesAndFeatures([missedPick]) : [],
-      { note: "" } // ✅ removed
-    ));
-
-    col3.appendChild(renderSection(
-      SPECIAL_NAMES.same,
-      samePair ? samePair : [],
-      { note: samePair ? "" : "No clean pair found today." }
-    ));
-
-    col3.appendChild(renderSection(
-      SPECIAL_NAMES.week,
-      stripBadgesAndFeatures(weekList),
-      { note: "" } // ✅ removed
-    ));
-
-    colsEl.appendChild(col1);
-    colsEl.appendChild(col2);
-    colsEl.appendChild(col3);
-  }
-
-  // ===== loading =====
-  async function fetchHeadlinesNoCache(){
-    const url = "./headlines.json?ts=" + Date.now();
-    const r = await fetch(url, { cache: "no-store" });
-    if (!r.ok) throw new Error("HTTP " + r.status);
-    return await r.json();
-  }
-
-  let lastGeneratedUTC = null;
-
-  async function refresh({ force=false } = {}){
-    try{
-      clearError();
-      const data = await fetchHeadlinesNoCache();
-
-      const gen = s(data?.generated_utc);
-      if (!force && gen && gen === lastGeneratedUTC) return;
-      lastGeneratedUTC = gen || lastGeneratedUTC;
-
-      if (data?.site?.name) qs("siteName").textContent = data.site.name;
-      if (data?.site?.tagline) qs("siteTagline").textContent = data.site.tagline;
-
-      qs("updated").textContent = data?.generated_utc
-        ? "Last updated: " + new Date(data.generated_utc).toLocaleString() + (force ? " • Updated ✓" : "")
-        : "";
-
-      render3Cols(data);
-
-    } catch (e){
-      showError("Load error: " + (e?.message || String(e)));
-      qs("updated").textContent = "Unable to load headlines right now.";
-      qs("columns").innerHTML = "";
-    }
-  }
-
-  // Update button: force fetch + rerender (no full reload)
-  qs("hardRefreshBtn")?.addEventListener("click", () => refresh({ force:true }));
-
-  refresh();
-  setInterval(() => refresh({ force:false }), REFRESH_EVERY_MS);
-})();
+      missedPick ? stripBadgesAndFeat
