@@ -24,7 +24,6 @@ USER_AGENT = (
 # =====================
 MAX_PER_SOURCE_PER_SECTION = 3
 
-# Per-section caps (Breaking should feel like Breaking)
 MAX_ITEMS_BY_SECTION = {
     "Breaking": 9,
     "Top": 16,
@@ -32,7 +31,6 @@ MAX_ITEMS_BY_SECTION = {
     "World / Tech / Weird": 14,
 }
 
-# Freshness windows (days)
 FRESHNESS_DAYS_BY_SECTION = {
     "Breaking": 3,
     "Top": 7,
@@ -40,7 +38,6 @@ FRESHNESS_DAYS_BY_SECTION = {
     "World / Tech / Weird": 21,
 }
 
-# Ensure balance: if available, include at least 1 from these sources per section
 BALANCE_TARGETS = [
     "Fox News",
     "New York Post",
@@ -196,7 +193,7 @@ def unique_line(pool, used_set, fallback):
     used_set.add(base + pad)
     return base + pad
 
-def entry_epoch_seconds(entry) -> int | None:
+def entry_epoch_seconds(entry):
     t = getattr(entry, "published_parsed", None) or getattr(entry, "updated_parsed", None)
     if not t:
         return None
@@ -234,7 +231,7 @@ def parse_feed(source: str, url: str):
         })
     return items
 
-def dedupe_local_by_url(items):
+def dedupe_by_url(items):
     seen = set()
     out = []
     for it in items:
@@ -245,14 +242,14 @@ def dedupe_local_by_url(items):
         out.append(it)
     return out
 
-def dedupe_local_by_title(items):
+def dedupe_by_title(items):
     seen = set()
     out = []
     for it in items:
-        key = norm_title_key(it.get("title", ""))
-        if not key or key in seen:
+        k = norm_title_key(it.get("title", ""))
+        if not k or k in seen:
             continue
-        seen.add(key)
+        seen.add(k)
         out.append(it)
     return out
 
@@ -275,10 +272,11 @@ def filter_by_freshness(items, section_name: str, now_utc: datetime):
         if dt >= cutoff:
             fresh.append(it)
 
-    # For Breaking/Top, do not allow unknown-dated items (prevents “2019/2023 evergreen” weirdness)
+    # For Breaking/Top: exclude unknown-dated items to avoid stale/evergreen weirdness
     if section_name in ("Breaking", "Top"):
         return fresh
 
+    # For other sections: allow unknown-dated items but push them later
     return fresh + unknown
 
 def round_robin(items):
@@ -304,8 +302,8 @@ def round_robin(items):
 def pick_section_items(raw_items, used_urls, used_sublines, section_name, now_utc):
     max_items = MAX_ITEMS_BY_SECTION.get(section_name, 14)
 
-    raw_items = dedupe_local_by_url(raw_items)
-    raw_items = dedupe_local_by_title(raw_items)
+    raw_items = dedupe_by_url(raw_items)
+    raw_items = dedupe_by_title(raw_items)
     raw_items = filter_by_freshness(raw_items, section_name, now_utc)
     raw_items = round_robin(raw_items)
 
@@ -333,7 +331,7 @@ def pick_section_items(raw_items, used_urls, used_sublines, section_name, now_ut
         used_urls.add(it["url"])
         per_source[it["source"]] = per_source.get(it["source"], 0) + 1
 
-    # Step 1: balance targets
+    # Step 1: balance targets first (only if available & fresh)
     for target in BALANCE_TARGETS:
         if len(section_items) >= max_items:
             break
@@ -352,7 +350,7 @@ def pick_section_items(raw_items, used_urls, used_sublines, section_name, now_ut
 
         add_item(picked, is_first=(len(section_items) == 0))
 
-    # Step 2: fill normally
+    # Step 2: fill remaining
     for it in raw_items:
         if len(section_items) >= max_items:
             break
@@ -360,7 +358,6 @@ def pick_section_items(raw_items, used_urls, used_sublines, section_name, now_ut
             continue
         if per_source.get(it["source"], 0) >= MAX_PER_SOURCE_PER_SECTION:
             continue
-
         add_item(it, is_first=(len(section_items) == 0))
 
     return section_items
