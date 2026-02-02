@@ -148,6 +148,7 @@
       sec.appendChild(renderStory(it));
     }
 
+    // Only show notes when explicitly desired (we will not use notes for Missed/Week)
     if (note){
       const n = document.createElement("div");
       n.className = "note";
@@ -225,7 +226,6 @@
         const a = tokens[i], b = tokens[j];
         if (a.it.source === b.it.source) continue;
 
-        // quick: require at least 2 shared tokens
         let shared = 0;
         for (const w of a.set) if (b.set.has(w)) shared++;
         if (shared < 2) continue;
@@ -242,12 +242,12 @@
 
     if (!best) return null;
 
-    // Make this section "dry": remove snark/badges/features for the pair only
+    // Keep this section dry: no snark/badges/features on the pair
     return best.map(x => ({
       ...x,
       badge: "",
       feature: false,
-      snark: "" // intentional
+      snark: ""
     }));
   }
 
@@ -341,19 +341,19 @@
     col3.appendChild(renderSection(
       SPECIAL_NAMES.missed,
       missedPick ? stripBadgesAndFeatures([missedPick]) : [],
-      { note: missedPick ? "From your unclicked items (this device only)." : "No history yet (or you clicked everything)." }
+      { note: "" } // ✅ removed
     ));
 
     col3.appendChild(renderSection(
       SPECIAL_NAMES.same,
       samePair ? samePair : [],
-      { note: samePair ? "Two outlets on the same event." : "No clean pair found today." }
+      { note: samePair ? "" : "No clean pair found today." }
     ));
 
     col3.appendChild(renderSection(
       SPECIAL_NAMES.week,
       stripBadgesAndFeatures(weekList),
-      { note: weekList.length ? "Top recurring items from your last 7 days (this device only)." : "No 7-day history yet." }
+      { note: "" } // ✅ removed
     ));
 
     colsEl.appendChild(col1);
