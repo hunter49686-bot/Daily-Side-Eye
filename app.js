@@ -1,16 +1,19 @@
 (() => {
   // ===== SETTINGS =====
-  const REFRESH_EVERY_MS = 5 * 60 * 1000;
+  const REFRESH_EVERY_MS = 5 * 60 * 1000; // check headlines.json periodically
   const HISTORY_DAYS = 7;
 
-  const HISTORY_KEY = "dse_history_v2";
-  const CLICKS_KEY  = "dse_clicks_v2";
+  // Local storage keys (per-device)
+  const HISTORY_KEY = "dse_history_v3";
+  const CLICKS_KEY  = "dse_clicks_v3";
 
   const SPECIAL_NAMES = {
     burger: "Nothing Burger of the Day",
     missed: "A Line Most People Missed",
     week:   "Week in Review",
-    breaking: "Breaking"
+    same:   "Same Story, Different Outlet",
+    breaking: "Breaking",
+    developing: "Developing"
   };
 
   // ===== helpers =====
@@ -77,8 +80,7 @@
             snark: s(it.snark),
             feature: !!it.feature,
             badge: s(it.badge || ""),
-            section: s(sec.name || ""),
-            published_utc: s(it.published_utc || "")
+            section: s(sec.name || "")
           });
         }
       }
@@ -91,14 +93,11 @@
     const div = document.createElement("div");
     div.className = "story" + (item.feature ? " feature" : "");
 
-    const head = document.createElement("div");
-    head.className = "story-head";
-
     if (item.badge) {
       const b = document.createElement("span");
       b.className = "badge";
       b.textContent = item.badge;
-      head.appendChild(b);
+      div.appendChild(b);
     }
 
     const a = document.createElement("a");
@@ -107,16 +106,14 @@
     a.rel = "noopener noreferrer";
     a.textContent = item.title;
     a.addEventListener("click", () => trackClick(item.url));
-    head.appendChild(a);
+    div.appendChild(a);
 
     if (item.source) {
       const src = document.createElement("span");
       src.className = "source";
-      src.textContent = `• ${item.source}`;
-      head.appendChild(src);
+      src.textContent = `(${item.source})`;
+      div.appendChild(src);
     }
-
-    div.appendChild(head);
 
     if (item.snark) {
       const sn = document.createElement("div");
@@ -198,6 +195,62 @@
       .filter(Boolean);
   }
 
+  function normalizeKey(title){
+    const t = (title || "").toLowerCase()
+      .replace(/&/g, " and ")
+      .replace(/[^a-z0-9\s]/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+
+    const stop = new Set(["the","a","an","to","of","in","on","for","and","or","with","as","at","by","from","into","after","before","over","under","is","are","was","were"]);
+    const parts = t.split(" ").filter(w => w.length >= 4 && !stop.has(w));
+    return parts.slice(0, 12).join(" ");
+  }
+
+  function findSameStoryPair(todayItems){
+    // Find 2 items, different sources, high overlap on normalized tokens.
+    const items = (todayItems || []).filter(it => it && it.title && it.url && it.source);
+
+    const tokens = items.map(it => {
+      const key = normalizeKey(it.title);
+      const set = new Set(key.split(" ").filter(Boolean));
+      return { it, set };
+    });
+
+    let best = null;
+    let bestScore = 0;
+
+    for (let i=0; i<tokens.length; i++){
+      for (let j=i+1; j<tokens.length; j++){
+        const a = tokens[i], b = tokens[j];
+        if (a.it.source === b.it.source) continue;
+
+        // quick: require at least 2 shared tokens
+        let shared = 0;
+        for (const w of a.set) if (b.set.has(w)) shared++;
+        if (shared < 2) continue;
+
+        const union = a.set.size + b.set.size - shared;
+        const score = union > 0 ? (shared / union) : 0;
+
+        if (score > bestScore){
+          bestScore = score;
+          best = [a.it, b.it];
+        }
+      }
+    }
+
+    if (!best) return null;
+
+    // Make this section "dry": remove snark/badges/features for the pair only
+    return best.map(x => ({
+      ...x,
+      badge: "",
+      feature: false,
+      snark: "" // intentional
+    }));
+  }
+
   function findSection(data, exactName){
     for (const col of (data?.columns || [])){
       for (const sec of (col?.sections || [])){
@@ -205,6 +258,17 @@
       }
     }
     return null;
+  }
+
+  function mapItems(sec){
+    return (sec?.items || []).map(it => ({
+      title: s(it?.title),
+      url: s(it?.url),
+      source: s(it?.source),
+      snark: s(it?.snark),
+      feature: !!it?.feature,
+      badge: s(it?.badge || "")
+    })).filter(it => it.url && it.title);
   }
 
   function stripBadgesAndFeatures(items){
@@ -215,15 +279,14 @@
     }));
   }
 
-  // ===== layout (2 columns, stable) =====
-  function renderWithAlgorithmicExtras(data){
+  // ===== layout (3 columns) =====
+  function render3Cols(data){
     const colsEl = qs("columns");
     colsEl.innerHTML = "";
 
-    // defensive: never allow malformed items to break the page
     const todayItems = uniqByUrl(flattenAllItems(data));
 
-    // Update & persist 7-day history (per device)
+    // Persist 7-day history (per device)
     let history = pruneHistory(getLS(HISTORY_KEY, []));
     const existing = new Set(history.map(h => h.url));
 
@@ -240,24 +303,21 @@
     const burgerPick = pickNothingBurger(todayItems);
     const missedPick = pickMostMissed(history);
     const weekList   = buildWeekInReview(history);
+    const samePair   = findSameStoryPair(todayItems);
 
     const col1 = document.createElement("div");
     const col2 = document.createElement("div");
+    const col3 = document.createElement("div");
 
+    // Column 1: Breaking + Developing + Nothing Burger
     const breakingSec = findSection(data, SPECIAL_NAMES.breaking);
-    if (breakingSec) {
-      col1.appendChild(renderSection(
-        SPECIAL_NAMES.breaking,
-        (breakingSec.items || []).map(it => ({
-          title: s(it?.title),
-          url: s(it?.url),
-          source: s(it?.source),
-          snark: s(it?.snark),
-          feature: !!it?.feature,
-          badge: s(it?.badge || "")
-        })).filter(it => it.url && it.title),
-        { breaking:true }
-      ));
+    if (breakingSec){
+      col1.appendChild(renderSection(SPECIAL_NAMES.breaking, mapItems(breakingSec), { breaking:true }));
+    }
+
+    const developingSec = findSection(data, SPECIAL_NAMES.developing);
+    if (developingSec){
+      col1.appendChild(renderSection(SPECIAL_NAMES.developing, mapItems(developingSec)));
     }
 
     col1.appendChild(renderSection(
@@ -266,41 +326,31 @@
       { note: burgerPick ? "Auto-picked: low-stakes + tragedy-filtered." : "No suitable pick found today." }
     ));
 
-    // Column 2: JSON sections except Breaking (and not duplicating special names)
-    const skip = new Set([
-      SPECIAL_NAMES.breaking.toLowerCase(),
-      SPECIAL_NAMES.burger.toLowerCase(),
-      SPECIAL_NAMES.missed.toLowerCase(),
-      SPECIAL_NAMES.week.toLowerCase()
-    ]);
-
-    for (const col of (data?.columns || [])){
-      for (const sec of (col?.sections || [])){
-        const name = s(sec?.name);
-        if (!name) continue;
-        if (skip.has(name.toLowerCase())) continue;
-
-        const items = (sec?.items || []).map(it => ({
-          title: s(it?.title),
-          url: s(it?.url),
-          source: s(it?.source),
-          snark: s(it?.snark),
-          feature: !!it?.feature,
-          badge: s(it?.badge || "")
-        })).filter(it => it.url && it.title);
-
-        col2.appendChild(renderSection(name, items));
-      }
+    // Column 2: Business + World / Tech / Weird (Top removed)
+    const businessSec = findSection(data, "Business");
+    if (businessSec){
+      col2.appendChild(renderSection("Business", mapItems(businessSec)));
     }
 
-    // specials at bottom of column 2 (no BREAK badge)
-    col2.appendChild(renderSection(
+    const wtwSec = findSection(data, "World / Tech / Weird");
+    if (wtwSec){
+      col2.appendChild(renderSection("World / Tech / Weird", mapItems(wtwSec)));
+    }
+
+    // Column 3: Missed + Same Story + Week
+    col3.appendChild(renderSection(
       SPECIAL_NAMES.missed,
       missedPick ? stripBadgesAndFeatures([missedPick]) : [],
       { note: missedPick ? "From your unclicked items (this device only)." : "No history yet (or you clicked everything)." }
     ));
 
-    col2.appendChild(renderSection(
+    col3.appendChild(renderSection(
+      SPECIAL_NAMES.same,
+      samePair ? samePair : [],
+      { note: samePair ? "Two outlets on the same event." : "No clean pair found today." }
+    ));
+
+    col3.appendChild(renderSection(
       SPECIAL_NAMES.week,
       stripBadgesAndFeatures(weekList),
       { note: weekList.length ? "Top recurring items from your last 7 days (this device only)." : "No 7-day history yet." }
@@ -308,9 +358,10 @@
 
     colsEl.appendChild(col1);
     colsEl.appendChild(col2);
+    colsEl.appendChild(col3);
   }
 
-  // ===== loading / updates =====
+  // ===== loading =====
   async function fetchHeadlinesNoCache(){
     const url = "./headlines.json?ts=" + Date.now();
     const r = await fetch(url, { cache: "no-store" });
@@ -319,12 +370,6 @@
   }
 
   let lastGeneratedUTC = null;
-
-  function setUpdatedText(data, statusText=""){
-    const gen = s(data?.generated_utc);
-    const base = gen ? ("Last updated: " + new Date(gen).toLocaleString()) : "";
-    qs("updated").textContent = statusText ? (base + " • " + statusText) : base;
-  }
 
   async function refresh({ force=false } = {}){
     try{
@@ -338,15 +383,11 @@
       if (data?.site?.name) qs("siteName").textContent = data.site.name;
       if (data?.site?.tagline) qs("siteTagline").textContent = data.site.tagline;
 
-      setUpdatedText(data, force ? "Updated ✓" : "");
+      qs("updated").textContent = data?.generated_utc
+        ? "Last updated: " + new Date(data.generated_utc).toLocaleString() + (force ? " • Updated ✓" : "")
+        : "";
 
-      try {
-        renderWithAlgorithmicExtras(data);
-      } catch (err) {
-        console.error("Render failed:", err);
-        showError("Render error. Tap Update to retry.");
-        qs("columns").innerHTML = "";
-      }
+      render3Cols(data);
 
     } catch (e){
       showError("Load error: " + (e?.message || String(e)));
@@ -356,9 +397,7 @@
   }
 
   // Update button: force fetch + rerender (no full reload)
-  qs("hardRefreshBtn")?.addEventListener("click", async () => {
-    await refresh({ force:true });
-  });
+  qs("hardRefreshBtn")?.addEventListener("click", () => refresh({ force:true }));
 
   refresh();
   setInterval(() => refresh({ force:false }), REFRESH_EVERY_MS);
