@@ -2,7 +2,8 @@ import json
 import random
 import re
 import socket
-from datetime import datetime, timezone
+import time
+from datetime import datetime, timezone, timedelta
 
 import feedparser
 
@@ -21,8 +22,23 @@ USER_AGENT = (
 # =====================
 # TUNING
 # =====================
-MAX_ITEMS_PER_SECTION = 18
 MAX_PER_SOURCE_PER_SECTION = 3
+
+# Per-section caps (Breaking should feel like Breaking)
+MAX_ITEMS_BY_SECTION = {
+    "Breaking": 8,
+    "Top": 16,
+    "Business": 14,
+    "World / Tech / Weird": 14,
+}
+
+# Freshness windows (days)
+FRESHNESS_DAYS_BY_SECTION = {
+    "Breaking": 3,
+    "Top": 7,
+    "Business": 14,
+    "World / Tech / Weird": 14,
+}
 
 # Ensure balance: if available, we will include at least 1 from these sources per section
 BALANCE_TARGETS = [
@@ -37,17 +53,12 @@ BALANCE_TARGETS = [
 # FEEDS
 # =====================
 BREAKING_FEEDS = [
-    # Center / Left / Intl
     ("BBC Front Page", "https://feeds.bbci.co.uk/news/rss.xml"),
     ("CNN Top Stories", "http://rss.cnn.com/rss/cnn_topstories.rss"),
     ("NPR News", "https://feeds.npr.org/1001/rss.xml"),
     ("The Guardian World", "https://www.theguardian.com/world/rss"),
-
-    # Right-leaning
     ("Fox News", "https://feeds.foxnews.com/foxnews/latest"),
     ("New York Post", "https://nypost.com/feed/"),
-
-    # Cross-spectrum aggregator
     ("RealClearPolitics", "https://www.realclearpolitics.com/index.xml"),
 ]
 
@@ -56,7 +67,6 @@ TOP_FEEDS = [
     ("CNN Top Stories", "http://rss.cnn.com/rss/cnn_topstories.rss"),
     ("NPR News", "https://feeds.npr.org/1001/rss.xml"),
     ("The Guardian UK", "https://www.theguardian.com/uk/rss"),
-
     ("Fox News", "https://feeds.foxnews.com/foxnews/latest"),
     ("New York Post", "https://nypost.com/feed/"),
     ("RealClearPolitics", "https://www.realclearpolitics.com/index.xml"),
@@ -67,7 +77,6 @@ BUSINESS_FEEDS = [
     ("CNN Business", "http://rss.cnn.com/rss/money_latest.rss"),
     ("NPR Business", "https://feeds.npr.org/1006/rss.xml"),
     ("The Guardian Business", "https://www.theguardian.com/business/rss"),
-
     ("Washington Examiner", "https://www.washingtonexaminer.com/rss.xml"),
     ("National Review", "https://www.nationalreview.com/feed/"),
 ]
@@ -76,7 +85,6 @@ WORLD_TECH_WEIRD_FEEDS = [
     ("BBC Tech", "https://feeds.bbci.co.uk/news/technology/rss.xml"),
     ("NPR Technology", "https://feeds.npr.org/1019/rss.xml"),
     ("The Guardian Tech", "https://www.theguardian.com/technology/rss"),
-
     ("National Review", "https://www.nationalreview.com/feed/"),
     ("RealClearPolitics", "https://www.realclearpolitics.com/index.xml"),
 ]
@@ -133,6 +141,13 @@ TRAGEDY_KEYWORDS = [
 def clean(text: str) -> str:
     return re.sub(r"\s+", " ", text or "").strip()
 
+def norm_title_key(title: str) -> str:
+    # aggressive-ish, but stable: removes punctuation, collapses whitespace, lowercase
+    t = clean(title).lower()
+    t = re.sub(r"[^\w\s]", "", t)
+    t = re.sub(r"\s+", " ", t).strip()
+    return t[:160]
+
 def is_tragic(title: str) -> bool:
     t = (title or "").lower()
     return any(k in t for k in TRAGEDY_KEYWORDS)
@@ -145,19 +160,31 @@ def load_previous():
         return None
 
 def unique_line(pool, used_set, fallback):
-    random.shuffle(pool)
-    for s in pool:
-        if s not in used_set:
-            used_set.add(s)
-            return s
+    # pool can be empty; fallback must be a string
+    if pool:
+        random.shuffle(pool)
+        for sline in pool:
+            sline = clean(sline)
+            if sline and sline not in used_set:
+                used_set.add(sline)
+                return sline
 
-    # Avoid visible "v2/v3": whitespace-only uniqueness
-    base = fallback
-    pad = " "
+    base = clean(fallback) or "Updates may follow."
+    pad = ""
     while base + pad in used_set:
         pad += " "
     used_set.add(base + pad)
     return base + pad
+
+def entry_epoch_seconds(entry) -> int | None:
+    # feedparser returns time.struct_time in published_parsed / updated_parsed
+    t = getattr(entry, "published_parsed", None) or getattr(entry, "updated_parsed", None)
+    if not t:
+        return None
+    try:
+        return int(time.mktime(t))
+    except Exception:
+        return None
 
 def parse_feed(source: str, url: str):
     items = []
@@ -169,20 +196,69 @@ def parse_feed(source: str, url: str):
     for e in getattr(feed, "entries", [])[:80]:
         title = clean(getattr(e, "title", ""))
         link = getattr(e, "link", "")
-        if title and link:
-            items.append({"title": title[:180], "url": link, "source": source})
+        if not title or not link:
+            continue
+
+        epoch = entry_epoch_seconds(e)
+        published_utc = None
+        if epoch:
+            published_utc = datetime.fromtimestamp(epoch, tz=timezone.utc).isoformat()
+
+        items.append({
+            "title": title[:180],
+            "url": link,
+            "source": source,
+            "published_utc": published_utc,  # may be None
+        })
     return items
 
 def dedupe_local_by_url(items):
     seen = set()
     out = []
     for it in items:
-        u = (it.get("url") or "").strip()
+        u = clean(it.get("url", ""))
         if not u or u in seen:
             continue
         seen.add(u)
         out.append(it)
     return out
+
+def dedupe_local_by_title(items):
+    seen = set()
+    out = []
+    for it in items:
+        key = norm_title_key(it.get("title", ""))
+        if not key or key in seen:
+            continue
+        seen.add(key)
+        out.append(it)
+    return out
+
+def filter_by_freshness(items, section_name: str, now_utc: datetime):
+    days = FRESHNESS_DAYS_BY_SECTION.get(section_name, 14)
+    cutoff = now_utc - timedelta(days=days)
+
+    fresh = []
+    unknown = []
+    for it in items:
+        pu = it.get("published_utc")
+        if not pu:
+            unknown.append(it)
+            continue
+        try:
+            dt = datetime.fromisoformat(pu.replace("Z", "+00:00"))
+        except Exception:
+            unknown.append(it)
+            continue
+        if dt >= cutoff:
+            fresh.append(it)
+
+    # For Breaking/Top, don't allow unknown-dated items (too risky / looks stale)
+    if section_name in ("Breaking", "Top"):
+        return fresh
+
+    # For other sections: keep unknown-dated items, but push them to the end
+    return fresh + unknown
 
 def round_robin(items):
     buckets = {}
@@ -190,40 +266,61 @@ def round_robin(items):
         buckets.setdefault(it["source"], []).append(it)
 
     sources = list(buckets.keys())
-    for s in sources:
-        random.shuffle(buckets[s])
+    for src in sources:
+        random.shuffle(buckets[src])
     random.shuffle(sources)
 
     out = []
     progressed = True
     while progressed:
         progressed = False
-        for s in sources:
-            if buckets[s]:
-                out.append(buckets[s].pop())
+        for src in sources:
+            if buckets[src]:
+                out.append(buckets[src].pop())
                 progressed = True
     return out
 
-def pick_section_items(raw_items, used_urls, used_sublines, section_name):
+def pick_section_items(raw_items, used_urls, used_sublines, section_name, now_utc):
+    max_items = MAX_ITEMS_BY_SECTION.get(section_name, 14)
+
     raw_items = dedupe_local_by_url(raw_items)
+    raw_items = dedupe_local_by_title(raw_items)
+    raw_items = filter_by_freshness(raw_items, section_name, now_utc)
     raw_items = round_robin(raw_items)
 
     section_items = []
     per_source = {}
 
-    # Step 1: Force at least 1 from each balance target IF available in this section’s raw pool
-    # (still obeys global URL dedupe)
     pool_by_source = {}
     for it in raw_items:
         pool_by_source.setdefault(it["source"], []).append(it)
 
+    def add_item(it, is_first=False):
+        tragic = is_tragic(it["title"])
+        sub = unique_line([], used_sublines, random.choice(NEUTRAL)) if tragic else unique_line(SNARK, used_sublines, random.choice(NEUTRAL))
+        sub = clean(sub)
+
+        section_items.append({
+            "title": it["title"],
+            "url": it["url"],
+            "source": it["source"],
+            "badge": "BREAK" if section_name == "Breaking" and is_first else "",
+            "feature": bool(section_name == "Breaking" and is_first),
+            "snark": sub,
+            "published_utc": it.get("published_utc"),
+        })
+        used_urls.add(it["url"])
+        per_source[it["source"]] = per_source.get(it["source"], 0) + 1
+
+    # Step 1: balance targets
     for target in BALANCE_TARGETS:
-        if len(section_items) >= MAX_ITEMS_PER_SECTION:
+        if len(section_items) >= max_items:
             break
         if target not in pool_by_source:
             continue
+        if per_source.get(target, 0) >= MAX_PER_SOURCE_PER_SECTION:
+            continue
 
-        # choose first viable item for that source
         picked = None
         for it in pool_by_source[target]:
             if it["url"] not in used_urls:
@@ -232,52 +329,19 @@ def pick_section_items(raw_items, used_urls, used_sublines, section_name):
         if not picked:
             continue
 
-        src = picked["source"]
-        per_source[src] = per_source.get(src, 0)
-        if per_source[src] >= MAX_PER_SOURCE_PER_SECTION:
-            continue
+        add_item(picked, is_first=(len(section_items) == 0))
 
-        tragic = is_tragic(picked["title"])
-        sub = unique_line([], used_sublines, random.choice(NEUTRAL)) if tragic else unique_line(SNARK, used_sublines, random.choice(NEUTRAL))
-
-        is_first = (len(section_items) == 0)
-        section_items.append({
-            "title": picked["title"],
-            "url": picked["url"],
-            "source": picked["source"],
-            "badge": "BREAK" if section_name == "Breaking" and is_first else "",
-            "feature": bool(section_name == "Breaking" and is_first),
-            "snark": sub,
-        })
-        used_urls.add(picked["url"])
-        per_source[src] += 1
-
-    # Step 2: Fill the rest normally (still round-robin ordered)
+    # Step 2: fill normally
     for it in raw_items:
-        if len(section_items) >= MAX_ITEMS_PER_SECTION:
+        if len(section_items) >= max_items:
             break
         if it["url"] in used_urls:
             continue
-
         src = it["source"]
-        per_source[src] = per_source.get(src, 0)
-        if per_source[src] >= MAX_PER_SOURCE_PER_SECTION:
+        if per_source.get(src, 0) >= MAX_PER_SOURCE_PER_SECTION:
             continue
 
-        tragic = is_tragic(it["title"])
-        sub = unique_line([], used_sublines, random.choice(NEUTRAL)) if tragic else unique_line(SNARK, used_sublines, random.choice(NEUTRAL))
-
-        is_first = (len(section_items) == 0)
-        section_items.append({
-            "title": it["title"],
-            "url": it["url"],
-            "source": it["source"],
-            "badge": "BREAK" if section_name == "Breaking" and is_first else "",
-            "feature": bool(section_name == "Breaking" and is_first),
-            "snark": sub,
-        })
-        used_urls.add(it["url"])
-        per_source[src] += 1
+        add_item(it, is_first=(len(section_items) == 0))
 
     return section_items
 
@@ -300,12 +364,12 @@ def main():
             for sec in col.get("sections", []):
                 if sec.get("name") != "Breaking":
                     for it in sec.get("items", []):
-                        u = (it.get("url") or "").strip()
-                        s = (it.get("snark") or "").strip()
+                        u = clean(it.get("url", ""))
+                        sub = clean(it.get("snark", ""))
                         if u:
                             used_urls.add(u)
-                        if s:
-                            used_sublines.add(s)
+                        if sub:
+                            used_sublines.add(sub)
 
     columns = []
 
@@ -333,10 +397,9 @@ def main():
             for src, url in feeds:
                 raw.extend(parse_feed(src, url))
 
-            # Shuffle the whole pool so no feed order dominates
             random.shuffle(raw)
 
-            items = pick_section_items(raw, used_urls, used_sublines, section_name)
+            items = pick_section_items(raw, used_urls, used_sublines, section_name, now)
             col_out["sections"].append({"name": section_name, "items": items})
 
         columns.append(col_out)
