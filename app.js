@@ -1,9 +1,8 @@
 (() => {
   // ===== SETTINGS =====
-  const REFRESH_EVERY_MS = 5 * 60 * 1000; // check for updated headlines.json every 5 minutes
+  const REFRESH_EVERY_MS = 5 * 60 * 1000;
   const HISTORY_DAYS = 7;
 
-  // Local storage keys (per-device)
   const HISTORY_KEY = "dse_history_v2";
   const CLICKS_KEY  = "dse_clicks_v2";
 
@@ -73,7 +72,8 @@
             snark: s(it.snark),
             feature: !!it.feature,
             badge: s(it.badge || ""),
-            section: s(sec.name || "")
+            section: s(sec.name || ""),
+            published_utc: s(it.published_utc || "")
           });
         }
       }
@@ -81,16 +81,23 @@
     return out;
   }
 
-  // ===== SAFE rendering (no innerHTML for feed strings) =====
+  // ===== rendering (XSS-safe: no innerHTML with feed data) =====
   function renderStory(item){
     const div = document.createElement("div");
     div.className = "story" + (item.feature ? " feature" : "");
+
+    // Headline row
+    const headRow = document.createElement("div");
+    headRow.style.display = "flex";
+    headRow.style.flexWrap = "wrap";
+    headRow.style.alignItems = "baseline";
+    headRow.style.gap = "8px";
 
     if (item.badge) {
       const b = document.createElement("span");
       b.className = "badge";
       b.textContent = item.badge;
-      div.appendChild(b);
+      headRow.appendChild(b);
     }
 
     const a = document.createElement("a");
@@ -99,14 +106,17 @@
     a.rel = "noopener noreferrer";
     a.textContent = item.title || "(untitled)";
     a.addEventListener("click", () => trackClick(item.url));
-    div.appendChild(a);
+    headRow.appendChild(a);
 
     if (item.source) {
       const src = document.createElement("span");
       src.className = "source";
-      src.textContent = `(${item.source})`;
-      div.appendChild(src);
+      // IMPORTANT: leading separator so it doesn’t “glue” to title
+      src.textContent = `• ${item.source}`;
+      headRow.appendChild(src);
     }
+
+    div.appendChild(headRow);
 
     if (item.snark) {
       const sn = document.createElement("div");
@@ -154,7 +164,6 @@
       "fashion","beauty","dating","viral","meme","trend","podcast","travel","diet",
       "coffee","sleep","study","app","streaming"
     ];
-    // Note: removed "ai" (too common + can feel editorial)
     const TRAGIC = /(dead|dies|killed|death|shooting|attack|war|bomb|explosion|terror|crash|earthquake|wildfire|flood|victim|injured)/i;
 
     const candidates = todayItems.filter(it => {
@@ -194,7 +203,15 @@
     return null;
   }
 
-  // ===== 2-column layout (consistent with your CSS) =====
+  // ===== layout (2 columns, consistent with your CSS) =====
+  function stripBadgesAndFeatures(items){
+    return (items || []).map(it => ({
+      ...it,
+      badge: "",
+      feature: false
+    }));
+  }
+
   function renderWithAlgorithmicExtras(data){
     const colsEl = qs("columns");
     colsEl.innerHTML = "";
@@ -221,96 +238,36 @@
     const col1 = document.createElement("div");
     const col2 = document.createElement("div");
 
-    // Column 1: Breaking + Nothing Burger
     const breakingSec = findSection(data, SPECIAL_NAMES.breaking);
     if (breakingSec) {
       col1.appendChild(renderSection(SPECIAL_NAMES.breaking, breakingSec.items || [], { breaking:true }));
     }
+
     col1.appendChild(renderSection(
       SPECIAL_NAMES.burger,
       burgerPick ? [burgerPick] : [],
       { note: burgerPick ? "Auto-picked: low-stakes + tragedy-filtered." : "No suitable pick found today." }
     ));
 
-    // Column 2: Your existing sections (except Breaking) + Most Missed + Week in Review at bottom
+    // Column 2: Your JSON sections except Breaking
+    const skipNames = new Set([
+      SPECIAL_NAMES.burger.toLowerCase(),
+      SPECIAL_NAMES.missed.toLowerCase(),
+      SPECIAL_NAMES.week.toLowerCase(),
+      SPECIAL_NAMES.breaking.toLowerCase()
+    ]);
+
     for (const col of (data.columns || [])){
       for (const sec of (col.sections || [])){
         const name = s(sec.name);
         if (!name) continue;
-        if (name.toLowerCase() === SPECIAL_NAMES.breaking.toLowerCase()) continue;
-        // Avoid accidentally double-using your special names if they exist in JSON
-        if ([SPECIAL_NAMES.burger, SPECIAL_NAMES.missed, SPECIAL_NAMES.week].some(x => x.toLowerCase() === name.toLowerCase())) continue;
-
-        col2.appendChild(renderSection(name, sec.items || [], { breaking:false }));
+        if (skipNames.has(name.toLowerCase())) continue;
+        col2.appendChild(renderSection(name, sec.items || []));
       }
     }
 
+    // Specials at bottom of col2 (badge/feature stripped)
     col2.appendChild(renderSection(
       SPECIAL_NAMES.missed,
-      missedPick ? [missedPick] : [],
-      { note: missedPick ? "From your unclicked items (this device only)." : "No history yet (or you clicked everything)." }
-    ));
-
-    col2.appendChild(renderSection(
-      SPECIAL_NAMES.week,
-      weekList,
-      { note: weekList.length ? "Top recurring items from your last 7 days (this device only)." : "No 7-day history yet." }
-    ));
-
-    colsEl.appendChild(col1);
-    colsEl.appendChild(col2);
-  }
-
-  // ===== loading / updates =====
-  async function fetchHeadlinesNoCache(){
-    const url = "./headlines.json?ts=" + Date.now();
-    const r = await fetch(url, { cache: "no-store" });
-    if (!r.ok) throw new Error("HTTP " + r.status);
-    return await r.json();
-  }
-
-  let lastGeneratedUTC = null;
-
-  function setUpdatedText(data, statusText=""){
-    const gen = s(data?.generated_utc);
-    const base = gen ? ("Last updated: " + new Date(gen).toLocaleString()) : "";
-    qs("updated").textContent = statusText ? (base + " • " + statusText) : base;
-  }
-
-  async function refresh({ force=false } = {}){
-    try{
-      clearError();
-      const data = await fetchHeadlinesNoCache();
-
-      const gen = s(data.generated_utc);
-      if (!force && gen && gen === lastGeneratedUTC) {
-        // No redraw; still confirm if user explicitly asked
-        if (force) setUpdatedText(data, "No changes");
-        return;
-      }
-
-      lastGeneratedUTC = gen || lastGeneratedUTC;
-
-      if (data.site?.name) qs("siteName").textContent = data.site.name;
-      if (data.site?.tagline) qs("siteTagline").textContent = data.site.tagline;
-
-      setUpdatedText(data, force ? "Updated ✓" : "");
-
-      renderWithAlgorithmicExtras(data);
-
-    } catch (e){
-      showError("Load error: " + (e?.message || String(e)));
-      qs("updated").textContent = "Unable to load headlines right now.";
-      qs("columns").innerHTML = "";
-    }
-  }
-
-  // Update button: force fetch + rerender (no full reload)
-  qs("hardRefreshBtn").addEventListener("click", async () => {
-    await refresh({ force:true });
-  });
-
-  // Run
-  refresh();
-  setInterval(() => refresh({ force:false }), REFRESH_EVERY_MS);
-})();
+      missedPick ? stripBadgesAndFeatures([missedPick]) : [],
+      { note: mi
