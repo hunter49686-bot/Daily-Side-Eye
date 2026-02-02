@@ -3,7 +3,7 @@
     "name": "THE DAILY SIDE-EYE",
     "tagline": "Headlines with a raised eyebrow."
   },
-  "generated_utc": "2026-02-02T08:01:26.030091+00:00",
+  "generated_utc": "2026-02-02T11:23:38.767857+00:00",
   "columns": [
     {
       "sections": [
@@ -11,36 +11,44 @@
           "name": "Breaking",
           "items": [
             {
-              "title": "'Melania' documentary shocks Hollywood press with 'face-saving' debut that 'over-performed' expectations",
-              "url": "https://www.foxnews.com/media/melania-documentary-shocks-hollywood-press-face-saving-debut-over-performed-expectations",
+              "title": "House panel moves to consider criminal referrals for the Clintons",
+              "url": "https://www.foxnews.com/politics/house-panel-moves-consider-criminal-referrals-clintons",
               "source": "Fox News",
               "badge": "BREAK",
               "feature": true,
-              "snark": "A compromise is proposed. Someone will hate it."
+              "snark": "The fine print is doing most of the work."
             },
             {
-              "title": "Rick Barnes jokingly wonders if Tennessee players are ‘betting on games’ after NCAA gambling scandals",
-              "url": "https://nypost.com/2026/02/02/sports/rick-barnes-jokingly-wonders-if-tennessee-players-are-betting-on-games/",
+              "title": "Cop killed and another injured after being shot in ‘unprovoked’ attack at Georgia Holiday Inn",
+              "url": "https://nypost.com/2026/02/02/us-news/cop-pradeep-tamang-killed-another-injured-after-being-shot-in-georgia-holiday-inn-hotel-room-attack/",
               "source": "New York Post",
               "badge": "",
               "feature": false,
-              "snark": "A confident plan has been announced. Reality is pending."
+              "snark": "Context is still being gathered. "
             },
             {
-              "title": "Four Horsemen of the Apocalypse Coming for America",
-              "url": "https://www.realclearpolitics.com/2026/02/01/four_horsemen_of_the_apocalypse_coming_for_america_690849.html",
+              "title": "Can AI Write a Better Protest Song Than Springsteen? Yep",
+              "url": "https://www.realclearpolitics.com/articles/2026/02/01/can_ai_write_better_protest_song_than_bruce_springsteen_153788.html",
               "source": "RealClearPolitics",
               "badge": "",
               "feature": false,
-              "snark": "Everyone is calm. On paper."
+              "snark": "Experts disagree, loudly and on schedule."
             },
             {
-              "title": "FDA clears the way for additional bivalent boosters for certain vulnerable individuals",
-              "url": "https://www.cnn.com/2023/04/18/health/fda-bivalent-booster-additional-doses/index.html",
-              "source": "CNN Top Stories",
+              "title": "Likeness of restored angel to Giorgia Meloni triggers investigations in Rome",
+              "url": "https://www.theguardian.com/world/2026/feb/01/likeness-of-restored-angel-to-giorgia-meloni-triggers-investigations-in-rome",
+              "source": "The Guardian World",
               "badge": "",
               "feature": false,
-              "snark": "Experts disagree, loudly and on schedule."
+              "snark": "A big announcement, with a small footnote doing cardio."
+            },
+            {
+              "title": "'ME and Long Covid have brought my children's lives to a standstill'",
+              "url": "https://www.bbc.com/news/articles/cy8pnggl7zgo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Front Page",
+              "badge": "",
+              "feature": false,
+              "snark": "An investigation begins. Again."
             },
             {
               "title": "Groundhog Day puts Punxsutawney Phil's forecast about winter's length in the spotlight",
@@ -48,111 +56,103 @@
               "source": "NPR News",
               "badge": "",
               "feature": false,
-              "snark": "This will surely be handled with nuance."
-            },
-            {
-              "title": "New Pictures Appear to Show Andrew in Epstein Files",
-              "url": "https://www.bbc.co.uk/sounds/play/p0mygh2c?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Front Page",
-              "badge": "",
-              "feature": false,
-              "snark": "The fine print is doing most of the work."
-            },
-            {
-              "title": "Ex-British army chief calls on ministers to back MDMA-assisted therapy for veterans",
-              "url": "https://www.theguardian.com/uk-news/2026/feb/01/british-army-chief-government-drugs-mdma-therapy-veterans",
-              "source": "The Guardian World",
-              "badge": "",
-              "feature": false,
               "snark": "A decision was made. Consequences scheduled for later."
             },
             {
-              "title": "Erotic images of seniors show sex and intimacy in new light",
-              "url": "https://www.cnn.com/style/article/marilyn-minter-artist-elder-sex/index.html",
+              "title": "A head-to-toe guide of how men should dress this spring, and where they should shop",
+              "url": "https://www.cnn.com/cnn-underscored/fashion/mens-spring-fashion-style-guide?iid=CNNUnderscoredHPcontainer",
               "source": "CNN Top Stories",
               "badge": "",
               "feature": false,
-              "snark": "A timeline was provided. Nobody believes it."
+              "snark": "This will surely be handled with nuance."
             },
             {
-              "title": "Trevor Noah takes aim at Jeff Bezos’ wedding, Nicki Minaj’s Trump support in Grammys 2026 monologue",
-              "url": "https://pagesix.com/video/trevor-noah-takes-aim-at-jeff-bezos-wedding-nicki-minajs-trump-support-in-grammys-2026-monologue-2/",
-              "source": "New York Post",
-              "badge": "",
-              "feature": false,
-              "snark": "The optics are doing most of the work here."
-            },
-            {
-              "title": "Minnesota citizens detained by ICE are left rattled, even weeks later",
-              "url": "https://www.npr.org/2026/02/01/nx-s1-5689031/minnesota-citizens-detained-ice",
-              "source": "NPR News",
-              "badge": "",
-              "feature": false,
-              "snark": "A big announcement, with a small footnote doing cardio."
-            },
-            {
-              "title": "'Marry me' and £20,000 for rent - key Sarah Ferguson revelations in Epstein emails",
-              "url": "https://www.bbc.com/news/articles/cddgv9nvj9zo?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Front Page",
-              "badge": "",
-              "feature": false,
-              "snark": "A statement was issued. Substance not included."
-            },
-            {
-              "title": "Fact-Checking Al Gore's Inconvenient Truth at 20",
-              "url": "https://www.realclearpolitics.com/2026/02/01/fact-checking_al_gores_inconvenient_truth_at_20_690846.html",
-              "source": "RealClearPolitics",
-              "badge": "",
-              "feature": false,
-              "snark": "A bold claim meets inconvenient details."
-            },
-            {
-              "title": "Living hell of North Korea’s ‘paradise on Earth’ scheme back in spotlight in Japan",
-              "url": "https://www.theguardian.com/world/2026/feb/01/living-hell-of-north-koreas-paradise-on-earth-scheme-back-in-spotlight-in-japan",
+              "title": "Mexico president says Trump tariffs on Cuba’s oil suppliers could trigger humanitarian crisis",
+              "url": "https://www.theguardian.com/world/2026/jan/30/mexico-sheinbaum-trump-tariffs-cuba-oil-crisis",
               "source": "The Guardian World",
               "badge": "",
               "feature": false,
               "snark": "A 'common sense' solution sparks uncommon disagreement."
             },
             {
-              "title": "Snoop Dogg rallies around his daughter following the death of her 10-month-old baby",
-              "url": "https://www.foxnews.com/entertainment/snoop-dogg-rallies-around-his-daughter-following-death-her-10-month-old-baby",
+              "title": "Anne Boleyn portrait a 'rebuttal of witch rumours'",
+              "url": "https://www.bbc.com/news/articles/clyepql1kzko?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Front Page",
+              "badge": "",
+              "feature": false,
+              "snark": "A compromise is proposed. Someone will hate it."
+            },
+            {
+              "title": "Dear Abby: I found out my husband secretly hates me",
+              "url": "https://nypost.com/2026/02/02/lifestyle/dear-abby-i-found-out-my-husband-secretly-hates-me/",
+              "source": "New York Post",
+              "badge": "",
+              "feature": false,
+              "snark": "The optics are doing most of the work here."
+            },
+            {
+              "title": "How Polarization Tore a Hole in America's Mainline Churches",
+              "url": "https://www.realclearpolitics.com/2026/02/01/how_polarization_tore_a_hole_in_americas_mainline_churches_690880.html",
+              "source": "RealClearPolitics",
+              "badge": "",
+              "feature": false,
+              "snark": "A timeline was provided. Nobody believes it."
+            },
+            {
+              "title": "ICE arrests over 650 illegal aliens across West Virginia with state, local police backing",
+              "url": "https://www.foxnews.com/us/ice-arrests-over-650-illegal-aliens-across-west-virginia-state-local-police-backing",
               "source": "Fox News",
+              "badge": "",
+              "feature": false,
+              "snark": "A bold claim meets inconvenient details."
+            },
+            {
+              "title": "Too old to compete? This 87-year-old triathlete has tips for staying in the game",
+              "url": "https://www.npr.org/2026/02/02/nx-s1-5691731/active-aging-heart-health-senior-athlete",
+              "source": "NPR News",
+              "badge": "",
+              "feature": false,
+              "snark": "A statement was issued. Substance not included."
+            },
+            {
+              "title": "Why isn't the House Judiciary Committee looking into Thomas?",
+              "url": "https://www.cnn.com/2023/04/17/opinions/jim-jordan-clarence-thomas-judiciary-committee-obeidallah/index.html",
+              "source": "CNN Top Stories",
+              "badge": "",
+              "feature": false,
+              "snark": "Everyone is calm. On paper."
+            },
+            {
+              "title": "US woman resolves misdemeanor case opened after accusing priest of predatory behavior",
+              "url": "https://www.theguardian.com/us-news/2026/feb/02/heather-jones-bob-sullivan-priest-accusations-misdemeanor-case",
+              "source": "The Guardian World",
+              "badge": "",
+              "feature": false,
+              "snark": "A confident plan has been announced. Reality is pending."
+            },
+            {
+              "title": "Drone incidents near UK military bases double year-on-year",
+              "url": "https://www.bbc.com/news/articles/c23rxr1lz8do?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Front Page",
               "badge": "",
               "feature": false,
               "snark": "Reporting continues. "
             },
             {
-              "title": "'World's longest' purpose-built cycling tunnel opens in Norway",
-              "url": "https://www.cnn.com/travel/article/worlds-longest-cycling-tunnel/index.html",
-              "source": "CNN Top Stories",
-              "badge": "",
-              "feature": false,
-              "snark": "An investigation begins. Again."
-            },
-            {
-              "title": "Video: Grammys 2026: the complete winners list",
-              "url": "https://pagesix.com/video/grammys-2026-the-complete-winners-list/",
+              "title": "Savannah Guthrie’s mother reported missing in Arizona: ‘Grave concern’",
+              "url": "https://nypost.com/2026/02/02/entertainment/savannah-guthrie-mom-nancy-guthrie-reported-missing-in-arizona/",
               "source": "New York Post",
-              "badge": "",
-              "feature": false,
-              "snark": "More information expected soon. "
-            },
-            {
-              "title": "Iran's supreme leader warns any US attack would spark 'regional war'",
-              "url": "https://www.npr.org/2026/02/01/nx-s1-5695698/iran-khamenei-us-attack-warns-regional-war",
-              "source": "NPR News",
               "badge": "",
               "feature": false,
               "snark": "Details are still emerging. "
             },
             {
-              "title": "AI 'slop' is transforming social media - and a backlash is brewing",
-              "url": "https://www.bbc.com/news/articles/c9wx2dz2v44o?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Front Page",
+              "title": "Poorly Run Democrat Cities Are on Their Own",
+              "url": "https://www.realclearpolitics.com/2026/02/01/poorly_run_democrat_cities_are_on_their_own_690850.html",
+              "source": "RealClearPolitics",
               "badge": "",
               "feature": false,
-              "snark": "Updates may follow. "
+              "snark": "Context is still being gathered.  "
             }
           ]
         },
