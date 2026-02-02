@@ -3,11 +3,13 @@ import random
 import re
 import socket
 from datetime import datetime, timezone
+from urllib.request import Request, urlopen
+from urllib.error import URLError, HTTPError
 
 import feedparser
 
 # =====================
-# HARD NETWORK SAFETY (prevents Actions hangs)
+# HARD NETWORK SAFETY
 # =====================
 HTTP_TIMEOUT_SECONDS = 10
 socket.setdefaulttimeout(HTTP_TIMEOUT_SECONDS)
@@ -19,18 +21,14 @@ USER_AGENT = (
 )
 
 # =====================
-# SECTION LIMITS
+# TUNING
 # =====================
-SECTION_LIMITS = {
-    "Breaking": 7,          # per your request
-    "Developing": 12,
-    "Business": 13,
-    "World / Tech / Weird": 15,
-}
-
+MAX_ITEMS_PER_SECTION = 18
 MAX_PER_SOURCE_PER_SECTION = 3
 
-# Ensure balance: if available, we will include at least 1 from these sources per section
+# Breaking limit (you asked for max 7)
+MAX_BREAKING_ITEMS = 7
+
 BALANCE_TARGETS = [
     "Fox News",
     "New York Post",
@@ -38,48 +36,6 @@ BALANCE_TARGETS = [
     "National Review",
     "RealClearPolitics",
 ]
-
-# =====================
-# AD / JUNK FILTERING
-# =====================
-AD_TITLE_PATTERNS = [
-    r"\bbonus\s*code\b",
-    r"\bpromo\s*code\b",
-    r"\bdeposit\s*match\b",
-    r"\bbetmgm\b",
-    r"\bfanduel\b",
-    r"\bdraftkings\b",
-    r"\bcaesars\b",
-    r"\bodds\b",
-    r"\bbetting\b",
-    r"\bfree\s*bet\b",
-    r"\bparlay\b",
-    r"\bsportsbook\b",
-    r"\bwelcome\s*offer\b",
-]
-AD_URL_PATTERNS = [
-    r"/betting/",
-    r"/sportsbook",
-    r"/odds",
-    r"utm_(source|medium|campaign)=.*(affiliate|partner)",
-]
-
-AD_RE_TITLE = re.compile("|".join(AD_TITLE_PATTERNS), re.IGNORECASE)
-AD_RE_URL = re.compile("|".join(AD_URL_PATTERNS), re.IGNORECASE)
-
-def is_ad_or_junk(title: str, url: str, source: str) -> bool:
-    t = (title or "").strip()
-    u = (url or "").strip()
-    if not t or not u:
-        return True
-    if AD_RE_TITLE.search(t):
-        return True
-    if AD_RE_URL.search(u):
-        return True
-    # Source-specific: NYP and others sometimes publish betting promos
-    if source == "New York Post" and ("bet" in t.lower() or "bonus" in t.lower()):
-        return True
-    return False
 
 # =====================
 # FEEDS
@@ -94,11 +50,11 @@ BREAKING_FEEDS = [
     ("RealClearPolitics", "https://www.realclearpolitics.com/index.xml"),
 ]
 
-DEVELOPING_FEEDS = [
+TOP_FEEDS = [
     ("BBC World", "https://feeds.bbci.co.uk/news/world/rss.xml"),
     ("CNN Top Stories", "http://rss.cnn.com/rss/cnn_topstories.rss"),
     ("NPR News", "https://feeds.npr.org/1001/rss.xml"),
-    ("The Guardian World", "https://www.theguardian.com/world/rss"),
+    ("The Guardian UK", "https://www.theguardian.com/uk/rss"),
     ("Fox News", "https://feeds.foxnews.com/foxnews/latest"),
     ("New York Post", "https://nypost.com/feed/"),
     ("RealClearPolitics", "https://www.realclearpolitics.com/index.xml"),
@@ -121,8 +77,9 @@ WORLD_TECH_WEIRD_FEEDS = [
     ("RealClearPolitics", "https://www.realclearpolitics.com/index.xml"),
 ]
 
+# You can rename sections later; keeping your structure
 LAYOUT = [
-    [("Breaking", BREAKING_FEEDS), ("Developing", DEVELOPING_FEEDS)],
+    [("Breaking", BREAKING_FEEDS), ("Top", TOP_FEEDS)],
     [("Business", BUSINESS_FEEDS)],
     [("World / Tech / Weird", WORLD_TECH_WEIRD_FEEDS)],
 ]
@@ -167,6 +124,17 @@ TRAGEDY_KEYWORDS = [
     "earthquake", "wildfire", "flood", "victim", "injured",
 ]
 
+# Ad / promo filters (fix “ads mixed in”)
+AD_KEYWORDS = [
+    "bonus code", "promo code", "bet", "betmgm", "draftkings", "fanduel",
+    "odds", "sportsbook", "sign up", "deal", "discount", "coupon", "sale",
+    "subscribe", "subscription", "sponsored", "advert", "advertisement",
+    "shop", "buy now", "limited time", "get up to", "match up to"
+]
+AD_URL_HINTS = [
+    "/betting/", "utm_", "aff", "affiliate", "promo", "coupon"
+]
+
 # =====================
 # HELPERS
 # =====================
@@ -177,6 +145,15 @@ def is_tragic(title: str) -> bool:
     t = (title or "").lower()
     return any(k in t for k in TRAGEDY_KEYWORDS)
 
+def looks_like_ad(title: str, url: str) -> bool:
+    t = (title or "").lower()
+    u = (url or "").lower()
+    if any(k in t for k in AD_KEYWORDS):
+        return True
+    if any(h in u for h in AD_URL_HINTS):
+        return True
+    return False
+
 def load_previous():
     try:
         with open("headlines.json", "r", encoding="utf-8") as f:
@@ -186,12 +163,11 @@ def load_previous():
 
 def unique_line(pool, used_set, fallback):
     random.shuffle(pool)
-    for line in pool:
-        if line not in used_set:
-            used_set.add(line)
-            return line
+    for sline in pool:
+        if sline not in used_set:
+            used_set.add(sline)
+            return sline
 
-    # whitespace-only uniqueness (avoids visible v2/v3)
     base = fallback
     pad = " "
     while base + pad in used_set:
@@ -199,18 +175,34 @@ def unique_line(pool, used_set, fallback):
     used_set.add(base + pad)
     return base + pad
 
+def fetch_bytes(url: str) -> bytes:
+    """
+    Hard-timeout fetch for RSS bytes.
+    This avoids feedparser.parse(url) stalling on some network cases.
+    """
+    req = Request(url, headers={"User-Agent": USER_AGENT, "Accept": "*/*"})
+    with urlopen(req, timeout=HTTP_TIMEOUT_SECONDS) as resp:
+        return resp.read()
+
 def parse_feed(source: str, url: str):
     items = []
     try:
-        feed = feedparser.parse(url, agent=USER_AGENT)
-    except Exception:
+        data = fetch_bytes(url)
+        feed = feedparser.parse(data)
+    except (HTTPError, URLError, TimeoutError, socket.timeout, Exception):
         return items
 
     for e in getattr(feed, "entries", [])[:80]:
-        title = clean(getattr(e, "title", ""))[:180]
+        title = clean(getattr(e, "title", ""))
         link = getattr(e, "link", "")
-        if title and link and not is_ad_or_junk(title, link, source):
-            items.append({"title": title, "url": link, "source": source})
+        if not title or not link:
+            continue
+
+        # filter ads/promos
+        if looks_like_ad(title, link):
+            continue
+
+        items.append({"title": title[:180], "url": link, "source": source})
     return items
 
 def dedupe_local_by_url(items):
@@ -248,19 +240,19 @@ def pick_section_items(raw_items, used_urls, used_sublines, section_name):
     raw_items = dedupe_local_by_url(raw_items)
     raw_items = round_robin(raw_items)
 
-    limit = SECTION_LIMITS.get(section_name, 15)
-
     section_items = []
     per_source = {}
 
-    # Pre-index pool by source
+    # Per-section cap (Breaking is 7)
+    max_items = MAX_BREAKING_ITEMS if section_name == "Breaking" else MAX_ITEMS_PER_SECTION
+
     pool_by_source = {}
     for it in raw_items:
         pool_by_source.setdefault(it["source"], []).append(it)
 
-    # Step 1: Force at least 1 from each balance target IF available
+    # Step 1: Force balance targets if available
     for target in BALANCE_TARGETS:
-        if len(section_items) >= limit:
+        if len(section_items) >= max_items:
             break
         if target not in pool_by_source:
             continue
@@ -274,7 +266,8 @@ def pick_section_items(raw_items, used_urls, used_sublines, section_name):
             continue
 
         src = picked["source"]
-        if per_source.get(src, 0) >= MAX_PER_SOURCE_PER_SECTION:
+        per_source[src] = per_source.get(src, 0)
+        if per_source[src] >= MAX_PER_SOURCE_PER_SECTION:
             continue
 
         tragic = is_tragic(picked["title"])
@@ -290,17 +283,18 @@ def pick_section_items(raw_items, used_urls, used_sublines, section_name):
             "snark": sub,
         })
         used_urls.add(picked["url"])
-        per_source[src] = per_source.get(src, 0) + 1
+        per_source[src] += 1
 
-    # Step 2: Fill the rest normally
+    # Step 2: Fill rest
     for it in raw_items:
-        if len(section_items) >= limit:
+        if len(section_items) >= max_items:
             break
         if it["url"] in used_urls:
             continue
 
         src = it["source"]
-        if per_source.get(src, 0) >= MAX_PER_SOURCE_PER_SECTION:
+        per_source[src] = per_source.get(src, 0)
+        if per_source[src] >= MAX_PER_SOURCE_PER_SECTION:
             continue
 
         tragic = is_tragic(it["title"])
@@ -316,7 +310,7 @@ def pick_section_items(raw_items, used_urls, used_sublines, section_name):
             "snark": sub,
         })
         used_urls.add(it["url"])
-        per_source[src] = per_source.get(src, 0) + 1
+        per_source[src] += 1
 
     return section_items
 
@@ -333,18 +327,17 @@ def main():
     used_urls = set()
     used_sublines = set()
 
-    # Between 3-hour boundaries, keep non-breaking sections and prevent Breaking duplicates
     if prev and not three_hour_boundary:
         for col in prev.get("columns", []):
             for sec in col.get("sections", []):
                 if sec.get("name") != "Breaking":
                     for it in sec.get("items", []):
                         u = (it.get("url") or "").strip()
-                        sub = (it.get("snark") or "").strip()
+                        sl = (it.get("snark") or "").strip()
                         if u:
                             used_urls.add(u)
-                        if sub:
-                            used_sublines.add(sub)
+                        if sl:
+                            used_sublines.add(sl)
 
     columns = []
 
@@ -354,7 +347,6 @@ def main():
         for section_name, feeds in col:
             refresh = (section_name == "Breaking") or three_hour_boundary
 
-            # Reuse section if not refreshing
             if not refresh and prev:
                 reused = None
                 for pcol in prev.get("columns", []):
