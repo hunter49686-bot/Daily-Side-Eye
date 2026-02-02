@@ -51,7 +51,7 @@
   function uniqByUrl(items){
     const seen = new Set();
     const out = [];
-    for (const it of items){
+    for (const it of (items || [])){
       if (!it || !it.url) continue;
       if (seen.has(it.url)) continue;
       seen.add(it.url);
@@ -62,12 +62,17 @@
 
   function flattenAllItems(data){
     const out = [];
-    for (const col of (data.columns || [])){
-      for (const sec of (col.sections || [])){
-        for (const it of (sec.items || [])){
+    for (const col of (data?.columns || [])){
+      for (const sec of (col?.sections || [])){
+        for (const it of (sec?.items || [])){
+          if (!it) continue;
+          const url = s(it.url);
+          const title = s(it.title);
+          if (!url || !title) continue;
+
           out.push({
-            title: s(it.title),
-            url: s(it.url),
+            title,
+            url,
             source: s(it.source),
             snark: s(it.snark),
             feature: !!it.feature,
@@ -81,42 +86,37 @@
     return out;
   }
 
-  // ===== rendering (XSS-safe: no innerHTML with feed data) =====
+  // ===== rendering (XSS-safe) =====
   function renderStory(item){
     const div = document.createElement("div");
     div.className = "story" + (item.feature ? " feature" : "");
 
-    // Headline row
-    const headRow = document.createElement("div");
-    headRow.style.display = "flex";
-    headRow.style.flexWrap = "wrap";
-    headRow.style.alignItems = "baseline";
-    headRow.style.gap = "8px";
+    const head = document.createElement("div");
+    head.className = "story-head";
 
     if (item.badge) {
       const b = document.createElement("span");
       b.className = "badge";
       b.textContent = item.badge;
-      headRow.appendChild(b);
+      head.appendChild(b);
     }
 
     const a = document.createElement("a");
     a.href = item.url;
     a.target = "_blank";
     a.rel = "noopener noreferrer";
-    a.textContent = item.title || "(untitled)";
+    a.textContent = item.title;
     a.addEventListener("click", () => trackClick(item.url));
-    headRow.appendChild(a);
+    head.appendChild(a);
 
     if (item.source) {
       const src = document.createElement("span");
       src.className = "source";
-      // IMPORTANT: leading separator so it doesn’t “glue” to title
       src.textContent = `• ${item.source}`;
-      headRow.appendChild(src);
+      head.appendChild(src);
     }
 
-    div.appendChild(headRow);
+    div.appendChild(head);
 
     if (item.snark) {
       const sn = document.createElement("div");
@@ -137,7 +137,9 @@
     title.textContent = name;
     sec.appendChild(title);
 
-    if (!items || !items.length){
+    const safeItems = (items || []).filter(it => it && it.url && it.title);
+
+    if (!safeItems.length){
       const empty = document.createElement("div");
       empty.className = "note";
       empty.textContent = "No items right now.";
@@ -145,7 +147,9 @@
       return sec;
     }
 
-    items.forEach(it => sec.appendChild(renderStory(it)));
+    for (const it of safeItems){
+      sec.appendChild(renderStory(it));
+    }
 
     if (note){
       const n = document.createElement("div");
@@ -166,56 +170,57 @@
     ];
     const TRAGIC = /(dead|dies|killed|death|shooting|attack|war|bomb|explosion|terror|crash|earthquake|wildfire|flood|victim|injured)/i;
 
-    const candidates = todayItems.filter(it => {
-      const t = (it.title || "").toLowerCase();
-      return !TRAGIC.test(t) && LOW.some(k => t.includes(k));
+    const candidates = (todayItems || []).filter(it => {
+      const t = (it?.title || "").toLowerCase();
+      return it?.url && !TRAGIC.test(t) && LOW.some(k => t.includes(k));
     });
 
-    return candidates[0] || todayItems.find(x => !x.feature) || todayItems[0] || null;
+    return candidates[0] || (todayItems || []).find(x => x && x.url && !x.feature) || (todayItems || [])[0] || null;
   }
 
   function pickMostMissed(history){
     const clicks = getLS(CLICKS_KEY, {});
-    const unclicked = history.filter(it => it.url && !clicks[it.url] && !it.feature && it.badge !== "BREAK");
+    const unclicked = (history || []).filter(it => it?.url && !clicks[it.url] && !it.feature && it.badge !== "BREAK");
     return unclicked[0] || null;
   }
 
   function buildWeekInReview(history){
     const counts = new Map();
-    for (const it of history){
-      if (!it.url) continue;
+    for (const it of (history || [])){
+      if (!it?.url) continue;
       counts.set(it.url, (counts.get(it.url) || 0) + 1);
     }
 
     return [...counts.entries()]
       .sort((a,b) => b[1]-a[1])
       .slice(0, 7)
-      .map(([url]) => history.find(h => h.url === url))
+      .map(([url]) => (history || []).find(h => h && h.url === url))
       .filter(Boolean);
   }
 
   function findSection(data, exactName){
-    for (const col of (data.columns || [])){
-      for (const sec of (col.sections || [])){
-        if (s(sec.name) === exactName) return sec;
+    for (const col of (data?.columns || [])){
+      for (const sec of (col?.sections || [])){
+        if (s(sec?.name) === exactName) return sec;
       }
     }
     return null;
   }
 
-  // ===== layout (2 columns, consistent with your CSS) =====
   function stripBadgesAndFeatures(items){
-    return (items || []).map(it => ({
+    return (items || []).filter(Boolean).map(it => ({
       ...it,
       badge: "",
       feature: false
     }));
   }
 
+  // ===== layout (2 columns, stable) =====
   function renderWithAlgorithmicExtras(data){
     const colsEl = qs("columns");
     colsEl.innerHTML = "";
 
+    // defensive: never allow malformed items to break the page
     const todayItems = uniqByUrl(flattenAllItems(data));
 
     // Update & persist 7-day history (per device)
@@ -223,6 +228,7 @@
     const existing = new Set(history.map(h => h.url));
 
     for (const it of todayItems){
+      if (!it || !it.url) continue;
       if (!existing.has(it.url)){
         history.push({ ...it, t: Date.now() });
         existing.add(it.url);
@@ -240,7 +246,18 @@
 
     const breakingSec = findSection(data, SPECIAL_NAMES.breaking);
     if (breakingSec) {
-      col1.appendChild(renderSection(SPECIAL_NAMES.breaking, breakingSec.items || [], { breaking:true }));
+      col1.appendChild(renderSection(
+        SPECIAL_NAMES.breaking,
+        (breakingSec.items || []).map(it => ({
+          title: s(it?.title),
+          url: s(it?.url),
+          source: s(it?.source),
+          snark: s(it?.snark),
+          feature: !!it?.feature,
+          badge: s(it?.badge || "")
+        })).filter(it => it.url && it.title),
+        { breaking:true }
+      ));
     }
 
     col1.appendChild(renderSection(
@@ -249,25 +266,100 @@
       { note: burgerPick ? "Auto-picked: low-stakes + tragedy-filtered." : "No suitable pick found today." }
     ));
 
-    // Column 2: Your JSON sections except Breaking
-    const skipNames = new Set([
+    // Column 2: JSON sections except Breaking (and not duplicating special names)
+    const skip = new Set([
+      SPECIAL_NAMES.breaking.toLowerCase(),
       SPECIAL_NAMES.burger.toLowerCase(),
       SPECIAL_NAMES.missed.toLowerCase(),
-      SPECIAL_NAMES.week.toLowerCase(),
-      SPECIAL_NAMES.breaking.toLowerCase()
+      SPECIAL_NAMES.week.toLowerCase()
     ]);
 
-    for (const col of (data.columns || [])){
-      for (const sec of (col.sections || [])){
-        const name = s(sec.name);
+    for (const col of (data?.columns || [])){
+      for (const sec of (col?.sections || [])){
+        const name = s(sec?.name);
         if (!name) continue;
-        if (skipNames.has(name.toLowerCase())) continue;
-        col2.appendChild(renderSection(name, sec.items || []));
+        if (skip.has(name.toLowerCase())) continue;
+
+        const items = (sec?.items || []).map(it => ({
+          title: s(it?.title),
+          url: s(it?.url),
+          source: s(it?.source),
+          snark: s(it?.snark),
+          feature: !!it?.feature,
+          badge: s(it?.badge || "")
+        })).filter(it => it.url && it.title);
+
+        col2.appendChild(renderSection(name, items));
       }
     }
 
-    // Specials at bottom of col2 (badge/feature stripped)
+    // specials at bottom of column 2 (no BREAK badge)
     col2.appendChild(renderSection(
       SPECIAL_NAMES.missed,
       missedPick ? stripBadgesAndFeatures([missedPick]) : [],
-      { note: mi
+      { note: missedPick ? "From your unclicked items (this device only)." : "No history yet (or you clicked everything)." }
+    ));
+
+    col2.appendChild(renderSection(
+      SPECIAL_NAMES.week,
+      stripBadgesAndFeatures(weekList),
+      { note: weekList.length ? "Top recurring items from your last 7 days (this device only)." : "No 7-day history yet." }
+    ));
+
+    colsEl.appendChild(col1);
+    colsEl.appendChild(col2);
+  }
+
+  // ===== loading / updates =====
+  async function fetchHeadlinesNoCache(){
+    const url = "./headlines.json?ts=" + Date.now();
+    const r = await fetch(url, { cache: "no-store" });
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    return await r.json();
+  }
+
+  let lastGeneratedUTC = null;
+
+  function setUpdatedText(data, statusText=""){
+    const gen = s(data?.generated_utc);
+    const base = gen ? ("Last updated: " + new Date(gen).toLocaleString()) : "";
+    qs("updated").textContent = statusText ? (base + " • " + statusText) : base;
+  }
+
+  async function refresh({ force=false } = {}){
+    try{
+      clearError();
+      const data = await fetchHeadlinesNoCache();
+
+      const gen = s(data?.generated_utc);
+      if (!force && gen && gen === lastGeneratedUTC) return;
+      lastGeneratedUTC = gen || lastGeneratedUTC;
+
+      if (data?.site?.name) qs("siteName").textContent = data.site.name;
+      if (data?.site?.tagline) qs("siteTagline").textContent = data.site.tagline;
+
+      setUpdatedText(data, force ? "Updated ✓" : "");
+
+      try {
+        renderWithAlgorithmicExtras(data);
+      } catch (err) {
+        console.error("Render failed:", err);
+        showError("Render error. Tap Update to retry.");
+        qs("columns").innerHTML = "";
+      }
+
+    } catch (e){
+      showError("Load error: " + (e?.message || String(e)));
+      qs("updated").textContent = "Unable to load headlines right now.";
+      qs("columns").innerHTML = "";
+    }
+  }
+
+  // Update button: force fetch + rerender (no full reload)
+  qs("hardRefreshBtn")?.addEventListener("click", async () => {
+    await refresh({ force:true });
+  });
+
+  refresh();
+  setInterval(() => refresh({ force:false }), REFRESH_EVERY_MS);
+})();
