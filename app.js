@@ -1,11 +1,13 @@
 (() => {
   // ===== SETTINGS =====
-  const REFRESH_EVERY_MS = 5 * 60 * 1000; // check for updated headlines.json every 5 minutes
+  const REFRESH_EVERY_MS = 5 * 60 * 1000;
   const HISTORY_DAYS = 7;
 
-  // Local storage keys (per-device)
-  const HISTORY_KEY = "dse_history_v4";
-  const CLICKS_KEY  = "dse_clicks_v4";
+  const HISTORY_KEY = "dse_history_v5";
+  const CLICKS_KEY  = "dse_clicks_v5";
+
+  // Pull headlines from data branch (decoupled from Pages deploy)
+  const DATA_URL = "https://raw.githubusercontent.com/hunter49686-bot/Daily-Side-Eye/data/headlines.json";
 
   const SPECIAL_NAMES = {
     burger: "Nothing Burger of the Day",
@@ -210,7 +212,6 @@
       if (!it?.url) continue;
       counts.set(it.url, (counts.get(it.url) || 0) + 1);
     }
-
     return [...counts.entries()]
       .sort((a,b) => b[1]-a[1])
       .slice(0, 7)
@@ -262,8 +263,6 @@
     }
 
     if (!best) return null;
-
-    // For this section, do NOT show badge/feature/snark (keeps it clean)
     return best.map(x => ({ ...x, badge:"", feature:false, snark:"" }));
   }
 
@@ -273,10 +272,8 @@
     if (!colsEl) return;
     colsEl.innerHTML = "";
 
-    // Collect today items
     const todayItems = uniqByUrl(flattenAllItems(data));
 
-    // Update & persist 7-day history (per device)
     let history = pruneHistory(getLS(HISTORY_KEY, []));
     const existing = new Set(history.map(h => h.url));
 
@@ -298,7 +295,6 @@
     const col2 = document.createElement("div");
     const col3 = document.createElement("div");
 
-    // Column 1: Breaking + Developing + Burger
     const breakingSec = findSection(data, SPECIAL_NAMES.breaking);
     if (breakingSec) col1.appendChild(renderSection(SPECIAL_NAMES.breaking, mapItems(breakingSec), { breaking:true }));
 
@@ -311,14 +307,12 @@
       { note: burgerPick ? "Auto-picked: low-stakes + tragedy-filtered." : "No suitable pick found today." }
     ));
 
-    // Column 2: Your real categories (no Top)
     const businessSec = findSection(data, "Business");
     if (businessSec) col2.appendChild(renderSection("Business", mapItems(businessSec)));
 
     const wtwSec = findSection(data, "World / Tech / Weird");
     if (wtwSec) col2.appendChild(renderSection("World / Tech / Weird", mapItems(wtwSec)));
 
-    // Column 3: Algorithmic extras
     col3.appendChild(renderSection(
       SPECIAL_NAMES.missed,
       missedPick ? stripBadgesAndFeatures([missedPick]) : [],
@@ -344,8 +338,7 @@
 
   // ===== loading =====
   async function fetchHeadlinesNoCache(){
-    // Cache-busting query param + cache: "no-store" keeps clients current
-    const url = "./headlines.json?ts=" + Date.now();
+    const url = DATA_URL + "?ts=" + Date.now(); // cache-bust always
     const r = await fetch(url, { cache: "no-store" });
     if (!r.ok) throw new Error("HTTP " + r.status);
     return await r.json();
@@ -358,12 +351,10 @@
       clearError();
       const data = await fetchHeadlinesNoCache();
 
-      // Only redraw when generator timestamp changes (unless forced)
       const gen = s(data?.generated_utc);
       if (!force && gen && gen === lastGeneratedUTC) return;
       lastGeneratedUTC = gen || lastGeneratedUTC;
 
-      // Header text updates (icon cannot be overwritten because it's separate)
       const nameEl = qs("siteNameText");
       if (nameEl && data?.site?.name) nameEl.textContent = data.site.name;
 
@@ -388,7 +379,6 @@
     }
   }
 
-  // Update button: refresh the JSON right now (without changing URL)
   const btn = qs("updateBtn");
   if (btn) btn.addEventListener("click", () => refresh({ force:true }));
 
