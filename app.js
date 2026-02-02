@@ -1,9 +1,11 @@
 (() => {
-  const REFRESH_EVERY_MS = 5 * 60 * 1000;
+  // ===== SETTINGS =====
+  const REFRESH_EVERY_MS = 5 * 60 * 1000; // check for updated headlines.json every 5 minutes
   const HISTORY_DAYS = 7;
 
-  const HISTORY_KEY = "dse_history_v3";
-  const CLICKS_KEY  = "dse_clicks_v3";
+  // Local storage keys (per-device)
+  const HISTORY_KEY = "dse_history_v4";
+  const CLICKS_KEY  = "dse_clicks_v4";
 
   const SPECIAL_NAMES = {
     burger: "Nothing Burger of the Day",
@@ -14,6 +16,7 @@
     developing: "Developing"
   };
 
+  // ===== helpers =====
   const qs = (id) => document.getElementById(id);
   const s = (x) => (x ?? "").toString().trim();
 
@@ -71,7 +74,6 @@
           const url = s(it.url);
           const title = s(it.title);
           if (!url || !title) continue;
-
           out.push({
             title,
             url,
@@ -87,6 +89,7 @@
     return out;
   }
 
+  // ===== rendering =====
   function renderStory(item){
     const div = document.createElement("div");
     div.className = "story" + (item.feature ? " feature" : "");
@@ -142,9 +145,7 @@
       return sec;
     }
 
-    for (const it of safeItems){
-      sec.appendChild(renderStory(it));
-    }
+    safeItems.forEach(it => sec.appendChild(renderStory(it)));
 
     if (note){
       const n = document.createElement("div");
@@ -180,13 +181,20 @@
     return (items || []).filter(Boolean).map(it => ({ ...it, badge:"", feature:false }));
   }
 
+  // ===== algorithmic sections =====
   function pickNothingBurger(todayItems){
-    const LOW = ["celebrity","royal","netflix","tiktok","iphone","android","review","tips","recipe","fashion","beauty","dating","viral","meme","trend","podcast","travel","diet","coffee","sleep","study","app","streaming"];
+    const LOW = [
+      "celebrity","royal","netflix","tiktok","iphone","android","review","tips","recipe",
+      "fashion","beauty","dating","viral","meme","trend","podcast","travel","diet",
+      "coffee","sleep","study","app","streaming"
+    ];
     const TRAGIC = /(dead|dies|killed|death|shooting|attack|war|bomb|explosion|terror|crash|earthquake|wildfire|flood|victim|injured)/i;
+
     const candidates = (todayItems || []).filter(it => {
       const t = (it?.title || "").toLowerCase();
       return it?.url && !TRAGIC.test(t) && LOW.some(k => t.includes(k));
     });
+
     return candidates[0] || (todayItems || []).find(x => x && x.url && !x.feature) || (todayItems || [])[0] || null;
   }
 
@@ -202,6 +210,7 @@
       if (!it?.url) continue;
       counts.set(it.url, (counts.get(it.url) || 0) + 1);
     }
+
     return [...counts.entries()]
       .sort((a,b) => b[1]-a[1])
       .slice(0, 7)
@@ -210,7 +219,13 @@
   }
 
   function normalizeKey(title){
-    const t = (title || "").toLowerCase().replace(/&/g, " and ").replace(/[^a-z0-9\s]/g, " ").replace(/\s+/g, " ").trim();
+    const t = (title || "")
+      .toLowerCase()
+      .replace(/&/g, " and ")
+      .replace(/[^a-z0-9\s]/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+
     const stop = new Set(["the","a","an","to","of","in","on","for","and","or","with","as","at","by","from","into","after","before","over","under","is","are","was","were"]);
     const parts = t.split(" ").filter(w => w.length >= 4 && !stop.has(w));
     return parts.slice(0, 12).join(" ");
@@ -248,21 +263,24 @@
 
     if (!best) return null;
 
+    // For this section, do NOT show badge/feature/snark (keeps it clean)
     return best.map(x => ({ ...x, badge:"", feature:false, snark:"" }));
   }
 
-  function render3Cols(data){
+  // ===== layout =====
+  function render3Columns(data){
     const colsEl = qs("columns");
     if (!colsEl) return;
     colsEl.innerHTML = "";
 
+    // Collect today items
     const todayItems = uniqByUrl(flattenAllItems(data));
 
+    // Update & persist 7-day history (per device)
     let history = pruneHistory(getLS(HISTORY_KEY, []));
     const existing = new Set(history.map(h => h.url));
 
     for (const it of todayItems){
-      if (!it || !it.url) continue;
       if (!existing.has(it.url)){
         history.push({ ...it, t: Date.now() });
         existing.add(it.url);
@@ -280,6 +298,7 @@
     const col2 = document.createElement("div");
     const col3 = document.createElement("div");
 
+    // Column 1: Breaking + Developing + Burger
     const breakingSec = findSection(data, SPECIAL_NAMES.breaking);
     if (breakingSec) col1.appendChild(renderSection(SPECIAL_NAMES.breaking, mapItems(breakingSec), { breaking:true }));
 
@@ -292,22 +311,40 @@
       { note: burgerPick ? "Auto-picked: low-stakes + tragedy-filtered." : "No suitable pick found today." }
     ));
 
+    // Column 2: Your real categories (no Top)
     const businessSec = findSection(data, "Business");
     if (businessSec) col2.appendChild(renderSection("Business", mapItems(businessSec)));
 
     const wtwSec = findSection(data, "World / Tech / Weird");
     if (wtwSec) col2.appendChild(renderSection("World / Tech / Weird", mapItems(wtwSec)));
 
-    col3.appendChild(renderSection(SPECIAL_NAMES.missed, missedPick ? stripBadgesAndFeatures([missedPick]) : [], { note:"" }));
-    col3.appendChild(renderSection(SPECIAL_NAMES.same, samePair ? samePair : [], { note: samePair ? "" : "No clean pair found today." }));
-    col3.appendChild(renderSection(SPECIAL_NAMES.week, stripBadgesAndFeatures(weekList), { note:"" }));
+    // Column 3: Algorithmic extras
+    col3.appendChild(renderSection(
+      SPECIAL_NAMES.missed,
+      missedPick ? stripBadgesAndFeatures([missedPick]) : [],
+      { note: "" }
+    ));
+
+    col3.appendChild(renderSection(
+      SPECIAL_NAMES.same,
+      samePair ? samePair : [],
+      { note: samePair ? "" : "No clean pair found today." }
+    ));
+
+    col3.appendChild(renderSection(
+      SPECIAL_NAMES.week,
+      stripBadgesAndFeatures(weekList),
+      { note: "" }
+    ));
 
     colsEl.appendChild(col1);
     colsEl.appendChild(col2);
     colsEl.appendChild(col3);
   }
 
+  // ===== loading =====
   async function fetchHeadlinesNoCache(){
+    // Cache-busting query param + cache: "no-store" keeps clients current
     const url = "./headlines.json?ts=" + Date.now();
     const r = await fetch(url, { cache: "no-store" });
     if (!r.ok) throw new Error("HTTP " + r.status);
@@ -321,11 +358,12 @@
       clearError();
       const data = await fetchHeadlinesNoCache();
 
+      // Only redraw when generator timestamp changes (unless forced)
       const gen = s(data?.generated_utc);
       if (!force && gen && gen === lastGeneratedUTC) return;
       lastGeneratedUTC = gen || lastGeneratedUTC;
 
-      // ✅ THIS is the critical part: update ONLY the text span so the icon stays.
+      // Header text updates (icon cannot be overwritten because it's separate)
       const nameEl = qs("siteNameText");
       if (nameEl && data?.site?.name) nameEl.textContent = data.site.name;
 
@@ -339,7 +377,8 @@
           : "";
       }
 
-      render3Cols(data);
+      render3Columns(data);
+
     } catch (e){
       showError("Load error: " + (e?.message || String(e)));
       const updEl = qs("updated");
@@ -349,9 +388,10 @@
     }
   }
 
-  const btn = qs("hardRefreshBtn");
+  // Update button: refresh the JSON right now (without changing URL)
+  const btn = qs("updateBtn");
   if (btn) btn.addEventListener("click", () => refresh({ force:true }));
 
-  refresh();
+  refresh({ force:true });
   setInterval(() => refresh({ force:false }), REFRESH_EVERY_MS);
 })();
