@@ -3,7 +3,7 @@
     "name": "THE DAILY SIDE-EYE",
     "tagline": "Headlines with a raised eyebrow."
   },
-  "generated_utc": "2026-02-02T11:23:38.767857+00:00",
+  "generated_utc": "2026-02-02T14:26:17.759126+00:00",
   "columns": [
     {
       "sections": [
@@ -11,47 +11,31 @@
           "name": "Breaking",
           "items": [
             {
-              "title": "House panel moves to consider criminal referrals for the Clintons",
-              "url": "https://www.foxnews.com/politics/house-panel-moves-consider-criminal-referrals-clintons",
+              "title": "Super Bowl champ Scott Laidlaw dead at 72",
+              "url": "https://www.foxnews.com/sports/super-bowl-champ-scott-laidlaw-dead-72",
               "source": "Fox News",
               "badge": "BREAK",
               "feature": true,
-              "snark": "The fine print is doing most of the work."
+              "snark": "Details are still emerging. "
             },
             {
-              "title": "Cop killed and another injured after being shot in ‘unprovoked’ attack at Georgia Holiday Inn",
-              "url": "https://nypost.com/2026/02/02/us-news/cop-pradeep-tamang-killed-another-injured-after-being-shot-in-georgia-holiday-inn-hotel-room-attack/",
+              "title": "Influencer Emily Austin’s sneering live reaction to Billie Eilish’s anti-ICE Grammys tirade goes mega viral",
+              "url": "https://nypost.com/2026/02/02/entertainment/influencer-emily-austins-live-reaction-to-billie-eilishs-anti-ice-grammys-tirade-goes-mega-viral/",
               "source": "New York Post",
               "badge": "",
               "feature": false,
-              "snark": "Context is still being gathered. "
+              "snark": "Everyone is calm. On paper."
             },
             {
-              "title": "Can AI Write a Better Protest Song Than Springsteen? Yep",
-              "url": "https://www.realclearpolitics.com/articles/2026/02/01/can_ai_write_better_protest_song_than_bruce_springsteen_153788.html",
+              "title": "Xi the Destroyer: Military Purge Signals New Era",
+              "url": "https://www.realclearpolitics.com/2026/02/02/xi_the_destroyer_military_purge_signals_new_era_690904.html",
               "source": "RealClearPolitics",
-              "badge": "",
-              "feature": false,
-              "snark": "Experts disagree, loudly and on schedule."
-            },
-            {
-              "title": "Likeness of restored angel to Giorgia Meloni triggers investigations in Rome",
-              "url": "https://www.theguardian.com/world/2026/feb/01/likeness-of-restored-angel-to-giorgia-meloni-triggers-investigations-in-rome",
-              "source": "The Guardian World",
               "badge": "",
               "feature": false,
               "snark": "A big announcement, with a small footnote doing cardio."
             },
             {
-              "title": "'ME and Long Covid have brought my children's lives to a standstill'",
-              "url": "https://www.bbc.com/news/articles/cy8pnggl7zgo?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Front Page",
-              "badge": "",
-              "feature": false,
-              "snark": "An investigation begins. Again."
-            },
-            {
-              "title": "Groundhog Day puts Punxsutawney Phil's forecast about winter's length in the spotlight",
+              "title": "Punxsutawney Phil is said to have seen his shadow, forecasting 6 more weeks of wintry weather",
               "url": "https://www.npr.org/2026/02/02/nx-s1-5696304/groundhog-day-punxsutawney-phil-forecast-winter-length",
               "source": "NPR News",
               "badge": "",
@@ -59,100 +43,116 @@
               "snark": "A decision was made. Consequences scheduled for later."
             },
             {
-              "title": "A head-to-toe guide of how men should dress this spring, and where they should shop",
-              "url": "https://www.cnn.com/cnn-underscored/fashion/mens-spring-fashion-style-guide?iid=CNNUnderscoredHPcontainer",
+              "title": "FDA clears the way for additional bivalent boosters for certain vulnerable individuals",
+              "url": "https://www.cnn.com/2023/04/18/health/fda-bivalent-booster-additional-doses/index.html",
               "source": "CNN Top Stories",
               "badge": "",
               "feature": false,
-              "snark": "This will surely be handled with nuance."
+              "snark": "Experts disagree, loudly and on schedule."
             },
             {
-              "title": "Mexico president says Trump tariffs on Cuba’s oil suppliers could trigger humanitarian crisis",
-              "url": "https://www.theguardian.com/world/2026/jan/30/mexico-sheinbaum-trump-tariffs-cuba-oil-crisis",
-              "source": "The Guardian World",
-              "badge": "",
-              "feature": false,
-              "snark": "A 'common sense' solution sparks uncommon disagreement."
-            },
-            {
-              "title": "Anne Boleyn portrait a 'rebuttal of witch rumours'",
-              "url": "https://www.bbc.com/news/articles/clyepql1kzko?at_medium=RSS&at_campaign=rss",
+              "title": "Six Nations preview & BBC pundit predictions",
+              "url": "https://www.bbc.com/sport/rugby-union/articles/c5y2zp849nqo?at_medium=RSS&at_campaign=rss",
               "source": "BBC Front Page",
               "badge": "",
               "feature": false,
-              "snark": "A compromise is proposed. Someone will hate it."
+              "snark": "An investigation begins. Again."
             },
             {
-              "title": "Dear Abby: I found out my husband secretly hates me",
-              "url": "https://nypost.com/2026/02/02/lifestyle/dear-abby-i-found-out-my-husband-secretly-hates-me/",
-              "source": "New York Post",
-              "badge": "",
-              "feature": false,
-              "snark": "The optics are doing most of the work here."
-            },
-            {
-              "title": "How Polarization Tore a Hole in America's Mainline Churches",
-              "url": "https://www.realclearpolitics.com/2026/02/01/how_polarization_tore_a_hole_in_americas_mainline_churches_690880.html",
-              "source": "RealClearPolitics",
-              "badge": "",
-              "feature": false,
-              "snark": "A timeline was provided. Nobody believes it."
-            },
-            {
-              "title": "ICE arrests over 650 illegal aliens across West Virginia with state, local police backing",
-              "url": "https://www.foxnews.com/us/ice-arrests-over-650-illegal-aliens-across-west-virginia-state-local-police-backing",
-              "source": "Fox News",
-              "badge": "",
-              "feature": false,
-              "snark": "A bold claim meets inconvenient details."
-            },
-            {
-              "title": "Too old to compete? This 87-year-old triathlete has tips for staying in the game",
-              "url": "https://www.npr.org/2026/02/02/nx-s1-5691731/active-aging-heart-health-senior-athlete",
-              "source": "NPR News",
-              "badge": "",
-              "feature": false,
-              "snark": "A statement was issued. Substance not included."
-            },
-            {
-              "title": "Why isn't the House Judiciary Committee looking into Thomas?",
-              "url": "https://www.cnn.com/2023/04/17/opinions/jim-jordan-clarence-thomas-judiciary-committee-obeidallah/index.html",
-              "source": "CNN Top Stories",
-              "badge": "",
-              "feature": false,
-              "snark": "Everyone is calm. On paper."
-            },
-            {
-              "title": "US woman resolves misdemeanor case opened after accusing priest of predatory behavior",
-              "url": "https://www.theguardian.com/us-news/2026/feb/02/heather-jones-bob-sullivan-priest-accusations-misdemeanor-case",
+              "title": "Israel agrees to limited reopening of Rafah border crossing in Gaza",
+              "url": "https://www.theguardian.com/world/2026/feb/02/israel-agrees-to-limited-reopening-of-rafah-border-crossing-in-gaza",
               "source": "The Guardian World",
               "badge": "",
               "feature": false,
               "snark": "A confident plan has been announced. Reality is pending."
             },
             {
-              "title": "Drone incidents near UK military bases double year-on-year",
-              "url": "https://www.bbc.com/news/articles/c23rxr1lz8do?at_medium=RSS&at_campaign=rss",
-              "source": "BBC Front Page",
+              "title": "Rand Paul says 'without question' trust has been broken after Minnesota shooting",
+              "url": "https://www.foxnews.com/media/rand-paul-says-without-question-trust-has-been-broken-after-minnesota-shooting",
+              "source": "Fox News",
               "badge": "",
               "feature": false,
-              "snark": "Reporting continues. "
+              "snark": "Context is still being gathered. "
             },
             {
-              "title": "Savannah Guthrie’s mother reported missing in Arizona: ‘Grave concern’",
-              "url": "https://nypost.com/2026/02/02/entertainment/savannah-guthrie-mom-nancy-guthrie-reported-missing-in-arizona/",
-              "source": "New York Post",
+              "title": "Gaza's Rafah border crossing with Egypt reopens for limited traffic",
+              "url": "https://www.npr.org/2026/02/02/g-s1-108287/gaza-rafah-border-crossing-reopens",
+              "source": "NPR News",
               "badge": "",
               "feature": false,
-              "snark": "Details are still emerging. "
+              "snark": "A timeline was provided. Nobody believes it."
             },
             {
-              "title": "Poorly Run Democrat Cities Are on Their Own",
-              "url": "https://www.realclearpolitics.com/2026/02/01/poorly_run_democrat_cities_are_on_their_own_690850.html",
+              "title": "Undocumented immigrants are paying their taxes today, too",
+              "url": "https://www.cnn.com/2023/04/18/us/undocumented-immigrants-taxes-cec/index.html",
+              "source": "CNN Top Stories",
+              "badge": "",
+              "feature": false,
+              "snark": "A 'common sense' solution sparks uncommon disagreement."
+            },
+            {
+              "title": "The Abigail Spanberger Bait-and-Switch",
+              "url": "https://www.realclearpolitics.com/2026/02/02/the_abigail_spanberger_bait-and-switch_690895.html",
               "source": "RealClearPolitics",
               "badge": "",
               "feature": false,
-              "snark": "Context is still being gathered.  "
+              "snark": "A bold claim meets inconvenient details."
+            },
+            {
+              "title": "Syria's only female minister pushes for change: 'I'm not here for window dressing'",
+              "url": "https://www.bbc.com/news/articles/cj0n3j16p8lo?at_medium=RSS&at_campaign=rss",
+              "source": "BBC Front Page",
+              "badge": "",
+              "feature": false,
+              "snark": "A statement was issued. Substance not included."
+            },
+            {
+              "title": "Race to contain suspected bird flu outbreak among Thames Valley swans",
+              "url": "https://www.theguardian.com/environment/2026/feb/02/race-contain-suspected-bird-flu-outbreak-swans",
+              "source": "The Guardian World",
+              "badge": "",
+              "feature": false,
+              "snark": "A compromise is proposed. Someone will hate it."
+            },
+            {
+              "title": "Staten Island Chuck’s Groundhog Day 2026 prediction",
+              "url": "https://nypost.com/2026/02/02/us-news/staten-island-chucks-groundhog-day-2026-prediction/",
+              "source": "New York Post",
+              "badge": "",
+              "feature": false,
+              "snark": "The optics are doing most of the work here."
+            },
+            {
+              "title": "Son of Norway’s crown princess to face rape charges as new Epstein files mention her hundreds of times",
+              "url": "https://www.foxnews.com/world/son-norways-crown-princess-face-rape-charges-new-epstein-files-mention-her-hundreds-times",
+              "source": "Fox News",
+              "badge": "",
+              "feature": false,
+              "snark": "This will surely be handled with nuance."
+            },
+            {
+              "title": "Refugees relive the trauma they fled as ICE targets them in Minnesota",
+              "url": "https://www.npr.org/2026/02/02/nx-s1-5686396/ice-arrest-refugees-legal-minneapolis-minnesota-immigration",
+              "source": "NPR News",
+              "badge": "",
+              "feature": false,
+              "snark": "The fine print is doing most of the work."
+            },
+            {
+              "title": "'My stomach is hurting from laughing': Hear panelist's reaction to DeSantis' threat to Disney",
+              "url": "https://www.cnn.com/videos/business/2023/04/18/desantis-disney-competition-panel-reax-pt-vpx.cnn",
+              "source": "CNN Top Stories",
+              "badge": "",
+              "feature": false,
+              "snark": "Situation remains unclear. "
+            },
+            {
+              "title": "First Detransition Trial Victory Is Only the Beginning",
+              "url": "https://www.realclearpolitics.com/2026/02/02/first_detransition_trial_victory_is_only_the_beginning_690906.html",
+              "source": "RealClearPolitics",
+              "badge": "",
+              "feature": false,
+              "snark": "Updates may follow. "
             }
           ]
         },
