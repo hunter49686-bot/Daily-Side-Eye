@@ -1,5 +1,6 @@
 import json
 import re
+import hashlib
 from datetime import datetime, timezone
 from urllib.parse import quote_plus
 
@@ -68,6 +69,7 @@ def items_from_feed(parsed, source_name: str, max_items: int):
             "url": link,
             "source": source_name,
             "tragic": is_tragic(title),
+            "snark": ""  # will fill later
         })
         if len(out) >= max_items:
             break
@@ -117,9 +119,85 @@ def global_dedupe_in_priority(section_map, priority):
     return section_map, seen
 
 # ----------------------------
-# Source pools (YOUR balance buckets)
+# Snark generation (unique per page)
 # ----------------------------
-# These are the same “sources you already chose earlier”, grouped for equal left/right counts.
+SNARK_TEMPLATES = [
+    "Bold strategy. Let’s see if it survives contact with reality.",
+    "Everyone is very confident. That’s usually a bad sign.",
+    "This has the energy of a meeting that should’ve been an email.",
+    "The vibes are loud, the facts are on mute.",
+    "A helpful reminder: headlines are not evidence.",
+    "If irony had a newsletter, this would be the lead story.",
+    "Somebody’s about to discover consequences have a return address.",
+    "The plot thickens, mostly with nonsense.",
+    "A brave new chapter in ‘we meant well.’",
+    "Reality called. It wants its narrative back.",
+    "Nothing says ‘serious’ like a sudden rush to explain.",
+    "This is either important or excellent performance art.",
+    "Somewhere, a spreadsheet is crying.",
+    "It’s giving ‘emergency’ but in a very optional way.",
+    "High drama, low signal.",
+    "We are once again speed-running avoidable confusion.",
+    "Truly inspiring levels of self-assurance.",
+    "A classic case of ‘sounds right’ vs ‘is right.’",
+    "The audacity is doing cardio today.",
+    "The headline is confident. The details are shy.",
+    "This feels like a subplot that escaped containment.",
+    "Nothing to see here except the entire thing.",
+    "A modest proposal: maybe verify things.",
+    "The timeline is stressed and so are we.",
+    "Everyone involved thinks they’re the main character.",
+    "This is why the comment section exists (unfortunately).",
+    "A masterclass in saying a lot while committing to nothing.",
+    "Please hold while reality updates its firmware.",
+    "Another day, another ‘unprecedented’ event.",
+    "We’re calling it a plan. That’s generous.",
+    "The spin cycle is set to ‘maximum.’",
+    "This is what happens when certainty outruns competence.",
+    "If this is the fix, what was the problem?",
+    "Somebody just reinvented a mistake from 2009.",
+    "A bold pivot into ‘let’s just try it.’",
+    "A reminder that being loud is not the same as being right.",
+    "This reads like a draft that went live.",
+    "Truly ambitious levels of wishful thinking.",
+    "The stakes are unclear but the confidence is astronomical.",
+    "We regret to inform you the plot has thickened again."
+]
+
+def stable_int(s: str) -> int:
+    h = hashlib.sha256(s.encode("utf-8")).hexdigest()
+    return int(h[:16], 16)
+
+def assign_unique_snark(all_items_in_order):
+    used = set()
+    total_templates = len(SNARK_TEMPLATES)
+
+    for it in all_items_in_order:
+        if it.get("tragic"):
+            it["snark"] = ""
+            continue
+
+        key = f"{it.get('title','')}|{it.get('source','')}|{it.get('url','')}"
+        start = stable_int(key) % total_templates
+
+        chosen = None
+        for offset in range(total_templates):
+            candidate = SNARK_TEMPLATES[(start + offset) % total_templates]
+            if candidate not in used:
+                chosen = candidate
+                break
+
+        # If we somehow have more non-tragic items than templates, fall back to a unique suffix.
+        if chosen is None:
+            short = hashlib.sha1(key.encode("utf-8")).hexdigest()[:6]
+            chosen = f"{SNARK_TEMPLATES[start]} ({short})"
+
+        used.add(chosen)
+        it["snark"] = chosen
+
+# ----------------------------
+# Source pools (your balance buckets)
+# ----------------------------
 LEFT_GENERAL = [
     ("Reuters", google_news_rss("site:reuters.com when:2d -inurl:/video -inurl:/graphics")),
     ("AP", google_news_rss("site:apnews.com when:2d")),
@@ -164,24 +242,19 @@ RIGHT_WEIRD = [
 def main():
     sections = {}
 
-    # Section configs
     cfg = {
-        # Column 1
         "breaking":      {"limit": 7,  "take_each": 18, "left": LEFT_GENERAL,  "right": RIGHT_GENERAL,  "filter_fn": None},
         "developing":    {"limit": 14, "take_each": 18, "left": LEFT_GENERAL,  "right": RIGHT_GENERAL,  "filter_fn": None},
         "nothingburger": {"limit": 10, "take_each": 30, "left": LEFT_GENERAL,  "right": RIGHT_GENERAL,  "filter_fn": is_nothingburger},
 
-        # Column 2
         "world":         {"limit": 14, "take_each": 18, "left": LEFT_GENERAL,  "right": RIGHT_GENERAL,  "filter_fn": None},
         "politics":      {"limit": 14, "take_each": 18, "left": LEFT_POLITICS, "right": RIGHT_POLITICS, "filter_fn": None},
         "markets":       {"limit": 14, "take_each": 18, "left": LEFT_MARKETS,  "right": RIGHT_MARKETS,  "filter_fn": None},
 
-        # Column 3
         "tech":          {"limit": 14, "take_each": 24, "left": LEFT_TECH,     "right": RIGHT_TECH,     "filter_fn": None},
         "weird":         {"limit": 12, "take_each": 24, "left": LEFT_WEIRD,    "right": RIGHT_WEIRD,    "filter_fn": None},
     }
 
-    # Build sections (balanced merge)
     for sec, c in cfg.items():
         left_pool = pull_sources(c["left"], take_each=c["take_each"])
         right_pool = pull_sources(c["right"], take_each=c["take_each"])
@@ -193,11 +266,9 @@ def main():
 
         sections[sec] = alternate(left_pool, right_pool, c["limit"])
 
-    # Global dedupe in page priority order
     priority = ["breaking","developing","nothingburger","world","politics","markets","tech","weird"]
     sections, used = global_dedupe_in_priority(sections, priority)
 
-    # Build "You Might Have Missed" from leftovers not already used, still balanced
     missed_left_sources = LEFT_GENERAL + LEFT_POLITICS + LEFT_MARKETS + LEFT_TECH + LEFT_WEIRD
     missed_right_sources = RIGHT_GENERAL + RIGHT_POLITICS + RIGHT_MARKETS + RIGHT_TECH + RIGHT_WEIRD
 
@@ -209,7 +280,6 @@ def main():
 
     sections["missed"] = dedupe_list(alternate(missed_left, missed_right, 12))
 
-    # Final caps (Breaking hard cap 7)
     final = {
         "breaking": sections.get("breaking", [])[:7],
         "developing": sections.get("developing", []),
@@ -222,8 +292,14 @@ def main():
         "missed": sections.get("missed", []),
     }
 
+    # Assign unique snark lines across the whole page in display order
+    all_items = []
+    for sec in ["breaking","developing","nothingburger","world","politics","markets","tech","weird","missed"]:
+        all_items.extend(final.get(sec, []))
+    assign_unique_snark(all_items)
+
     data = {
-        "meta": {"generated_at": now_iso(), "version": 5},
+        "meta": {"generated_at": now_iso(), "version": 6},
         "sections": final
     }
 
