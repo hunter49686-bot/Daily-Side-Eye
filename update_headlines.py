@@ -69,7 +69,7 @@ def items_from_feed(parsed, source_name: str, max_items: int):
             "url": link,
             "source": source_name,
             "tragic": is_tragic(title),
-            "snark": ""  # will fill later
+            "snark": ""
         })
         if len(out) >= max_items:
             break
@@ -119,7 +119,8 @@ def global_dedupe_in_priority(section_map, priority):
     return section_map, seen
 
 # ----------------------------
-# Snark generation (unique per page)
+# Snark generation (unique per page, NO hash suffixes)
+# Ensure templates > max non-tragic items so we never run out.
 # ----------------------------
 SNARK_TEMPLATES = [
     "Bold strategy. Let’s see if it survives contact with reality.",
@@ -157,11 +158,139 @@ SNARK_TEMPLATES = [
     "If this is the fix, what was the problem?",
     "Somebody just reinvented a mistake from 2009.",
     "A bold pivot into ‘let’s just try it.’",
-    "A reminder that being loud is not the same as being right.",
+    "Being loud is not the same as being right.",
     "This reads like a draft that went live.",
-    "Truly ambitious levels of wishful thinking.",
+    "Ambitious levels of wishful thinking.",
     "The stakes are unclear but the confidence is astronomical.",
-    "We regret to inform you the plot has thickened again."
+    "We regret to inform you the plot has thickened again.",
+    "A quick reminder: correlation isn’t a personality trait.",
+    "The headline wants applause; the details want supervision.",
+    "This is either a breakthrough or a rerun.",
+    "The rationale is missing, but the confidence is not.",
+    "We are watching a plan develop in real time. Unfortunately.",
+    "The explanation is doing parkour around the point.",
+    "This is why people drink decaf—less optimism.",
+    "The timeline is creative, in the worst way.",
+    "A bold move from the Department of ‘Trust Me Bro.’",
+    "Today’s sponsor is… oh wait, no promos allowed.",
+    "Somebody is about to ‘clarify’ for 72 hours straight.",
+    "The ‘sources say’ era continues.",
+    "This is the kind of certainty that ages poorly.",
+    "If this is leadership, where’s the adult supervision?",
+    "A lot of words to say ‘we’ll see.’",
+    "The strategy appears to be vibes and prayer.",
+    "This is what happens when group chats run government.",
+    "A thrilling episode of ‘nobody read the memo.’",
+    "Consider this your daily reminder to check the fine print.",
+    "The confidence-to-competence ratio is alarming.",
+    "It’s a bold claim for someone with no citations.",
+    "We love a plan that collapses on contact.",
+    "Reality remains undefeated.",
+    "This could’ve been prevented by reading the room.",
+    "Somebody mistook a hunch for a policy.",
+    "The optics are doing the heavy lifting.",
+    "Another victory for the ‘wait, what?’ community.",
+    "A proud moment for chaos enthusiasts.",
+    "It’s giving ‘we’ll workshop it later.’",
+    "They chose violence. Bureaucratic violence.",
+    "This is a great way to lose a weekend.",
+    "The narrative is sprinting; the facts are strolling.",
+    "This is why adults shouldn’t be allowed to improvise.",
+    "An exciting new chapter in ‘avoidable.’",
+    "The plan is simple: pretend this is fine.",
+    "The justification is thin, like hotel towels.",
+    "Somebody’s lawyer just sighed.",
+    "The PR team is about to earn their keep.",
+    "A reminder: punctuation is not accountability.",
+    "This is the kind of headline that needs a disclaimer.",
+    "This is not a solution; it’s an activity.",
+    "The follow-up will be spectacular.",
+    "We are all trapped in a pilot episode.",
+    "The certainty is loud; the evidence is shy.",
+    "This is a situation, not a strategy.",
+    "Somebody pressed ‘send’ and immediately regretted it.",
+    "The headline is spicy; the details are plain oatmeal.",
+    "If this is the plan, what’s the backup?",
+    "This is why we can’t have nice institutions.",
+    "The vibes are immaculate. The logic is not.",
+    "This will age like milk in July.",
+    "A brave attempt at narrative control.",
+    "Somebody is allergic to straightforward answers.",
+    "This is a strong argument for naps.",
+    "A bold swing at basic arithmetic.",
+    "The explanation is doing interpretive dance.",
+    "Today in ‘choices were made.’",
+    "This is what happens when nobody owns the decision.",
+    "The headline is a promise; the article is an apology.",
+    "We’ve entered the ‘walk it back’ portion of the program.",
+    "Somebody confused attention with approval.",
+    "This is a case study in how not to do this.",
+    "This is the kind of plan that needs adult supervision.",
+    "The details are thin, but the confidence is thick.",
+    "We love a theory that ignores reality.",
+    "This is the chaos tax coming due.",
+    "A thrilling update from the land of consequences.",
+    "The subtext is screaming.",
+    "This is why you don’t let vibes drive the bus.",
+    "The headline is yelling; the facts are whispering.",
+    "This is not a pivot, it’s a wobble.",
+    "Somebody is about to discover what ‘oversight’ means.",
+    "This is a bold claim for a Tuesday.",
+    "The strategy appears to be ‘hope.’",
+    "The evidence is missing; the confidence is present.",
+    "It’s giving ‘we’ll circle back’ forever.",
+    "This is why we read past the headline.",
+    "A gentle reminder that reality keeps receipts.",
+    "This is a classic case of ‘nice try.’",
+    "The plan is evolving. That’s not comforting.",
+    "We are watching an idea escape containment.",
+    "This is a good way to create a new problem.",
+    "A bold move from someone who hates follow-ups.",
+    "The spin is impressive, in a concerning way.",
+    "This feels like an intern wrote the timeline.",
+    "The details are here to ruin the story.",
+    "A proud moment for unintended consequences.",
+    "This is not a headline; it’s a cry for help.",
+    "The argument is strong… emotionally.",
+    "This will be clarified into oblivion.",
+    "This is why we can’t have simple news.",
+    "The logic is on vacation.",
+    "This is an ambitious misunderstanding.",
+    "The headline is doing the most.",
+    "The details are a jump scare.",
+    "This is an interesting choice for people with reputations.",
+    "The vibes are confident; the math is not.",
+    "A bold attempt to redefine ‘working.’",
+    "This is an expensive way to learn a lesson.",
+    "We are witnessing the consequences draft itself.",
+    "The headline is confident; the plan is vibes.",
+    "This is what ‘minimum viable’ looks like in the wild.",
+    "A heroic effort to avoid responsibility.",
+    "This is a high-stakes game of ‘maybe.’",
+    "The narrative is doing gymnastics.",
+    "This is a real sentence someone approved.",
+    "A reminder: words are not a substitute for plans.",
+    "The plot twist is: nobody checked.",
+    "This is the ‘find out’ portion of the program.",
+    "The confidence is so loud it’s clipping.",
+    "An exciting new way to be wrong.",
+    "This is what happens when you skip step two.",
+    "We love a headline that begs for context.",
+    "The logic has left the building.",
+    "This is a bold choice for people with jobs.",
+    "The accountability is not in the room.",
+    "This is the kind of optimism that needs a helmet.",
+    "Another day, another ‘temporary’ policy.",
+    "This is how meetings become headlines.",
+    "This reads like a dare.",
+    "The solution is… vibes.",
+    "This is an inventive approach to being unprepared.",
+    "A confident move from the land of assumptions.",
+    "This is a strategic misunderstanding.",
+    "The vibe is ‘we tried nothing.’",
+    "This is a plan made of duct tape.",
+    "The details are doing damage control.",
+    "This is the kind of headline that needs adult supervision.",
 ]
 
 def stable_int(s: str) -> int:
@@ -170,7 +299,7 @@ def stable_int(s: str) -> int:
 
 def assign_unique_snark(all_items_in_order):
     used = set()
-    total_templates = len(SNARK_TEMPLATES)
+    n = len(SNARK_TEMPLATES)
 
     for it in all_items_in_order:
         if it.get("tragic"):
@@ -178,25 +307,25 @@ def assign_unique_snark(all_items_in_order):
             continue
 
         key = f"{it.get('title','')}|{it.get('source','')}|{it.get('url','')}"
-        start = stable_int(key) % total_templates
+        start = stable_int(key) % n
 
         chosen = None
-        for offset in range(total_templates):
-            candidate = SNARK_TEMPLATES[(start + offset) % total_templates]
+        for offset in range(n):
+            candidate = SNARK_TEMPLATES[(start + offset) % n]
             if candidate not in used:
                 chosen = candidate
                 break
 
-        # If we somehow have more non-tragic items than templates, fall back to a unique suffix.
+        # If we somehow run out (should not), show nothing instead of adding hashes.
         if chosen is None:
-            short = hashlib.sha1(key.encode("utf-8")).hexdigest()[:6]
-            chosen = f"{SNARK_TEMPLATES[start]} ({short})"
+            it["snark"] = ""
+            continue
 
         used.add(chosen)
         it["snark"] = chosen
 
 # ----------------------------
-# Source pools (your balance buckets)
+# Source pools (balance buckets)
 # ----------------------------
 LEFT_GENERAL = [
     ("Reuters", google_news_rss("site:reuters.com when:2d -inurl:/video -inurl:/graphics")),
@@ -292,14 +421,13 @@ def main():
         "missed": sections.get("missed", []),
     }
 
-    # Assign unique snark lines across the whole page in display order
     all_items = []
     for sec in ["breaking","developing","nothingburger","world","politics","markets","tech","weird","missed"]:
         all_items.extend(final.get(sec, []))
     assign_unique_snark(all_items)
 
     data = {
-        "meta": {"generated_at": now_iso(), "version": 6},
+        "meta": {"generated_at": now_iso(), "version": 7},
         "sections": final
     }
 
