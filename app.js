@@ -1,5 +1,5 @@
 const HEADLINES_URL = "headlines.json";
-const LKG_KEY = "dse_last_known_good_v5";
+const LKG_KEY = "dse_last_known_good_v6";
 
 function escapeHtml(s) {
   return String(s ?? "")
@@ -30,7 +30,7 @@ async function fetchHeadlines() {
     }
     return {
       data: {
-        meta: { generated_at: null, version: 5 },
+        meta: { generated_at: null, version: 6 },
         sections: {
           breaking: [], developing: [], nothingburger: [],
           world: [], politics: [], markets: [],
@@ -55,18 +55,18 @@ function renderSection(containerId, items, { cap = null } = {}) {
         const title = escapeHtml(it.title);
         const source = escapeHtml(it.source || "");
         const url = it.url || "#";
-        const tragic = !!it.tragic;
-        const badge = tragic
-          ? `<span class="badge tragic">no snark</span>`
-          : `<span class="badge snark">snark</span>`;
+
+        const snarkLine = (it.snark && typeof it.snark === "string")
+          ? `<div class="source">${escapeHtml(it.snark)}</div>`
+          : "";
 
         return `
           <a class="headline" href="${url}" target="_blank" rel="noopener noreferrer">
             <div class="title">${title}</div>
             <div class="meta-row">
               <div class="source">${source}</div>
-              ${badge}
             </div>
+            ${snarkLine}
           </a>
         `;
       }).join("")
