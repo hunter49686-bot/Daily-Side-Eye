@@ -18,7 +18,6 @@
 
 * { box-sizing: border-box; }
 
-/* === GLOBAL SCALE UP (≈ +15%) === */
 html, body {
   margin: 0;
   padding: 0;
@@ -36,10 +35,7 @@ html, body {
   padding-right: 18px;
 }
 
-/* =========================
-   Header
-   ========================= */
-
+/* Header */
 .site-header {
   background: #ffffff;
   border-bottom: 2px solid var(--border);
@@ -53,7 +49,6 @@ html, body {
   gap: 18px;
 }
 
-/* === TITLE: EVEN BIGGER === */
 .brand-title {
   font-size: 48px;
   font-weight: 900;
@@ -67,10 +62,7 @@ html, body {
   opacity: 0.95;
 }
 
-/* =========================
-   Grid
-   ========================= */
-
+/* Grid */
 .grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -85,10 +77,7 @@ html, body {
   }
 }
 
-/* =========================
-   Columns
-   ========================= */
-
+/* Columns */
 .col {
   border: 1px solid var(--border);
   border-radius: 12px;
@@ -96,10 +85,7 @@ html, body {
   overflow: hidden;
 }
 
-/* =========================
-   Sections
-   ========================= */
-
+/* Sections */
 .section-header {
   padding: 18px 16px 14px;
   display: flex;
@@ -126,21 +112,16 @@ html, body {
 
 .section-body {
   padding: 12px 14px 16px;
+  min-height: 54px; /* ensures something always appears directly under headers */
 }
 
-/* =========================
-   Breaking emphasis
-   ========================= */
-
+/* Breaking emphasis */
 #breaking {
   border-left: 5px solid var(--accent);
   padding-left: 12px;
 }
 
-/* =========================
-   Headlines
-   ========================= */
-
+/* Headlines */
 .headline {
   display: block;
   text-decoration: none;
@@ -170,10 +151,7 @@ html, body {
   font-weight: 900;
 }
 
-/* =========================
-   Meta / Snark
-   ========================= */
-
+/* Meta / Snark */
 .meta-row {
   margin-top: 8px;
   display: flex;
@@ -187,20 +165,18 @@ html, body {
   color: var(--muted);
 }
 
-/* =========================
-   Empty
-   ========================= */
+.source.snark {
+  margin-top: 4px;
+}
 
+/* Empty / Loading */
 .empty {
-  padding: 16px 14px;
+  padding: 10px 6px;
   font-size: 14.5px;
   color: var(--muted);
 }
 
-/* =========================
-   Footer
-   ========================= */
-
+/* Footer */
 .site-footer {
   padding-top: 14px;
   padding-bottom: 30px;
