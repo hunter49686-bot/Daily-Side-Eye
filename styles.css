@@ -120,3 +120,48 @@ body {
   color: var(--muted);
 }
 .meta { margin-bottom: 6px; }
+/* ---- Subtle readability boost ---- */
+
+/* Base text slightly larger */
+body {
+  font-size: 15px;
+}
+
+/* Headlines slightly larger */
+.title {
+  font-size: 14.5px;
+  line-height: 1.35;
+}
+
+/* Source + snark line a touch bigger */
+.source {
+  font-size: 12.5px;
+}
+
+/* Section headers slightly stronger */
+.section-header h2 {
+  font-size: 16.5px;
+}
+
+/* ---- Breaking emphasis ---- */
+
+/* Make Breaking header stand out */
+#breaking {
+  border-left: 3px solid var(--accent);
+  padding-left: 8px;
+}
+
+/* Slightly bolder Breaking headlines */
+#breaking .title {
+  font-weight: 600;
+}
+
+/* Optional: subtle background hint for Breaking cards */
+#breaking .headline {
+  background: linear-gradient(
+    90deg,
+    rgba(31,111,235,0.06),
+    rgba(255,255,255,0)
+  );
+}
+
