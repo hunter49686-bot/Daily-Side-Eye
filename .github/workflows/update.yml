@@ -1,77 +1,110 @@
-name: Update headlines.json
+name: Update Breaking (every 30 min, offset)
 
 on:
   schedule:
-    - cron: "*/15 * * * *"
+    - cron: "7,37 * * * *"   # :07 and :37 UTC (less congested)
   workflow_dispatch:
 
 permissions:
   contents: write
 
 concurrency:
-  group: update-headlines
+  group: headlines-update
   cancel-in-progress: true
 
 jobs:
-  update:
+  breaking:
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-python@v5
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      - run: pip install -r requirements.txt
-
-      # IMPORTANT: sync FIRST, before generating and committing
-      - name: Sync to origin/main
-        shell: bash
+      - name: Install deps
         run: |
-          set -euo pipefail
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Reset to remote main (avoid divergence)
+        run: |
           git fetch origin main
+          git checkout main
           git reset --hard origin/main
 
-      - name: Generate headlines.json
-        run: python update_headlines.py
+      - name: Update ONLY Breaking (keep other sections)
+        run: |
+          python - <<'PY'
+          import json, os
+          from datetime import datetime, timezone
 
-      - name: Commit & push if changed (no rebase after commit)
-        shell: bash
+          # Import helper functions from your existing generator (keeps behavior consistent)
+          import update_headlines as uh
+
+          HEADLINES_PATH = "headlines.json"
+
+          def now_iso():
+            return datetime.now(timezone.utc).isoformat()
+
+          def load_existing():
+            try:
+              with open(HEADLINES_PATH, "r", encoding="utf-8") as f:
+                return json.load(f)
+            except FileNotFoundError:
+              return {"meta": {"generated_at": now_iso(), "version": 7}, "sections": {}}
+
+          def ensure_sections(data):
+            data.setdefault("meta", {})
+            data["meta"].setdefault("version", 7)
+            data["sections"] = data.get("sections") or {}
+            for k in ["breaking","developing","nothingburger","world","politics","markets","tech","weird","missed"]:
+              data["sections"].setdefault(k, [])
+            return data
+
+          data = ensure_sections(load_existing())
+
+          # Pull fresh Breaking from the same balanced sources you defined
+          left_pool  = uh.pull_sources(uh.LEFT_GENERAL,  take_each=18)
+          right_pool = uh.pull_sources(uh.RIGHT_GENERAL, take_each=18)
+          breaking = uh.alternate(left_pool, right_pool, 7)
+
+          data["sections"]["breaking"] = breaking
+
+          # Enforce "no duplicates across sections" using your priority order
+          priority = ["breaking","developing","nothingburger","world","politics","markets","tech","weird","missed"]
+          data["sections"], _ = uh.global_dedupe_in_priority(data["sections"], priority)
+
+          # Re-assign snark page-wide so it's still unique and never appends hash junk
+          all_items = []
+          for sec in priority:
+            all_items.extend(data["sections"].get(sec, []))
+          uh.assign_unique_snark(all_items)
+
+          # Update meta timestamp
+          data["meta"]["generated_at"] = now_iso()
+
+          with open(HEADLINES_PATH, "w", encoding="utf-8") as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+          PY
+
+      - name: Commit & push if changed
         run: |
           set -euo pipefail
+          if git diff --quiet; then
+            echo "No changes."
+            exit 0
+          fi
 
           git config user.name "dailysideeye-bot"
           git config user.email "actions@users.noreply.github.com"
 
           git add headlines.json
-
-          if git diff --cached --quiet; then
-            echo "No changes."
-            exit 0
-          fi
-
-          git commit -m "Update headlines.json ($(date -u '+%Y-%m-%d %H:%M UTC'))"
-
-          # Push with a small retry to handle rare races
-          for attempt in 1 2 3; do
-            if git push; then
-              exit 0
-            fi
-            echo "Push failed (attempt $attempt). Re-sync and retry..."
-            git fetch origin main
-            git reset --hard origin/main
-            python update_headlines.py
-            git add headlines.json
-            if git diff --cached --quiet; then
-              echo "After resync, nothing to push."
-              exit 0
-            fi
-            git commit -m "Update headlines.json ($(date -u '+%Y-%m-%d %H:%M UTC'))"
-          done
-
-          echo "Push failed after retries."
-          exit 1
+          git commit -m "Update Breaking (UTC)"
+          git push origin main
