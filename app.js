@@ -1,5 +1,4 @@
 const HEADLINES_URL = "headlines.json";
-const LKG_KEY = "dse_last_known_good_v6";
 
 function escapeHtml(s) {
   return String(s ?? "")
@@ -12,35 +11,11 @@ function escapeHtml(s) {
 
 async function fetchHeadlines() {
   const cacheBust = `?v=${Date.now()}`;
-  try {
-    const res = await fetch(HEADLINES_URL + cacheBust, { cache: "no-store" });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data = await res.json();
-    if (!data?.sections) throw new Error("Invalid schema: missing sections");
-    localStorage.setItem(LKG_KEY, JSON.stringify({ savedAt: Date.now(), data }));
-    return { data, fromCache: false, cacheAgeMs: 0 };
-  } catch (err) {
-    const lkg = localStorage.getItem(LKG_KEY);
-    if (lkg) {
-      try {
-        const parsed = JSON.parse(lkg);
-        const age = Date.now() - (parsed.savedAt || Date.now());
-        return { data: parsed.data, fromCache: true, cacheAgeMs: age };
-      } catch (_) {}
-    }
-    return {
-      data: {
-        meta: { generated_at: null, version: 6 },
-        sections: {
-          breaking: [], developing: [], nothingburger: [],
-          world: [], politics: [], markets: [],
-          tech: [], weird: [], missed: []
-        }
-      },
-      fromCache: true,
-      cacheAgeMs: null
-    };
-  }
+  const res = await fetch(HEADLINES_URL + cacheBust, { cache: "no-store" });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const data = await res.json();
+  if (!data?.sections) throw new Error("Invalid schema: missing sections");
+  return data;
 }
 
 function renderSection(containerId, items, { cap = null } = {}) {
@@ -56,9 +31,8 @@ function renderSection(containerId, items, { cap = null } = {}) {
         const source = escapeHtml(it.source || "");
         const url = it.url || "#";
 
-        const snarkLine = (it.snark && typeof it.snark === "string")
-          ? `<div class="source">${escapeHtml(it.snark)}</div>`
-          : "";
+        const snarkText = (it.snark && typeof it.snark === "string") ? it.snark.trim() : "";
+        const snarkLine = snarkText ? `<div class="source">${escapeHtml(snarkText)}</div>` : "";
 
         return `
           <a class="headline" href="${url}" target="_blank" rel="noopener noreferrer">
@@ -78,28 +52,37 @@ function formatUtcIso(iso) {
 }
 
 async function init() {
-  const { data, fromCache, cacheAgeMs } = await fetchHeadlines();
-  const s = data.sections || {};
+  try {
+    const data = await fetchHeadlines();
+    const s = data.sections || {};
 
-  renderSection("breaking", s.breaking, { cap: 7 });
-  renderSection("developing", s.developing);
-  renderSection("nothingburger", s.nothingburger);
+    renderSection("breaking", s.breaking, { cap: 7 });
+    renderSection("developing", s.developing);
+    renderSection("nothingburger", s.nothingburger);
 
-  renderSection("world", s.world);
-  renderSection("politics", s.politics);
-  renderSection("markets", s.markets);
+    renderSection("world", s.world);
+    renderSection("politics", s.politics);
+    renderSection("markets", s.markets);
 
-  renderSection("tech", s.tech);
-  renderSection("weird", s.weird);
-  renderSection("missed", s.missed);
+    renderSection("tech", s.tech);
+    renderSection("weird", s.weird);
+    renderSection("missed", s.missed);
 
-  const metaEl = document.getElementById("meta");
-  if (metaEl) {
-    const gen = data?.meta?.generated_at ? formatUtcIso(data.meta.generated_at) : "Not available";
-    const cacheNote = fromCache
-      ? (cacheAgeMs === null ? " (fallback)" : ` (cached fallback, age ~${Math.round(cacheAgeMs / 60000)} min)`)
-      : "";
-    metaEl.textContent = `Generated (UTC): ${gen}${cacheNote}`;
+    const metaEl = document.getElementById("meta");
+    if (metaEl) {
+      const gen = data?.meta?.generated_at ? formatUtcIso(data.meta.generated_at) : "Not available";
+      metaEl.textContent = `Generated (UTC): ${gen}`;
+    }
+  } catch (e) {
+    // If fetch fails, show empty (no cached old snark)
+    [
+      "breaking","developing","nothingburger",
+      "world","politics","markets",
+      "tech","weird","missed"
+    ].forEach(id => renderSection(id, []));
+
+    const metaEl = document.getElementById("meta");
+    if (metaEl) metaEl.textContent = "Generated (UTC): Not available";
   }
 }
 
