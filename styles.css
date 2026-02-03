@@ -27,12 +27,20 @@ html, body {
   font-size: 15px;
 }
 
-/* Header */
+/* =========================
+   Header (aligned to grid)
+   ========================= */
 
 .site-header {
-  padding: 22px 18px 18px;
   border-bottom: 2px solid var(--border);
   background: #ffffff;
+}
+
+/* This matches .grid width and left edge exactly */
+.header-inner {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 22px 18px 18px;
 }
 
 .brand-row {
@@ -42,19 +50,21 @@ html, body {
 }
 
 .brand-title {
-  font-size: 34px;          /* noticeably larger */
-  font-weight: 900;         /* unmistakable emphasis */
+  font-size: 34px;
+  font-weight: 900;
   letter-spacing: -0.6px;
   line-height: 1;
 }
 
 .brand-icon {
-  width: 40px;              /* clearly visible */
+  width: 40px;
   height: 40px;
   opacity: 0.95;
 }
 
-/* Grid */
+/* =========================
+   Grid
+   ========================= */
 
 .grid {
   display: grid;
@@ -71,7 +81,9 @@ html, body {
   }
 }
 
-/* Columns */
+/* =========================
+   Columns
+   ========================= */
 
 .col {
   border: 1px solid var(--border);
@@ -80,10 +92,12 @@ html, body {
   overflow: hidden;
 }
 
-/* Sections */
+/* =========================
+   Sections
+   ========================= */
 
 .section-header {
-  padding: 12px 14px 8px;
+  padding: 14px 14px 10px;
   display: flex;
   justify-content: space-between;
   align-items: baseline;
@@ -92,8 +106,8 @@ html, body {
 
 .section-header h2 {
   margin: 0;
-  font-size: 16.5px;
-  font-weight: 700;
+  font-size: 19px;       /* increased */
+  font-weight: 800;     /* stronger hierarchy */
 }
 
 .section-note {
@@ -110,7 +124,9 @@ html, body {
   padding: 8px 10px 12px;
 }
 
-/* Breaking emphasis */
+/* =========================
+   Breaking emphasis
+   ========================= */
 
 #breaking {
   border-left: 4px solid var(--accent);
@@ -129,7 +145,9 @@ html, body {
   );
 }
 
-/* Headlines */
+/* =========================
+   Headlines
+   ========================= */
 
 .headline {
   display: block;
@@ -152,7 +170,9 @@ html, body {
   color: var(--text);
 }
 
-/* Meta */
+/* =========================
+   Meta / Snark
+   ========================= */
 
 .meta-row {
   margin-top: 4px;
@@ -167,7 +187,9 @@ html, body {
   color: var(--muted);
 }
 
-/* Empty */
+/* =========================
+   Empty
+   ========================= */
 
 .empty {
   padding: 12px 10px;
@@ -175,7 +197,9 @@ html, body {
   color: var(--muted);
 }
 
-/* Footer */
+/* =========================
+   Footer
+   ========================= */
 
 .site-footer {
   padding: 10px 18px 24px;
