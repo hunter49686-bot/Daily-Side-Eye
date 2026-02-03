@@ -28,13 +28,22 @@ jobs:
 
       - run: pip install -r requirements.txt
 
-      - name: Generate headlines.json
-        run: python update_headlines.py
-
-      - name: Commit & push if changed
+      # IMPORTANT: sync FIRST, before generating and committing
+      - name: Sync to origin/main
         shell: bash
         run: |
           set -euo pipefail
+          git fetch origin main
+          git reset --hard origin/main
+
+      - name: Generate headlines.json
+        run: python update_headlines.py
+
+      - name: Commit & push if changed (no rebase after commit)
+        shell: bash
+        run: |
+          set -euo pipefail
+
           git config user.name "dailysideeye-bot"
           git config user.email "actions@users.noreply.github.com"
 
@@ -46,5 +55,23 @@ jobs:
           fi
 
           git commit -m "Update headlines.json ($(date -u '+%Y-%m-%d %H:%M UTC'))"
-          git pull --rebase
-          git push
+
+          # Push with a small retry to handle rare races
+          for attempt in 1 2 3; do
+            if git push; then
+              exit 0
+            fi
+            echo "Push failed (attempt $attempt). Re-sync and retry..."
+            git fetch origin main
+            git reset --hard origin/main
+            python update_headlines.py
+            git add headlines.json
+            if git diff --cached --quiet; then
+              echo "After resync, nothing to push."
+              exit 0
+            fi
+            git commit -m "Update headlines.json ($(date -u '+%Y-%m-%d %H:%M UTC'))"
+          done
+
+          echo "Push failed after retries."
+          exit 1
