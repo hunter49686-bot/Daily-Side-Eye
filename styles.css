@@ -17,6 +17,7 @@
 }
 
 * { box-sizing: border-box; }
+
 html, body {
   margin: 0;
   padding: 0;
@@ -29,28 +30,28 @@ html, body {
 /* Header */
 
 .site-header {
-  padding: 18px 18px 14px;
-  border-bottom: 1px solid var(--border);
+  padding: 22px 18px 18px;
+  border-bottom: 2px solid var(--border);
   background: #ffffff;
 }
 
 .brand-row {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
 }
 
 .brand-title {
-  font-size: 30px;
-  font-weight: 800;
-  letter-spacing: -0.3px;
-  line-height: 1.1;
+  font-size: 34px;          /* noticeably larger */
+  font-weight: 900;         /* unmistakable emphasis */
+  letter-spacing: -0.6px;
+  line-height: 1;
 }
 
 .brand-icon {
-  width: 34px;
-  height: 34px;
-  opacity: 0.9;
+  width: 40px;              /* clearly visible */
+  height: 40px;
+  opacity: 0.95;
 }
 
 /* Grid */
@@ -112,7 +113,7 @@ html, body {
 /* Breaking emphasis */
 
 #breaking {
-  border-left: 3px solid var(--accent);
+  border-left: 4px solid var(--accent);
   padding-left: 8px;
 }
 
@@ -123,7 +124,7 @@ html, body {
 #breaking .headline {
   background: linear-gradient(
     90deg,
-    rgba(31,111,235,0.06),
+    rgba(31,111,235,0.08),
     rgba(255,255,255,0)
   );
 }
