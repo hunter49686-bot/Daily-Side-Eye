@@ -1,0 +1,158 @@
+name: Update Sections (Staggered)
+
+on:
+  schedule:
+    # Breaking: every 30 minutes at :07 and :37 UTC
+    - cron: "7,37 * * * *"
+
+    # Policy: every 2 hours at :11 UTC
+    - cron: "11 */2 * * *"
+
+    # Money: every 2 hours at :23 UTC
+    - cron: "23 */2 * * *"
+
+    # Tech: every 2 hours at :41 UTC
+    - cron: "41 */2 * * *"
+
+    # Weird: every 2 hours at :53 UTC
+    - cron: "53 */2 * * *"
+
+  # Manual runs from GitHub UI
+  workflow_dispatch:
+    inputs:
+      section:
+        description: "Which section to update (or 'all')"
+        required: true
+        default: "all"
+        type: choice
+        options:
+          - all
+          - breaking
+          - policy
+          - money
+          - tech
+          - weird
+
+permissions:
+  contents: write
+
+jobs:
+  update_breaking:
+    name: Update breaking
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    concurrency:
+      group: update-breaking
+      cancel-in-progress: true
+    if: |
+      (github.event_name == 'schedule' && github.event.schedule == '7,37 * * * *') ||
+      (github.event_name == 'workflow_dispatch' && (inputs.section == 'breaking' || inputs.section == 'all'))
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements.txt
+      - run: python update_headlines.py --section breaking
+      - run: |
+          git config user.name "dailysideeye-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add headlines.json
+          git commit -m "Update breaking" || exit 0
+          git push
+
+  update_policy:
+    name: Update policy
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    concurrency:
+      group: update-policy
+      cancel-in-progress: true
+    if: |
+      (github.event_name == 'schedule' && github.event.schedule == '11 */2 * * *') ||
+      (github.event_name == 'workflow_dispatch' && (inputs.section == 'policy' || inputs.section == 'all'))
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements.txt
+      - run: python update_headlines.py --section policy
+      - run: |
+          git config user.name "dailysideeye-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add headlines.json
+          git commit -m "Update policy" || exit 0
+          git push
+
+  update_money:
+    name: Update money
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    concurrency:
+      group: update-money
+      cancel-in-progress: true
+    if: |
+      (github.event_name == 'schedule' && github.event.schedule == '23 */2 * * *') ||
+      (github.event_name == 'workflow_dispatch' && (inputs.section == 'money' || inputs.section == 'all'))
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements.txt
+      - run: python update_headlines.py --section money
+      - run: |
+          git config user.name "dailysideeye-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add headlines.json
+          git commit -m "Update money" || exit 0
+          git push
+
+  update_tech:
+    name: Update tech
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    concurrency:
+      group: update-tech
+      cancel-in-progress: true
+    if: |
+      (github.event_name == 'schedule' && github.event.schedule == '41 */2 * * *') ||
+      (github.event_name == 'workflow_dispatch' && (inputs.section == 'tech' || inputs.section == 'all'))
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements.txt
+      - run: python update_headlines.py --section tech
+      - run: |
+          git config user.name "dailysideeye-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add headlines.json
+          git commit -m "Update tech" || exit 0
+          git push
+
+  update_weird:
+    name: Update weird
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    concurrency:
+      group: update-weird
+      cancel-in-progress: true
+    if: |
+      (github.event_name == 'schedule' && github.event.schedule == '53 */2 * * *') ||
+      (github.event_name == 'workflow_dispatch' && (inputs.section == 'weird' || inputs.section == 'all'))
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements.txt
+      - run: python update_headlines.py --section weird
+      - run: |
+          git config user.name "dailysideeye-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add headlines.json
+          git commit -m "Update weird" || exit 0
+          git push
