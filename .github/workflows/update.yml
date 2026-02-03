@@ -3,7 +3,7 @@ name: Update headlines.json
 on:
   workflow_dispatch:
   schedule:
-    - cron: "*/15 * * * *"
+    - cron: "7,22,37,52 * * * *"
 
 concurrency:
   group: update-headlines
@@ -18,10 +18,10 @@ jobs:
     timeout-minutes: 8
 
     steps:
-      - name: Checkout (full history)
+      - name: Checkout data branch
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          ref: data
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -37,38 +37,16 @@ jobs:
         run: |
           python update_headlines.py
 
-      - name: Commit headlines.json to data branch (only if changed)
-        shell: bash
+      - name: Commit & push if changed
         run: |
-          set -euo pipefail
-
           git config user.name "dailysideeye-bot"
           git config user.email "actions@users.noreply.github.com"
 
-          test -f headlines.json
-
-          mkdir -p /tmp/dse
-          cp headlines.json /tmp/dse/headlines.json
-
-          git checkout -B data
-          cp /tmp/dse/headlines.json ./headlines.json
-
-          if git diff --quiet -- headlines.json; then
-            echo "No changes to headlines.json."
+          if git diff --quiet; then
+            echo "No changes to commit."
             exit 0
           fi
 
           git add headlines.json
           git commit -m "Update headlines.json"
-
-          for i in 1 2 3 4 5; do
-            if git push -u origin data; then
-              echo "Pushed to data branch."
-              exit 0
-            fi
-            echo "Push failed (attempt $i). Retrying in 10s..."
-            sleep 10
-          done
-
-          echo "Push failed after retries."
-          exit 1
+          git push origin data
