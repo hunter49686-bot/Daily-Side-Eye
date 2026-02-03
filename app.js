@@ -1,21 +1,17 @@
 (() => {
   // ===== SETTINGS =====
-  const REFRESH_EVERY_MS = 5 * 60 * 1000;
+  const REFRESH_EVERY_MS = 5 * 60 * 1000; // 5 minutes
   const HISTORY_DAYS = 7;
 
-  const HISTORY_KEY = "dse_history_v5";
-  const CLICKS_KEY  = "dse_clicks_v5";
-
-  // Pull headlines from data branch (decoupled from Pages deploy)
-  const DATA_URL = "https://raw.githubusercontent.com/hunter49686-bot/Daily-Side-Eye/data/headlines.json";
+  // Local storage keys (per-device)
+  const HISTORY_KEY = "dse_history_v2";
+  const CLICKS_KEY  = "dse_clicks_v2";
 
   const SPECIAL_NAMES = {
     burger: "Nothing Burger of the Day",
     missed: "A Line Most People Missed",
     week:   "Week in Review",
-    same:   "Same Story, Different Outlet",
-    breaking: "Breaking",
-    developing: "Developing"
+    breaking: "Breaking"
   };
 
   // ===== helpers =====
@@ -24,13 +20,11 @@
 
   function showError(msg){
     const el = qs("err");
-    if (!el) return;
     el.style.display = "block";
     el.textContent = msg;
   }
   function clearError(){
     const el = qs("err");
-    if (!el) return;
     el.style.display = "none";
     el.textContent = "";
   }
@@ -58,7 +52,7 @@
   function uniqByUrl(items){
     const seen = new Set();
     const out = [];
-    for (const it of (items || [])){
+    for (const it of items){
       if (!it || !it.url) continue;
       if (seen.has(it.url)) continue;
       seen.add(it.url);
@@ -69,21 +63,17 @@
 
   function flattenAllItems(data){
     const out = [];
-    for (const col of (data?.columns || [])){
-      for (const sec of (col?.sections || [])){
-        for (const it of (sec?.items || [])){
-          if (!it) continue;
-          const url = s(it.url);
-          const title = s(it.title);
-          if (!url || !title) continue;
+    for (const col of (data.columns || [])){
+      for (const sec of (col.sections || [])){
+        for (const it of (sec.items || [])){
           out.push({
-            title,
-            url,
-            source: s(it.source),
-            snark: s(it.snark),
+            title: it.title,
+            url: it.url,
+            source: it.source,
+            snark: it.snark,
             feature: !!it.feature,
-            badge: s(it.badge || ""),
-            section: s(sec.name || "")
+            badge: it.badge || "",
+            section: sec.name || ""
           });
         }
       }
@@ -96,35 +86,16 @@
     const div = document.createElement("div");
     div.className = "story" + (item.feature ? " feature" : "");
 
-    if (item.badge) {
-      const b = document.createElement("span");
-      b.className = "badge";
-      b.textContent = item.badge;
-      div.appendChild(b);
-    }
+    const badge = item.badge ? `<span class="badge">${item.badge}</span>` : "";
+    div.innerHTML = `
+      ${badge}
+      <a href="${item.url}" target="_blank" rel="noopener noreferrer">${item.title}</a>
+      <span class="source">(${item.source})</span>
+      ${item.snark ? `<div class="snark">${item.snark}</div>` : ``}
+    `;
 
-    const a = document.createElement("a");
-    a.href = item.url;
-    a.target = "_blank";
-    a.rel = "noopener noreferrer";
-    a.textContent = item.title;
-    a.addEventListener("click", () => trackClick(item.url));
-    div.appendChild(a);
-
-    if (item.source) {
-      const src = document.createElement("span");
-      src.className = "source";
-      src.textContent = `(${item.source})`;
-      div.appendChild(src);
-    }
-
-    if (item.snark) {
-      const sn = document.createElement("div");
-      sn.className = "snark";
-      sn.textContent = item.snark;
-      div.appendChild(sn);
-    }
-
+    const a = div.querySelector("a");
+    if (a) a.addEventListener("click", () => trackClick(item.url));
     return div;
   }
 
@@ -137,9 +108,7 @@
     title.textContent = name;
     sec.appendChild(title);
 
-    const safeItems = (items || []).filter(it => it && it.url && it.title);
-
-    if (!safeItems.length){
+    if (!items || !items.length){
       const empty = document.createElement("div");
       empty.className = "note";
       empty.textContent = "No items right now.";
@@ -147,7 +116,7 @@
       return sec;
     }
 
-    safeItems.forEach(it => sec.appendChild(renderStory(it)));
+    items.forEach(it => sec.appendChild(renderStory(it)));
 
     if (note){
       const n = document.createElement("div");
@@ -159,117 +128,55 @@
     return sec;
   }
 
-  function findSection(data, exactName){
-    for (const col of (data?.columns || [])){
-      for (const sec of (col?.sections || [])){
-        if (s(sec?.name) === exactName) return sec;
-      }
-    }
-    return null;
-  }
-
-  function mapItems(sec){
-    return (sec?.items || []).map(it => ({
-      title: s(it?.title),
-      url: s(it?.url),
-      source: s(it?.source),
-      snark: s(it?.snark),
-      feature: !!it?.feature,
-      badge: s(it?.badge || "")
-    })).filter(it => it.url && it.title);
-  }
-
-  function stripBadgesAndFeatures(items){
-    return (items || []).filter(Boolean).map(it => ({ ...it, badge:"", feature:false }));
-  }
-
   // ===== algorithmic sections =====
   function pickNothingBurger(todayItems){
     const LOW = [
       "celebrity","royal","netflix","tiktok","iphone","android","review","tips","recipe",
       "fashion","beauty","dating","viral","meme","trend","podcast","travel","diet",
-      "coffee","sleep","study","app","streaming"
+      "coffee","sleep","study","ai","app","streaming"
     ];
     const TRAGIC = /(dead|dies|killed|death|shooting|attack|war|bomb|explosion|terror|crash|earthquake|wildfire|flood|victim|injured)/i;
 
-    const candidates = (todayItems || []).filter(it => {
-      const t = (it?.title || "").toLowerCase();
-      return it?.url && !TRAGIC.test(t) && LOW.some(k => t.includes(k));
+    const candidates = todayItems.filter(it => {
+      const t = (it.title || "").toLowerCase();
+      return !TRAGIC.test(t) && LOW.some(k => t.includes(k));
     });
 
-    return candidates[0] || (todayItems || []).find(x => x && x.url && !x.feature) || (todayItems || [])[0] || null;
+    return candidates[0] || todayItems.find(x => !x.feature) || todayItems[0] || null;
   }
 
   function pickMostMissed(history){
     const clicks = getLS(CLICKS_KEY, {});
-    const unclicked = (history || []).filter(it => it?.url && !clicks[it.url] && !it.feature && it.badge !== "BREAK");
+    const unclicked = history.filter(it => it.url && !clicks[it.url] && !it.feature && it.badge !== "BREAK");
     return unclicked[0] || null;
   }
 
   function buildWeekInReview(history){
     const counts = new Map();
-    for (const it of (history || [])){
-      if (!it?.url) continue;
+    for (const it of history){
+      if (!it.url) continue;
       counts.set(it.url, (counts.get(it.url) || 0) + 1);
     }
+
     return [...counts.entries()]
       .sort((a,b) => b[1]-a[1])
       .slice(0, 7)
-      .map(([url]) => (history || []).find(h => h && h.url === url))
+      .map(([url]) => history.find(h => h.url === url))
       .filter(Boolean);
   }
 
-  function normalizeKey(title){
-    const t = (title || "")
-      .toLowerCase()
-      .replace(/&/g, " and ")
-      .replace(/[^a-z0-9\s]/g, " ")
-      .replace(/\s+/g, " ")
-      .trim();
-
-    const stop = new Set(["the","a","an","to","of","in","on","for","and","or","with","as","at","by","from","into","after","before","over","under","is","are","was","were"]);
-    const parts = t.split(" ").filter(w => w.length >= 4 && !stop.has(w));
-    return parts.slice(0, 12).join(" ");
-  }
-
-  function findSameStoryPair(todayItems){
-    const items = (todayItems || []).filter(it => it && it.title && it.url && it.source);
-    const tokens = items.map(it => {
-      const key = normalizeKey(it.title);
-      const set = new Set(key.split(" ").filter(Boolean));
-      return { it, set };
-    });
-
-    let best = null;
-    let bestScore = 0;
-
-    for (let i=0; i<tokens.length; i++){
-      for (let j=i+1; j<tokens.length; j++){
-        const a = tokens[i], b = tokens[j];
-        if (a.it.source === b.it.source) continue;
-
-        let shared = 0;
-        for (const w of a.set) if (b.set.has(w)) shared++;
-        if (shared < 2) continue;
-
-        const union = a.set.size + b.set.size - shared;
-        const score = union > 0 ? (shared / union) : 0;
-
-        if (score > bestScore){
-          bestScore = score;
-          best = [a.it, b.it];
-        }
+  function findSection(data, exactName){
+    for (const col of (data.columns || [])){
+      for (const sec of (col.sections || [])){
+        if (s(sec.name) === exactName) return sec;
       }
     }
-
-    if (!best) return null;
-    return best.map(x => ({ ...x, badge:"", feature:false, snark:"" }));
+    return null;
   }
 
   // ===== layout =====
-  function render3Columns(data){
+  function renderWithAlgorithmicExtras(data){
     const colsEl = qs("columns");
-    if (!colsEl) return;
     colsEl.innerHTML = "";
 
     const todayItems = uniqByUrl(flattenAllItems(data));
@@ -289,17 +196,15 @@
     const burgerPick = pickNothingBurger(todayItems);
     const missedPick = pickMostMissed(history);
     const weekList   = buildWeekInReview(history);
-    const samePair   = findSameStoryPair(todayItems);
 
     const col1 = document.createElement("div");
     const col2 = document.createElement("div");
     const col3 = document.createElement("div");
 
     const breakingSec = findSection(data, SPECIAL_NAMES.breaking);
-    if (breakingSec) col1.appendChild(renderSection(SPECIAL_NAMES.breaking, mapItems(breakingSec), { breaking:true }));
-
-    const developingSec = findSection(data, SPECIAL_NAMES.developing);
-    if (developingSec) col1.appendChild(renderSection(SPECIAL_NAMES.developing, mapItems(developingSec)));
+    if (breakingSec) {
+      col1.appendChild(renderSection(SPECIAL_NAMES.breaking, breakingSec.items || [], { breaking:true }));
+    }
 
     col1.appendChild(renderSection(
       SPECIAL_NAMES.burger,
@@ -307,28 +212,26 @@
       { note: burgerPick ? "Auto-picked: low-stakes + tragedy-filtered." : "No suitable pick found today." }
     ));
 
-    const businessSec = findSection(data, "Business");
-    if (businessSec) col2.appendChild(renderSection("Business", mapItems(businessSec)));
-
-    const wtwSec = findSection(data, "World / Tech / Weird");
-    if (wtwSec) col2.appendChild(renderSection("World / Tech / Weird", mapItems(wtwSec)));
+    // Middle column: all “normal” sections except Breaking (your main content)
+    for (const col of (data.columns || [])){
+      for (const sec of (col.sections || [])){
+        const name = s(sec.name);
+        if (!name) continue;
+        if (name.toLowerCase() === SPECIAL_NAMES.breaking.toLowerCase()) continue;
+        col2.appendChild(renderSection(name, sec.items || [], { breaking:false }));
+      }
+    }
 
     col3.appendChild(renderSection(
       SPECIAL_NAMES.missed,
-      missedPick ? stripBadgesAndFeatures([missedPick]) : [],
-      { note: "" }
-    ));
-
-    col3.appendChild(renderSection(
-      SPECIAL_NAMES.same,
-      samePair ? samePair : [],
-      { note: samePair ? "" : "No clean pair found today." }
+      missedPick ? [missedPick] : [],
+      { note: missedPick ? "From your unclicked items (this device only)." : "No history yet (or you clicked everything)." }
     ));
 
     col3.appendChild(renderSection(
       SPECIAL_NAMES.week,
-      stripBadgesAndFeatures(weekList),
-      { note: "" }
+      weekList,
+      { note: weekList.length ? "Top recurring items from your last 7 days (this device only)." : "No 7-day history yet." }
     ));
 
     colsEl.appendChild(col1);
@@ -338,50 +241,71 @@
 
   // ===== loading =====
   async function fetchHeadlinesNoCache(){
-    const url = DATA_URL + "?ts=" + Date.now(); // cache-bust always
-    const r = await fetch(url, { cache: "no-store" });
+    const url = "./headlines.json?v=" + Date.now();
+
+    const r = await fetch(url, {
+      cache: "no-store",
+      headers: {
+        "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
+        "Pragma": "no-cache"
+      }
+    });
+
     if (!r.ok) throw new Error("HTTP " + r.status);
+
+    // Helpful: show whether we got anything cached (some browsers expose this)
     return await r.json();
   }
 
   let lastGeneratedUTC = null;
 
-  async function refresh({ force=false } = {}){
+  function setMetaLine(data){
+    const gen = s(data?.generated_utc);
+    const genLocal = gen ? new Date(gen).toLocaleString() : "unknown";
+    const nowLocal = new Date().toLocaleString();
+
+    qs("updated").textContent = gen
+      ? `Last updated: ${genLocal}  •  Checked: ${nowLocal}`
+      : `Checked: ${nowLocal}`;
+  }
+
+  async function refresh(){
     try{
       clearError();
+
       const data = await fetchHeadlinesNoCache();
+      const gen = s(data.generated_utc);
 
-      const gen = s(data?.generated_utc);
-      if (!force && gen && gen === lastGeneratedUTC) return;
-      lastGeneratedUTC = gen || lastGeneratedUTC;
+      setMetaLine(data);
 
-      const nameEl = qs("siteNameText");
-      if (nameEl && data?.site?.name) nameEl.textContent = data.site.name;
+      // Only redraw when generator timestamp changes (reduces flicker)
+      if (gen && gen === lastGeneratedUTC) return;
+      lastGeneratedUTC = gen;
 
-      const tagEl = qs("siteTagline");
-      if (tagEl && data?.site?.tagline) tagEl.textContent = data.site.tagline;
+      if (data.site?.name) qs("siteName").textContent = data.site.name;
+      if (data.site?.tagline) qs("siteTagline").textContent = data.site.tagline;
 
-      const updEl = qs("updated");
-      if (updEl){
-        updEl.textContent = data?.generated_utc
-          ? "Last updated: " + new Date(data.generated_utc).toLocaleString() + (force ? " • Updated ✓" : "")
-          : "";
-      }
-
-      render3Columns(data);
+      renderWithAlgorithmicExtras(data);
 
     } catch (e){
       showError("Load error: " + (e?.message || String(e)));
-      const updEl = qs("updated");
-      if (updEl) updEl.textContent = "Unable to load headlines right now.";
-      const colsEl = qs("columns");
-      if (colsEl) colsEl.innerHTML = "";
+      qs("updated").textContent = "Unable to load headlines right now.";
+      qs("columns").innerHTML = "";
     }
   }
 
-  const btn = qs("updateBtn");
-  if (btn) btn.addEventListener("click", () => refresh({ force:true }));
+  // Buttons
+  qs("hardRefreshBtn").addEventListener("click", () => {
+    const base = location.href.split("?")[0];
+    location.href = base + "?v=" + Date.now();
+  });
 
-  refresh({ force:true });
-  setInterval(() => refresh({ force:false }), REFRESH_EVERY_MS);
+  const updateBtn = qs("updateNowBtn");
+  if (updateBtn){
+    updateBtn.addEventListener("click", () => refresh());
+  }
+
+  // Run
+  refresh();
+  setInterval(refresh, REFRESH_EVERY_MS);
 })();
