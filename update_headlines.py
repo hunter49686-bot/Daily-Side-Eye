@@ -1,437 +1,234 @@
 import json
-import random
 import re
-import socket
-import time
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timezone
+from urllib.parse import quote_plus
 
 import feedparser
+import requests
 
-# =====================
-# HARD NETWORK SAFETY (prevents Actions hangs)
-# =====================
-HTTP_TIMEOUT_SECONDS = 10
-socket.setdefaulttimeout(HTTP_TIMEOUT_SECONDS)
+HEADLINES_PATH = "headlines.json"
+USER_AGENT = "DailySideEyeBot/1.0 (+https://dailysideeye.com)"
+GOOGLE_NEWS_BASE = "https://news.google.com/rss/search?q={q}&hl=en-US&gl=US&ceid=US:en"
 
-USER_AGENT = (
-    "Mozilla/5.0 (X11; Linux x86_64) "
-    "AppleWebKit/537.36 (KHTML, like Gecko) "
-    "Chrome/120.0 Safari/537.36"
+def google_news_rss(query: str) -> str:
+    return GOOGLE_NEWS_BASE.format(q=quote_plus(query))
+
+def now_iso() -> str:
+    return datetime.now(timezone.utc).isoformat()
+
+PROMO_RE = re.compile(
+    r"\bsponsored\b|\badvertisement\b|\bpromo\b|\bpromotion\b|\bcoupon\b|\bdeal\b|\bdeals\b|"
+    r"\bshopping\b|\bsubscribe\b|\bsubscription\b|\bpartner content\b",
+    re.IGNORECASE
 )
 
-# =====================
-# TUNING
-# =====================
-MAX_PER_SOURCE_PER_SECTION = 3
+TRAGIC_RE = re.compile(
+    r"\bkilled\b|\bdead\b|\bdeath\b|\bmurder\b|\bshooting\b|\bstabbing\b|\bmassacre\b|"
+    r"\bterror\b|\bterrorist\b|\bwar\b|\binvasion\b|\bairstrike\b|\bearthquake\b|\bhurricane\b|"
+    r"\btornado\b|\bflood\b|\bcrash\b|\bexplosion\b|\bhostage\b",
+    re.IGNORECASE
+)
 
-MAX_ITEMS_BY_SECTION = {
-    "Breaking": 9,
-    "Top": 16,
-    "Business": 14,
-    "World / Tech / Weird": 14,
-}
-
-FRESHNESS_DAYS_BY_SECTION = {
-    "Breaking": 3,
-    "Top": 7,
-    "Business": 14,
-    "World / Tech / Weird": 21,
-}
-
-BALANCE_TARGETS = [
-    "Fox News",
-    "New York Post",
-    "Washington Examiner",
-    "National Review",
-    "RealClearPolitics",
-]
-
-# =====================
-# FEEDS
-# =====================
-BREAKING_FEEDS = [
-    ("BBC Front Page", "https://feeds.bbci.co.uk/news/rss.xml"),
-    ("CNN Top Stories", "http://rss.cnn.com/rss/cnn_topstories.rss"),
-    ("NPR News", "https://feeds.npr.org/1001/rss.xml"),
-    ("The Guardian World", "https://www.theguardian.com/world/rss"),
-    ("Fox News", "https://feeds.foxnews.com/foxnews/latest"),
-    ("New York Post", "https://nypost.com/feed/"),
-    ("RealClearPolitics", "https://www.realclearpolitics.com/index.xml"),
-]
-
-TOP_FEEDS = [
-    ("BBC World", "https://feeds.bbci.co.uk/news/world/rss.xml"),
-    ("CNN Top Stories", "http://rss.cnn.com/rss/cnn_topstories.rss"),
-    ("NPR News", "https://feeds.npr.org/1001/rss.xml"),
-    ("The Guardian UK", "https://www.theguardian.com/uk/rss"),
-    ("Fox News", "https://feeds.foxnews.com/foxnews/latest"),
-    ("New York Post", "https://nypost.com/feed/"),
-    ("RealClearPolitics", "https://www.realclearpolitics.com/index.xml"),
-]
-
-BUSINESS_FEEDS = [
-    ("BBC Business", "https://feeds.bbci.co.uk/news/business/rss.xml"),
-    ("CNN Business", "http://rss.cnn.com/rss/money_latest.rss"),
-    ("NPR Business", "https://feeds.npr.org/1006/rss.xml"),
-    ("The Guardian Business", "https://www.theguardian.com/business/rss"),
-    ("Washington Examiner", "https://www.washingtonexaminer.com/rss.xml"),
-    ("National Review", "https://www.nationalreview.com/feed/"),
-]
-
-WORLD_TECH_WEIRD_FEEDS = [
-    ("BBC Tech", "https://feeds.bbci.co.uk/news/technology/rss.xml"),
-    ("NPR Technology", "https://feeds.npr.org/1019/rss.xml"),
-    ("The Guardian Tech", "https://www.theguardian.com/technology/rss"),
-    ("National Review", "https://www.nationalreview.com/feed/"),
-    ("RealClearPolitics", "https://www.realclearpolitics.com/index.xml"),
-]
-
-LAYOUT = [
-    [("Breaking", BREAKING_FEEDS), ("Top", TOP_FEEDS)],
-    [("Business", BUSINESS_FEEDS)],
-    [("World / Tech / Weird", WORLD_TECH_WEIRD_FEEDS)],
-]
-
-# =====================
-# COPY
-# =====================
-SNARK = [
-    "The optics are doing most of the work here.",
-    "This will surely be handled with nuance.",
-    "A statement was issued. Substance not included.",
-    "A confident plan has been announced. Reality is pending.",
-    "A compromise is proposed. Someone will hate it.",
-    "Numbers were cited. Interpretation may vary.",
-    "Experts disagree, loudly and on schedule.",
-    "A decision was made. Consequences scheduled for later.",
-    "The fine print is doing most of the work.",
-    "Everyone is calm. On paper.",
-    "A bold claim meets inconvenient details.",
-    "A timeline was provided. Nobody believes it.",
-    "The explanation is technically words.",
-    "An investigation begins. Again.",
-    "A big announcement, with a small footnote doing cardio.",
-    "The plan is simple. The details are complicated.",
-    "A 'common sense' solution sparks uncommon disagreement.",
-]
-
-NEUTRAL = [
-    "Developing story.",
-    "Details are still emerging.",
-    "Authorities are investigating.",
-    "Situation remains unclear.",
-    "More information expected soon.",
-    "Reporting continues.",
-    "Updates may follow.",
-    "Context is still being gathered.",
-]
-
-TRAGEDY_KEYWORDS = [
-    "dead", "dies", "killed", "death", "shooting", "attack",
-    "war", "bomb", "explosion", "terror", "crash",
-    "earthquake", "wildfire", "flood", "victim", "injured",
-]
-
-PROMO_PATTERNS = [
-    r"\bbonus code\b",
-    r"\bpromo code\b",
-    r"\bbetmgm\b",
-    r"\bdraftkings\b",
-    r"\bfanduel\b",
-    r"\bbetting\b",
-    r"\bodds\b",
-    r"\bsportsbook\b",
-    r"\bfree bet\b",
-    r"\bdeposit match\b",
-    r"\bsubscribe\b",
-    r"\bsponsored\b",
-    r"\badvertis",
-    r"\bcoupon\b",
-    r"\bdeal\b",
-]
-PROMO_RE = re.compile("|".join(PROMO_PATTERNS), re.I)
-
-# =====================
-# HELPERS
-# =====================
-def clean(text: str) -> str:
-    return re.sub(r"\s+", " ", text or "").strip()
-
-def norm_title_key(title: str) -> str:
-    t = clean(title).lower()
-    t = re.sub(r"[^\w\s]", "", t)
-    t = re.sub(r"\s+", " ", t).strip()
-    return t[:160]
-
-def is_tragic(title: str) -> bool:
-    t = (title or "").lower()
-    return any(k in t for k in TRAGEDY_KEYWORDS)
+NOTHINGBURGER_RE = re.compile(
+    r"\bbacklash\b|\boutcry\b|\boutrage\b|\bslammed\b|\bclaps back\b|\bgoes viral\b|"
+    r"\binternet reacts\b|\bfans react\b|\bresponds\b|\bmeltdown\b|\bcontroversy\b|\bstuns\b|"
+    r"\byou won'?t believe\b",
+    re.IGNORECASE
+)
 
 def is_promo(title: str) -> bool:
     return bool(PROMO_RE.search(title or ""))
 
-def load_previous():
-    try:
-        with open("headlines.json", "r", encoding="utf-8") as f:
-            return json.load(f)
-    except Exception:
-        return None
+def is_tragic(title: str) -> bool:
+    return bool(TRAGIC_RE.search(title or ""))
 
-def unique_line(pool, used_set, fallback):
-    if pool:
-        random.shuffle(pool)
-        for sline in pool:
-            sline = clean(sline)
-            if sline and sline not in used_set:
-                used_set.add(sline)
-                return sline
+def is_nothingburger(title: str) -> bool:
+    return bool(NOTHINGBURGER_RE.search(title or "")) and not is_tragic(title)
 
-    base = clean(fallback) or "Updates may follow."
-    pad = ""
-    while base + pad in used_set:
-        pad += " "
-    used_set.add(base + pad)
-    return base + pad
+def normalize_title(t: str) -> str:
+    return re.sub(r"\s+", " ", (t or "").strip())
 
-def entry_epoch_seconds(entry):
-    t = getattr(entry, "published_parsed", None) or getattr(entry, "updated_parsed", None)
-    if not t:
-        return None
-    try:
-        return int(time.mktime(t))
-    except Exception:
-        return None
+def fetch_feed(url: str, timeout: int = 20):
+    headers = {"User-Agent": USER_AGENT}
+    r = requests.get(url, headers=headers, timeout=timeout)
+    r.raise_for_status()
+    return feedparser.parse(r.content)
 
-def parse_feed(source: str, url: str):
-    items = []
-    try:
-        feed = feedparser.parse(url, agent=USER_AGENT)
-    except Exception:
-        return items
-
-    for e in getattr(feed, "entries", [])[:80]:
-        title = clean(getattr(e, "title", ""))
-        link = getattr(e, "link", "")
-
+def items_from_feed(parsed, source_name: str, max_items: int):
+    out = []
+    for e in parsed.entries[: max_items * 4]:
+        title = normalize_title(getattr(e, "title", ""))
+        link = getattr(e, "link", None)
         if not title or not link:
             continue
         if is_promo(title):
             continue
-
-        epoch = entry_epoch_seconds(e)
-        published_utc = None
-        if epoch:
-            published_utc = datetime.fromtimestamp(epoch, tz=timezone.utc).isoformat()
-
-        items.append({
-            "title": title[:180],
+        out.append({
+            "title": title,
             "url": link,
-            "source": source,
-            "published_utc": published_utc,  # may be None
+            "source": source_name,
+            "tragic": is_tragic(title),
         })
-    return items
-
-def dedupe_by_url(items):
-    seen = set()
-    out = []
-    for it in items:
-        u = clean(it.get("url", ""))
-        if not u or u in seen:
-            continue
-        seen.add(u)
-        out.append(it)
-    return out
-
-def dedupe_by_title(items):
-    seen = set()
-    out = []
-    for it in items:
-        k = norm_title_key(it.get("title", ""))
-        if not k or k in seen:
-            continue
-        seen.add(k)
-        out.append(it)
-    return out
-
-def filter_by_freshness(items, section_name: str, now_utc: datetime):
-    days = FRESHNESS_DAYS_BY_SECTION.get(section_name, 14)
-    cutoff = now_utc - timedelta(days=days)
-
-    fresh = []
-    unknown = []
-    for it in items:
-        pu = it.get("published_utc")
-        if not pu:
-            unknown.append(it)
-            continue
-        try:
-            dt = datetime.fromisoformat(pu.replace("Z", "+00:00"))
-        except Exception:
-            unknown.append(it)
-            continue
-        if dt >= cutoff:
-            fresh.append(it)
-
-    # For Breaking/Top: exclude unknown-dated items to avoid stale/evergreen weirdness
-    if section_name in ("Breaking", "Top"):
-        return fresh
-
-    # For other sections: allow unknown-dated items but push them later
-    return fresh + unknown
-
-def round_robin(items):
-    buckets = {}
-    for it in items:
-        buckets.setdefault(it["source"], []).append(it)
-
-    sources = list(buckets.keys())
-    for src in sources:
-        random.shuffle(buckets[src])
-    random.shuffle(sources)
-
-    out = []
-    progressed = True
-    while progressed:
-        progressed = False
-        for src in sources:
-            if buckets[src]:
-                out.append(buckets[src].pop())
-                progressed = True
-    return out
-
-def pick_section_items(raw_items, used_urls, used_sublines, section_name, now_utc):
-    max_items = MAX_ITEMS_BY_SECTION.get(section_name, 14)
-
-    raw_items = dedupe_by_url(raw_items)
-    raw_items = dedupe_by_title(raw_items)
-    raw_items = filter_by_freshness(raw_items, section_name, now_utc)
-    raw_items = round_robin(raw_items)
-
-    section_items = []
-    per_source = {}
-
-    pool_by_source = {}
-    for it in raw_items:
-        pool_by_source.setdefault(it["source"], []).append(it)
-
-    def add_item(it, is_first=False):
-        tragic = is_tragic(it["title"])
-        sub = unique_line([], used_sublines, random.choice(NEUTRAL)) if tragic else unique_line(SNARK, used_sublines, random.choice(NEUTRAL))
-        sub = clean(sub)
-
-        section_items.append({
-            "title": it["title"],
-            "url": it["url"],
-            "source": it["source"],
-            "badge": "BREAK" if section_name == "Breaking" and is_first else "",
-            "feature": bool(section_name == "Breaking" and is_first),
-            "snark": sub,
-            "published_utc": it.get("published_utc"),
-        })
-        used_urls.add(it["url"])
-        per_source[it["source"]] = per_source.get(it["source"], 0) + 1
-
-    # Step 1: balance targets first (only if available & fresh)
-    for target in BALANCE_TARGETS:
-        if len(section_items) >= max_items:
+        if len(out) >= max_items:
             break
-        if target not in pool_by_source:
-            continue
-        if per_source.get(target, 0) >= MAX_PER_SOURCE_PER_SECTION:
-            continue
+    return out
 
-        picked = None
-        for it in pool_by_source[target]:
-            if it["url"] not in used_urls:
-                picked = it
+def dedupe_list(items):
+    seen = set()
+    out = []
+    for it in items:
+        key = (it.get("title", "").lower(), it.get("url", ""))
+        if key in seen:
+            continue
+        seen.add(key)
+        out.append(it)
+    return out
+
+def pull_sources(sources, take_each):
+    combined = []
+    for name, url in sources:
+        parsed = fetch_feed(url)
+        combined.extend(items_from_feed(parsed, name, max_items=take_each))
+    return dedupe_list(combined)
+
+def alternate(left_items, right_items, limit):
+    out = []
+    i = j = 0
+    while len(out) < limit and (i < len(left_items) or j < len(right_items)):
+        if i < len(left_items):
+            out.append(left_items[i]); i += 1
+            if len(out) >= limit:
                 break
-        if not picked:
-            continue
+        if j < len(right_items):
+            out.append(right_items[j]); j += 1
+    return out[:limit]
 
-        add_item(picked, is_first=(len(section_items) == 0))
+def global_dedupe_in_priority(section_map, priority):
+    seen = set()
+    for sec in priority:
+        filtered = []
+        for it in section_map.get(sec, []):
+            key = (it.get("title","").lower(), it.get("url",""))
+            if key in seen:
+                continue
+            seen.add(key)
+            filtered.append(it)
+        section_map[sec] = filtered
+    return section_map, seen
 
-    # Step 2: fill remaining
-    for it in raw_items:
-        if len(section_items) >= max_items:
-            break
-        if it["url"] in used_urls:
-            continue
-        if per_source.get(it["source"], 0) >= MAX_PER_SOURCE_PER_SECTION:
-            continue
-        add_item(it, is_first=(len(section_items) == 0))
+# ----------------------------
+# Source pools (YOUR balance buckets)
+# ----------------------------
+# These are the same “sources you already chose earlier”, grouped for equal left/right counts.
+LEFT_GENERAL = [
+    ("Reuters", google_news_rss("site:reuters.com when:2d -inurl:/video -inurl:/graphics")),
+    ("AP", google_news_rss("site:apnews.com when:2d")),
+]
+RIGHT_GENERAL = [
+    ("Fox News", google_news_rss("site:foxnews.com when:2d")),
+    ("NY Post", google_news_rss("site:nypost.com when:2d")),
+]
 
-    return section_items
+LEFT_POLITICS = [
+    ("Guardian", google_news_rss("site:theguardian.com (politics OR policy OR government) when:3d")),
+    ("Reuters", google_news_rss("site:reuters.com (politics OR government OR election OR congress OR parliament) when:3d -inurl:/video")),
+]
+RIGHT_POLITICS = [
+    ("Examiner", google_news_rss("site:washingtonexaminer.com (politics OR policy) when:7d")),
+    ("Fox News", google_news_rss("site:foxnews.com (politics OR policy) when:3d")),
+]
 
-# =====================
-# MAIN
-# =====================
+LEFT_MARKETS = [
+    ("Bloomberg", google_news_rss("site:bloomberg.com (markets OR economy OR finance OR stocks) when:3d")),
+    ("Reuters", google_news_rss("site:reuters.com (markets OR economy OR finance OR stocks) when:3d -inurl:/video")),
+]
+RIGHT_MARKETS = [
+    ("WSJ", google_news_rss("site:wsj.com (markets OR economy OR finance OR stocks) when:3d")),
+    ("Fox Business", google_news_rss("site:foxbusiness.com (markets OR economy OR finance OR stocks) when:3d")),
+]
+
+LEFT_TECH = [
+    ("The Verge", google_news_rss("site:theverge.com when:3d")),
+]
+RIGHT_TECH = [
+    ("Hacker News", "https://news.ycombinator.com/rss"),
+]
+
+LEFT_WEIRD = [
+    ("Atlas Obscura", google_news_rss("site:atlasobscura.com when:30d")),
+]
+RIGHT_WEIRD = [
+    ("Reuters OddlyEnough", google_news_rss("site:reuters.com ('oddly enough' OR oddly OR bizarre OR strange OR unusual) when:30d -inurl:/video")),
+]
+
 def main():
-    prev = load_previous()
-    now = datetime.now(timezone.utc)
+    sections = {}
 
-    # Only rebuild non-breaking sections every 3 hours
-    three_hour_boundary = (now.hour % 3 == 0)
+    # Section configs
+    cfg = {
+        # Column 1
+        "breaking":      {"limit": 7,  "take_each": 18, "left": LEFT_GENERAL,  "right": RIGHT_GENERAL,  "filter_fn": None},
+        "developing":    {"limit": 14, "take_each": 18, "left": LEFT_GENERAL,  "right": RIGHT_GENERAL,  "filter_fn": None},
+        "nothingburger": {"limit": 10, "take_each": 30, "left": LEFT_GENERAL,  "right": RIGHT_GENERAL,  "filter_fn": is_nothingburger},
 
-    used_urls = set()
-    used_sublines = set()
+        # Column 2
+        "world":         {"limit": 14, "take_each": 18, "left": LEFT_GENERAL,  "right": RIGHT_GENERAL,  "filter_fn": None},
+        "politics":      {"limit": 14, "take_each": 18, "left": LEFT_POLITICS, "right": RIGHT_POLITICS, "filter_fn": None},
+        "markets":       {"limit": 14, "take_each": 18, "left": LEFT_MARKETS,  "right": RIGHT_MARKETS,  "filter_fn": None},
 
-    # Between 3-hour boundaries, keep non-breaking sections and prevent Breaking duplicates
-    if prev and not three_hour_boundary:
-        for col in prev.get("columns", []):
-            for sec in col.get("sections", []):
-                if sec.get("name") != "Breaking":
-                    for it in sec.get("items", []):
-                        u = clean(it.get("url", ""))
-                        sub = clean(it.get("snark", ""))
-                        if u:
-                            used_urls.add(u)
-                        if sub:
-                            used_sublines.add(sub)
-
-    columns = []
-
-    for col in LAYOUT:
-        col_out = {"sections": []}
-
-        for section_name, feeds in col:
-            refresh = (section_name == "Breaking") or three_hour_boundary
-
-            # Reuse section if not refreshing
-            if not refresh and prev:
-                reused = None
-                for pcol in prev.get("columns", []):
-                    for psec in pcol.get("sections", []):
-                        if psec.get("name") == section_name:
-                            reused = psec
-                            break
-                    if reused:
-                        break
-                if reused:
-                    col_out["sections"].append(reused)
-                    continue
-
-            raw = []
-            for src, url in feeds:
-                raw.extend(parse_feed(src, url))
-
-            random.shuffle(raw)
-
-            items = pick_section_items(raw, used_urls, used_sublines, section_name, now)
-            col_out["sections"].append({"name": section_name, "items": items})
-
-        columns.append(col_out)
-
-    out = {
-        "site": {
-            "name": "THE DAILY SIDE-EYE",
-            "tagline": "Headlines with a raised eyebrow.",
-        },
-        "generated_utc": now.isoformat(),
-        "columns": columns,
+        # Column 3
+        "tech":          {"limit": 14, "take_each": 24, "left": LEFT_TECH,     "right": RIGHT_TECH,     "filter_fn": None},
+        "weird":         {"limit": 12, "take_each": 24, "left": LEFT_WEIRD,    "right": RIGHT_WEIRD,    "filter_fn": None},
     }
 
-    with open("headlines.json", "w", encoding="utf-8") as f:
-        json.dump(out, f, indent=2, ensure_ascii=False)
+    # Build sections (balanced merge)
+    for sec, c in cfg.items():
+        left_pool = pull_sources(c["left"], take_each=c["take_each"])
+        right_pool = pull_sources(c["right"], take_each=c["take_each"])
+
+        fn = c["filter_fn"]
+        if fn:
+            left_pool = [x for x in left_pool if fn(x["title"])]
+            right_pool = [x for x in right_pool if fn(x["title"])]
+
+        sections[sec] = alternate(left_pool, right_pool, c["limit"])
+
+    # Global dedupe in page priority order
+    priority = ["breaking","developing","nothingburger","world","politics","markets","tech","weird"]
+    sections, used = global_dedupe_in_priority(sections, priority)
+
+    # Build "You Might Have Missed" from leftovers not already used, still balanced
+    missed_left_sources = LEFT_GENERAL + LEFT_POLITICS + LEFT_MARKETS + LEFT_TECH + LEFT_WEIRD
+    missed_right_sources = RIGHT_GENERAL + RIGHT_POLITICS + RIGHT_MARKETS + RIGHT_TECH + RIGHT_WEIRD
+
+    missed_left = pull_sources(missed_left_sources, take_each=12)
+    missed_right = pull_sources(missed_right_sources, take_each=12)
+
+    missed_left = [it for it in missed_left if (it["title"].lower(), it["url"]) not in used]
+    missed_right = [it for it in missed_right if (it["title"].lower(), it["url"]) not in used]
+
+    sections["missed"] = dedupe_list(alternate(missed_left, missed_right, 12))
+
+    # Final caps (Breaking hard cap 7)
+    final = {
+        "breaking": sections.get("breaking", [])[:7],
+        "developing": sections.get("developing", []),
+        "nothingburger": sections.get("nothingburger", []),
+        "world": sections.get("world", []),
+        "politics": sections.get("politics", []),
+        "markets": sections.get("markets", []),
+        "tech": sections.get("tech", []),
+        "weird": sections.get("weird", []),
+        "missed": sections.get("missed", []),
+    }
+
+    data = {
+        "meta": {"generated_at": now_iso(), "version": 5},
+        "sections": final
+    }
+
+    with open(HEADLINES_PATH, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
 
 if __name__ == "__main__":
     main()
