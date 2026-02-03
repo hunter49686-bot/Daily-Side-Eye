@@ -1,387 +1,183 @@
+import argparse
 import json
-import random
+import os
 import re
-import socket
 from datetime import datetime, timezone
-from urllib.request import Request, urlopen
-from urllib.error import URLError, HTTPError
+from urllib.parse import quote_plus
 
 import feedparser
+import requests
 
-# =====================
-# HARD NETWORK SAFETY
-# =====================
-HTTP_TIMEOUT_SECONDS = 10
-socket.setdefaulttimeout(HTTP_TIMEOUT_SECONDS)
+HEADLINES_PATH = "headlines.json"
 
-USER_AGENT = (
-    "Mozilla/5.0 (X11; Linux x86_64) "
-    "AppleWebKit/537.36 (KHTML, like Gecko) "
-    "Chrome/120.0 Safari/537.36"
-)
+GOOGLE_NEWS_BASE = "https://news.google.com/rss/search?q={q}&hl=en-US&gl=US&ceid=US:en"
+USER_AGENT = "DailySideEyeBot/1.0 (+https://dailysideeye.com)"
 
-# =====================
-# TUNING
-# =====================
-MAX_ITEMS_PER_SECTION = 18
-MAX_PER_SOURCE_PER_SECTION = 3
-
-# Breaking limit (you asked for max 7)
-MAX_BREAKING_ITEMS = 7
-
-BALANCE_TARGETS = [
-    "Fox News",
-    "New York Post",
-    "Washington Examiner",
-    "National Review",
-    "RealClearPolitics",
+# Conservative promo/ad filter (you can tune this list later)
+PROMO_PATTERNS = [
+    r"\bsponsored\b",
+    r"\badvertisement\b",
+    r"\bpromo\b",
+    r"\bpromotion\b",
+    r"\bcoupon\b",
+    r"\bdeal\b",
+    r"\bdeals\b",
+    r"\bshopping\b",
+    r"\bsubscribe\b",
+    r"\bsubscription\b",
+    r"\bpartner content\b",
 ]
+PROMO_RE = re.compile("|".join(PROMO_PATTERNS), re.IGNORECASE)
 
-# =====================
-# FEEDS
-# =====================
-BREAKING_FEEDS = [
-    ("BBC Front Page", "https://feeds.bbci.co.uk/news/rss.xml"),
-    ("CNN Top Stories", "http://rss.cnn.com/rss/cnn_topstories.rss"),
-    ("NPR News", "https://feeds.npr.org/1001/rss.xml"),
-    ("The Guardian World", "https://www.theguardian.com/world/rss"),
-    ("Fox News", "https://feeds.foxnews.com/foxnews/latest"),
-    ("New York Post", "https://nypost.com/feed/"),
-    ("RealClearPolitics", "https://www.realclearpolitics.com/index.xml"),
-]
+def now_iso():
+    return datetime.now(timezone.utc).isoformat()
 
-TOP_FEEDS = [
-    ("BBC World", "https://feeds.bbci.co.uk/news/world/rss.xml"),
-    ("CNN Top Stories", "http://rss.cnn.com/rss/cnn_topstories.rss"),
-    ("NPR News", "https://feeds.npr.org/1001/rss.xml"),
-    ("The Guardian UK", "https://www.theguardian.com/uk/rss"),
-    ("Fox News", "https://feeds.foxnews.com/foxnews/latest"),
-    ("New York Post", "https://nypost.com/feed/"),
-    ("RealClearPolitics", "https://www.realclearpolitics.com/index.xml"),
-]
+def google_news_rss(query: str) -> str:
+    return GOOGLE_NEWS_BASE.format(q=quote_plus(query))
 
-BUSINESS_FEEDS = [
-    ("BBC Business", "https://feeds.bbci.co.uk/news/business/rss.xml"),
-    ("CNN Business", "http://rss.cnn.com/rss/money_latest.rss"),
-    ("NPR Business", "https://feeds.npr.org/1006/rss.xml"),
-    ("The Guardian Business", "https://www.theguardian.com/business/rss"),
-    ("Washington Examiner", "https://www.washingtonexaminer.com/rss.xml"),
-    ("National Review", "https://www.nationalreview.com/feed/"),
-]
+def fetch_feed(url: str, timeout: int = 20):
+    headers = {"User-Agent": USER_AGENT}
+    r = requests.get(url, headers=headers, timeout=timeout)
+    r.raise_for_status()
+    return feedparser.parse(r.content)
 
-WORLD_TECH_WEIRD_FEEDS = [
-    ("BBC Tech", "https://feeds.bbci.co.uk/news/technology/rss.xml"),
-    ("NPR Technology", "https://feeds.npr.org/1019/rss.xml"),
-    ("The Guardian Tech", "https://www.theguardian.com/technology/rss"),
-    ("National Review", "https://www.nationalreview.com/feed/"),
-    ("RealClearPolitics", "https://www.realclearpolitics.com/index.xml"),
-]
+def normalize_title(t: str) -> str:
+    return re.sub(r"\s+", " ", (t or "").strip())
 
-# You can rename sections later; keeping your structure
-LAYOUT = [
-    [("Breaking", BREAKING_FEEDS), ("Top", TOP_FEEDS)],
-    [("Business", BUSINESS_FEEDS)],
-    [("World / Tech / Weird", WORLD_TECH_WEIRD_FEEDS)],
-]
+def is_promo(title: str) -> bool:
+    return bool(PROMO_RE.search(title or ""))
 
-# =====================
-# COPY
-# =====================
-SNARK = [
-    "The optics are doing most of the work here.",
-    "This will surely be handled with nuance.",
-    "A statement was issued. Substance not included.",
-    "A confident plan has been announced. Reality is pending.",
-    "A compromise is proposed. Someone will hate it.",
-    "Numbers were cited. Interpretation may vary.",
-    "Experts disagree, loudly and on schedule.",
-    "A decision was made. Consequences scheduled for later.",
-    "The fine print is doing most of the work.",
-    "Everyone is calm. On paper.",
-    "A bold claim meets inconvenient details.",
-    "A timeline was provided. Nobody believes it.",
-    "The explanation is technically words.",
-    "An investigation begins. Again.",
-    "A big announcement, with a small footnote doing cardio.",
-    "The plan is simple. The details are complicated.",
-    "A 'common sense' solution sparks uncommon disagreement.",
-]
-
-NEUTRAL = [
-    "Developing story.",
-    "Details are still emerging.",
-    "Authorities are investigating.",
-    "Situation remains unclear.",
-    "More information expected soon.",
-    "Reporting continues.",
-    "Updates may follow.",
-    "Context is still being gathered.",
-]
-
-TRAGEDY_KEYWORDS = [
-    "dead", "dies", "killed", "death", "shooting", "attack",
-    "war", "bomb", "explosion", "terror", "crash",
-    "earthquake", "wildfire", "flood", "victim", "injured",
-]
-
-# Ad / promo filters (fix “ads mixed in”)
-AD_KEYWORDS = [
-    "bonus code", "promo code", "bet", "betmgm", "draftkings", "fanduel",
-    "odds", "sportsbook", "sign up", "deal", "discount", "coupon", "sale",
-    "subscribe", "subscription", "sponsored", "advert", "advertisement",
-    "shop", "buy now", "limited time", "get up to", "match up to"
-]
-AD_URL_HINTS = [
-    "/betting/", "utm_", "aff", "affiliate", "promo", "coupon"
-]
-
-# =====================
-# HELPERS
-# =====================
-def clean(text: str) -> str:
-    return re.sub(r"\s+", " ", text or "").strip()
-
-def is_tragic(title: str) -> bool:
-    t = (title or "").lower()
-    return any(k in t for k in TRAGEDY_KEYWORDS)
-
-def looks_like_ad(title: str, url: str) -> bool:
-    t = (title or "").lower()
-    u = (url or "").lower()
-    if any(k in t for k in AD_KEYWORDS):
-        return True
-    if any(h in u for h in AD_URL_HINTS):
-        return True
-    return False
-
-def load_previous():
-    try:
-        with open("headlines.json", "r", encoding="utf-8") as f:
-            return json.load(f)
-    except Exception:
-        return None
-
-def unique_line(pool, used_set, fallback):
-    random.shuffle(pool)
-    for sline in pool:
-        if sline not in used_set:
-            used_set.add(sline)
-            return sline
-
-    base = fallback
-    pad = " "
-    while base + pad in used_set:
-        pad += " "
-    used_set.add(base + pad)
-    return base + pad
-
-def fetch_bytes(url: str) -> bytes:
-    """
-    Hard-timeout fetch for RSS bytes.
-    This avoids feedparser.parse(url) stalling on some network cases.
-    """
-    req = Request(url, headers={"User-Agent": USER_AGENT, "Accept": "*/*"})
-    with urlopen(req, timeout=HTTP_TIMEOUT_SECONDS) as resp:
-        return resp.read()
-
-def parse_feed(source: str, url: str):
+def items_from_feed(parsed, source_name: str, max_items: int):
     items = []
-    try:
-        data = fetch_bytes(url)
-        feed = feedparser.parse(data)
-    except (HTTPError, URLError, TimeoutError, socket.timeout, Exception):
-        return items
+    for e in parsed.entries[: max_items * 3]:  # pull extra then filter/dedupe
+        title = normalize_title(getattr(e, "title", ""))
+        link = getattr(e, "link", None)
 
-    for e in getattr(feed, "entries", [])[:80]:
-        title = clean(getattr(e, "title", ""))
-        link = getattr(e, "link", "")
         if not title or not link:
             continue
-
-        # filter ads/promos
-        if looks_like_ad(title, link):
+        if is_promo(title):
             continue
 
-        items.append({"title": title[:180], "url": link, "source": source})
+        # Keep a stable minimal schema for the frontend
+        items.append({
+            "title": title,
+            "url": link,
+            "source": source_name,
+        })
+
+        if len(items) >= max_items:
+            break
+
     return items
 
-def dedupe_local_by_url(items):
+def dedupe(items):
     seen = set()
     out = []
     for it in items:
-        u = (it.get("url") or "").strip()
-        if not u or u in seen:
+        key = (it.get("title", "").lower(), it.get("url", ""))
+        if key in seen:
             continue
-        seen.add(u)
+        seen.add(key)
         out.append(it)
     return out
 
-def round_robin(items):
-    buckets = {}
-    for it in items:
-        buckets.setdefault(it["source"], []).append(it)
+def load_existing():
+    if not os.path.exists(HEADLINES_PATH):
+        return {
+            "meta": {"generated_at": None, "version": 2},
+            "sections": {
+                "breaking": [],
+                "policy": [],
+                "money": [],
+                "tech": [],
+                "weird": [],
+            },
+        }
+    with open(HEADLINES_PATH, "r", encoding="utf-8") as f:
+        return json.load(f)
 
-    sources = list(buckets.keys())
-    for src in sources:
-        random.shuffle(buckets[src])
-    random.shuffle(sources)
+def save(data):
+    data["meta"]["generated_at"] = now_iso()
+    if "version" not in data.get("meta", {}):
+        data["meta"]["version"] = 2
+    with open(HEADLINES_PATH, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
 
-    out = []
-    progressed = True
-    while progressed:
-        progressed = False
-        for src in sources:
-            if buckets[src]:
-                out.append(buckets[src].pop())
-                progressed = True
-    return out
+# --- FEED CONFIG (your locked choices) ---
+# Note: You asked for Google News RSS. This uses site: queries.
+# when: operator is commonly supported in Google News queries; it is not guaranteed to be strictly enforced,
+# but it helps bias recency.
+CONFIG = {
+    "breaking": {
+        "limit": 7,  # hard cap
+        "feeds": [
+            ("Reuters", google_news_rss("site:reuters.com when:1d -inurl:/video -inurl:/graphics")),
+            ("AP",      google_news_rss("site:apnews.com when:1d")),
+            ("Fox News",google_news_rss("site:foxnews.com when:1d")),
+            ("NY Post", google_news_rss("site:nypost.com when:1d")),
+        ],
+    },
+    "policy": {
+        "limit": 20,
+        "feeds": [
+            ("Guardian",  google_news_rss("site:theguardian.com (policy OR politics OR government) when:2d")),
+            ("Examiner",  google_news_rss("site:washingtonexaminer.com/section/policy when:7d")),
+        ],
+    },
+    "money": {
+        "limit": 20,
+        "feeds": [
+            ("WSJ",       google_news_rss("site:wsj.com (markets OR economy OR finance OR stocks) when:2d")),
+            ("Bloomberg", google_news_rss("site:bloomberg.com (markets OR economy OR finance OR stocks) when:2d")),
+        ],
+    },
+    "tech": {
+        "limit": 20,
+        "feeds": [
+            ("Hacker News", "https://news.ycombinator.com/rss"),
+            ("The Verge",   google_news_rss("site:theverge.com when:2d")),
+        ],
+    },
+    "weird": {
+        "limit": 20,
+        "feeds": [
+            ("Reuters OddlyEnough", google_news_rss("site:reuters.com ('oddly enough' OR oddly) when:14d -inurl:/video")),
+            ("Atlas Obscura",       google_news_rss("site:atlasobscura.com when:30d")),
+            ("Reuters Bizarre",     google_news_rss("site:reuters.com (bizarre OR strange OR unusual) when:14d -inurl:/video")),
+        ],
+    },
+}
 
-def pick_section_items(raw_items, used_urls, used_sublines, section_name):
-    raw_items = dedupe_local_by_url(raw_items)
-    raw_items = round_robin(raw_items)
+def update_section(data, section: str):
+    cfg = CONFIG[section]
+    combined = []
 
-    section_items = []
-    per_source = {}
+    for source_name, url in cfg["feeds"]:
+        parsed = fetch_feed(url)
+        combined.extend(items_from_feed(parsed, source_name, max_items=cfg["limit"]))
 
-    # Per-section cap (Breaking is 7)
-    max_items = MAX_BREAKING_ITEMS if section_name == "Breaking" else MAX_ITEMS_PER_SECTION
+    combined = dedupe(combined)
+    data["sections"][section] = combined[: cfg["limit"]]
 
-    pool_by_source = {}
-    for it in raw_items:
-        pool_by_source.setdefault(it["source"], []).append(it)
-
-    # Step 1: Force balance targets if available
-    for target in BALANCE_TARGETS:
-        if len(section_items) >= max_items:
-            break
-        if target not in pool_by_source:
-            continue
-
-        picked = None
-        for it in pool_by_source[target]:
-            if it["url"] not in used_urls:
-                picked = it
-                break
-        if not picked:
-            continue
-
-        src = picked["source"]
-        per_source[src] = per_source.get(src, 0)
-        if per_source[src] >= MAX_PER_SOURCE_PER_SECTION:
-            continue
-
-        tragic = is_tragic(picked["title"])
-        sub = unique_line([], used_sublines, random.choice(NEUTRAL)) if tragic else unique_line(SNARK, used_sublines, random.choice(NEUTRAL))
-
-        is_first = (len(section_items) == 0)
-        section_items.append({
-            "title": picked["title"],
-            "url": picked["url"],
-            "source": picked["source"],
-            "badge": "BREAK" if section_name == "Breaking" and is_first else "",
-            "feature": bool(section_name == "Breaking" and is_first),
-            "snark": sub,
-        })
-        used_urls.add(picked["url"])
-        per_source[src] += 1
-
-    # Step 2: Fill rest
-    for it in raw_items:
-        if len(section_items) >= max_items:
-            break
-        if it["url"] in used_urls:
-            continue
-
-        src = it["source"]
-        per_source[src] = per_source.get(src, 0)
-        if per_source[src] >= MAX_PER_SOURCE_PER_SECTION:
-            continue
-
-        tragic = is_tragic(it["title"])
-        sub = unique_line([], used_sublines, random.choice(NEUTRAL)) if tragic else unique_line(SNARK, used_sublines, random.choice(NEUTRAL))
-
-        is_first = (len(section_items) == 0)
-        section_items.append({
-            "title": it["title"],
-            "url": it["url"],
-            "source": it["source"],
-            "badge": "BREAK" if section_name == "Breaking" and is_first else "",
-            "feature": bool(section_name == "Breaking" and is_first),
-            "snark": sub,
-        })
-        used_urls.add(it["url"])
-        per_source[src] += 1
-
-    return section_items
-
-# =====================
-# MAIN
-# =====================
 def main():
-    prev = load_previous()
-    now = datetime.now(timezone.utc)
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--section", required=True, choices=list(CONFIG.keys()))
+    args = ap.parse_args()
 
-    # Only rebuild non-breaking sections every 3 hours
-    three_hour_boundary = (now.hour % 3 == 0)
+    data = load_existing()
 
-    used_urls = set()
-    used_sublines = set()
+    # Ensure Top is gone forever
+    if "top" in data.get("sections", {}):
+        del data["sections"]["top"]
 
-    if prev and not three_hour_boundary:
-        for col in prev.get("columns", []):
-            for sec in col.get("sections", []):
-                if sec.get("name") != "Breaking":
-                    for it in sec.get("items", []):
-                        u = (it.get("url") or "").strip()
-                        sl = (it.get("snark") or "").strip()
-                        if u:
-                            used_urls.add(u)
-                        if sl:
-                            used_sublines.add(sl)
+    # Ensure required section keys exist
+    data.setdefault("meta", {})
+    data.setdefault("sections", {})
+    for k in ["breaking", "policy", "money", "tech", "weird"]:
+        data["sections"].setdefault(k, [])
 
-    columns = []
-
-    for col in LAYOUT:
-        col_out = {"sections": []}
-
-        for section_name, feeds in col:
-            refresh = (section_name == "Breaking") or three_hour_boundary
-
-            if not refresh and prev:
-                reused = None
-                for pcol in prev.get("columns", []):
-                    for psec in pcol.get("sections", []):
-                        if psec.get("name") == section_name:
-                            reused = psec
-                            break
-                    if reused:
-                        break
-                if reused:
-                    col_out["sections"].append(reused)
-                    continue
-
-            raw = []
-            for src, url in feeds:
-                raw.extend(parse_feed(src, url))
-
-            random.shuffle(raw)
-
-            items = pick_section_items(raw, used_urls, used_sublines, section_name)
-            col_out["sections"].append({"name": section_name, "items": items})
-
-        columns.append(col_out)
-
-    out = {
-        "site": {
-            "name": "THE DAILY SIDE-EYE",
-            "tagline": "Headlines with a raised eyebrow.",
-        },
-        "generated_utc": now.isoformat(),
-        "columns": columns,
-    }
-
-    with open("headlines.json", "w", encoding="utf-8") as f:
-        json.dump(out, f, indent=2, ensure_ascii=False)
+    update_section(data, args.section)
+    save(data)
 
 if __name__ == "__main__":
     main()
