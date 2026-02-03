@@ -1,50 +1,50 @@
 name: Update headlines.json
 
 on:
-  schedule:
-    - cron: "*/15 * * * *"
   workflow_dispatch:
+  schedule:
+    - cron: "*/15 * * * *"   # every 15 minutes (UTC)
 
 permissions:
   contents: write
 
-concurrency:
-  group: update-headlines
-  cancel-in-progress: true
-
 jobs:
-  update:
+  build:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-python@v5
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      - run: pip install -r requirements.txt
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install feedparser
 
       - name: Generate headlines.json
-        run: python update_headlines.py
-
-      - name: Commit & push if changed
-        shell: bash
         run: |
-          set -euo pipefail
+          python update_headlines.py
+          test -f headlines.json
+
+      - name: Commit and push headlines.json if changed
+        run: |
           git config user.name "dailysideeye-bot"
           git config user.email "actions@users.noreply.github.com"
 
           git add headlines.json
 
+          # If no changes, exit cleanly
           if git diff --cached --quiet; then
-            echo "No changes."
+            echo "No changes to commit."
             exit 0
           fi
 
-          git commit -m "Update headlines.json ($(date -u '+%Y-%m-%d %H:%M UTC'))"
-          git pull --rebase
+          git commit -m "Update headlines.json"
           git push
