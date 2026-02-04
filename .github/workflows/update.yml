@@ -42,37 +42,12 @@ jobs:
           set -euo pipefail
           python update_headlines.py
 
-      # Force meta.generated_at to "now" so a successful run always produces a diff.
-      # (If the generator already updated it, this just reaffirms it.)
-      - name: Force bump generated_at (ensures diff)
-        shell: bash
-        run: |
-          set -euo pipefail
-          python - << 'PY'
-          import json
-          from datetime import datetime, timezone
-          p = "headlines.json"
-          with open(p, "r", encoding="utf-8") as f:
-            data = json.load(f)
-          data.setdefault("meta", {})
-          data["meta"]["generated_at"] = datetime.now(timezone.utc).isoformat()
-          with open(p, "w", encoding="utf-8") as f:
-            json.dump(data, f, ensure_ascii=False, indent=2)
-          print("generated_at now:", data["meta"]["generated_at"])
-          PY
-
       - name: Show meta in logs
         shell: bash
         run: |
           set -euo pipefail
-          python - << 'PY'
-          import json
-          with open("headlines.json","r",encoding="utf-8") as f:
-            d=json.load(f)
-          print("meta:", d.get("meta"))
-          for k in ["breaking","developing","nothingburger","world","politics","markets","tech","weird","missed"]:
-            print(k, "count:", len((d.get("sections") or {}).get(k, [])))
-          PY
+          python -c "import json; d=json.load(open('headlines.json','r',encoding='utf-8')); print('meta:', d.get('meta')); secs=d.get('sections') or {}; \
+          [print(k,'count:',len(secs.get(k,[]))) for k in ['breaking','developing','nothingburger','world','politics','markets','tech','weird','missed']]"
 
       - name: Commit & push (retry-safe, no rebase)
         shell: bash
@@ -85,7 +60,7 @@ jobs:
           git add headlines.json
 
           if git diff --cached --quiet; then
-            echo "No changes after generation + bump (unexpected)."
+            echo "No changes to commit."
             exit 0
           fi
 
@@ -95,30 +70,19 @@ jobs:
             if git push; then
               exit 0
             fi
-            echo "Push failed (attempt $attempt). Re-sync and retry..."
 
+            echo "Push failed (attempt $attempt). Re-sync and retry..."
             git fetch origin main
             git reset --hard origin/main
 
             python update_headlines.py
-
-            python - << 'PY'
-            import json
-            from datetime import datetime, timezone
-            p="headlines.json"
-            with open(p,"r",encoding="utf-8") as f:
-              data=json.load(f)
-            data.setdefault("meta",{})
-            data["meta"]["generated_at"]=datetime.now(timezone.utc).isoformat()
-            with open(p,"w",encoding="utf-8") as f:
-              json.dump(data,f,ensure_ascii=False,indent=2)
-            PY
 
             git add headlines.json
             if git diff --cached --quiet; then
               echo "After resync, nothing to push."
               exit 0
             fi
+
             git commit -m "Update headlines.json ($(date -u '+%Y-%m-%d %H:%M UTC'))"
           done
 
