@@ -87,11 +87,15 @@ def items_from_feed(parsed, source_name: str, max_items: int):
     return out
 
 
+def item_key(it) -> tuple:
+    return (it.get("title", "").strip().lower(), it.get("url", "").strip())
+
+
 def dedupe_list(items):
     seen = set()
     out = []
     for it in items:
-        key = (it.get("title", "").lower(), it.get("url", ""))
+        key = item_key(it)
         if key in seen:
             continue
         seen.add(key)
@@ -127,7 +131,7 @@ def global_dedupe_in_priority(section_map, priority):
     for sec in priority:
         filtered = []
         for it in section_map.get(sec, []):
-            key = (it.get("title", "").lower(), it.get("url", ""))
+            key = item_key(it)
             if key in seen:
                 continue
             seen.add(key)
@@ -137,8 +141,7 @@ def global_dedupe_in_priority(section_map, priority):
 
 
 # ----------------------------
-# Snark generation (unique per page, NO hash suffixes)
-# Ensure templates > max non-tragic items so we never run out.
+# Snark generation (unique per page)
 # ----------------------------
 SNARK_TEMPLATES = [
     "Bold strategy. Let’s see if it survives contact with reality.",
@@ -190,7 +193,6 @@ SNARK_TEMPLATES = [
     "This is why people drink decaf—less optimism.",
     "The timeline is creative, in the worst way.",
     "A bold move from the Department of ‘Trust Me Bro.’",
-    "Today’s sponsor is… oh wait, no promos allowed.",
     "Somebody is about to ‘clarify’ for 72 hours straight.",
     "The ‘sources say’ era continues.",
     "This is the kind of certainty that ages poorly.",
@@ -198,7 +200,6 @@ SNARK_TEMPLATES = [
     "A lot of words to say ‘we’ll see.’",
     "The strategy appears to be vibes and prayer.",
     "This is what happens when group chats run government.",
-    "A thrilling episode of ‘nobody read the memo.’",
     "Consider this your daily reminder to check the fine print.",
     "The confidence-to-competence ratio is alarming.",
     "It’s a bold claim for someone with no citations.",
@@ -208,107 +209,37 @@ SNARK_TEMPLATES = [
     "Somebody mistook a hunch for a policy.",
     "The optics are doing the heavy lifting.",
     "Another victory for the ‘wait, what?’ community.",
-    "A proud moment for chaos enthusiasts.",
     "It’s giving ‘we’ll workshop it later.’",
-    "They chose violence. Bureaucratic violence.",
     "This is a great way to lose a weekend.",
     "The narrative is sprinting; the facts are strolling.",
-    "This is why adults shouldn’t be allowed to improvise.",
     "An exciting new chapter in ‘avoidable.’",
     "The plan is simple: pretend this is fine.",
-    "The justification is thin, like hotel towels.",
     "Somebody’s lawyer just sighed.",
     "The PR team is about to earn their keep.",
-    "A reminder: punctuation is not accountability.",
     "This is the kind of headline that needs a disclaimer.",
-    "This is not a solution; it’s an activity.",
     "The follow-up will be spectacular.",
     "We are all trapped in a pilot episode.",
-    "The certainty is loud; the evidence is shy.",
     "This is a situation, not a strategy.",
     "Somebody pressed ‘send’ and immediately regretted it.",
     "The headline is spicy; the details are plain oatmeal.",
-    "If this is the plan, what’s the backup?",
     "This is why we can’t have nice institutions.",
     "The vibes are immaculate. The logic is not.",
     "This will age like milk in July.",
-    "A brave attempt at narrative control.",
     "Somebody is allergic to straightforward answers.",
     "This is a strong argument for naps.",
-    "A bold swing at basic arithmetic.",
-    "The explanation is doing interpretive dance.",
-    "Today in ‘choices were made.’",
-    "This is what happens when nobody owns the decision.",
-    "The headline is a promise; the article is an apology.",
-    "We’ve entered the ‘walk it back’ portion of the program.",
-    "Somebody confused attention with approval.",
-    "This is a case study in how not to do this.",
-    "This is the kind of plan that needs adult supervision.",
-    "The details are thin, but the confidence is thick.",
-    "We love a theory that ignores reality.",
-    "This is the chaos tax coming due.",
-    "A thrilling update from the land of consequences.",
-    "The subtext is screaming.",
-    "This is why you don’t let vibes drive the bus.",
-    "The headline is yelling; the facts are whispering.",
-    "This is not a pivot, it’s a wobble.",
-    "Somebody is about to discover what ‘oversight’ means.",
-    "This is a bold claim for a Tuesday.",
-    "The strategy appears to be ‘hope.’",
-    "The evidence is missing; the confidence is present.",
-    "It’s giving ‘we’ll circle back’ forever.",
-    "This is why we read past the headline.",
-    "A gentle reminder that reality keeps receipts.",
-    "This is a classic case of ‘nice try.’",
-    "The plan is evolving. That’s not comforting.",
-    "We are watching an idea escape containment.",
-    "This is a good way to create a new problem.",
-    "A bold move from someone who hates follow-ups.",
-    "The spin is impressive, in a concerning way.",
-    "This feels like an intern wrote the timeline.",
-    "The details are here to ruin the story.",
-    "A proud moment for unintended consequences.",
-    "This is not a headline; it’s a cry for help.",
-    "The argument is strong… emotionally.",
-    "This will be clarified into oblivion.",
-    "This is why we can’t have simple news.",
-    "The logic is on vacation.",
-    "This is an ambitious misunderstanding.",
-    "The headline is doing the most.",
-    "The details are a jump scare.",
-    "This is an interesting choice for people with reputations.",
-    "The vibes are confident; the math is not.",
-    "A bold attempt to redefine ‘working.’",
-    "This is an expensive way to learn a lesson.",
-    "We are witnessing the consequences draft itself.",
-    "The headline is confident; the plan is vibes.",
-    "This is what ‘minimum viable’ looks like in the wild.",
-    "A heroic effort to avoid responsibility.",
-    "This is a high-stakes game of ‘maybe.’",
-    "The narrative is doing gymnastics.",
-    "This is a real sentence someone approved.",
-    "A reminder: words are not a substitute for plans.",
-    "The plot twist is: nobody checked.",
-    "This is the ‘find out’ portion of the program.",
-    "The confidence is so loud it’s clipping.",
-    "An exciting new way to be wrong.",
-    "This is what happens when you skip step two.",
-    "We love a headline that begs for context.",
-    "The logic has left the building.",
-    "This is a bold choice for people with jobs.",
-    "The accountability is not in the room.",
-    "This is the kind of optimism that needs a helmet.",
-    "Another day, another ‘temporary’ policy.",
-    "This is how meetings become headlines.",
-    "This reads like a dare.",
-    "The solution is… vibes.",
-    "This is an inventive approach to being unprepared.",
-    "A confident move from the land of assumptions.",
-    "This is a strategic misunderstanding.",
     "The vibe is ‘we tried nothing.’",
-    "This is a plan made of duct tape.",
-    "The details are doing damage control.",
-    "This is the kind of headline that needs adult supervision.",
+    "This is what happens when you skip step two.",
+    "The evidence is missing; the confidence is present.",
+    "We’ve entered the ‘walk it back’ portion of the program.",
+    "This is a case study in how not to do this.",
+    "The headline is doing the most.",
+    "They chose violence. Bureaucratic violence.",
+    "This is not a headline; it’s a cry for help.",
+    "This is a high-stakes game of ‘maybe.’",
+    "This is why we read past the headline.",
+    "The strategy appears to be ‘hope.’",
+    "The details are here to ruin the story.",
+    "The spin is impressive, in a concerning way.",
 ]
 
 
@@ -336,7 +267,6 @@ def assign_unique_snark(all_items_in_order):
                 chosen = candidate
                 break
 
-        # If we somehow run out (should not), show nothing instead of adding hashes.
         if chosen is None:
             it["snark"] = ""
             continue
@@ -345,26 +275,28 @@ def assign_unique_snark(all_items_in_order):
         it["snark"] = chosen
 
 
-def load_existing_sections(path: str):
+def load_existing(path: str):
     try:
         with open(path, "r", encoding="utf-8") as f:
             existing = json.load(f)
-        return existing.get("sections"), existing.get("meta", {})
+        return existing
     except FileNotFoundError:
-        return None, {}
+        return {}
     except Exception:
-        return None, {}
+        return {}
 
 
 def stable_sections_hash(sections_obj) -> str:
-    blob = json.dumps(
-        sections_obj, ensure_ascii=False, sort_keys=True, separators=(",", ":")
-    )
+    blob = json.dumps(sections_obj, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
     return hashlib.sha256(blob.encode("utf-8")).hexdigest()
 
 
+def sort_items(items):
+    return sorted(items, key=lambda it: (it.get("source", ""), it.get("title", ""), it.get("url", "")))
+
+
 # ----------------------------
-# Source pools (balance buckets)
+# Source pools
 # ----------------------------
 LEFT_GENERAL = [
     ("Reuters", google_news_rss("site:reuters.com when:2d -inurl:/video -inurl:/graphics")),
@@ -407,19 +339,75 @@ RIGHT_WEIRD = [
     ("Reuters OddlyEnough", google_news_rss("site:reuters.com ('oddly enough' OR oddly OR bizarre OR strange OR unusual) when:30d -inurl:/video")),
 ]
 
+# World RSS (direct)
+WORLD_LEFT = [
+    ("BBC World", "https://feeds.bbci.co.uk/news/world/rss.xml"),
+]
+WORLD_RIGHT = [
+    ("Al Jazeera", "https://www.aljazeera.com/xml/rss/all.xml"),
+]
+
+
+def build_breaking_and_developing(prev_sections):
+    prev_breaking = prev_sections.get("breaking", []) if isinstance(prev_sections, dict) else []
+    prev_breaking_keys = {item_key(it) for it in prev_breaking}
+
+    # Pull a decent pool so we can replace Breaking with "new" items
+    left_pool = pull_sources(LEFT_GENERAL, take_each=25)
+    right_pool = pull_sources(RIGHT_GENERAL, take_each=25)
+    candidates = dedupe_list(alternate(left_pool, right_pool, 50))
+
+    available_keys = {item_key(it) for it in candidates}
+
+    # "Not updated since last update" => last run's Breaking is still present now
+    dropped_from_breaking = [it for it in prev_breaking if item_key(it) in available_keys]
+
+    # New Breaking: prefer items NOT in last Breaking
+    fresh_breaking = [it for it in candidates if item_key(it) not in prev_breaking_keys]
+    breaking = fresh_breaking[:7]
+
+    # If we can't fill 7, allow reusing old ones (but still deduped)
+    if len(breaking) < 7:
+        fill = [it for it in candidates if item_key(it) not in {item_key(x) for x in breaking}]
+        breaking = (breaking + fill)[:7]
+
+    breaking_keys = {item_key(it) for it in breaking}
+
+    # Developing: max 10, priority to dropped-from-breaking
+    developing = []
+    developing.extend([it for it in dropped_from_breaking if item_key(it) not in breaking_keys])
+
+    # Fill rest from remaining candidates (excluding breaking and already included)
+    dev_keys = {item_key(it) for it in developing}
+    for it in candidates:
+        k = item_key(it)
+        if k in breaking_keys or k in dev_keys:
+            continue
+        developing.append(it)
+        dev_keys.add(k)
+        if len(developing) >= 10:
+            break
+
+    return breaking, developing
+
 
 def main():
+    existing = load_existing(HEADLINES_PATH)
+    prev_sections = existing.get("sections", {}) if isinstance(existing, dict) else {}
+
     sections = {}
 
-    cfg = {
-        "breaking":      {"limit": 7,  "take_each": 18, "left": LEFT_GENERAL,  "right": RIGHT_GENERAL,  "filter_fn": None},
-        "developing":    {"limit": 14, "take_each": 18, "left": LEFT_GENERAL,  "right": RIGHT_GENERAL,  "filter_fn": None},
-        "nothingburger": {"limit": 10, "take_each": 30, "left": LEFT_GENERAL,  "right": RIGHT_GENERAL,  "filter_fn": is_nothingburger},
+    # Breaking + Developing special rules
+    breaking, developing = build_breaking_and_developing(prev_sections)
+    sections["breaking"] = breaking
+    sections["developing"] = developing
 
-        "world":         {"limit": 14, "take_each": 18, "left": LEFT_GENERAL,  "right": RIGHT_GENERAL,  "filter_fn": None},
+    # Other sections (same approach as before)
+    cfg = {
+        "nothingburger": {"limit": 10, "take_each": 30, "left": LEFT_GENERAL,  "right": RIGHT_GENERAL,  "filter_fn": is_nothingburger},
+        "world":         {"limit": 14, "take_each": 24, "left": WORLD_LEFT,   "right": WORLD_RIGHT,    "filter_fn": None},
         "politics":      {"limit": 14, "take_each": 18, "left": LEFT_POLITICS, "right": RIGHT_POLITICS, "filter_fn": None},
         "markets":       {"limit": 14, "take_each": 18, "left": LEFT_MARKETS,  "right": RIGHT_MARKETS,  "filter_fn": None},
-
         "tech":          {"limit": 14, "take_each": 24, "left": LEFT_TECH,     "right": RIGHT_TECH,     "filter_fn": None},
         "weird":         {"limit": 12, "take_each": 24, "left": LEFT_WEIRD,    "right": RIGHT_WEIRD,    "filter_fn": None},
     }
@@ -435,23 +423,25 @@ def main():
 
         sections[sec] = alternate(left_pool, right_pool, c["limit"])
 
+    # Global dedupe (keep Breaking/Developing priority as you want)
     priority = ["breaking", "developing", "nothingburger", "world", "politics", "markets", "tech", "weird"]
     sections, used = global_dedupe_in_priority(sections, priority)
 
-    missed_left_sources = LEFT_GENERAL + LEFT_POLITICS + LEFT_MARKETS + LEFT_TECH + LEFT_WEIRD
-    missed_right_sources = RIGHT_GENERAL + RIGHT_POLITICS + RIGHT_MARKETS + RIGHT_TECH + RIGHT_WEIRD
+    # Missed section (same idea as before)
+    missed_left_sources = LEFT_GENERAL + LEFT_POLITICS + LEFT_MARKETS + LEFT_TECH + LEFT_WEIRD + WORLD_LEFT
+    missed_right_sources = RIGHT_GENERAL + RIGHT_POLITICS + RIGHT_MARKETS + RIGHT_TECH + RIGHT_WEIRD + WORLD_RIGHT
 
     missed_left = pull_sources(missed_left_sources, take_each=12)
     missed_right = pull_sources(missed_right_sources, take_each=12)
 
-    missed_left = [it for it in missed_left if (it["title"].lower(), it["url"]) not in used]
-    missed_right = [it for it in missed_right if (it["title"].lower(), it["url"]) not in used]
+    missed_left = [it for it in missed_left if item_key(it) not in used]
+    missed_right = [it for it in missed_right if item_key(it) not in used]
 
     sections["missed"] = dedupe_list(alternate(missed_left, missed_right, 12))
 
     final = {
         "breaking": sections.get("breaking", [])[:7],
-        "developing": sections.get("developing", []),
+        "developing": sections.get("developing", [])[:10],
         "nothingburger": sections.get("nothingburger", []),
         "world": sections.get("world", []),
         "politics": sections.get("politics", []),
@@ -461,24 +451,22 @@ def main():
         "missed": sections.get("missed", []),
     }
 
-    # Optional but recommended: deterministic ordering to reduce churn from feed ordering
-    for sec, items in final.items():
-        final[sec] = sorted(items, key=lambda it: (it.get("source", ""), it.get("title", ""), it.get("url", "")))
+    # Deterministic ordering (reduces churn & stabilizes snark uniqueness resolution)
+    for sec in final:
+        final[sec] = sort_items(final[sec])
 
-    # Assign snark after final ordering so uniqueness collisions are stable
+    # Snark assignment
     all_items = []
     for sec in ["breaking", "developing", "nothingburger", "world", "politics", "markets", "tech", "weird", "missed"]:
         all_items.extend(final.get(sec, []))
     assign_unique_snark(all_items)
 
-    # If sections did not change vs previous run, do NOT rewrite file (prevents meta-only diffs)
-    existing_sections, _existing_meta = load_existing_sections(HEADLINES_PATH)
-    new_hash = stable_sections_hash(final)
-    old_hash = stable_sections_hash(existing_sections) if existing_sections else None
-
-    if old_hash == new_hash:
-        print("No section changes; skipping write.")
-        return
+    # Skip write if sections unchanged (prevents meta-only diffs/commits)
+    old_sections = prev_sections if isinstance(prev_sections, dict) else None
+    if old_sections is not None:
+        if stable_sections_hash(old_sections) == stable_sections_hash(final):
+            print("No section changes; skipping write.")
+            return
 
     data = {
         "meta": {"generated_at": now_iso(), "version": 7},
