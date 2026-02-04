@@ -103,11 +103,16 @@ def dedupe_list(items):
     return out
 
 
+# SAFE pull_sources: one broken RSS source won't fail the whole run
 def pull_sources(sources, take_each):
     combined = []
     for name, url in sources:
-        parsed = fetch_feed(url)
-        combined.extend(items_from_feed(parsed, name, max_items=take_each))
+        try:
+            parsed = fetch_feed(url)
+            combined.extend(items_from_feed(parsed, name, max_items=take_each))
+        except Exception as e:
+            print(f"[warn] source failed: {name} {url} :: {e}")
+            continue
     return dedupe_list(combined)
 
 
@@ -291,10 +296,6 @@ def stable_sections_hash(sections_obj) -> str:
     return hashlib.sha256(blob.encode("utf-8")).hexdigest()
 
 
-def sort_items(items):
-    return sorted(items, key=lambda it: (it.get("source", ""), it.get("title", ""), it.get("url", "")))
-
-
 # ----------------------------
 # Source pools
 # ----------------------------
@@ -402,7 +403,7 @@ def main():
     sections["breaking"] = breaking
     sections["developing"] = developing
 
-    # Other sections (same approach as before)
+    # Other sections
     cfg = {
         "nothingburger": {"limit": 10, "take_each": 30, "left": LEFT_GENERAL,  "right": RIGHT_GENERAL,  "filter_fn": is_nothingburger},
         "world":         {"limit": 14, "take_each": 24, "left": WORLD_LEFT,   "right": WORLD_RIGHT,    "filter_fn": None},
@@ -423,11 +424,11 @@ def main():
 
         sections[sec] = alternate(left_pool, right_pool, c["limit"])
 
-    # Global dedupe (keep Breaking/Developing priority as you want)
+    # Global dedupe in priority order
     priority = ["breaking", "developing", "nothingburger", "world", "politics", "markets", "tech", "weird"]
     sections, used = global_dedupe_in_priority(sections, priority)
 
-    # Missed section (same idea as before)
+    # Missed section
     missed_left_sources = LEFT_GENERAL + LEFT_POLITICS + LEFT_MARKETS + LEFT_TECH + LEFT_WEIRD + WORLD_LEFT
     missed_right_sources = RIGHT_GENERAL + RIGHT_POLITICS + RIGHT_MARKETS + RIGHT_TECH + RIGHT_WEIRD + WORLD_RIGHT
 
@@ -451,11 +452,7 @@ def main():
         "missed": sections.get("missed", []),
     }
 
-    # Deterministic ordering (reduces churn & stabilizes snark uniqueness resolution)
-    for sec in final:
-        final[sec] = sort_items(final[sec])
-
-    # Snark assignment
+    # Snark assignment (preserves alternating order; no alphabetical sort)
     all_items = []
     for sec in ["breaking", "developing", "nothingburger", "world", "politics", "markets", "tech", "weird", "missed"]:
         all_items.extend(final.get(sec, []))
