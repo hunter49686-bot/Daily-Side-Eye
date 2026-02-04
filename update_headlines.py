@@ -66,7 +66,7 @@ def fetch_feed(url: str, timeout: int = 20):
 
 def items_from_feed(parsed, source_name: str, max_items: int):
     out = []
-    for e in parsed.entries[: max_items * 4]:
+    for e in parsed.entries[: max_items * 6]:
         title = normalize_title(getattr(e, "title", ""))
         link = getattr(e, "link", None)
         if not title or not link:
@@ -95,23 +95,34 @@ def dedupe_list(items):
     seen = set()
     out = []
     for it in items:
-        key = item_key(it)
-        if key in seen:
+        k = item_key(it)
+        if k in seen:
             continue
-        seen.add(key)
+        seen.add(k)
         out.append(it)
     return out
 
 
-# SAFE pull_sources: one broken RSS source won't fail the whole run
 def pull_sources(sources, take_each):
+    combined = []
+    for name, url in sources:
+        parsed = fetch_feed(url)
+        combined.extend(items_from_feed(parsed, name, max_items=take_each))
+    return dedupe_list(combined)
+
+
+def pull_sources_soft(sources, take_each):
+    """
+    Best-effort version: if one feed errors, keep going.
+    Returns combined deduped list from the feeds that worked.
+    """
     combined = []
     for name, url in sources:
         try:
             parsed = fetch_feed(url)
             combined.extend(items_from_feed(parsed, name, max_items=take_each))
         except Exception as e:
-            print(f"[warn] source failed: {name} {url} :: {e}")
+            print(f"[WARN] feed failed: {name} {url} -> {e}")
             continue
     return dedupe_list(combined)
 
@@ -136,10 +147,10 @@ def global_dedupe_in_priority(section_map, priority):
     for sec in priority:
         filtered = []
         for it in section_map.get(sec, []):
-            key = item_key(it)
-            if key in seen:
+            k = item_key(it)
+            if k in seen:
                 continue
-            seen.add(key)
+            seen.add(k)
             filtered.append(it)
         section_map[sec] = filtered
     return section_map, seen
@@ -272,28 +283,20 @@ def assign_unique_snark(all_items_in_order):
                 chosen = candidate
                 break
 
-        if chosen is None:
-            it["snark"] = ""
-            continue
-
-        used.add(chosen)
-        it["snark"] = chosen
+        it["snark"] = chosen or ""
 
 
 def load_existing(path: str):
     try:
         with open(path, "r", encoding="utf-8") as f:
-            existing = json.load(f)
-        return existing
-    except FileNotFoundError:
-        return {}
+            return json.load(f)
     except Exception:
         return {}
 
 
-def stable_sections_hash(sections_obj) -> str:
-    blob = json.dumps(sections_obj, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
-    return hashlib.sha256(blob.encode("utf-8")).hexdigest()
+def sort_items(items):
+    # stable ordering to reduce churn within a run; breaking rotation is handled separately
+    return sorted(items, key=lambda it: (it.get("source", ""), it.get("title", ""), it.get("url", "")))
 
 
 # ----------------------------
@@ -350,42 +353,64 @@ WORLD_RIGHT = [
 
 
 def build_breaking_and_developing(prev_sections):
+    """
+    Your rule:
+    - Breaking is 7.
+    - If a Breaking headline has NOT updated since last update (meaning: it still appears in today's candidate pool),
+      drop it into Developing.
+    - Bring in new Breaking headlines.
+    - Developing max 10, and dropped-from-breaking get priority.
+    """
     prev_breaking = prev_sections.get("breaking", []) if isinstance(prev_sections, dict) else []
     prev_breaking_keys = {item_key(it) for it in prev_breaking}
 
-    # Pull a decent pool so we can replace Breaking with "new" items
-    left_pool = pull_sources(LEFT_GENERAL, take_each=25)
-    right_pool = pull_sources(RIGHT_GENERAL, take_each=25)
-    candidates = dedupe_list(alternate(left_pool, right_pool, 50))
+    # Build a candidate pool from the same "general" sources
+    left_pool = pull_sources_soft(LEFT_GENERAL, take_each=30)
+    right_pool = pull_sources_soft(RIGHT_GENERAL, take_each=30)
+    candidates = dedupe_list(alternate(left_pool, right_pool, 80))
+    candidate_keys = {item_key(it) for it in candidates}
 
-    available_keys = {item_key(it) for it in candidates}
-
-    # "Not updated since last update" => last run's Breaking is still present now
-    dropped_from_breaking = [it for it in prev_breaking if item_key(it) in available_keys]
+    # Not updated => still present in current pool
+    dropped_from_breaking = [it for it in prev_breaking if item_key(it) in candidate_keys]
 
     # New Breaking: prefer items NOT in last Breaking
     fresh_breaking = [it for it in candidates if item_key(it) not in prev_breaking_keys]
     breaking = fresh_breaking[:7]
 
-    # If we can't fill 7, allow reusing old ones (but still deduped)
+    # If we still can't fill 7, allow reuse
     if len(breaking) < 7:
-        fill = [it for it in candidates if item_key(it) not in {item_key(x) for x in breaking}]
-        breaking = (breaking + fill)[:7]
+        already = {item_key(x) for x in breaking}
+        for it in candidates:
+            k = item_key(it)
+            if k in already:
+                continue
+            breaking.append(it)
+            already.add(k)
+            if len(breaking) >= 7:
+                break
 
     breaking_keys = {item_key(it) for it in breaking}
 
-    # Developing: max 10, priority to dropped-from-breaking
+    # Developing: priority to dropped-from-breaking (excluding ones now in breaking)
     developing = []
-    developing.extend([it for it in dropped_from_breaking if item_key(it) not in breaking_keys])
+    dev_seen = set()
 
-    # Fill rest from remaining candidates (excluding breaking and already included)
-    dev_keys = {item_key(it) for it in developing}
-    for it in candidates:
+    for it in dropped_from_breaking:
         k = item_key(it)
-        if k in breaking_keys or k in dev_keys:
+        if k in breaking_keys or k in dev_seen:
             continue
         developing.append(it)
-        dev_keys.add(k)
+        dev_seen.add(k)
+        if len(developing) >= 10:
+            return breaking, developing
+
+    # Fill remaining developing from candidates not in breaking
+    for it in candidates:
+        k = item_key(it)
+        if k in breaking_keys or k in dev_seen:
+            continue
+        developing.append(it)
+        dev_seen.add(k)
         if len(developing) >= 10:
             break
 
@@ -414,8 +439,13 @@ def main():
     }
 
     for sec, c in cfg.items():
-        left_pool = pull_sources(c["left"], take_each=c["take_each"])
-        right_pool = pull_sources(c["right"], take_each=c["take_each"])
+        # World uses best-effort pulls so a single broken feed doesn't zero the section.
+        if sec == "world":
+            left_pool = pull_sources_soft(c["left"], take_each=c["take_each"])
+            right_pool = pull_sources_soft(c["right"], take_each=c["take_each"])
+        else:
+            left_pool = pull_sources_soft(c["left"], take_each=c["take_each"])
+            right_pool = pull_sources_soft(c["right"], take_each=c["take_each"])
 
         fn = c["filter_fn"]
         if fn:
@@ -424,7 +454,7 @@ def main():
 
         sections[sec] = alternate(left_pool, right_pool, c["limit"])
 
-    # Global dedupe in priority order
+    # Global dedupe (priority: breaking -> developing -> rest)
     priority = ["breaking", "developing", "nothingburger", "world", "politics", "markets", "tech", "weird"]
     sections, used = global_dedupe_in_priority(sections, priority)
 
@@ -432,8 +462,8 @@ def main():
     missed_left_sources = LEFT_GENERAL + LEFT_POLITICS + LEFT_MARKETS + LEFT_TECH + LEFT_WEIRD + WORLD_LEFT
     missed_right_sources = RIGHT_GENERAL + RIGHT_POLITICS + RIGHT_MARKETS + RIGHT_TECH + RIGHT_WEIRD + WORLD_RIGHT
 
-    missed_left = pull_sources(missed_left_sources, take_each=12)
-    missed_right = pull_sources(missed_right_sources, take_each=12)
+    missed_left = pull_sources_soft(missed_left_sources, take_each=12)
+    missed_right = pull_sources_soft(missed_right_sources, take_each=12)
 
     missed_left = [it for it in missed_left if item_key(it) not in used]
     missed_right = [it for it in missed_right if item_key(it) not in used]
@@ -443,37 +473,40 @@ def main():
     final = {
         "breaking": sections.get("breaking", [])[:7],
         "developing": sections.get("developing", [])[:10],
-        "nothingburger": sections.get("nothingburger", []),
-        "world": sections.get("world", []),
-        "politics": sections.get("politics", []),
-        "markets": sections.get("markets", []),
-        "tech": sections.get("tech", []),
-        "weird": sections.get("weird", []),
-        "missed": sections.get("missed", []),
+        "nothingburger": sections.get("nothingburger", [])[:10],
+        "world": sections.get("world", [])[:14],
+        "politics": sections.get("politics", [])[:14],
+        "markets": sections.get("markets", [])[:14],
+        "tech": sections.get("tech", [])[:14],
+        "weird": sections.get("weird", [])[:12],
+        "missed": sections.get("missed", [])[:12],
     }
 
-    # Snark assignment (preserves alternating order; no alphabetical sort)
+    # Keep stable ordering inside sections (breaking rotation is handled by "fresh first")
+    for sec in final:
+        if sec in ("breaking", "developing"):
+            # preserve the intended priority ordering for these
+            continue
+        final[sec] = sort_items(final[sec])
+
+    # Snark assignment across the whole page
     all_items = []
     for sec in ["breaking", "developing", "nothingburger", "world", "politics", "markets", "tech", "weird", "missed"]:
         all_items.extend(final.get(sec, []))
     assign_unique_snark(all_items)
-
-    # Skip write if sections unchanged (prevents meta-only diffs/commits)
-    old_sections = prev_sections if isinstance(prev_sections, dict) else None
-    if old_sections is not None:
-        if stable_sections_hash(old_sections) == stable_sections_hash(final):
-            print("No section changes; skipping write.")
-            return
 
     data = {
         "meta": {"generated_at": now_iso(), "version": 7},
         "sections": final,
     }
 
+    # IMPORTANT: always write so schedule always produces a deployable commit
     with open(HEADLINES_PATH, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
 
-    print("Wrote headlines.json (sections changed).")
+    print("Wrote headlines.json:", data["meta"]["generated_at"])
+    print("Counts:",
+          {k: len(v) for k, v in data["sections"].items()})
 
 
 if __name__ == "__main__":
