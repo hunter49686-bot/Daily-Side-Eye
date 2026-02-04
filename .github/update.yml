@@ -1,140 +1,80 @@
-name: Update Headlines (2-tier + heartbeat)
+name: Update headlines.json
 
 on:
   schedule:
-    - cron: "7,37 * * * *"   # Breaking tier (every 30 min, offset)
-    - cron: "19 */2 * * *"   # Full tier (every 2 hours, offset)
+    - cron: "*/15 * * * *"
   workflow_dispatch:
-    inputs:
-      tier:
-        description: "Which update to run"
-        required: true
-        default: "breaking"
-        type: choice
-        options:
-          - breaking
-          - full
 
 permissions:
   contents: write
 
 concurrency:
-  group: headlines-update
+  group: update-headlines
   cancel-in-progress: true
 
 jobs:
   update:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 10
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          persist-credentials: true
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
       - name: Install deps
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+        run: pip install -r requirements.txt
 
-      - name: Sync to origin/main (avoid conflicts)
-        run: |
-          git fetch origin main
-          git checkout main
-          git reset --hard origin/main
-
-      - name: Decide tier
-        id: tier
+      - name: Sync to origin/main
         shell: bash
         run: |
-          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
-            echo "tier=${{ inputs.tier }}" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
+          set -euo pipefail
+          git fetch origin main
+          git reset --hard origin/main
 
-          # For schedule events, GitHub provides the cron string that triggered.
-          if [[ "${{ github.event.schedule }}" == "7,37 * * * *" ]]; then
-            echo "tier=breaking" >> "$GITHUB_OUTPUT"
-          elif [[ "${{ github.event.schedule }}" == "19 */2 * * *" ]]; then
-            echo "tier=full" >> "$GITHUB_OUTPUT"
-          else
-            echo "tier=full" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Write heartbeat (always changes)
+      - name: Generate headlines.json
+        shell: bash
         run: |
-          python - <<'PY'
-          from datetime import datetime, timezone
-          import os
-          tier = os.environ.get("TIER", "unknown")
-          ts = datetime.now(timezone.utc).isoformat()
-          with open("last_run.txt", "w", encoding="utf-8") as f:
-            f.write(f"{ts} | tier={tier}\n")
-          PY
-        env:
-          TIER: ${{ steps.tier.outputs.tier }}
-
-      - name: Update ONLY Breaking (preserve other sections)
-        if: steps.tier.outputs.tier == 'breaking'
-        run: |
-          python - <<'PY'
-          import json
-          from datetime import datetime, timezone
-          import update_headlines as uh
-
-          HEADLINES_PATH = "headlines.json"
-
-          def now_iso():
-              return datetime.now(timezone.utc).isoformat()
-
-          def load_existing():
-              try:
-                  with open(HEADLINES_PATH, "r", encoding="utf-8") as f:
-                      return json.load(f)
-              except FileNotFoundError:
-                  return {"meta": {"generated_at": now_iso(), "version": 7}, "sections": {}}
-
-          def ensure_sections(data):
-              data.setdefault("meta", {})
-              data["meta"].setdefault("version", 7)
-              data["sections"] = data.get("sections") or {}
-              for k in ["breaking","developing","nothingburger","world","politics","markets","tech","weird","missed"]:
-                  data["sections"].setdefault(k, [])
-              return data
-
-          data = ensure_sections(load_existing())
-
-          left_pool  = uh.pull_sources(uh.LEFT_GENERAL,  take_each=18)
-          right_pool = uh.pull_sources(uh.RIGHT_GENERAL, take_each=18)
-          data["sections"]["breaking"] = uh.alternate(left_pool, right_pool, 7)
-
-          priority = ["breaking","developing","nothingburger","world","politics","markets","tech","weird","missed"]
-          data["sections"], _ = uh.global_dedupe_in_priority(data["sections"], priority)
-
-          all_items = []
-          for sec in priority:
-              all_items.extend(data["sections"].get(sec, []))
-          uh.assign_unique_snark(all_items)
-
-          data["meta"]["generated_at"] = now_iso()
-
-          with open(HEADLINES_PATH, "w", encoding="utf-8") as f:
-              json.dump(data, f, ensure_ascii=False, indent=2)
-          PY
-
-      - name: Full refresh (all sections)
-        if: steps.tier.outputs.tier == 'full'
-        run: |
+          set -euo pipefail
           python update_headlines.py
 
-      - name: Commit & push (always commits heartbeat)
+      # Force meta.generated_at to "now" so a successful run always produces a diff.
+      # (If the generator already updated it, this just reaffirms it.)
+      - name: Force bump generated_at (ensures diff)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - << 'PY'
+          import json
+          from datetime import datetime, timezone
+          p = "headlines.json"
+          with open(p, "r", encoding="utf-8") as f:
+            data = json.load(f)
+          data.setdefault("meta", {})
+          data["meta"]["generated_at"] = datetime.now(timezone.utc).isoformat()
+          with open(p, "w", encoding="utf-8") as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+          print("generated_at now:", data["meta"]["generated_at"])
+          PY
+
+      - name: Show meta in logs
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - << 'PY'
+          import json
+          with open("headlines.json","r",encoding="utf-8") as f:
+            d=json.load(f)
+          print("meta:", d.get("meta"))
+          for k in ["breaking","developing","nothingburger","world","politics","markets","tech","weird","missed"]:
+            print(k, "count:", len((d.get("sections") or {}).get(k, [])))
+          PY
+
+      - name: Commit & push (retry-safe, no rebase)
         shell: bash
         run: |
           set -euo pipefail
@@ -142,23 +82,44 @@ jobs:
           git config user.name "dailysideeye-bot"
           git config user.email "actions@users.noreply.github.com"
 
-          git add headlines.json last_run.txt || true
+          git add headlines.json
 
           if git diff --cached --quiet; then
-            echo "Nothing staged."
+            echo "No changes after generation + bump (unexpected)."
             exit 0
           fi
 
-          git commit -m "Update (${ { steps.tier.outputs.tier } }) UTC" || true
+          git commit -m "Update headlines.json ($(date -u '+%Y-%m-%d %H:%M UTC'))"
 
-          # Push with retries
-          for i in 1 2 3; do
-            git fetch origin main
-            git rebase origin/main || (git rebase --abort && git reset --hard origin/main)
-            if git push origin main; then
+          for attempt in 1 2 3; do
+            if git push; then
               exit 0
             fi
-            sleep $((i * 5))
+            echo "Push failed (attempt $attempt). Re-sync and retry..."
+
+            git fetch origin main
+            git reset --hard origin/main
+
+            python update_headlines.py
+
+            python - << 'PY'
+            import json
+            from datetime import datetime, timezone
+            p="headlines.json"
+            with open(p,"r",encoding="utf-8") as f:
+              data=json.load(f)
+            data.setdefault("meta",{})
+            data["meta"]["generated_at"]=datetime.now(timezone.utc).isoformat()
+            with open(p,"w",encoding="utf-8") as f:
+              json.dump(data,f,ensure_ascii=False,indent=2)
+            PY
+
+            git add headlines.json
+            if git diff --cached --quiet; then
+              echo "After resync, nothing to push."
+              exit 0
+            fi
+            git commit -m "Update headlines.json ($(date -u '+%Y-%m-%d %H:%M UTC'))"
           done
 
           echo "Push failed after retries."
