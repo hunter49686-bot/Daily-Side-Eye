@@ -11,49 +11,58 @@ HEADLINES_PATH = "headlines.json"
 USER_AGENT = "DailySideEyeBot/1.0 (+https://dailysideeye.com)"
 GOOGLE_NEWS_BASE = "https://news.google.com/rss/search?q={q}&hl=en-US&gl=US&ceid=US:en"
 
+
 def google_news_rss(query: str) -> str:
     return GOOGLE_NEWS_BASE.format(q=quote_plus(query))
+
 
 def now_iso() -> str:
     return datetime.now(timezone.utc).isoformat()
 
+
 PROMO_RE = re.compile(
     r"\bsponsored\b|\badvertisement\b|\bpromo\b|\bpromotion\b|\bcoupon\b|\bdeal\b|\bdeals\b|"
     r"\bshopping\b|\bsubscribe\b|\bsubscription\b|\bpartner content\b",
-    re.IGNORECASE
+    re.IGNORECASE,
 )
 
 TRAGIC_RE = re.compile(
     r"\bkilled\b|\bdead\b|\bdeath\b|\bmurder\b|\bshooting\b|\bstabbing\b|\bmassacre\b|"
     r"\bterror\b|\bterrorist\b|\bwar\b|\binvasion\b|\bairstrike\b|\bearthquake\b|\bhurricane\b|"
     r"\btornado\b|\bflood\b|\bcrash\b|\bexplosion\b|\bhostage\b",
-    re.IGNORECASE
+    re.IGNORECASE,
 )
 
 NOTHINGBURGER_RE = re.compile(
     r"\bbacklash\b|\boutcry\b|\boutrage\b|\bslammed\b|\bclaps back\b|\bgoes viral\b|"
     r"\binternet reacts\b|\bfans react\b|\bresponds\b|\bmeltdown\b|\bcontroversy\b|\bstuns\b|"
     r"\byou won'?t believe\b",
-    re.IGNORECASE
+    re.IGNORECASE,
 )
+
 
 def is_promo(title: str) -> bool:
     return bool(PROMO_RE.search(title or ""))
 
+
 def is_tragic(title: str) -> bool:
     return bool(TRAGIC_RE.search(title or ""))
+
 
 def is_nothingburger(title: str) -> bool:
     return bool(NOTHINGBURGER_RE.search(title or "")) and not is_tragic(title)
 
+
 def normalize_title(t: str) -> str:
     return re.sub(r"\s+", " ", (t or "").strip())
+
 
 def fetch_feed(url: str, timeout: int = 20):
     headers = {"User-Agent": USER_AGENT}
     r = requests.get(url, headers=headers, timeout=timeout)
     r.raise_for_status()
     return feedparser.parse(r.content)
+
 
 def items_from_feed(parsed, source_name: str, max_items: int):
     out = []
@@ -64,16 +73,19 @@ def items_from_feed(parsed, source_name: str, max_items: int):
             continue
         if is_promo(title):
             continue
-        out.append({
-            "title": title,
-            "url": link,
-            "source": source_name,
-            "tragic": is_tragic(title),
-            "snark": ""
-        })
+        out.append(
+            {
+                "title": title,
+                "url": link,
+                "source": source_name,
+                "tragic": is_tragic(title),
+                "snark": "",
+            }
+        )
         if len(out) >= max_items:
             break
     return out
+
 
 def dedupe_list(items):
     seen = set()
@@ -86,6 +98,7 @@ def dedupe_list(items):
         out.append(it)
     return out
 
+
 def pull_sources(sources, take_each):
     combined = []
     for name, url in sources:
@@ -93,30 +106,35 @@ def pull_sources(sources, take_each):
         combined.extend(items_from_feed(parsed, name, max_items=take_each))
     return dedupe_list(combined)
 
+
 def alternate(left_items, right_items, limit):
     out = []
     i = j = 0
     while len(out) < limit and (i < len(left_items) or j < len(right_items)):
         if i < len(left_items):
-            out.append(left_items[i]); i += 1
+            out.append(left_items[i])
+            i += 1
             if len(out) >= limit:
                 break
         if j < len(right_items):
-            out.append(right_items[j]); j += 1
+            out.append(right_items[j])
+            j += 1
     return out[:limit]
+
 
 def global_dedupe_in_priority(section_map, priority):
     seen = set()
     for sec in priority:
         filtered = []
         for it in section_map.get(sec, []):
-            key = (it.get("title","").lower(), it.get("url",""))
+            key = (it.get("title", "").lower(), it.get("url", ""))
             if key in seen:
                 continue
             seen.add(key)
             filtered.append(it)
         section_map[sec] = filtered
     return section_map, seen
+
 
 # ----------------------------
 # Snark generation (unique per page, NO hash suffixes)
@@ -293,9 +311,11 @@ SNARK_TEMPLATES = [
     "This is the kind of headline that needs adult supervision.",
 ]
 
+
 def stable_int(s: str) -> int:
     h = hashlib.sha256(s.encode("utf-8")).hexdigest()
     return int(h[:16], 16)
+
 
 def assign_unique_snark(all_items_in_order):
     used = set()
@@ -323,6 +343,25 @@ def assign_unique_snark(all_items_in_order):
 
         used.add(chosen)
         it["snark"] = chosen
+
+
+def load_existing_sections(path: str):
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            existing = json.load(f)
+        return existing.get("sections"), existing.get("meta", {})
+    except FileNotFoundError:
+        return None, {}
+    except Exception:
+        return None, {}
+
+
+def stable_sections_hash(sections_obj) -> str:
+    blob = json.dumps(
+        sections_obj, ensure_ascii=False, sort_keys=True, separators=(",", ":")
+    )
+    return hashlib.sha256(blob.encode("utf-8")).hexdigest()
+
 
 # ----------------------------
 # Source pools (balance buckets)
@@ -368,6 +407,7 @@ RIGHT_WEIRD = [
     ("Reuters OddlyEnough", google_news_rss("site:reuters.com ('oddly enough' OR oddly OR bizarre OR strange OR unusual) when:30d -inurl:/video")),
 ]
 
+
 def main():
     sections = {}
 
@@ -395,7 +435,7 @@ def main():
 
         sections[sec] = alternate(left_pool, right_pool, c["limit"])
 
-    priority = ["breaking","developing","nothingburger","world","politics","markets","tech","weird"]
+    priority = ["breaking", "developing", "nothingburger", "world", "politics", "markets", "tech", "weird"]
     sections, used = global_dedupe_in_priority(sections, priority)
 
     missed_left_sources = LEFT_GENERAL + LEFT_POLITICS + LEFT_MARKETS + LEFT_TECH + LEFT_WEIRD
@@ -421,18 +461,35 @@ def main():
         "missed": sections.get("missed", []),
     }
 
+    # Optional but recommended: deterministic ordering to reduce churn from feed ordering
+    for sec, items in final.items():
+        final[sec] = sorted(items, key=lambda it: (it.get("source", ""), it.get("title", ""), it.get("url", "")))
+
+    # Assign snark after final ordering so uniqueness collisions are stable
     all_items = []
-    for sec in ["breaking","developing","nothingburger","world","politics","markets","tech","weird","missed"]:
+    for sec in ["breaking", "developing", "nothingburger", "world", "politics", "markets", "tech", "weird", "missed"]:
         all_items.extend(final.get(sec, []))
     assign_unique_snark(all_items)
 
+    # If sections did not change vs previous run, do NOT rewrite file (prevents meta-only diffs)
+    existing_sections, _existing_meta = load_existing_sections(HEADLINES_PATH)
+    new_hash = stable_sections_hash(final)
+    old_hash = stable_sections_hash(existing_sections) if existing_sections else None
+
+    if old_hash == new_hash:
+        print("No section changes; skipping write.")
+        return
+
     data = {
         "meta": {"generated_at": now_iso(), "version": 7},
-        "sections": final
+        "sections": final,
     }
 
     with open(HEADLINES_PATH, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
+
+    print("Wrote headlines.json (sections changed).")
+
 
 if __name__ == "__main__":
     main()
