@@ -18,16 +18,20 @@ jobs:
     timeout-minutes: 10
 
     steps:
+      - name: Checkout
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-python@v5
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
       - name: Install deps
-        run: pip install -r requirements.txt
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
       - name: Sync to origin/main
         shell: bash
@@ -42,14 +46,7 @@ jobs:
           set -euo pipefail
           python update_headlines.py
 
-      - name: Show meta in logs
-        shell: bash
-        run: |
-          set -euo pipefail
-          python -c "import json; d=json.load(open('headlines.json','r',encoding='utf-8')); print('meta:', d.get('meta')); secs=d.get('sections') or {}; \
-          [print(k,'count:',len(secs.get(k,[]))) for k in ['breaking','developing','nothingburger','world','politics','markets','tech','weird','missed']]"
-
-      - name: Commit & push (retry-safe, no rebase)
+      - name: Commit & push
         shell: bash
         run: |
           set -euo pipefail
@@ -65,26 +62,4 @@ jobs:
           fi
 
           git commit -m "Update headlines.json ($(date -u '+%Y-%m-%d %H:%M UTC'))"
-
-          for attempt in 1 2 3; do
-            if git push; then
-              exit 0
-            fi
-
-            echo "Push failed (attempt $attempt). Re-sync and retry..."
-            git fetch origin main
-            git reset --hard origin/main
-
-            python update_headlines.py
-
-            git add headlines.json
-            if git diff --cached --quiet; then
-              echo "After resync, nothing to push."
-              exit 0
-            fi
-
-            git commit -m "Update headlines.json ($(date -u '+%Y-%m-%d %H:%M UTC'))"
-          done
-
-          echo "Push failed after retries."
-          exit 1
+          git push
