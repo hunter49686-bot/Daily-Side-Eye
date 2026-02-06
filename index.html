@@ -7,6 +7,56 @@
   <meta name="description" content="Daily Side-Eye" />
   <link rel="icon" href="/favicon.ico" />
   <link rel="stylesheet" href="styles.css" />
+
+  <!-- Animated logo (eye + eyebrow together) -->
+  <style>
+    /* --- Daily Side-Eye: animated logo (eye + eyebrow together) --- */
+    .brand-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-icon-anim {
+      width: 36px;
+      height: 36px;
+      display: block;
+
+      /* Do not capture clicks or selections */
+      pointer-events: none;
+      user-select: none;
+
+      /* Smooth animation */
+      will-change: transform;
+      transform-origin: 18% 55%; /* pivot near left side */
+      animation: dseEyebrowRaise 2.2s infinite;
+    }
+
+    /* Respect reduced-motion users */
+    @media (prefers-reduced-motion: reduce) {
+      .brand-icon-anim {
+        animation: none;
+      }
+    }
+
+    /* 2.2s loop:
+       - lift (slow)
+       - hold
+       - partial settle (doesn't fully "un-judge") */
+    @keyframes dseEyebrowRaise {
+      0%   { transform: translateY(0) rotate(0deg) scale(1); }
+      10%  { transform: translateY(0) rotate(0deg) scale(1); }
+
+      /* lift */
+      55%  { transform: translateY(-2px) rotate(-4deg) scale(1); }
+
+      /* hold */
+      73%  { transform: translateY(-2px) rotate(-4deg) scale(1); }
+
+      /* partial settle */
+      100% { transform: translateY(-1px) rotate(-2deg) scale(1); }
+    }
+  </style>
 </head>
 
 <body>
@@ -14,7 +64,19 @@
     <div class="page-wrap">
       <div class="brand-row">
         <div class="brand-title">Daily Side-Eye</div>
-        <img src="favicon.svg" alt="" class="brand-icon" />
+
+        <!-- Replace favicon.svg with your animated logo image -->
+        <!-- Put sideeye-graphic.png in the same folder as this index.html -->
+        <img
+          src="sideeye-graphic.png"
+          alt=""
+          class="brand-icon-anim"
+          width="36"
+          height="36"
+          decoding="async"
+          loading="eager"
+          aria-hidden="true"
+        />
       </div>
     </div>
   </header>
