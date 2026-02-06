@@ -62,6 +62,30 @@ html, body {
   opacity: 0.95;
 }
 
+/* --- Animated logo (eye + eyebrow together) --- */
+.brand-icon-anim {
+  display: block;
+  pointer-events: none;
+  user-select: none;
+  will-change: transform;
+  transform-origin: 18% 55%;
+  animation: dseEyebrowRaise 2.2s infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brand-icon-anim {
+    animation: none;
+  }
+}
+
+@keyframes dseEyebrowRaise {
+  0%   { transform: translateY(0) rotate(0deg); }
+  10%  { transform: translateY(0) rotate(0deg); }
+  55%  { transform: translateY(-2px) rotate(-4deg); }
+  73%  { transform: translateY(-2px) rotate(-4deg); }
+  100% { transform: translateY(-1px) rotate(-2deg); }
+}
+
 /* Grid */
 .grid {
   display: grid;
@@ -112,7 +136,7 @@ html, body {
 
 .section-body {
   padding: 12px 14px 16px;
-  min-height: 54px; /* ensures something always appears directly under headers */
+  min-height: 54px;
 }
 
 /* Breaking emphasis */
