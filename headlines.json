@@ -1,61 +1,10 @@
 {
   "meta": {
-    "generated_at": "2026-08-09T09:04:02.945231+00:00",
+    "generated_at": "2026-08-09T09:58:09.142575+00:00",
     "version": 7
   },
   "sections": {
     "breaking": [
-      {
-        "title": "Reuters Climate Monitor - Reuters",
-        "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE1xcW1nTV9oSTFNczAyY3ZTTzZKc1RoaUVqdndJZmV5VnRaVldYYUs3bERrYjlSYWZQUnA4T0VBUzNDVEZNSllaelNQbHlsREQxVl94ODZsaEFUZ1c3b00zazAtNWEzRlFvYnZnVi1SQ2FuaHRmSVJ0dGd0VQ?oc=5",
-        "source": "Reuters",
-        "tragic": false,
-        "snark": "Somebody pressed ‘send’ and immediately regretted it."
-      },
-      {
-        "title": "Iran is moving its tanks. Decades as a military planner taught me what that means - Fox News",
-        "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxNRFFRclRHVENYN3lwd3l1SEJ5U1BncXpMNFY0akJodndSWldUXy1OMV9oU0xFMExjNnByUkZrV0h2aE1QYURNWW1sa2dlMnhxcENkR0FCcmtET3ZtZ1FvT3hjZy1qaUpPbWdLVEw4R0ttLTFUdWdUQ2lYaU9UempKVmVsek1LWmQyZ2RtcHdnSXdwR3lVcjBz?oc=5",
-        "source": "Fox News",
-        "tragic": false,
-        "snark": "We regret to inform you the plot has thickened again."
-      },
-      {
-        "title": "Taylor Swift songs removed from White House, Trump campaign posts - Reuters",
-        "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxQem8tQ281dWR1RWV5ZVFHX1BEQWZnNU1RaW1uZm40S0VjZzZEbGxVVHVLZkJDZjBkRzM4bUNrNVIwR0RSbDM1MFo1UVdYUV8yLXZKc1QyZEZxcFlHOGgtZzcxYk0zNzZiWlc3TExjMlU4cGhYS0tzT09feE93US1TMEh0eXlGMk12VHNRQUdkcDdmM2ZDRGhBcExEazVUOVBaTlNXc2ZZbmd4SDBxcW1kU1pFSHJZT0dqU1E?oc=5",
-        "source": "Reuters",
-        "tragic": false,
-        "snark": "It’s giving ‘we’ll workshop it later.’"
-      },
-      {
-        "title": "Following deadly attacks, Malaysia's crocodile hunters go to work - Reuters",
-        "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxQQkxOU0tMY00xVnhPTjBYSVh2eWFLVUtjbFExak01LTFhMU9XS0xpaVY1X3VtRWFsckV3bjBkSkMzYW9aOHBHRjFFNllRWGFlOG5EWGFjb0RaSWVDbGVwTjJtdjdLam42SHRZa21fVjhTNXl2d1VkZWNlbGFUY3VLVzN1cFJDd3ZlSlNHS3d0d180ZE9tR0RzLXFHUFN1VERXclg4cS04Z3c?oc=5",
-        "source": "Reuters",
-        "tragic": false,
-        "snark": "This is what happens when group chats run government."
-      },
-      {
-        "title": "MIKE DAVIS: Chuck Grassley's behind-the-scenes work proved decisive in Todd Blanche confirmation fight - Fox News",
-        "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxPRXlFNnpZUEpvM1BjSEx2VThGclZkVi03Mk5WdzRsWkg4RUdTOEdmX3BsdElHamRDSlVmRXR4SmlTSk95N1UxVmdOejk0ckVlT2hsX1l2bUZiMVJiYkxSeHhSenBORnh3R21GNUJjZDNWVnFSdk1RRjAtVFVXVEp4Nmc4TC12ZEF3QlczYW1JdGJmZ1RKTGluVWNTbWNhWjg4Q2Z5SEstNDhsYUtTZEJNQ2c1dnVOcm9RTEQ2b1ZRMjdDd9IBxwFBVV95cUxQU0N3NTZfRDlHOVNrQUNHTnFWN201bG1kWVBEVlIyanFlVkluZktQRnVmT0dzalpEVFlTMTZuLTJVNVFBMFBDS0FkZl9QaWY4a3ZfakxRRnF4SUZ1VXZNN0xUVXFyQ0tZN2pWMHVUbl95NEl2WFZpZ29MUEU5RmdtQXBqNmlkQmZLVUtqY2tXLUVCUlF4dlBuYzlpVVU5X0hRSHdtM2dHQXZqOWZmRHRhMlh2QWZia1BYS1RQMVZ6dWJ1ZnRxMmNj?oc=5",
-        "source": "Fox News",
-        "tragic": false,
-        "snark": "Somebody just reinvented a mistake from 2009."
-      },
-      {
-        "title": "Berkshire says operating profit rises, conducts stock buybacks - Reuters",
-        "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxNanEtR0taa1FKLWV2SVExLS1nRmp5Y2FXcXduQnpLU0ljOElYdXRRQUJiOEx6cktnWEFSVGcwYUNrMjBuNk5kVVhFbkpzQzhoR2VqT3dCRVZFdWdyMkxLaVBNcjJlWnFTVWM3NGNudTJPbnlUU0pXWlItcFpZcEFhdjExZ3JtUUxyOFg4RFJ2LXhmVmFkMEFvQWRVRXRCRXJROG9oVDkxb2Q3elRUd05BZlItQTQ1Mm9jNHd5NDVR?oc=5",
-        "source": "Reuters",
-        "tragic": false,
-        "snark": "The details are here to ruin the story."
-      },
-      {
-        "title": "The men that fled these socialist regimes have a terrifying warning - Fox News",
-        "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxPU3B6MTZScEMzUW1wTk9NLWRmUTlORnJqeDlwOHpPa05FSFMzZThOLTVKdmlzbkJCd2FQTE40ZzFEcS1FZk5UOG0zQk4xUEV0cW9FdVJ3MF9odm5ZNTRXVGt5LXp0OXJ4SmxpRXBIaHF4S0hRWWJWZmFoNHJ4SFhaZdIBhgFBVV95cUxOWTdXZU1WR2FPWkdvenJMTXd1ZkJCb1VRLUNjTU5fSnFxa3hlRlhZel9mUERRRUJldkxlVHZwdjFlRlJGSTdDdV9yWEZDZ0VOYmlmdmhRZk5qc3Fxd3lzSjBfLVcyQ2l6RHpTel9EelZoSEFDbG5FM09faFVWUnpsM2Jhc19udw?oc=5",
-        "source": "Fox News",
-        "tragic": false,
-        "snark": "This is the kind of headline that needs a disclaimer."
-      }
-    ],
-    "developing": [
       {
         "title": "'Mom, don't call me': Inside Thailand's deadly school shooting - Reuters",
         "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxNNjdvZmtIbUhPd2hSMjBTbGJkbExLVFZGQlY3dzhSUXNfdS1fSzF1Uk5HRWUtcEhKUE1wNk82T0Q3S2k2T2dMdXl6ZFJQaHFWUkpzM2hMei1reHI1LUVneEk3Y2dMdE9iSzJhMVY5MUNCcVJhS0w4aXlyal9YZ0s1a3kwV0JHcnVCYUdmY1dwamprYnJFSTJPUUpPMk1vaDFxaEFrZVMzLUh5X1RKRS1uUw?oc=5",
@@ -104,6 +53,57 @@
         "source": "Fox News",
         "tragic": false,
         "snark": "A brave new chapter in ‘we meant well.’"
+      }
+    ],
+    "developing": [
+      {
+        "title": "Reuters Climate Monitor - Reuters",
+        "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE1xcW1nTV9oSTFNczAyY3ZTTzZKc1RoaUVqdndJZmV5VnRaVldYYUs3bERrYjlSYWZQUnA4T0VBUzNDVEZNSllaelNQbHlsREQxVl94ODZsaEFUZ1c3b00zazAtNWEzRlFvYnZnVi1SQ2FuaHRmSVJ0dGd0VQ?oc=5",
+        "source": "Reuters",
+        "tragic": false,
+        "snark": "Somebody pressed ‘send’ and immediately regretted it."
+      },
+      {
+        "title": "Iran is moving its tanks. Decades as a military planner taught me what that means - Fox News",
+        "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxNRFFRclRHVENYN3lwd3l1SEJ5U1BncXpMNFY0akJodndSWldUXy1OMV9oU0xFMExjNnByUkZrV0h2aE1QYURNWW1sa2dlMnhxcENkR0FCcmtET3ZtZ1FvT3hjZy1qaUpPbWdLVEw4R0ttLTFUdWdUQ2lYaU9UempKVmVsek1LWmQyZ2RtcHdnSXdwR3lVcjBz?oc=5",
+        "source": "Fox News",
+        "tragic": false,
+        "snark": "We regret to inform you the plot has thickened again."
+      },
+      {
+        "title": "Taylor Swift songs removed from White House, Trump campaign posts - Reuters",
+        "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxQem8tQ281dWR1RWV5ZVFHX1BEQWZnNU1RaW1uZm40S0VjZzZEbGxVVHVLZkJDZjBkRzM4bUNrNVIwR0RSbDM1MFo1UVdYUV8yLXZKc1QyZEZxcFlHOGgtZzcxYk0zNzZiWlc3TExjMlU4cGhYS0tzT09feE93US1TMEh0eXlGMk12VHNRQUdkcDdmM2ZDRGhBcExEazVUOVBaTlNXc2ZZbmd4SDBxcW1kU1pFSHJZT0dqU1E?oc=5",
+        "source": "Reuters",
+        "tragic": false,
+        "snark": "It’s giving ‘we’ll workshop it later.’"
+      },
+      {
+        "title": "Following deadly attacks, Malaysia's crocodile hunters go to work - Reuters",
+        "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxQQkxOU0tMY00xVnhPTjBYSVh2eWFLVUtjbFExak01LTFhMU9XS0xpaVY1X3VtRWFsckV3bjBkSkMzYW9aOHBHRjFFNllRWGFlOG5EWGFjb0RaSWVDbGVwTjJtdjdLam42SHRZa21fVjhTNXl2d1VkZWNlbGFUY3VLVzN1cFJDd3ZlSlNHS3d0d180ZE9tR0RzLXFHUFN1VERXclg4cS04Z3c?oc=5",
+        "source": "Reuters",
+        "tragic": false,
+        "snark": "This is what happens when group chats run government."
+      },
+      {
+        "title": "MIKE DAVIS: Chuck Grassley's behind-the-scenes work proved decisive in Todd Blanche confirmation fight - Fox News",
+        "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxPRXlFNnpZUEpvM1BjSEx2VThGclZkVi03Mk5WdzRsWkg4RUdTOEdmX3BsdElHamRDSlVmRXR4SmlTSk95N1UxVmdOejk0ckVlT2hsX1l2bUZiMVJiYkxSeHhSenBORnh3R21GNUJjZDNWVnFSdk1RRjAtVFVXVEp4Nmc4TC12ZEF3QlczYW1JdGJmZ1RKTGluVWNTbWNhWjg4Q2Z5SEstNDhsYUtTZEJNQ2c1dnVOcm9RTEQ2b1ZRMjdDd9IBxwFBVV95cUxQU0N3NTZfRDlHOVNrQUNHTnFWN201bG1kWVBEVlIyanFlVkluZktQRnVmT0dzalpEVFlTMTZuLTJVNVFBMFBDS0FkZl9QaWY4a3ZfakxRRnF4SUZ1VXZNN0xUVXFyQ0tZN2pWMHVUbl95NEl2WFZpZ29MUEU5RmdtQXBqNmlkQmZLVUtqY2tXLUVCUlF4dlBuYzlpVVU5X0hRSHdtM2dHQXZqOWZmRHRhMlh2QWZia1BYS1RQMVZ6dWJ1ZnRxMmNj?oc=5",
+        "source": "Fox News",
+        "tragic": false,
+        "snark": "Somebody just reinvented a mistake from 2009."
+      },
+      {
+        "title": "Berkshire says operating profit rises, conducts stock buybacks - Reuters",
+        "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxNanEtR0taa1FKLWV2SVExLS1nRmp5Y2FXcXduQnpLU0ljOElYdXRRQUJiOEx6cktnWEFSVGcwYUNrMjBuNk5kVVhFbkpzQzhoR2VqT3dCRVZFdWdyMkxLaVBNcjJlWnFTVWM3NGNudTJPbnlUU0pXWlItcFpZcEFhdjExZ3JtUUxyOFg4RFJ2LXhmVmFkMEFvQWRVRXRCRXJROG9oVDkxb2Q3elRUd05BZlItQTQ1Mm9jNHd5NDVR?oc=5",
+        "source": "Reuters",
+        "tragic": false,
+        "snark": "The details are here to ruin the story."
+      },
+      {
+        "title": "The men that fled these socialist regimes have a terrifying warning - Fox News",
+        "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxPU3B6MTZScEMzUW1wTk9NLWRmUTlORnJqeDlwOHpPa05FSFMzZThOLTVKdmlzbkJCd2FQTE40ZzFEcS1FZk5UOG0zQk4xUEV0cW9FdVJ3MF9odm5ZNTRXVGt5LXp0OXJ4SmxpRXBIaHF4S0hRWWJWZmFoNHJ4SFhaZdIBhgFBVV95cUxOWTdXZU1WR2FPWkdvenJMTXd1ZkJCb1VRLUNjTU5fSnFxa3hlRlhZel9mUERRRUJldkxlVHZwdjFlRlJGSTdDdV9yWEZDZ0VOYmlmdmhRZk5qc3Fxd3lzSjBfLVcyQ2l6RHpTel9EelZoSEFDbG5FM09faFVWUnpsM2Jhc19udw?oc=5",
+        "source": "Fox News",
+        "tragic": false,
+        "snark": "This is the kind of headline that needs a disclaimer."
       },
       {
         "title": "Airbnb hits four-year high as investors cheer revenue forecast raise, AI payoff - Reuters",
@@ -144,6 +144,13 @@
         "snark": "A masterclass in saying a lot while committing to nothing."
       },
       {
+        "title": "It won’t be Trump who kills the ICC",
+        "url": "https://www.aljazeera.com/opinions/2026/8/9/it-wont-be-trump-who-kills-the-icc?traffic_source=rss",
+        "source": "Al Jazeera",
+        "tragic": false,
+        "snark": "Reality remains undefeated."
+      },
+      {
         "title": "Nagasaki mayor says ‘humanity and nuclear weapons cannot coexist’",
         "url": "https://www.aljazeera.com/video/newsfeed/2026/8/9/nagasaki-mayor-says-humanity-and-nuclear-weapons-cannot?traffic_source=rss",
         "source": "Al Jazeera",
@@ -156,13 +163,6 @@
         "source": "Al Jazeera",
         "tragic": false,
         "snark": "The rationale is missing, but the confidence is not."
-      },
-      {
-        "title": "Wildfire forces thousands of evacuations in Western Canada",
-        "url": "https://www.aljazeera.com/video/newsfeed/2026/8/9/wildfire-forces-thousands-of-evacuations-in-western-canada?traffic_source=rss",
-        "source": "Al Jazeera",
-        "tragic": false,
-        "snark": "This is what happens when group chats run government."
       },
       {
         "title": "Women’s Day in South Africa turns 70 with equality still out of reach",
@@ -337,6 +337,13 @@
         "snark": "The PR team is about to earn their keep."
       },
       {
+        "title": "China’s Inflation Cools as Iran War Oil Shock Starts to Ease - Bloomberg.com",
+        "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxPMnJxMUlZWURHYVNhSTJOUHphX3AtSWFMTTdKd1h2MVoxQTlfemw1SHAzbm9NNmVnUTZhTzlGYTFWbURMODhWcXVDRlhNU3p2M0Zfb3FId2ppTjJTNWJEU1NSS0VqWlU3QmRkbnZiNWdBdGRqczFvaVMySmgwNmJld0hKY0pkbXlOc1lsV1F1M2NfeDFFcFJxdGRGQkNsTUN4eWFCalJJSlU0S1pweC03eGVaLTY?oc=5",
+        "source": "Bloomberg",
+        "tragic": true,
+        "snark": ""
+      },
+      {
         "title": "Ex-Lazard, UBS Bankers Invited to New Mamdani Business Panel - Bloomberg.com",
         "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxOeklDRXN2LTRtVGhDYWhVdHNXNl9jdW1aZ2JCMlZTRDQ2VjFuSXladnNWMkpZSmI2OTEzMW1KTk9JWTZNOF9KWkRiMHBpQ2dSNTZFbndpZ1Jnc2ZCYWpCamx5YzJmRE9lMHMxa3F5eDFhQUo1dWk0bjJPa291R3NiejZTZHI5ZVliSnZ2M2VjUmNra3ZhSDY2NHpSdE5GOXdmeV85OFQ1elJKbnFmXzR5WEpUUFM?oc=5",
         "source": "Bloomberg",
@@ -349,13 +356,6 @@
         "source": "Bloomberg",
         "tragic": false,
         "snark": "This is why we read past the headline."
-      },
-      {
-        "title": "The Supreme Court Quietly Killed SEC Independence - Bloomberg.com",
-        "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxPcEM1UWlrVE1Eb0toNkYyTnhqTUV0SEJnZzRvYkdlbjlBZXNEZGs3QzdtWVlEd2Zza3pSMHZLMDVvVVlTX3RlUmFpczEwUmVqUFpoRTB4QmdRMzV1R2FnX3ZiRnRiMlMxSFR1X3JiTjZWV21QQ1RHMkVKLU81Z2dCTzU1eDJJTGh1MVJlZkZvdW5sbWtVVGkwZk9KWGpXZFpEbGtyNXNTNXoxXzRpb29neg?oc=5",
-        "source": "Bloomberg",
-        "tragic": true,
-        "snark": ""
       },
       {
         "title": "To Understand the US Economy, Just Board an Airplane - Bloomberg.com",
@@ -472,11 +472,11 @@
         "snark": "We are all trapped in a pilot episode."
       },
       {
-        "title": "The original URL for this prediction will no longer be available in 11 years (2011)",
-        "url": "http://longbets.org/601/",
+        "title": "There Are Magic Hexagons of Every Order",
+        "url": "https://gukov.dev/math/2026/08/02/new-magic-hexagons.html",
         "source": "Hacker News",
         "tragic": false,
-        "snark": "The plan is simple: pretend this is fine."
+        "snark": "The headline is doing the most."
       },
       {
         "title": "AI bots started a religion — humans immediately followed - The Verge",
