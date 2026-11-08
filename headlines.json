@@ -1,17 +1,61 @@
 {
   "meta": {
-    "generated_at": "2026-11-08T16:22:20.141454+00:00",
+    "generated_at": "2026-11-08T20:42:55.001650+00:00",
     "version": 7
   },
   "sections": {
     "breaking": [
       {
-        "title": "US midterm results in maps and charts - Reuters",
-        "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTE9mYlFQMWJNR3dHZEQ1QVZ5TEo4QnRWOHYwTE9UMGh2X2x4TV8xTk1VbWNJSWZzdkdjclZFdjBNZmE5UFhhQnU4dGh0eXloOVhCeTBkekRwQUUyTzVZNV96Uml0ZXZDbHB1RHExMkphQUtLRnl3cWNMYmwyYVE?oc=5",
+        "title": "Democratic victories bring historic breakthroughs for women and minorities - Reuters",
+        "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxNajdEWW5uUmVIMVJpcmRhTjBNUnl5NUY5ZGdmdDJnWTRIVUViQ1hNWGl0VmE1aGd6R1E0dGpNM3p5Mk1WRTVNVlBCZ1VpMmxjejJtdmZfOTEtRlg4MjhhNERqOHczUVY5VkZHUmhmbmkwS0ZRRkh2eDNsMzdPazRva2lSdHlXdEhIcWlWSjhIS29JTzJiWDJtdUVQQUwwbndhMEoyVnBfNENzMTZwcGxUXw?oc=5",
         "source": "Reuters",
         "tragic": false,
-        "snark": "The optics are doing the heavy lifting."
+        "snark": "Somebody mistook a hunch for a policy."
       },
+      {
+        "title": "House GOP erupts at Stephen Miller as Trump elevates him after midterm massacre: 'Megalomaniac' - Fox News",
+        "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxPdy03MThZT2Q5VW9VY2Fid2VucU1HMlJ1MkZRUVZ4RHdXSFhmc1RGZnhBTGRNcnVRUTF1TnQ2RzBZSjh6ZUtJd1QxS3Z4Y2wyRGdHTEloVEhOQVR5ckxhckM0Y2p1Yk1qQnpfcW1MSW5tcUNLeHcydmZRYXowbmVWNG5uRThpLXBFZl8tdlZVUlQ5cDNsdGNhSmZpQjJrWUZnTUYta1FkcEFpMXhyT29VOHRrQV9hTmV4SDY00gHAAUFVX3lxTE4yWk5OZ1NNMGE0TVBKd2Iwd2Q3ei1HM0c2VGM4WWFvdEFYcFVTVUZUS2ZWZkpXc3Fkb21PR2RtTG1palRtRks1eDVDOW5aTEExWDB0ZnhXY0JHV29jdW1SNmtIQUtWUTVMakhkQnV5aDdXM1FjTGp3MjNvZkdqOUpGbEVLM0l5clJlejNGSzU0YWNlMmJMM0o4Nm5rYU95Vmw0ODBSLW0yZnluRWVtMUJDOEdveXJGM3NJa3NmRzI2bg?oc=5",
+        "source": "Fox News",
+        "tragic": true,
+        "snark": ""
+      },
+      {
+        "title": "Thomas Markle, father of Meghan, charged with possession of child sexual abuse photos - Reuters",
+        "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxQX3ZsOHM5bmJFSVZCX3dsS3g1cUIxWEE5SHprTWZubEpyNW1xajlvdnBYZnpvZGlqVnhBRF96NFBKZEhDTXpTNVE0VzVLbGd0dVVFcmVCeUxQenRvdlpEUTA3Q2hYZ2EwcmJRdkppV1JUcE1OQU5vLTU4MFdDNzJyTVFyOHYzZ3BUU05iQVJscG12UzByNDN0WHlKb2Q?oc=5",
+        "source": "Reuters",
+        "tragic": false,
+        "snark": "This is what happens when group chats run government."
+      },
+      {
+        "title": "Tesla to pull the plug on Cybertruck after years of poor sales - Reuters",
+        "url": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxNWnlMcV9XTE94RnhqbWNmQ1B5Y01Gd0tReURLRG5nc1VOVlBQR1RwazRSdXF0azlhbS1nTmJ5M0MxZUxMMUQxM1pxRHVjN1VVQWM5OGtOOGdWU1Fwa0llb0hxTXVHX05rV3JoRTR3eWwtTkNseGQ2eW5hcTcxUmQ5YnRYUVNwaGdwaDlhelZ5dmJoOVZhaGU1N1Fkb1RTUDFMY1lCUzlMcG9SYUNDcUlMeHBBYXBWQmM2QUloLWh5QkNuOGRvMTRVSml0dmxEN2lqaU1va09iQ0o?oc=5",
+        "source": "Reuters",
+        "tragic": false,
+        "snark": "This is what happens when certainty outruns competence."
+      },
+      {
+        "title": "Memphis star Jayden Reid breaks down in tears after leading Tigers to win over VCU: 'God blessed me so much' - Fox News",
+        "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxQRV9kU3JlRUotaU1sNnBVU2ZsZU5vN2dCUVBXSGJqWVo2SDVJcGVqVmItN0FpSHd3NmU5QnlDTG5ZTWplNUdiVHd3dDRmMVIwVzV0bjBGMV9waUtsMVhKb09rMGRIVElQRGxnaG1mcVd6V2duekxtSXBRVWxmV1MxSGpKYXUzc2VRQXVWcHMtWTUtY2hfQnpBbHZmR0UzRTNnZENlY1R6X3k5cWQ1bXZCS2VCaUp5d0pmMmZFc1FUZndHWDhVeXc?oc=5",
+        "source": "Fox News",
+        "tragic": false,
+        "snark": "Somebody mistook a hunch for a policy."
+      },
+      {
+        "title": "Judge orders Paraguay's ex-president Peña held before trial - Reuters",
+        "url": "https://news.google.com/rss/articles/CBMixwFBVV95cUxQVGw3MmJzOEt0S1ozTzJoUDVsWDYya0FocXVpaGU0cG1EYWdILUp1UWc4SjMzaEg2ZnZWR0ZKRG5uaGhXVW0wbkFlMTFuVVp0WmFlZWQ3cnJuYy1WanFqSVlZYkdOQXBNRTJtcExjajYyZnU4ZXpTRmVpOGNGTnJfaERjTHVLUm9USjdpS1J2VGV1Z09zZ1ZxaGpVUVVjRHpON3ctb0JFUzRBX3VQUEVsZXIzWXR6eFJObk05SGlDelpVM0F5NF84?oc=5",
+        "source": "Reuters",
+        "tragic": false,
+        "snark": "We are once again speed-running avoidable confusion."
+      },
+      {
+        "title": "Suspect who reportedly claimed to be LeBron James' son arrested for stalking at star's LA home, LAPD says - Fox News",
+        "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxPdDN4ZGN5NF9RbTc5aV93bTljWG05QUN0NjE2b1pGV0NlZzl6WDc5NllfaldYeEFNSkNUNURDOHFyUnBEVnpHLWhsaGNkM3VvS3l6eE5Ib1dYUy1XZ011eC1nZTl2S0MyVEc2MFFKNWNSdkppLUIxQ3RfdnFRZ2t3QmpMQWVYdURSbHd2ZDgxcC1HZlJKRDhlcXJydzJORzUyMjVLQkxySDlKTWM?oc=5",
+        "source": "Fox News",
+        "tragic": false,
+        "snark": "We are once again speed-running avoidable confusion."
+      }
+    ],
+    "developing": [
       {
         "title": "Houston Texans and Los Angeles Chargers meet in a matchup of two surprisingly struggling NFL teams - Fox News",
         "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxNeVdLTFQ5WHJpSlBwMWhTQTcwVDVMVTVERjlGY1ZqZzNvS00xVXlfemhuMXdsbWh0b0V4a2wwWUF2djhubl94Zm85dUp6cXRWcDc3aGFkekhoV1djRWZrQzlNb3ZRUklmV21OXzlKMC1xRFNrTXBseU5KVTJEYVJSa3VpQV9Sb3F3d3NHbGt6WHkxeVdIQmY1bW4wV1VlLVBxTGtiaGpSS1RWeVhGVmpYVEpaaS1fZUNX?oc=5",
@@ -34,76 +78,25 @@
         "snark": ""
       },
       {
-        "title": "US urges China to meet rare earths, agriculture commitments ahead of Trump-Xi meetings - Reuters",
-        "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxNY1NQbGhDdzBnZUVPRWxZMzdCdlUxcTdxTlhaVXYwclNRTm92UXdGanlUVmpxQUczWFItME5kaWp3NWFKVDZUWW5GVlowUnFrYktvOEdvYTNlclhVRUQxbWlia18zQW1RRzhJMlhoRjE3b2xIdlllYXZCSm5BUTR1SFdudTNfS0ZRWUtjenNLS0NwOUMyN0gtb3JkX0NQaE1EdjluMkI3aFhscEplOWVXM0FIZTI4N3IxV3pLWGhsNUZLUQ?oc=5",
-        "source": "Reuters",
-        "tragic": false,
-        "snark": "Somewhere, a spreadsheet is crying."
-      },
-      {
-        "title": "College football fans face $2,985 hotel nights, $800 tickets and mortgage decisions for Saturday's CFP slate | OutKick - Fox News",
-        "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxQNjl0ZWF4MWk0Q0V3a1Q1alN6ZjlKeGFMNE50Wkx3dXVnVTI4b09QbUdmQndSaHlRdS1ra1dycG9TdGM1X0dvblY5UktaX2F3eFFYVkVJX2p1MEZlczZONVk0SXMwb2ZrLW5sbWYydDJsLUVTbUJIMmtLZWJuOHdjM29xaUZjVm05R2kzTDBkSGxEeWJlSG1HU3hEbWxPZHltZlFMcHk5ZVhYZjZYVE5hZFRQN0VlUFY4QkRyT3plSU1ZbHBhYm53Ym9JdFpidw?oc=5",
-        "source": "Fox News",
-        "tragic": false,
-        "snark": "The headline is confident. The details are shy."
-      },
-      {
         "title": "Houston mayor curtails police cooperation with ICE, saying 'elections matter' - Reuters",
         "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxQaFdFOGx1X2lGTl8yX1h5NmxRbmJ0VElULWdnVHNZQmlVYTFtRjRqR3NyUzJuLVlkRjJZMU9iMm9sRmU0VW9xSFdwd21meTRDWXc5bHJFYjZaYWZkX05BNWR3WmJlaElTLU5oS0duNTduZU02b0dtdm9tUWZleXBFY0c0OHNncTlvQWFJdDNDWmdxaE9HZUtKNnJoV3ctTVlhRlNUSVhWdlJ2X01uQ21TVjBQNE5iaWtzWnVrZExPMFVzMW5kSnc?oc=5",
         "source": "Reuters",
         "tragic": false,
         "snark": "The narrative is sprinting; the facts are strolling."
-      }
-    ],
-    "developing": [
-      {
-        "title": "House GOP erupts at Stephen Miller as Trump elevates him after midterm massacre: 'Megalomaniac' - Fox News",
-        "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxPdy03MThZT2Q5VW9VY2Fid2VucU1HMlJ1MkZRUVZ4RHdXSFhmc1RGZnhBTGRNcnVRUTF1TnQ2RzBZSjh6ZUtJd1QxS3Z4Y2wyRGdHTEloVEhOQVR5ckxhckM0Y2p1Yk1qQnpfcW1MSW5tcUNLeHcydmZRYXowbmVWNG5uRThpLXBFZl8tdlZVUlQ5cDNsdGNhSmZpQjJrWUZnTUYta1FkcEFpMXhyT29VOHRrQV9hTmV4SDY00gHAAUFVX3lxTE4yWk5OZ1NNMGE0TVBKd2Iwd2Q3ei1HM0c2VGM4WWFvdEFYcFVTVUZUS2ZWZkpXc3Fkb21PR2RtTG1palRtRks1eDVDOW5aTEExWDB0ZnhXY0JHV29jdW1SNmtIQUtWUTVMakhkQnV5aDdXM1FjTGp3MjNvZkdqOUpGbEVLM0l5clJlejNGSzU0YWNlMmJMM0o4Nm5rYU95Vmw0ODBSLW0yZnluRWVtMUJDOEdveXJGM3NJa3NmRzI2bg?oc=5",
-        "source": "Fox News",
-        "tragic": true,
-        "snark": ""
       },
       {
-        "title": "Kenyan cult leader sentenced to 200 years in prison for mass starvation murders of children - Reuters",
-        "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxPOVFQN3ZZdXgwV0VlOWE3MF8zbXg0ZF9ZenNaZ3pVTl8xcHpuREFHUFpodWFmMXVzSmN3c29kRVViMDZhdkZ1QjB1WGdoR0tLZ09OaTRORzBOWmNQQUFUb2RvMnpVdjQ3eGlCcmJsSGxPNzFVM0N2bEJCZ3V5SVJ0OTRyZW9LbFVhVmRXeUV2a0Q0eFE4WVR1Vl81V1NoTWZ4THNYbklpbFc1RmxIZ043WTBVWWxwTW4yVmNYXw?oc=5",
+        "title": "Pope Leo urges South America to bridge divides on Uruguay stop of 12-day tour - Reuters",
+        "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxPNld4REJFQ1RVUFd0ekQzNS1GOFItalNLYlAyVmhPVVpWN3RzdXl2ZDg3R2JoUkJiSmpMVjZVXy1taDYzNGJWd0NfVHhXdXRQb0d4LTItdTY1dTVJdDdSWUdrN25feUhFTnJOY3dncHpaRFZhT0lFelpWdFRpY0Q3djdwOGlkaXNyVHFUTDZMZGNWaVJGYUlzR05TVEltdE1jck5NdDRCeTVXVHhRZEdWNjBoUFpybzJpeGNZ?oc=5",
         "source": "Reuters",
         "tragic": false,
-        "snark": "The timeline is creative, in the worst way."
+        "snark": "The evidence is missing; the confidence is present."
       },
       {
-        "title": "Popular drinks linked to heart attacks, cardiac arrest in young adults, study finds - Fox News",
-        "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxOenVqaUg0dmZPdTAxT3daVHpJZjJzcm94b2hJX1ExaUpXVGRtbHRJLWUxbGlPSkJCZnhwZkNWWVY2X2hmVzVTeFA4YnJCYkNrZ0xiX3hTUHBtSEh2SF9UNnhmYVdfRmpMQ3ZlN2lnOUVYb2FnWjNqTXdCa0tnekJKbDBBRzlQek9oWTJXLVdYX3Y1ZWJsX1FDMzdiOU1KMmhkTElJRGttVjlJUdIBrwFBVV95cUxPQkxCdVd1U21hbENLcFdnUm04dGhTZFZWWGI5UHpQZzI2OVg3ZldMRDdRcjFzLTA1MVRfODRDQmVPSkl5c0R6S292WTh6VHpOV20xTUJpR3NOUVJYM0V5SDVsTEhpTlktR1RvcFFfWnkxclJRX1NjdlNmS0VQbnJ3UHpvdVlUZENfaGRTcGo3SWIybTVTOGJOVlNUQTA5QVJHUDlvUDYwblhvRVkyYmhZ?oc=5",
-        "source": "Fox News",
-        "tragic": false,
-        "snark": "Being loud is not the same as being right."
-      },
-      {
-        "title": "How much does it cost to lose the Senate? More than $1 billion - Reuters",
-        "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxOZF9hWmhoZjVuam5DR25oVlU4R19JOHFiejRxVVZyd21zRTZRcUg3SDFfdzBYaFQxRW1NbXFKWXdJLVRwMUgwLS1hUEdvU2djZTFuSTFmWlV2THk1YWlWazYwWXo0bHl5eDhaRnM3R0taWHlyUzY4X1RFc1lOTlZ0YXFReV9scldENDRabWtYWTNHOWtyNGljNW1valc?oc=5",
+        "title": "Heavy rain floods tents housing Gaza displaced people, aid shortages hamper response - Reuters",
+        "url": "https://news.google.com/rss/articles/CBMiywFBVV95cUxOamFJb1oxX2pDNG85OUpxWWFiczJFTzh1Q2xQQlB5VGYydXVlbjY1UDNXR0Vlc3V0dDZCVlBjc2dnX1hwR1Z6aDhUZ0JLN3gzeWhzVUNTTncyUEdCa1czbEJEd09qSFh1amRST2EyNGgxMGlkV2FsMFNXTzZySXBWQVF1OXYtUGFyTkJwVFBZWEtOTzVrUENqVGRCNmtmNWs1bnplcGs5eUFqcVpmeDI5dTN0VGgzTlBabUNPMWdubVc1Q2VkYXFmajVrcw?oc=5",
         "source": "Reuters",
         "tragic": false,
-        "snark": "Somebody is allergic to straightforward answers."
-      },
-      {
-        "title": "Thomas Markle, father of Meghan, charged with possession of child sexual abuse photos - Reuters",
-        "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxQX3ZsOHM5bmJFSVZCX3dsS3g1cUIxWEE5SHprTWZubEpyNW1xajlvdnBYZnpvZGlqVnhBRF96NFBKZEhDTXpTNVE0VzVLbGd0dVVFcmVCeUxQenRvdlpEUTA3Q2hYZ2EwcmJRdkppV1JUcE1OQU5vLTU4MFdDNzJyTVFyOHYzZ3BUU05iQVJscG12UzByNDN0WHlKb2Q?oc=5",
-        "source": "Reuters",
-        "tragic": false,
-        "snark": "This is what happens when group chats run government."
-      },
-      {
-        "title": "Americans will be grateful for Trump’s actions against Iran in the long run: California Post opinion editor - Fox News",
-        "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1kMmoyNjR1cThpRTc2dTZUYXFjZlhrV1JmWTRKNXh0WmNuWUFfZmxnbDIzXy1hV0NYRi01YVNLcWlUeTlIdDFFRDVkMVBmVnFCbnhLNnhB?oc=5",
-        "source": "Fox News",
-        "tragic": false,
-        "snark": "The audacity is doing cardio today."
-      },
-      {
-        "title": "Charter to cut $2 billion in costs under 'fundamental redesign' to revive growth - Reuters",
-        "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxPczUtbHFaN1hJOE1SbUhaZFJFc1FYZkFZakxjRkFMS0hPQmllVWZEZ3I1NVVwUHhCTi1vU2NfTHFtSFJ4QW9xMG9QRUYxWVlGdGp0V2Y5V1RoREpCcld6VG9OdVpRSDN2eWIxS1gzSU1aXzRlNDEzLWJ1U2tEY2NIcVhXSnRNRDJxNnVmTHZNSHZremxxaGxWeDB1RUQ1ZjJ6Q3N3R2xpaFE5SFhpOXc1b0xQdG5jVXhi?oc=5",
-        "source": "Reuters",
-        "tragic": false,
-        "snark": "We’ve entered the ‘walk it back’ portion of the program."
+        "snark": "It’s giving ‘we’ll workshop it later.’"
       },
       {
         "title": "Meghan Markle’s father arrested by FBI over child pornography charges - Fox News",
@@ -113,78 +106,77 @@
         "snark": "Somebody is about to ‘clarify’ for 72 hours straight."
       },
       {
-        "title": "Who is Paraguay's new president Pedro Alliana? - Reuters",
-        "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxNZHBvWlRRd01wR0toUFJoUS1LcHFTbEZkT0doUlpzZlFvYWwxZ2k5QVJSOVluYkZHOFZ2eVpRbXBfWTc4QncyV0cyS2hVNUViQ1ZvaEZzcUtudlFhNTNjb3lKVkRVMk5jaWZTQ3VWSlhlZGVRd2pHSHJOQ3pqeGtMVUFZeWg4WFp3NmRfcHRMN09yOUY2WkZr?oc=5",
+        "title": "Environmental groups embrace AI, even as they warn of data center impacts - Reuters",
+        "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxQSmxyU3I5VWJjVjhxTjhobWVHa2MwT3p3NlliNUZsVG14VkVsMHI4cGhsOXNfY1Q3TDRoQ09Hc3RwR0xNaUZvejFKLWU0dUtzelVaeEtucU9Sa3JOVUhKcDNqcFpxZ2tnZms0cEFuM0hqUzM0SC1lTXdIM1EzX09lRE0wd3pkYVVqYXFYaE5iOFVoV0R2aWhGM3hIM3ZnR2lNQjhJVDBxSWJpbFFORkpISGh2SmgyZE1SRmhjcXFn?oc=5",
         "source": "Reuters",
         "tragic": false,
-        "snark": "This is what happens when group chats run government."
+        "snark": "This is not a headline; it’s a cry for help."
       },
       {
-        "title": "Sen Ted Cruz: This was an absolute bloodbath - Fox News",
-        "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE5URDJuLTBSN0g3NW1NbUFNNjdGNWJjOFUyZmVlWEZkbEpFZnNqZXR1dUZjVlJWSHFFMDVGdUtKdVljdXlBZzlwYzZsUnhOYTA5Ty1YY3NB?oc=5",
+        "title": "Reggie Jackson calls out antisemitism in native Pennsylvania, likens it to 'racism I experienced in the 1960s' - Fox News",
+        "url": "https://news.google.com/rss/articles/CBMixwFBVV95cUxQZXZhRlAwZkthYkctNjROeExuNlBVd3M3TkN3cGpOOERWc1A5U0ZDX3h0bDVEZ1ZTWnRjYzVXUi04X2tFeThLbFIweVoydF83SzV2ckJ5aFViU08yYldYTFJhaUdXeXAyZmVnSXJyNG1xZGxTLWxiMFpNcVZQNWtTc3didW90bVg3T3p4d29hUVZEb3ExaEx1S2s1aEpUYmpfVERacEhnN1BjZklGb1kxazRFR0kzajdYRnNzbGZzZDd1M3RzY1dn?oc=5",
         "source": "Fox News",
         "tragic": false,
-        "snark": "Somebody mistook a hunch for a policy."
-      }
-    ],
-    "nothingburger": [
-      {
-        "title": "Protesters break into Microsoft data center site in Amsterdam as Europe’s backlash spreads - AP News",
-        "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxNMWg1SzZHQUk0WHZnZEZhLXhJaVVsaWFCR0ZEMklGeC1YZmE4UVZWRGs2aXBxNVhYeVBBMFlhU2pRZ0VKRjcyOVVFYzdnTTAyV0dCUWxlamwtU0VDZGI1UkJvbFVwZ3JiM1Bpb2REVENuTzRNSHZweDNIUXVadVR4TnNORjlQWU41ekYzNnlUdTZ0am1QaDlwSGZmUFVlYjY5Z2JtaTlR?oc=5",
-        "source": "AP",
-        "tragic": false,
-        "snark": "The headline wants applause; the details want supervision."
-      }
-    ],
-    "world": [
-      {
-        "title": "At least 21 dead as small boat sinks off Senegal",
-        "url": "https://www.aljazeera.com/news/2026/11/8/at-least-21-dead-as-small-boat-sinks-off-senegal?traffic_source=rss",
-        "source": "Al Jazeera",
-        "tragic": true,
-        "snark": ""
+        "snark": "If this is leadership, where’s the adult supervision?"
       },
       {
-        "title": "Egyptian embassy reopens in Libya for the first time in 12 years",
-        "url": "https://www.aljazeera.com/video/newsfeed/2026/11/8/egyptian-embassy-reopens-in-libya-for-the-first-time-in-12-years?traffic_source=rss",
+        "title": "Houthi-run health ministry says airstrikes kill 33 near Yemen capital - Reuters",
+        "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxPck9CUTVBTUgyQVJnZUxobTVpZGxIdTBmaGNmOWpHVWt4NUF4SHYyTWlUS1g2QmZ5RUd0YmJHVVpPQUVqa1lzVlJ1SU9HUUpDdzh0SVNFRW9KanJEZDJycDA5cVhxV0NKWnA5TUEtS2tkcDF4MTNjTUstalQwLXg3TVJXb3d1VlpaTUN6N1BFWHFfUk1FNm42QWdBSndJNDdQQUdNNlZKUVlLTUN6RmQ0aXluNHNUQUxYTW9vV0ZfUEFHX2tjXzBwZkpZeXA?oc=5",
+        "source": "Reuters",
+        "tragic": false,
+        "snark": "The follow-up will be spectacular."
+      }
+    ],
+    "nothingburger": [],
+    "world": [
+      {
+        "title": "After the midterms, where does the Republican Party stand?",
+        "url": "https://www.aljazeera.com/opinions/2026/11/8/after-the-midterms-where-does-the-republican-party-stand?traffic_source=rss",
         "source": "Al Jazeera",
         "tragic": false,
         "snark": "The vibes are loud, the facts are on mute."
       },
       {
-        "title": "Palestinian journalist Abed Abou Shhadeh released after 5 days in detention",
-        "url": "https://www.aljazeera.com/video/newsfeed/2026/11/8/palestinian-journalist-abed-abou-shhadeh-released-after-5-days-in-detention?traffic_source=rss",
+        "title": "Al Jazeera tries Baseball5 at Youth Olympics",
+        "url": "https://www.aljazeera.com/video/newsfeed/2026/11/8/al-jazeera-tries-baseball5-at-youth-olympics?traffic_source=rss",
         "source": "Al Jazeera",
         "tragic": false,
-        "snark": "We regret to inform you the plot has thickened again."
+        "snark": "Somebody is about to ‘clarify’ for 72 hours straight."
       },
       {
-        "title": "Spain win Padel World Cup in Qatar as sport’s popularity soars",
-        "url": "https://www.aljazeera.com/video/newsfeed/2026/11/8/spain-win-padel-world-cup-in-qatar-as-sports-popularity-soars-2?traffic_source=rss",
+        "title": "Carlos Alcaraz beats Ben Shelton to win Paris Masters tennis title",
+        "url": "https://www.aljazeera.com/sports/2026/11/8/carlos-alcaraz-beats-ben-shelton-to-win-paris-masters-tennis-title?traffic_source=rss",
         "source": "Al Jazeera",
         "tragic": false,
-        "snark": "Bold strategy. Let’s see if it survives contact with reality."
+        "snark": "This is either a breakthrough or a rerun."
       },
       {
-        "title": "Tearful Alex Eala loses Hong Kong Open final to Claire Liu in straight sets",
-        "url": "https://www.aljazeera.com/sports/2026/11/8/tearful-alex-eala-loses-hong-kong-open-final-to-claire-liu-in-straight-sets?traffic_source=rss",
+        "title": "Eisenkot open to Netanyahu joining Israel’s next government",
+        "url": "https://www.aljazeera.com/news/2026/11/8/israels-president-tasks-eisenkot-to-form-new-coalition-government?traffic_source=rss",
         "source": "Al Jazeera",
         "tragic": false,
-        "snark": "This is a strong argument for naps."
+        "snark": "The narrative is sprinting; the facts are strolling."
       },
       {
-        "title": "Tenerife’s Jesus De Miguel honoured in tearful tribute by teammates, fans",
-        "url": "https://www.aljazeera.com/sports/2026/11/8/tenerifes-jesus-de-miguel-honoured-in-tearful-tribute-by-teammates-fans?traffic_source=rss",
+        "title": "Infantino’s Japanese challenger claims he could unseat FIFA president",
+        "url": "https://www.aljazeera.com/sports/2026/11/8/infantinos-japanese-challenger-claims-he-could-unseat-fifa-president?traffic_source=rss",
         "source": "Al Jazeera",
         "tragic": false,
-        "snark": "This is a great way to lose a weekend."
+        "snark": "They chose violence. Bureaucratic violence."
       },
       {
-        "title": "US task force to cut off Iran’s transport of advanced weapons: What we know",
-        "url": "https://www.aljazeera.com/news/2026/11/8/us-task-force-to-cut-off-irans-transport-of-advanced-weapons-what-we-know?traffic_source=rss",
+        "title": "Iran threatens to ‘rain down hell’ if US escalates war",
+        "url": "https://www.aljazeera.com/news/2026/11/8/iran-threatens-to-rain-down-hell-if-us-escalates-war?traffic_source=rss",
+        "source": "Al Jazeera",
+        "tragic": true,
+        "snark": ""
+      },
+      {
+        "title": "Man United earn 4-4 draw against Aston Villa but remain in relegation zone",
+        "url": "https://www.aljazeera.com/sports/2026/11/8/man-united-earn-4-4-draw-against-aston-villa-but-remain-in-relegation-zone?traffic_source=rss",
         "source": "Al Jazeera",
         "tragic": false,
-        "snark": "This is the kind of headline that needs a disclaimer."
+        "snark": "A bold pivot into ‘let’s just try it.’"
       },
       {
         "title": "'Flat', 'tired', 'cynical': Unusually gloomy Kiwis deliver New Zealand's tightest election in years",
@@ -194,6 +186,13 @@
         "snark": "Consider this your daily reminder to check the fine print."
       },
       {
+        "title": "Homes and temples glow across India to mark Diwali",
+        "url": "https://www.bbc.co.uk/news/articles/cm70pdwz122ro?at_medium=RSS&at_campaign=rss",
+        "source": "BBC World",
+        "tragic": false,
+        "snark": "The strategy appears to be ‘hope.’"
+      },
+      {
         "title": "Houthis say at least 33 killed in Saudi air strike",
         "url": "https://www.bbc.co.uk/news/articles/c65yn1v99ypmo?at_medium=RSS&at_campaign=rss",
         "source": "BBC World",
@@ -201,11 +200,11 @@
         "snark": ""
       },
       {
-        "title": "Israel's president tasks opposition leader Eisenkot with forming government",
-        "url": "https://www.bbc.co.uk/news/articles/cmy8367lj5xlo?at_medium=RSS&at_campaign=rss",
+        "title": "Iran executes three men for 'armed unrest' after January protests",
+        "url": "https://www.bbc.co.uk/news/articles/ckly0ex633ydo?at_medium=RSS&at_campaign=rss",
         "source": "BBC World",
         "tragic": false,
-        "snark": "The rationale is missing, but the confidence is not."
+        "snark": "Being loud is not the same as being right."
       },
       {
         "title": "Paraguay's former president charged after bank collapse",
@@ -215,25 +214,18 @@
         "snark": "This reads like a draft that went live."
       },
       {
-        "title": "Pope in 'pretty good health' as he starts Latin America tour",
-        "url": "https://www.bbc.co.uk/news/articles/c60e0001ve9wo?at_medium=RSS&at_campaign=rss",
+        "title": "Seven dead and more than 100 injured after trains collide in Egypt",
+        "url": "https://www.bbc.co.uk/news/articles/cwvgr20mmmevo?at_medium=RSS&at_campaign=rss",
         "source": "BBC World",
-        "tragic": false,
-        "snark": "This feels like a subplot that escaped containment."
+        "tragic": true,
+        "snark": ""
       },
       {
-        "title": "US offers $20m reward for information about Iran's nuclear programme",
-        "url": "https://www.bbc.co.uk/news/articles/c6d091ev3p0jo?at_medium=RSS&at_campaign=rss",
+        "title": "Surgeon having lunch near Krakow shooting undoubtedly saved officer's life, colleague says",
+        "url": "https://www.bbc.co.uk/news/articles/c5x2vw4e1gx1o?at_medium=RSS&at_campaign=rss",
         "source": "BBC World",
-        "tragic": false,
-        "snark": "We regret to inform you the plot has thickened again."
-      },
-      {
-        "title": "What we know so far after Krakow gun attack",
-        "url": "https://www.bbc.co.uk/news/articles/cmd7q15drwgeo?at_medium=RSS&at_campaign=rss",
-        "source": "BBC World",
-        "tragic": false,
-        "snark": "The follow-up will be spectacular."
+        "tragic": true,
+        "snark": ""
       }
     ],
     "politics": [
@@ -243,6 +235,20 @@
         "source": "Examiner",
         "tragic": false,
         "snark": "The audacity is doing cardio today."
+      },
+      {
+        "title": "DOJ departures mount after Trump’s midterm losses - Washington Examiner",
+        "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxOTkJleDlzOVo1dlNDQ1l3SUhqWFRfSUlveHRod0FqLUZGSDhwMnhvcjBSWWZSWEtBUFlndXpVd19nM1dHR3hnUHBySTZ6R2prRkZnaUtMcVh4QXVsMHBrRTVyYVViTllkRHozN2l2OGRyOGgxeVMxaDNqaU9DRkVJb0FaQ2xNYzBwUG5CV2JRX1p4QQ?oc=5",
+        "source": "Examiner",
+        "tragic": false,
+        "snark": "The strategy appears to be vibes and prayer."
+      },
+      {
+        "title": "Dana White responds to question about Trump’s White House press secretary request - Washington Examiner",
+        "url": "https://news.google.com/rss/articles/CBMiywFBVV95cUxQNGFKLVdkODY2OFNGMC14aEMybzJMSjlpTzRfbjdxUGh3ZV8tNklBMVcyQm1WTWJYaEJOMXEwdXUtaTBLUVp2NGFkM1E0RTZMY2JBcUp3YmIxZl9SczRIaFl0T1c1WHhjVEp1NGxhR1dJeTZWM0l5d2p2ekV0VDdjbWhmX3BhQzc5Zzl6WnQ4S0VfeHRBZjFHYVo4UXpCclZrNXZfZXpIQVpXbEZfalQ1X044M3JLaFdRZUFEUXZNQzA0b1ZnaGlOREREWQ?oc=5",
+        "source": "Examiner",
+        "tragic": false,
+        "snark": "Nothing says ‘serious’ like a sudden rush to explain."
       },
       {
         "title": "December Social Security direct payment worth $994 goes out in 24 days - Washington Examiner",
@@ -266,25 +272,18 @@
         "snark": "The rationale is missing, but the confidence is not."
       },
       {
-        "title": "The inside story of Trump’s election night fury and Susie Wiles’s frantic battle to survive - Washington Examiner",
-        "url": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxQWTVpazdNS0JnLUNjY05xY3pYVFI0RTFmOTN6NGZjcFpEU3lyb3l4ODd4ZFBidTNSVzhGNlRFaXNaQUZXQmNTcVREQUYyeDJKQndleHozREFlMWIxSXN0UUxYdTBIdURzZ25RbXdUUTlLa3NHNUVsaVptb0E0azlDX09pNnhta3RGMGNzTEx6c1I5bmJLUGNXQXdzV240SllnanhyV3k5TnNDZXhQQ1pnaU0zcUYwbnFndFp1aGdhVkZtSnVQTVFNZXZEYk9PYzFGWXFwUUNqM3I?oc=5",
-        "source": "Examiner",
-        "tragic": false,
-        "snark": "We are all trapped in a pilot episode."
-      },
-      {
-        "title": "Trump answers defeat by defiantly naming Stephen Miller chief of staff - Washington Examiner",
-        "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPd2s3U3BUSVFaTHhGbnRlMFh1NUVSLU5zckxqemZNT1hTMkk3ZWpKTERQcmdnZ3otdXdodFMxYXpoUzQ0NTFBWVRuZzlMcFduR3FybHVLQ25JeW1fam1KRURLdVQ4V2NOM09NSkpkN2lER3BUWVlCdDR1M1ZuSUVUX2lwdGpDTWJkVG85dFNwb0l1TTFBeU9TWDJRdkFnRW00S1hDY0lKZG5XMFJHMTBRdXZCNDF3UQ?oc=5",
-        "source": "Examiner",
-        "tragic": false,
-        "snark": "Another victory for the ‘wait, what?’ community."
-      },
-      {
         "title": "Who is Stephen Miller? Trump’s newest chief of staff - Washington Examiner",
         "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxPT0s4TGR6b3J0elBxeXpSWnNyMjIxeC1tMnc3dU5uV0ZVLUxQV185eFVFXzZCTmYxYmRNYkJEQmkwMm5IMDFYOWVTUmlhTzREN1A1SUNQUnlmSnY3YXo1Rk1zSUVxbEthYlZLbDdoOWs2WTJNQ0JKUkRfc2dfWjRNNGRFaEtTSTdhNkdGT0xnV1g5Yko1YVkyT0tTMVFpY29lS3RmS2YyalpkSzJLdmprdC1lSEVVOTdGUjVBZjYxU1h4eVNQZWZGX1V3?oc=5",
         "source": "Examiner",
         "tragic": false,
         "snark": "The plan is simple: pretend this is fine."
+      },
+      {
+        "title": "Challenging the politics that brought Donald Trump to power | Letters - The Guardian",
+        "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxOOThKWUx3VU82S1dvdlVpN2NUal9ZYldUNmRxY3dJVDRGdkEtcUxEOHNpamlWVm96TmR1ZUdDZnZ4OTA3QnMyWThzSkxBc3p1U3NmMUMwd1RseHNuNVlJVlB3Zmd6RjVnaGZIRzdmUGRkMF9BaWtHQk54NlgzMExTZGxvXzdfSnJzSDBDWHhYUldmeVRUNkdGSUpfSnd0YWx6WWFURk83X0pHOUE?oc=5",
+        "source": "Guardian",
+        "tragic": false,
+        "snark": "This is a high-stakes game of ‘maybe.’"
       },
       {
         "title": "Democrats start plotting as civil war breaks out among Republicans | Politics Weekly America - The Guardian",
@@ -294,18 +293,11 @@
         "snark": ""
       },
       {
-        "title": "Does Andy Burnham’s pivot from press to social media put scrutiny at risk? - The Guardian",
-        "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxOY1RZREhnMC1lUXRkWDU4Um5HRVhXU0ZidG9PWjJKNUh3RDRtcFVGZlJyZ2RMak5YQWg0ZUY0WHZoaHQyb2JRdFdpRGVaeVVLMUdveFF2dzlzZnhKNW9HYjYxeXNRekplUHZzYTladV9HWVFMUUM0cklSQjhQWXdaYVdyNjZXMWNSUXFzZDFOdjI2czJFS0R6UnF4QTlWblVRaW5LTW41TFVQbms4UFE?oc=5",
+        "title": "Gadi Eisenkot reaches out to Netanyahu allies as he strives to form government - The Guardian",
+        "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxNSE5MY1FFODhIMDFGLXQ1Tzd1cUNfNzlFZzRmOHlPSS1ORlYzYkZ5YlFoWnYzeVRQRFFtU3VMcTZtY2tYWUhoS0xSU0FkRGVIWTNrLXJkRjNrQTd0dC1qQ0NKaTQ4TzYzVERRX3IzZHhkNFpEY21UQ0ZLeno4cFhxcDZTU0NEUy1pX1RCeEJmeHBUcjc2NzdUSmZHa1pIT2tk?oc=5",
         "source": "Guardian",
         "tragic": false,
-        "snark": "This is the kind of headline that needs a disclaimer."
-      },
-      {
-        "title": "Home Office sued after stripping almost 1,500 EU citizens of right to live in UK - The Guardian",
-        "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxOcDVaSWJBU3RhdG1XS2R6NnI5Y2I3XzEwYlgtQnZqWEVta2gtNXVHeWdGamdZb2ZqWHMtbGk3NnFHWU5jdTlpT3ZEc3g4Y3Q5eXNWTHg2dDUwUXlacEJwVEZ4djhJNWhUMVVkbDh0N0UzcnVIeG4zSmNWaFFEOXZDTjMzMG1zYTZtZ242bFYtTnBBZFFTTUhFRzh4bW1ydGtqVHhzcW4yX3FwR182TzNYcHF4Y0hZRWFqVERJNkhR?oc=5",
-        "source": "Guardian",
-        "tragic": false,
-        "snark": "Nothing to see here except the entire thing."
+        "snark": "The rationale is missing, but the confidence is not."
       },
       {
         "title": "Israel’s president picks Yashar leader Gadi Eisenkot to form government - The Guardian",
@@ -315,11 +307,11 @@
         "snark": "A quick reminder: correlation isn’t a personality trait."
       },
       {
-        "title": "Reform UK councillor promoted collapsed $1.9bn ‘Ponzi scheme’ HyperVerse that left victims suicidal - The Guardian",
-        "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxOZTJzeW1ZLU5Nb29jV3duM2pIZnljS3VmU0s0bXBHcjFwY2ROdTFVTTlrWlU0SGxGYVFCVzQ3UjRVc25zeDNsc1p3Uk9DUTJFb1Vaal9SN0oxNEl6U3NPUVNVY2EyWG4zVnJBdFBLN184V3VHMjJsaTNXVXlvSWRjNzlFdTZkb1Q5RngtWGtDQXdNcTBOOTJDMDhkaDNPMjlTNU1aQ1Y0eU1RWkhta0FB?oc=5",
+        "title": "It is time the government treated hunger and obesity as two interlinked problems | Letter - The Guardian",
+        "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxPLVd1MDdnOENjV1VDMXYxOTlzWDdCUlRFSi1LMGhKSWg3Z3FqUkVQUmNSekJNNG9WRHZUblc2MTJXakY2MGdmMUxDMjUxcEF3ZVZ5UjVqRWRoUUdXcHVxdE1pRWp0TjFQV0ZhOXZVZG16SVJUMEE3Rk9nZzVNZFVGZ0p5Z0haX1BkRksyY0c3RUkxamJ3QlV6WElhOGRPZm1mcjg4YklGY1k4X05GQWZBcGVtSm92MnFhc2lBNjBJSFVDMF82U0w0UTRxbWM5aVgtSUtKT3B3?oc=5",
         "source": "Guardian",
         "tragic": false,
-        "snark": "The optics are doing the heavy lifting."
+        "snark": "This reads like a draft that went live."
       },
       {
         "title": "What’s more powerful than the politics of division? Actually listening to people | Julianne Schultz - The Guardian",
@@ -359,13 +351,6 @@
         "snark": "The stakes are unclear but the confidence is astronomical."
       },
       {
-        "title": "Anthropic IPO Buyers See Valuation as Low as $1.1 Trillion - Bloomberg.com",
-        "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxNSnFFOWdvbmtEcGNObXJldm1QTGRoeXRMbnQ1THZ6REh2bDE4V2U4VmNDbVdOWHRtNm9TaGdCbTBrZUotOWdNZWszbmNoSUpjWnlNN2NNZ1NUcUJPVWRKb2s2RTlPZ19hNGZoR28tSWllbWFzQ0FNTUdoYl9GODVmb1JSdElLd0l0dWFSTktsbFBqSW1YVFJ2SU90anhWZjNMT0RJaFJJWlpfTUVtaDduTw?oc=5",
-        "source": "Bloomberg",
-        "tragic": false,
-        "snark": "It’s giving ‘we’ll workshop it later.’"
-      },
-      {
         "title": "Hedge Fund Samlyn Dumps All Stocks But Financials, Cuts Staff - Bloomberg.com",
         "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxPR0dFNDVTQlNBYWxhdFQ4SVZYVEtJU2dmWlhqZGhiaVRwdC1qeFdPQXctUzBoeW5pRGpzeWQwM2ZwSzlrWXJaSDAxN29nTnNsRE9kZThjSEdZQmFkOU9xRWZPR084dHFyS2UzTkEyeUJKbTdlUkVLSk5ZNlpSaXdvbzc2S0lwT21EQ3ktMTRpTUdHbmQ2ZE9zc3dPTlZsU2ZyNFNxS1hJNk9tQk1RbHFEMw?oc=5",
         "source": "Bloomberg",
@@ -373,18 +358,25 @@
         "snark": "This is either important or excellent performance art."
       },
       {
-        "title": "US Stock Futures Diverge as Chip Selloff Extends Into Second Day - Bloomberg.com",
-        "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPSGhDSzhCYkhQQlg2TDJ4OHFfREQ1bEFUWjlmUlYwLXNSS3dCbjh1YWJ3d21xcEJabjhkMWZyR05XQUItd2pFaEtzNDBrOFZ0eVhrb0xId2J6R2NSbjRFbUlKQ2ZTZWEwYzhZX2swQk5jOVV2LXptLXZab0tUVUNkZHliVFVJYnNreTBDTkw0b25fa3c4NFBZOThFQUYyOTN3MmprcURGSFZyNGswU3BxS0k0UC1aQQ?oc=5",
+        "title": "Meta’s Bond Sale Shows New Reality for Tech Debt - Bloomberg.com",
+        "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNN0h6NGhPQzBpZTdwV29ra0U5UUhycGhPb3FHT3JvUksyYTZFZjVPbVpBdURxeVMxM2dxS0Z1Y21XbVctWVY5Q3ltR09IOG9tNUdSMXZ5eUFHYUpaaWpaVGZoQzFvVnZOdUhEclJKVENTbVpNeFMwbC1pV1ppa3JhWjZMQzEtWkQ4UGlVWXJENXNWRGNEVEotZjBnMnJ6WFJzQWFTcnI1Wi1WZzAwXzRUdy1YMA?oc=5",
         "source": "Bloomberg",
         "tragic": false,
-        "snark": "This is not a headline; it’s a cry for help."
+        "snark": "The follow-up will be spectacular."
       },
       {
-        "title": "Walleye to Return $2 Billion to Clients in Stocks Trading Reset - Bloomberg.com",
-        "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxOemhJa1BWd3RxZWRWTk0yOTE4OUJXaEVtVlVOVWlyMWFBa2w5eWdFSlplYUxFbXkydWkyX3BTdGNOUkI4dlQwZVJVM2xjMm83VnNTU1F5a0pKLXB6R0hvRnplaVJDQVY3dXFKajVlNW16REpUeG5TV2xyUnVySkhQQnI0ZlpodkNsanFBeUF4NXJGVWFyNkx3cUVwVnZqSjhRMzhnblpud01NakpPcHFQdDFBNA?oc=5",
+        "title": "Saudi Aramco Tower Targeted in Rare Strike on Riyadh Finance Hub - Bloomberg.com",
+        "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxOLUpUaXJBZU5CYXNqcDJjZkEtUlc5MWZRcVlsWmFWaWhDcHRJMTNLM05iV25SMEtHTGZyTTZHN3NlaGlGY1dwUFUxQmxXcFNxdmt5R3J1MVJGbmdjblFVMmR0UldtU2M3b0htSGE0YmNBSnNpd1JtVnJHTWlMMnRycHdYUFR1WGN5ck1rdjM0ZmtjNEstR1ZjZjh5X1d2M3g4RUY0bXVoR1VOOUNuWllTVm9qVzJuQQ?oc=5",
         "source": "Bloomberg",
         "tragic": false,
-        "snark": "This is why the comment section exists (unfortunately)."
+        "snark": "The optics are doing the heavy lifting."
+      },
+      {
+        "title": "Wall Street Races for Megadeals as Countdown Begins on Trump Era - Bloomberg.com",
+        "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPZ3o2UUtxWnBENkQtZkNqbC1hNHljZGRsYklfOHVhTXRYQjgzWnZqUWEzT1c0ZVJZektZVHBoelZkVHF3M3pxRDRSOXZpYjNieW44d216M0JMSXo4TWloSFZUXzZqWS1zY3hMd3o4THBQSFZfelRwdEZ3SnhOZVhWSnZwdTRwd3hveTc0Q3JEQmQ5Z2plNXpfSHJoSkI3MkR5anNVd1Z6VThlRTY3X3V6VFJCNEI1Zw?oc=5",
+        "source": "Bloomberg",
+        "tragic": false,
+        "snark": "This will age like milk in July."
       },
       {
         "title": "AI Panic Grips Stocks - WSJ",
@@ -392,13 +384,6 @@
         "source": "WSJ",
         "tragic": false,
         "snark": "A bold move from the Department of ‘Trust Me Bro.’"
-      },
-      {
-        "title": "AI’s Role in Finance Is Here to Stay—and Adoption Near Universal: BDO - WSJ",
-        "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxNQk4zQ05hUzZ3R3E2WnVielpTdElGLWxBUnFKWUJRUndKemJINUotQnRPTDF6ZmxDbGFwVFdVWkdwWmtWZktvR0Y5clNhY3lSbG9QUVNMTDl5NW14U1JVemZZZDQ4OHY4OG1PdTFWQmFRd0hxSGctcEtFY0NaSGIxVjhaZ1JpMy12RVpWTkxkamZLX005VzliaW5aYXdnMUVNTXltSWxyYzNoWG8?oc=5",
-        "source": "WSJ",
-        "tragic": false,
-        "snark": "A quick reminder: correlation isn’t a personality trait."
       },
       {
         "title": "Exclusive | Major Investors Are Skeptical Anthropic IPO Can Achieve $1.5 Trillion Valuation - WSJ",
@@ -434,57 +419,64 @@
         "source": "WSJ",
         "tragic": false,
         "snark": "Please hold while reality updates its firmware."
+      },
+      {
+        "title": "The Wild Week That Brought AI Investors to the Brink - WSJ",
+        "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE5QTGx6VDBRaWVZRFRORlhLV21SUF9EaVVvMVAxa01QR0ZXTExIdi1GZ2dxWXhYVVpwUjBTbENjWkowLUpmbWsxZkhiSmhmLVhMc2dkMHhmWExBempSdmZVZWlmVDN0SzR3aE1PeDV0a2JubWJuOVRWTnhIWGVKQ28?oc=5",
+        "source": "WSJ",
+        "tragic": false,
+        "snark": "Nothing to see here except the entire thing."
       }
     ],
     "tech": [
       {
-        "title": "Goodbye Claude, hello Pi",
-        "url": "https://caleb.software/posts/claude-to-pi.html",
+        "title": "Declarative Dragging",
+        "url": "https://declarative-dragging.github.io/",
         "source": "Hacker News",
         "tragic": false,
-        "snark": "The spin is impressive, in a concerning way."
+        "snark": "The PR team is about to earn their keep."
       },
       {
-        "title": "I'm not a fan of Deno's security model (2024)",
-        "url": "https://goldstein.lol/posts/deno-security/",
+        "title": "Dux: Free, open-source Wayland desktop shell with file manager and theming",
+        "url": "https://duxlabs.dev/",
         "source": "Hacker News",
         "tragic": false,
-        "snark": "The evidence is missing; the confidence is present."
+        "snark": "This reads like a draft that went live."
       },
       {
-        "title": "Llama-modchip: 284B DeepSeek on 64GB RAM, no GPU",
-        "url": "https://github.com/synchopate/llama-modchip",
+        "title": "Goldman Sachs Is Pulling Claude Code from Its Bankers and Traders",
+        "url": "https://www.thestateofai.com/news/goldman-sachs-claude-code-traders-bankers",
         "source": "Hacker News",
         "tragic": false,
-        "snark": "Reality remains undefeated."
+        "snark": "The vibes are immaculate. The logic is not."
       },
       {
-        "title": "OpenAI raises $11B at a $1.25T valuation",
-        "url": "https://247wallst.com/investing/2026/11/07/openai-just-raised-11-billion-at-a-1-25-trillion-valuation-below-the-1-4-trillion-it-first-sought/",
+        "title": "How I Fight AI Brain Fry",
+        "url": "https://sergeykuhne.com/blog/fighting-ai-brain-fry",
         "source": "Hacker News",
         "tragic": false,
-        "snark": "The optics are doing the heavy lifting."
+        "snark": "We are once again speed-running avoidable confusion."
       },
       {
-        "title": "Porting Android 16 to my blind mother's keypad phone",
-        "url": "https://z1x.us/blog/four-hundred-bucks-of-e-waste",
+        "title": "Nvidia Board of Directors Is Investigating Jensen Huang",
+        "url": "https://nvidianews.nvidia.com/news/statement-from-nvidia-board-of-directors",
         "source": "Hacker News",
         "tragic": false,
-        "snark": "It’s giving ‘emergency’ but in a very optional way."
+        "snark": "It’s a bold claim for someone with no citations."
       },
       {
-        "title": "Tesla Hasn't Had a Successful New Product Launch Since JB Straubel Stepped Down",
-        "url": "https://cleantechnica.com/2026/11/07/tesla-hasnt-had-a-successful-new-product-launch-since-jb-straubel-stepped-down-as-cto/",
+        "title": "Outlook.com Is Quietly Rejecting Email from Domains Without DMARC",
+        "url": "https://mailroute.net/blog/outlook-rejecting-email-without-dmarc",
         "source": "Hacker News",
         "tragic": false,
-        "snark": "The stakes are unclear but the confidence is astronomical."
+        "snark": "Somebody pressed ‘send’ and immediately regretted it."
       },
       {
-        "title": "Writing as a thinking tool",
-        "url": "http://muratbuffalo.blogspot.com/2026/11/writing-as-thinking-tool.html",
+        "title": "RAM Altman: Linux Script Emails Sam Altman Daily How Much Unused RAM in Your PC",
+        "url": "https://respawnfirst.com/linux-script-emails-sam-altman-unused-ram-ram-altman/",
         "source": "Hacker News",
         "tragic": false,
-        "snark": "Somebody’s lawyer just sighed."
+        "snark": "This will age like milk in July."
       },
       {
         "title": "AI broke the cybersecurity world. What’s next? - The Verge",
@@ -529,11 +521,11 @@
         "snark": "This is what happens when group chats run government."
       },
       {
-        "title": "Where is Windows 12? - The Verge",
-        "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE1SRzhDeldQOFhWYW50UWlVYkRTeHBTNEdHdDVjU2RfZWxXOE9kdXVlcUdrekpsaWQ0V20wX0NiendqUndfU29fVlNSWnVFbTB2R2tEZ3ZOMkZVeXNFQlZ0UXlvZW1KekxDR3d6ck5UVGprQkk?oc=5",
+        "title": "TikTok’s For You page needs to change, says the EU - The Verge",
+        "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxPVTl1QWFpNHFZeEFZMktPLUVISFJJd0Vac3ZmNmlvSms4a0lpV3pOODQwejRpcjBqbXpVVW1iVl9uWGRVRl9CZWFyeU1Pa0JKbTJKN3JxOWxBZ0lOaXV2OWNwUTUxaWNabHNMQmVDY3lINnN0SGxHOUN3bzFBbXcyQ1V0eVpja0loU0JKNg?oc=5",
         "source": "The Verge",
         "tragic": false,
-        "snark": "This is why we read past the headline."
+        "snark": "This is either important or excellent performance art."
       }
     ],
     "weird": [
@@ -545,18 +537,18 @@
         "snark": "This reads like a draft that went live."
       },
       {
-        "title": "889 Cool and Unusual Things to Do in Japan - Atlas Obscura",
-        "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1IdXRoLV93bXdQTHpMTWRGMmxlNW1sVy1vUVBGNDVNTm1YY3JLOTFFdzB4Wkl4RTBuWEJoTEw3T0dTYVRpdU00WmRlbFRudVdJbXNlaGxGTU5oT1k?oc=5",
-        "source": "Atlas Obscura",
-        "tragic": false,
-        "snark": "A masterclass in saying a lot while committing to nothing."
-      },
-      {
         "title": "Amelia Island Welcome Center - Atlas Obscura",
         "url": "https://news.google.com/rss/articles/CBMickFVX3lxTFBLenluQUJuSWlWaV9nVVkzVHNZLXBsTG9QcE9nOTJmRUdRN2FnR3J5cHVkVjlfSWQzTWh3QU9sX2pFZmtQYU1sT1VmQ2lEc2lNc21NY0RFZ3JBMExNVlFPS1JDTW9URVZvQ1hjbGcyckRadw?oc=5",
         "source": "Atlas Obscura",
         "tragic": false,
         "snark": "The vibes are loud, the facts are on mute."
+      },
+      {
+        "title": "Andrew Phung’s Favorite Calgary Spots - Atlas Obscura",
+        "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNc1hzVEhVLWxpM2YwcXJQVm5kSl94N0ZuMk5hVHp2T0VOb1RNT2xjbDcyajhLaVBWV1lNMDlLS0JRc0NyVlVYb2ZES1RHakZJNWpOQmgxTEp0dGlZcXZfWmxjRUhoWDBCM1MyMTh0MkFsbngxc21EdkpfQUc0Q0laZnBnSFpPZTMw?oc=5",
+        "source": "Atlas Obscura",
+        "tragic": false,
+        "snark": "This could’ve been prevented by reading the room."
       },
       {
         "title": "Bedford Flag - Atlas Obscura",
@@ -624,6 +616,13 @@
     ],
     "missed": [
       {
+        "title": "Scott Colom and Black Mississippians stand on the cusp of Senate history as vote count stretches on - AP News",
+        "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxQeC1mdElFZXUyYm4xaVhUemJnQm5XVUcybXJBYmdBRi1leDJwLTRPVnljdjFvYmJLemFubkpMaml3R0M5MjIxSk9IOHpNNnV2NXNNR1FiMllyc1l0SFhDdFB4N0hMYW1OajJqMGtBUy1JajR3UjVFVmdFcVA1S2c0OUFFY25hM3owcUszOFFhOVloS3R3VEM0bGVZX1ItRVVQYlM4OTNaQTcxNXBSOUY1SnpHaDQ?oc=5",
+        "source": "AP",
+        "tragic": false,
+        "snark": "This is a case study in how not to do this."
+      },
+      {
         "title": "Stephen Miller replaces Susie Wiles as Trump's White House chief of staff after GOP's midterm defeat - AP News",
         "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNVHdReU5NTkhUSUdyRGlEeFF3YVVOaW9PMjdJOUtSd2YwdEpzUUM5WmhtRlJ1NFNrekdLZjM3Y0RSeTIwQ0xwQW5xaHJhUnFrSlhHZm1HZmdzcjFlZzcydHVhV3dLQ1U4X21vakg3a01ONi1VREdFc1pJMVB2S3JXVEN4clJyR182NnBBSG9WcWQtQXNpSVQzQw?oc=5",
         "source": "AP",
@@ -638,6 +637,13 @@
         "snark": "This is a situation, not a strategy."
       },
       {
+        "title": "As Seen on FOX & Friends: Fun STEAM Toys for National STEAM Day - Fox News",
+        "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTFBpMHZzdTQ3M0J4RG0zcllLR0h3V3NKTlRNSWE3a2MtNUVBS2Y2b2U0RTBwMV9tSHdOSVYtaGFfQkdzMG5FNTVxeklTSTd0d2dvSXZIcmtJSGdBS1l0aVU5M2FDUQ?oc=5",
+        "source": "Fox News",
+        "tragic": false,
+        "snark": "The headline is doing the most."
+      },
+      {
         "title": "Democratic senator-elect calls Trump 'unserious fool' while defending combative political style - Fox News",
         "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxPdnZtVjlQbVE4dDREV1VxLWNta2I0NUE0QkdFQnRkb25aVlN3elM0SjNFT0VRY1dHSzVwV09ZUU5YMVR0TEd1WEx1N2hNelNhWXNGOU5fX1oycFMyZGhzLW1ueFZQaUFZSTExSEtQZUNGMjVtOG1KU0ZVV09YWjlwd3ZGNkc0Sk9RSUFVNkxpbkF1N1NGQUxEa09LcXNtRVRLQ1ltTDF5eTJfczFFSlA5b1BLRUZFT05jb2xLX9IBwgFBVV95cUxOMjhyaFM0TnpzM0FpcUo4NzRQajczZTV2WmlGQzVfbjEzWFcyMkZhbjkzeWMyS2pOM3luRGRWSTgwZkdWMmxGOWlLa3c4OWotNUlZQlpodGVxdUN5VzI2WU94a1pBVzV1TGVRc045S3ZwYlRxMnI1UUhEZ1BzT1Y0MDlPcUxYVnRnbDYwcmVSUmVvd0trOEhnQlFqdGw0U2QyYkxjbHh1Zl81Z3o4ZllHbjlWRk1tN2hTQTNJc1FWeXpsQQ?oc=5",
         "source": "Fox News",
@@ -645,18 +651,18 @@
         "snark": "The strategy appears to be ‘hope.’"
       },
       {
-        "title": "Florida dad makes final FaceTime call to wife before dying in flash flood - Fox News",
-        "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxOVGxNVTAxa001Z3dRNGx4alhVcVJsX2NMY19mWEZoOFppWmJTT0pUeGFrQTBpSy1YRUtEX1NTcm8tQlMyTEhwbGZhZ3FaUmEyaVB5LVJib09TR1R5LUVTMkdqUmxZdHhRbkVhbTlnbmlta2hFcWxuZDdQdzFmbzV3VmhfbzBnWW1DSVNDcDZZREFMc1A2TEI3eVNxSzZSMm_SAaQBQVVfeXFMTVpKc0JHTmNZVW5jQl9BMWtIOWZSVDU4X0ZIWVRWSFo0TnRmWkxFbzZ2azZpZVB5NlBPM19HdmhHdU9kYU4tSHNkdFRrSHV0UWFKTFlqajhfWVc5RHcyTV9XR1J1bERZeXhUVGJTWkZZRnhZNEpRSllfWVdCZWMtQlBXRXp2dkRkOEdycDF5d3pucHVkUVE5YzNCTWxMVFJzQ0hXc2o?oc=5",
-        "source": "Fox News",
-        "tragic": true,
-        "snark": ""
-      },
-      {
-        "title": "Italian chef fired after refusing to put pineapple on pizza, calling it 'insult to his culture' - Fox News",
-        "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQdmdkeG55S3BISnMydnI1cUdrWkoxZEV5TjNiOF84b0VTbmczX1dkOXNkbmJwZ2ptZTByXzcybkQ2SWQ4SjRFenMzeTlwTG5vcjdtZjcxaTZGbWk4aHdHOGVvbEs0WHNvY1d3bmNjMnBCR2xBc04wM3lYRENzdHJDRnJzSzZ4VjZnMXNibFdsbkF5VmJhTWlOeDBaeGhubF9aTjN6NDltcE9jdDFsUHo1YmloaXk1d9IBuwFBVV95cUxOWDgwa2hPSXZfZ1BoRzE4TTc1UVhBLXVkUUlqWHZxU3k4RmVBaHhyMmMzd0pYNE0tTVN2OFlzMjJ6Y0NrRE9nVVZXejROcXlhcTE3RVpjekxjQ0lKbjVtb0xtRHNGRnZnVksyWEtTVWlUcGlTTThOWUFYSVpOQndoS0FqYTBjaVp4R0licjJLMk01aG9FUWtMTHVMaUJKbnVaNlRRVFNLM09iOExMUFZkT3NOWmpSVnZoQi00?oc=5",
+        "title": "Popular drinks linked to heart attacks, cardiac arrest in young adults, study finds - Fox News",
+        "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxOenVqaUg0dmZPdTAxT3daVHpJZjJzcm94b2hJX1ExaUpXVGRtbHRJLWUxbGlPSkJCZnhwZkNWWVY2X2hmVzVTeFA4YnJCYkNrZ0xiX3hTUHBtSEh2SF9UNnhmYVdfRmpMQ3ZlN2lnOUVYb2FnWjNqTXdCa0tnekJKbDBBRzlQek9oWTJXLVdYX3Y1ZWJsX1FDMzdiOU1KMmhkTElJRGttVjlJUdIBrwFBVV95cUxPQkxCdVd1U21hbENLcFdnUm04dGhTZFZWWGI5UHpQZzI2OVg3ZldMRDdRcjFzLTA1MVRfODRDQmVPSkl5c0R6S292WTh6VHpOV20xTUJpR3NOUVJYM0V5SDVsTEhpTlktR1RvcFFfWnkxclJRX1NjdlNmS0VQbnJ3UHpvdVlUZENfaGRTcGo3SWIybTVTOGJOVlNUQTA5QVJHUDlvUDYwblhvRVkyYmhZ?oc=5",
         "source": "Fox News",
         "tragic": false,
-        "snark": "A brave new chapter in ‘we meant well.’"
+        "snark": "Being loud is not the same as being right."
+      },
+      {
+        "title": "Why Larry David never wanted this biography made and how a George Costanza scheme won him over - Fox News",
+        "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxQcXpKcnpLcTJVNVpWSjdzMUlMdm5XbHRLaXBPZXA5al95SlFqUXFFWXVWS3hHV0JtTmYzQXVCQ1B0Q3VvU3RzOEc4M0YyV1JHekY2a19Ec2R5dzZNSGRYcm4wUGZIT2JrLWotUkRZZHVUclJLOVFmcXZaTElCd2RNcWJJb3U5bWVwSHhjaHBMOTczNmdCYzc1LTVmaGVOaUptZWxEUXpPWHdTUnJWd3fSAbMBQVVfeXFMTWNYeVBJX0ZNTDVIbElsV0FvazEzNjVEUWRmRGl1VVhMU0NGUVVORVljMVg4TkxlQ09EVENtZ1lrLWJweVY3c2FBaEJUVEZtMW0tdk5xcFNZaWFvRWRBNFMyWlVtTm9uSVhmbVpzMEJWd0FTcmctV0J1cjdJUHFKanRTMDA2NFY1TV91Q1JrdFktczFhMkdoOWlWaVlzT01RZWdYdzVqWnJDLW1ULTZYalJfV2c?oc=5",
+        "source": "Fox News",
+        "tragic": false,
+        "snark": "Reality remains undefeated."
       },
       {
         "title": "I hired humanoid robots to clean up after a wild house party for for $100 — here’s how it went - New York Post",
@@ -666,13 +672,6 @@
         "snark": "This is why we can’t have nice institutions."
       },
       {
-        "title": "New York Post Cover for November 7, 2026 - New York Post",
-        "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE04Yi1NY3RXc01hazFKNlFmNk10bmZJZ2xtU0poNXN4b1lsVjREejYzVVMwTllpcXptY01OVTNNdGNycWZsUmRGMEpGRE5wLXQtMHNB?oc=5",
-        "source": "NY Post",
-        "tragic": false,
-        "snark": "The audacity is doing cardio today."
-      },
-      {
         "title": "Top spending cities on OnlyFans revealed – and NYC is nowhere near the top - New York Post",
         "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxQYW02T3BYRTdKbFliOFNWUkREU3pGTHN4ajlpU3F1dno5VFltOTJIV2lLUTRlR25ESzdYMGdQWmZIN2RKMlJ3VkpKOGhxNzJoOXZ6c1M2cjJzajluSjAzSThHOUVaMmc3NEd3VXo1ckZiVVJQRWRSdUtrTE1OSzJNWS0wQjQwQ0Z1a2JFMGEyUWJwVm9HUzFpQk1EblJpNG5IMFBVTUh3?oc=5",
         "source": "NY Post",
@@ -680,32 +679,25 @@
         "snark": "This is why we can’t have nice institutions."
       },
       {
-        "title": "Heavy rain floods tents housing Gaza displaced people, aid shortages hamper response - Reuters",
-        "url": "https://news.google.com/rss/articles/CBMiywFBVV95cUxOamFJb1oxX2pDNG85OUpxWWFiczJFTzh1Q2xQQlB5VGYydXVlbjY1UDNXR0Vlc3V0dDZCVlBjc2dnX1hwR1Z6aDhUZ0JLN3gzeWhzVUNTTncyUEdCa1czbEJEd09qSFh1amRST2EyNGgxMGlkV2FsMFNXTzZySXBWQVF1OXYtUGFyTkJwVFBZWEtOTzVrUENqVGRCNmtmNWs1bnplcGs5eUFqcVpmeDI5dTN0VGgzTlBabUNPMWdubVc1Q2VkYXFmajVrcw?oc=5",
+        "title": "Democratic wins in state AG races give Trump a new headache - Reuters",
+        "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxPa1BiWGc0bklZX2ZNUE9aZ1NIMWRhTlZXcjZBWFBheERnZG1EMmlxVXNvZXhrMHBrZ0kzWDYyLVBHTWMtNlh0Y2RBVWY1LXhyY0t1S3JJWTJYclBBeWNDZGRmUGY4azhSaG11bEFRV1pjeFZYQmxWQnhTbTJvelpxU2VLVjZkendlcVE2ekEtV3hfT29VODlfMTdrenZkZThDZmZnVlRrQ2x6V0E?oc=5",
         "source": "Reuters",
         "tragic": false,
-        "snark": "It’s giving ‘we’ll workshop it later.’"
+        "snark": "This is a situation, not a strategy."
       },
       {
-        "title": "Judge orders Paraguay's ex-president Peña held before trial - Reuters",
-        "url": "https://news.google.com/rss/articles/CBMixwFBVV95cUxQVGw3MmJzOEt0S1ozTzJoUDVsWDYya0FocXVpaGU0cG1EYWdILUp1UWc4SjMzaEg2ZnZWR0ZKRG5uaGhXVW0wbkFlMTFuVVp0WmFlZWQ3cnJuYy1WanFqSVlZYkdOQXBNRTJtcExjajYyZnU4ZXpTRmVpOGNGTnJfaERjTHVLUm9USjdpS1J2VGV1Z09zZ1ZxaGpVUVVjRHpON3ctb0JFUzRBX3VQUEVsZXIzWXR6eFJObk05SGlDelpVM0F5NF84?oc=5",
+        "title": "Israeli president picks Gadi Eisenkot, Netanyahu rival, to try to form government - Reuters",
+        "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxQVHIwVVZqTlgycHFJTEhPM3g1WU5oWWtKelZsNW5aUEphdmpDRC1STjMxQmYyYjR5dkNZUVFiVFBfZ3J1Nm9HN0RmM25pOUlTMWJkWGZuVktLV3h5QkNmdEtrbUt5X2NBYXFuZC04TzhPZUJWLWVJeWJMM256ZWIxRENRczhNdEtIa2I2aF85VzJUejZMa1ZvVEFSZXZCQWJtZU1nTnBvaVl4cmNJTEhfcWpCNTFjMmotS090TzE1eXc?oc=5",
         "source": "Reuters",
         "tragic": false,
-        "snark": "We are once again speed-running avoidable confusion."
+        "snark": "Reality remains undefeated."
       },
       {
-        "title": "Pope Leo urges South America to bridge divides on Uruguay stop of 12-day tour - Reuters",
-        "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxPNld4REJFQ1RVUFd0ekQzNS1GOFItalNLYlAyVmhPVVpWN3RzdXl2ZDg3R2JoUkJiSmpMVjZVXy1taDYzNGJWd0NfVHhXdXRQb0d4LTItdTY1dTVJdDdSWUdrN25feUhFTnJOY3dncHpaRFZhT0lFelpWdFRpY0Q3djdwOGlkaXNyVHFUTDZMZGNWaVJGYUlzR05TVEltdE1jck5NdDRCeTVXVHhRZEdWNjBoUFpybzJpeGNZ?oc=5",
+        "title": "Russia pounds power facilities around Kyiv, damages major bridge - Reuters",
+        "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPVGhCNTc0bjdqTkxuZDdtOFpCZVd1TEdDQnpURXNYeGY1ZG9saHUyZGFBbTMzWF8zbzBmOHQyeERTMTlWaUo1eUVXdjAyUENTaEkwbGNsb2xteDdxWXFybS1GcjlKWWl4VU4xUGdVdk9wSE1PM3NSTktvYWRINUpESnp4bDJqMkhzR21ySDZKWVVBbzJ5NHpDeDJFNFh5MDdGcEpWbEkzU2dFWFZBVWhxR0pR?oc=5",
         "source": "Reuters",
         "tragic": false,
-        "snark": "The evidence is missing; the confidence is present."
-      },
-      {
-        "title": "Trump makes hardliner Stephen Miller his chief of staff after midterm defeat - Reuters",
-        "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxPRW9VOFJHVC05elRKeHJYaUVfalhSNTJYS0dhNkJobGVIaGU1ZVlLaUNlakI2SURhTHNqc2c2ODFYcWpVaE5uUXpoNEI1d1h3MjFxbTlqNHQwVVJmNEFyUl9uRWktTWdRMGs1Z05GUXRxU2FwVC0wV19JSExCbi1DM1pPNHZVUzFZcVB3ak93TWM4MUk?oc=5",
-        "source": "Reuters",
-        "tragic": false,
-        "snark": "Bold strategy. Let’s see if it survives contact with reality."
+        "snark": "This is what happens when you skip step two."
       }
     ]
   }
